@@ -1,12 +1,4 @@
-@font-face {
-  font-family: "Delicious Handrawn";
-  src: local('Delicious Handrawn'), url(../../public/assets/fonts/Delicious_Handrawn/DeliciousHandrawn-Regular.ttf) format('truetype');
-}
 
-@font-face {
-  font-family: "Bitter";
-  src: local('Bitter'), url(../../public/assets/fonts/Bitter/Bitter-VariableFont_wght.ttf) format('truetype');
-}
 
 html, body {
   padding: 0;
@@ -14,7 +6,6 @@ html, body {
 }
 
 div, p, input, textarea, label {
-  font-family: Bitter;
 }
 
 button, p, a {
