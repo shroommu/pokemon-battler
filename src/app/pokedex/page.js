@@ -5,6 +5,7 @@ export default async function Pokedex() {
     process.env.URL + "/api/pokedex/getPokemonList/",
     { method: "GET" }
   ).then((res) => {
+    console.log(res);
     try {
       const parsedResult = JSON.parse(res);
 
