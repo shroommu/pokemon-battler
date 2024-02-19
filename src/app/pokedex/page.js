@@ -1,3 +1,5 @@
+"use server";
+
 import PokedexContext from "./components/pokedexContext";
 
 export default async function Pokedex() {
