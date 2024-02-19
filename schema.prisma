@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model moves {
+  id                    String          @id @db.Uuid
+  name                  String?         @db.VarChar(255)
+  type                  String?         @db.Uuid
+  power                 Int?
+  accuracy              Int?
+  pp                    Int?
+  effect                String?         @db.VarChar(511)
+  type_moves_typeTotype type?           @relation("moves_typeTotype", fields: [type], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_type")
+  pokemon_moves         pokemon_moves[]
+}
+
+model pokemon {
+  name                              String?         @db.VarChar(255)
+  pokedex_number                    Int?
+  id                                String          @id @db.Uuid
+  primary_type                      String?         @db.Uuid
+  secondary_type                    String?         @db.Uuid
+  hp                                Int?
+  attack                            Int?
+  defense                           Int?
+  special                           Int?
+  speed                             Int?
+  type_pokemon_primary_typeTotype   type?           @relation("pokemon_primary_typeTotype", fields: [primary_type], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_primary_type")
+  type_pokemon_secondary_typeTotype type?           @relation("pokemon_secondary_typeTotype", fields: [secondary_type], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_secondary_type")
+  pokemon_moves                     pokemon_moves[]
+}
+
+model pokemon_moves {
+  pokemon_id String  @db.Uuid
+  move_id    String  @db.Uuid
+  moves      moves   @relation(fields: [move_id], references: [id], onDelete: Cascade)
+  pokemon    pokemon @relation(fields: [pokemon_id], references: [id], onDelete: Cascade)
+
+  @@id([pokemon_id, move_id], map: "bill_product_pkey")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model test {
+  test1 String? @db.VarChar(255)
+  test2 String? @db.VarChar(255)
+
+  @@ignore
+}
+
+model type {
+  name                                 String?   @db.VarChar(255)
+  id                                   String    @id @db.Uuid
+  moves_moves_typeTotype               moves[]   @relation("moves_typeTotype")
+  pokemon_pokemon_primary_typeTotype   pokemon[] @relation("pokemon_primary_typeTotype")
+  pokemon_pokemon_secondary_typeTotype pokemon[] @relation("pokemon_secondary_typeTotype")
+}
