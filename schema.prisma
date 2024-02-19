@@ -31,6 +31,9 @@ model pokemon {
   defense                           Int?
   special                           Int?
   speed                             Int?
+  sprite_front_filepath             String?         @db.VarChar(255)
+  sprite_back_filepath              String?         @db.VarChar(255)
+  sprite_party_filepath             String?         @db.VarChar(255)
   type_pokemon_primary_typeTotype   type?           @relation("pokemon_primary_typeTotype", fields: [primary_type], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_primary_type")
   type_pokemon_secondary_typeTotype type?           @relation("pokemon_secondary_typeTotype", fields: [secondary_type], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_secondary_type")
   pokemon_moves                     pokemon_moves[]
