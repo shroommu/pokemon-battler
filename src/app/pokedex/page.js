@@ -6,9 +6,13 @@ export default async function Pokedex() {
     { method: "GET" }
   ).then((res) => {
     try {
-      return res.json();
+      const parsedResult = JSON.parse(res);
+
+      if (parsedResult && typeof parsedResult === "object") {
+        return parsedResult;
+      }
     } catch (e) {
-      console.error(e);
+      console.log(e);
     }
   });
 
