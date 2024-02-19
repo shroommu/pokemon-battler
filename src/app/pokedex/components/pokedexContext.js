@@ -5,8 +5,6 @@ import PokedexEntry from "./pokedexEntry";
 import PokemonList from "./pokemonList";
 
 export default function PokedexContext({ pokemons }) {
-  console.log("rendering pokedex context");
-
   const [currentPokemon, setCurrentPokemon] = useState(null);
 
   const setCurrentPokemonHandler = (pokedexNumber) => {

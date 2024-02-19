@@ -1,6 +1,7 @@
 import PokedexContext from "./components/pokedexContext";
 
 export default async function Pokedex() {
+  console.log(process.env.URL + "/api/pokedex/getPokemonList/");
   const { result: pokemons } = await fetch(
     process.env.URL + "/api/pokedex/getPokemonList/",
     { method: "GET" }
