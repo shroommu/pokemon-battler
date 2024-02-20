@@ -12,7 +12,7 @@ export default function PokemonList({ pokemons, onClick }) {
             >
               <div className="mr-2">{pokemon.pokedex_number}</div>
               <Image
-                src={pokemon.sprite_party_filepath}
+                src={pokemon.sprite_party_filepath.toLowerCase()}
                 width={0}
                 height={0}
                 style={{ width: "100%", height: "100%" }}
