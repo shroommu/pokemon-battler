@@ -2,14 +2,15 @@ import Image from "next/image";
 
 export default function PokemonList({ pokemons, onClick }) {
   return (
-    <ul className="p-2 bg-gray-400">
+    <ul className="p-4 bg-gray-600">
       {pokemons?.map((pokemon) => {
         return (
-          <li key={pokemon.name}>
+          <li key={pokemon.name} className="py-2 px-4 mb-1 bg-gray-400 rounded-md hover:bg-gray-300 active:bg-gray-500">
             <button
               onClick={() => onClick(pokemon.pokedex_number)}
-              className="p-2"
+              className="flex flex-row items-center w-full"
             >
+              <div className="mr-2">{pokemon.pokedex_number}</div>
               <Image
                 src={pokemon.sprite_party_filepath}
                 width={0}
@@ -19,7 +20,7 @@ export default function PokemonList({ pokemons, onClick }) {
                 className="max-w-[75px]"
                 unoptimized
               />
-              {pokemon.name}
+              <div className="ml-auto">{pokemon.name}</div>
             </button>
           </li>
         );
