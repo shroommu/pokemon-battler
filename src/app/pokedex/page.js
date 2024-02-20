@@ -4,7 +4,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient({ log: ["query", "info"] });
 
 export default async function Pokedex() {
-  const pokemons = await prisma.pokemon.findMany({orderBy: [{name: 'asc'}]});
+  const pokemons = await prisma.pokemon.findMany({orderBy: [{pokedex_number: 'asc'}]});
 
   return (
     <div testid="container" className="flex grow flex-row h-auto w-auto">
