@@ -18,9 +18,9 @@ export default function PokedexContext({ pokemons }) {
   }, [pokemons, setCurrentPokemon]);
 
   return (
-    <section className="flex flex-row">
+    <section className="flex flex-row w-full">
       <PokemonList pokemons={pokemons} onClick={setCurrentPokemonHandler} />
-      <PokedexEntry currentPokemon={currentPokemon} />
+      <PokedexEntry pokemon={currentPokemon} />
     </section>
   );
 }

@@ -14,8 +14,8 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
-        <header className="flex flex-row bg-red-600 pr-4 items-center">
+      <body className="h-screen">
+        <header className="flex flex-row bg-red-700 pr-4 items-center">
           <Link href={locations.INDEX}>
             <div className="flex flex-col px-8 py-3 pb-8 mr-4 bg-red-700 items-center">
               <Image
@@ -33,17 +33,17 @@ export default function RootLayout({ children }) {
             </div>
           </Link>
           <Nav />
-          <Button margin="ml-auto" fontSize="text-2xl">
+          {/* <Button margin="ml-auto" fontSize="text-2xl">
             Account
-          </Button>
+          </Button> */}
         </header>
-        <div className="flex flex-row grow">
+        <section className="flex flex-row grow h-0 bg-gray-600">
           <div
             testid="pokedex-sidebar"
             className="h-auto grow max-w-[48px] bg-red-700"
           />
           {children}
-        </div>
+        </section>
       </body>
     </html>
   );

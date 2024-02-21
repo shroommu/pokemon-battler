@@ -2,10 +2,13 @@ import Image from "next/image";
 
 export default function PokemonList({ pokemons, onClick }) {
   return (
-    <ul className="p-4 bg-gray-600">
+    <ul className="p-4 flex-none overflow-y-scroll">
       {pokemons?.map((pokemon) => {
         return (
-          <li key={pokemon.name} className="py-2 px-4 mb-1 bg-gray-400 rounded-md hover:bg-gray-300 active:bg-gray-500">
+          <li
+            key={pokemon.name}
+            className="py-2 px-4 mb-1 bg-gray-400 rounded-md hover:bg-gray-300 active:bg-gray-500 w-full"
+          >
             <button
               onClick={() => onClick(pokemon.pokedex_number)}
               className="flex flex-row items-center w-full"
@@ -19,6 +22,7 @@ export default function PokemonList({ pokemons, onClick }) {
                 alt={`${pokemon.name} party sprite`}
                 className="max-w-[75px]"
                 unoptimized
+                priority
               />
               <div className="ml-auto">{pokemon.name}</div>
             </button>

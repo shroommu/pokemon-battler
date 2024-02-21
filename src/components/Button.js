@@ -24,7 +24,7 @@ export const themes = {
 };
 
 const buttonClass = tv({
-  base: "flex p-2 h-fit w-fit hover:bg-red-400 active:bg-red-700",
+  base: "flex p-2 h-fit w-fit",
 });
 
 export default function Button({
@@ -33,10 +33,11 @@ export default function Button({
   margin,
   fontSize,
   disabled,
+  extraClasses,
 }) {
   return (
     <button
-      className={buttonClass({ class: `${margin} ${fontSize}` })}
+      className={buttonClass({ class: `${margin} ${fontSize} ${extraClasses}` })}
       onClick={onClick}
       disabled={disabled}
     >

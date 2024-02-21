@@ -6,18 +6,18 @@ import { locations } from "@/app/constants";
 
 export default function Nav({}) {
   return (
-    <nav className="bg-red-600 flex">
+    <nav className="flex">
       <ul className="flex flex-row items-center">
-        <li>
+        {/* <li>
           <Link href={locations.INDEX}>
-            <Button margin="mr-2" fontSize="text-2xl">
+            <Button margin="mr-2" fontSize="text-2xl" extraClasses={'hover:bg-red-500 active:bg-red-700'}>
               Home
             </Button>
           </Link>
-        </li>
+        </li> */}
         <li>
           <Link href={locations.POKEDEX}>
-            <Button margin="mr-2" fontSize="text-2xl">
+            <Button margin="mr-2" fontSize="text-2xl" extraClasses={'hover:bg-red-500 active:bg-red-700'}>
               Pokedex
             </Button>
           </Link>
