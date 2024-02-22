@@ -8,6 +8,19 @@ export default async function Pokedex() {
     include: {
       type_pokemon_primary_typeTotype: true,
       type_pokemon_secondary_typeTotype: true,
+      pokemon_moves: {
+        select: {
+          moves: {
+            select: {
+              type_moves_typeTotype: true,
+              power: true,
+              accuracy: true,
+              pp: true,
+              effect: true,
+            },
+          },
+        },
+      },
     },
     orderBy: [{ pokedex_number: "asc" }],
   });

@@ -8,7 +8,7 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
-model moves {
+model move {
   id                    String          @id @db.Uuid
   name                  String?         @db.VarChar(255)
   type                  String?         @db.Uuid
@@ -16,16 +16,14 @@ model moves {
   accuracy              Int?
   pp                    Int?
   effect                String?         @db.VarChar(511)
-  type_moves_typeTotype type?           @relation("moves_typeTotype", fields: [type], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_type")
-  pokemon_moves         pokemon_moves[]
+  type                  type?           @relation("type", fields: [type], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_type")
+  pokemon_moves         pokemon_move[]
 }
 
 model pokemon {
   name                              String?         @db.VarChar(255)
   pokedex_number                    Int?
   id                                String          @id @db.Uuid
-  primary_type                      String?         @db.Uuid
-  secondary_type                    String?         @db.Uuid
   hp                                Int?
   attack                            Int?
   defense                           Int?
@@ -34,32 +32,24 @@ model pokemon {
   sprite_front_filepath             String?         @db.VarChar(255)
   sprite_back_filepath              String?         @db.VarChar(255)
   sprite_party_filepath             String?         @db.VarChar(255)
-  type_pokemon_primary_typeTotype   type?           @relation("pokemon_primary_typeTotype", fields: [primary_type], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_primary_type")
-  type_pokemon_secondary_typeTotype type?           @relation("pokemon_secondary_typeTotype", fields: [secondary_type], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_secondary_type")
-  pokemon_moves                     pokemon_moves[]
+  primary_type                      type?           @relation("primary_type", references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_primary_type")
+  secondary_type                    type?           @relation("secondary_type", references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_secondary_type")
+  pokemon_moves                     pokemon_move[]
 }
 
-model pokemon_moves {
+model pokemon_move {
   pokemon_id String  @db.Uuid
   move_id    String  @db.Uuid
-  moves      moves   @relation(fields: [move_id], references: [id], onDelete: Cascade)
+  move       move   @relation(fields: [move_id], references: [id], onDelete: Cascade)
   pokemon    pokemon @relation(fields: [pokemon_id], references: [id], onDelete: Cascade)
 
-  @@id([pokemon_id, move_id], map: "bill_product_pkey")
-}
-
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
-model test {
-  test1 String? @db.VarChar(255)
-  test2 String? @db.VarChar(255)
-
-  @@ignore
+  @@id([pokemon_id, move_id], map: "pokemon_move_pkey")
 }
 
 model type {
-  name                                 String?   @db.VarChar(255)
-  id                                   String    @id @db.Uuid
-  moves_moves_typeTotype               moves[]   @relation("moves_typeTotype")
-  pokemon_pokemon_primary_typeTotype   pokemon[] @relation("pokemon_primary_typeTotype")
-  pokemon_pokemon_secondary_typeTotype pokemon[] @relation("pokemon_secondary_typeTotype")
+  name                    String?   @db.VarChar(255)
+  id                      String    @id @db.Uuid
+  moves                   move[]    @relation("move_typeTotype")
+  pokemon_primary_types   pokemon[] @relation("pokemon_primary_typeTotype")
+  pokemon_secondary_types pokemon[] @relation("pokemon_secondary_typeTotype")
 }

@@ -1,8 +1,10 @@
 import Image from "next/image";
 
 const STAT_NAMES = ["HP", "Attack", "Defense", "Special", "Speed"];
+const MOVE_TABLE_LABELS = ["Name", "Type", "Power", "Accuracy", "PP", "Effect"];
 
 export default function PokedexEntry({ pokemon }) {
+  console.log(pokemon);
 
   if (!pokemon) {
     return (
@@ -40,22 +42,45 @@ export default function PokedexEntry({ pokemon }) {
         alt={`${pokemon.name} front sprite`}
       />
       <p className="mt-2">{renderTypes()}</p>
-      <table className="border-2 border-black mt-2" testid="stat-table">
+      <h2 className="text-2xl mt-2">Stats</h2>
+      <table className="border-2 border-black mt-2" testid="stats-table">
         <thead className="bg-gray-300">
-          {STAT_NAMES.map((statName) => (
-            <td key={statName} className="p-2 border-2 border-black">
-              {statName}
-            </td>
-          ))}
+          <tr>
+            {STAT_NAMES.map((statName) => (
+              <td key={statName} className="p-2 border-2 border-black">
+                {statName}
+              </td>
+            ))}
+          </tr>
         </thead>
         <tbody>
           <tr className="bg-white">
             {statList.map((stat, index) => (
-              <td key={`${pokemon.name}-${STAT_NAMES[index]}`} className="p-2 border-2 border-black text-center">
+              <td
+                key={`${pokemon.name}-${STAT_NAMES[index]}`}
+                className="p-2 border-2 border-black text-center"
+              >
                 {stat}
               </td>
             ))}
           </tr>
+        </tbody>
+      </table>
+      <h2 className="text-2xl mt-2">Moves</h2>
+      <table className="border-2 border-black mt-2" testid="move-table">
+        <thead className="bg-gray-300">
+          <tr>
+            {MOVE_TABLE_LABELS.map((moveTableLabel) => (
+              <td key={moveTableLabel} className="p-2 border-2 border-black">
+                {moveTableLabel}
+              </td>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {pokemon.
+          <tr></tr>
+}
         </tbody>
       </table>
     </section>
