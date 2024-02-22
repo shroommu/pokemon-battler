@@ -78,9 +78,7 @@ export default function PokedexEntry({ pokemon }) {
           </tr>
         </thead>
         <tbody>
-          {pokemon.
           <tr></tr>
-}
         </tbody>
       </table>
     </section>
