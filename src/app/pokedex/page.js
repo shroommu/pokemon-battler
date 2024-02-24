@@ -6,13 +6,13 @@ const prisma = new PrismaClient({ log: ["query", "info"] });
 export default async function Pokedex() {
   const pokemons = await prisma.pokemon.findMany({
     include: {
-      type_pokemon_primary_typeTotype: true,
-      type_pokemon_secondary_typeTotype: true,
+      primary_type: true,
+      secondary_type: true,
       pokemon_moves: {
         select: {
-          moves: {
+          move: {
             select: {
-              type_moves_typeTotype: true,
+              type: true,
               power: true,
               accuracy: true,
               pp: true,

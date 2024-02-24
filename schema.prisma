@@ -9,47 +9,49 @@ datasource db {
 }
 
 model move {
-  id                    String          @id @db.Uuid
-  name                  String?         @db.VarChar(255)
-  type                  String?         @db.Uuid
-  power                 Int?
-  accuracy              Int?
-  pp                    Int?
-  effect                String?         @db.VarChar(511)
-  type                  type?           @relation("type", fields: [type], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_type")
-  pokemon_moves         pokemon_move[]
+  id            String         @id @db.Uuid
+  name          String?        @db.VarChar(255)
+  type_id       String?        @db.Uuid
+  power         Int?
+  accuracy      Int?
+  pp            Int?
+  effect        String?        @db.VarChar(511)
+  type          type?          @relation(fields: [type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_type")
+  pokemon_moves pokemon_move[]
 }
 
 model pokemon {
-  name                              String?         @db.VarChar(255)
-  pokedex_number                    Int?
-  id                                String          @id @db.Uuid
-  hp                                Int?
-  attack                            Int?
-  defense                           Int?
-  special                           Int?
-  speed                             Int?
-  sprite_front_filepath             String?         @db.VarChar(255)
-  sprite_back_filepath              String?         @db.VarChar(255)
-  sprite_party_filepath             String?         @db.VarChar(255)
-  primary_type                      type?           @relation("primary_type", references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_primary_type")
-  secondary_type                    type?           @relation("secondary_type", references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_secondary_type")
-  pokemon_moves                     pokemon_move[]
+  name                  String?        @db.VarChar(255)
+  pokedex_number        Int?
+  id                    String         @id @db.Uuid
+  primary_type_id       String?        @db.Uuid
+  secondary_type_id     String?        @db.Uuid
+  hp                    Int?
+  attack                Int?
+  defense               Int?
+  special               Int?
+  speed                 Int?
+  sprite_front_filepath String?        @db.VarChar(255)
+  sprite_back_filepath  String?        @db.VarChar(255)
+  sprite_party_filepath String?        @db.VarChar(255)
+  primary_type          type?          @relation("pokemon_primary_type", fields: [primary_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_primary_type")
+  secondary_type        type?          @relation("pokemon_secondary_type", fields: [secondary_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_secondary_type")
+  pokemon_moves         pokemon_move[]
 }
 
 model pokemon_move {
   pokemon_id String  @db.Uuid
   move_id    String  @db.Uuid
-  move       move   @relation(fields: [move_id], references: [id], onDelete: Cascade)
+  move       move    @relation(fields: [move_id], references: [id], onDelete: Cascade)
   pokemon    pokemon @relation(fields: [pokemon_id], references: [id], onDelete: Cascade)
 
   @@id([pokemon_id, move_id], map: "pokemon_move_pkey")
 }
 
 model type {
-  name                    String?   @db.VarChar(255)
-  id                      String    @id @db.Uuid
-  moves                   move[]    @relation("move_typeTotype")
-  pokemon_primary_types   pokemon[] @relation("pokemon_primary_typeTotype")
-  pokemon_secondary_types pokemon[] @relation("pokemon_secondary_typeTotype")
+  name                        String?   @db.VarChar(255)
+  id                          String    @id @db.Uuid
+  moves_with_type             move[]    @relation()
+  pokemon_with_primary_type   pokemon[] @relation("pokemon_primary_type")
+  pokemon_with_secondary_type pokemon[] @relation("pokemon_secondary_type")
 }
