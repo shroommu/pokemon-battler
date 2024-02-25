@@ -25,7 +25,7 @@ export default function PokedexEntry({ pokemon }) {
   ];
 
   return (
-    <section className="flex flex-col w-full m-4 ml-0 p-6 bg-gray-200 rounded-md items-center overflow-y-scroll">
+    <section className="flex flex-col p-6 bg-gray-200 rounded-md items-center">
       <h1 className="text-4xl">{`#${String(pokemon.pokedex_number).padStart(
         3,
         "0"
@@ -36,6 +36,7 @@ export default function PokedexEntry({ pokemon }) {
         height={0}
         style={{ width: "100%", height: "100%" }}
         className="max-w-64 max-h-64 mt-4 border-gray-600 border-4 rounded-md bg-white p-1"
+        priority
         unoptimized
         alt={`${pokemon.name} front sprite`}
       />
