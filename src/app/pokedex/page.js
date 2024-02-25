@@ -12,11 +12,12 @@ export default async function Pokedex() {
         select: {
           move: {
             select: {
-              type: true,
+              name: true,
               power: true,
               accuracy: true,
               pp: true,
               effect: true,
+              type: { select: {name: true} },
             },
           },
         },

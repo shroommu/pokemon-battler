@@ -4,13 +4,13 @@ generator client {
 
 datasource db {
   provider  = "postgresql"
-  url       = env("POSTGRES_PRISMA_URL")
-  directUrl = env("POSTGRES_URL_NON_POOLING")
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model move {
-  id            String         @id @db.Uuid
-  name          String?        @db.VarChar(255)
+  id            String         @id @default(uuid()) @db.Uuid
+  name          String?        @db.VarChar(255) @unique
   type_id       String?        @db.Uuid
   power         Int?
   accuracy      Int?
@@ -23,7 +23,7 @@ model move {
 model pokemon {
   name                  String?        @db.VarChar(255)
   pokedex_number        Int?
-  id                    String         @id @db.Uuid
+  id                    String         @id @default(uuid()) @db.Uuid
   primary_type_id       String?        @db.Uuid
   secondary_type_id     String?        @db.Uuid
   hp                    Int?
@@ -44,14 +44,15 @@ model pokemon_move {
   move_id    String  @db.Uuid
   move       move    @relation(fields: [move_id], references: [id], onDelete: Cascade)
   pokemon    pokemon @relation(fields: [pokemon_id], references: [id], onDelete: Cascade)
+  name       String  @unique
 
-  @@id([pokemon_id, move_id], map: "pokemon_move_pkey")
+  @@id([pokemon_id, move_id])
 }
 
 model type {
   name                        String?   @db.VarChar(255)
-  id                          String    @id @db.Uuid
-  moves_with_type             move[]    @relation()
+  id                          String    @id @default(uuid()) @db.Uuid
+  moves_with_type             move[]
   pokemon_with_primary_type   pokemon[] @relation("pokemon_primary_type")
   pokemon_with_secondary_type pokemon[] @relation("pokemon_secondary_type")
 }

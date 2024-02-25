@@ -15,7 +15,7 @@ Body Slam,Normal,,85,100,15,May paralyze opponent.
 Bone Club,Ground,,65,85,20,May cause flinching.
 Bonemerang,Ground,,50,90,10,Hits twice in one turn.
 Bubble,Water,,40,100,30,May lower opponent's Speed.
-Bubble Beam,Water,,65,100,20,May lower opponent's Speed.
+BubbleBeam,Water,,65,100,20,May lower opponent's Speed.
 Clamp,Water,,35,85,15,"Traps opponent, damaging them for 4-5 turns."
 Comet Punch,Normal,,18,85,15,Hits 2-5 times in one turn.
 Confuse Ray,Ghost,,None,100,10,Confuses opponent.
@@ -109,7 +109,7 @@ Roar,Normal,,None,None,20,"In battles, the opponent switches. In the wild, the P
 Rock Slide,Rock,,75,90,10,May cause flinching.
 Rock Throw,Rock,,50,90,15,
 Rolling Kick,Fighting,,60,85,15,May cause flinching.
-Sand Attack,Ground,,None,100,15,Lowers opponent's Accuracy.
+Sand-Attack,Ground,,None,100,15,Lowers opponent's Accuracy.
 Scratch,Normal,,40,100,35,
 Screech,Normal,,None,85,40,Sharply lowers opponent's Defense.
 Seismic Toss,Fighting,,None,100,20,Inflicts damage equal to user's level.
@@ -157,7 +157,7 @@ Transform,Normal,,None,None,10,User takes on the form and attacks of the opponen
 Tri Attack,Normal,,80,100,10,"May paralyze, burn or freeze opponent."
 Twineedle,Bug,,25,100,20,Hits twice in one turn. May poison opponent.
 Vine Whip,Grass,,45,100,25,
-Vise Grip,Normal,,55,100,30,
+ViceGrip,Normal,,55,100,30,
 Water Gun,Water,,40,100,25,
 Waterfall,Water,,80,100,15,May cause flinching.
 Whirlwind,Normal,,None,None,20,"In battles, the opponent switches. In the wild, the Pokémon runs."

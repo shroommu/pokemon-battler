@@ -581,7 +581,7 @@ Raichu,Mimic,Normal,,—,100
 Raichu,Double Team,Normal,,—,—
 Raichu,Reflect,Psychic,,—,—
 Raichu,Bide,Normal,,—,—
-Raichu,Swift,Normal,,60
+Raichu,Swift,Normal,,60,
 Raichu,Skull Bash,Normal,,100,100
 Raichu,Rest,Psychic,,—,—
 Raichu,Substitute,Normal,,—,—
@@ -589,7 +589,7 @@ Sandshrew,Scratch,Normal,,40,100
 Sandshrew,Sand-Attack,Normal,,—,100
 Sandshrew,Slash,Normal,,70,100
 Sandshrew,Poison Sting,Poison,,15,100
-Sandshrew,Swift,Normal,,60
+Sandshrew,Swift,Normal,,60,
 Sandshrew,Fury Swipes,Normal,,18,80
 Sandshrew,Cut,Normal,,50,95
 Sandshrew,Strength,Normal,,80,100

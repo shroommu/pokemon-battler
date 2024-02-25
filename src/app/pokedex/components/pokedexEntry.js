@@ -4,8 +4,6 @@ const STAT_NAMES = ["HP", "Attack", "Defense", "Special", "Speed"];
 const MOVE_TABLE_LABELS = ["Name", "Type", "Power", "Accuracy", "PP", "Effect"];
 
 export default function PokedexEntry({ pokemon }) {
-  console.log(pokemon);
-
   if (!pokemon) {
     return (
       <section className="flex flex-col w-full m-4 ml-0 p-6 bg-gray-200 rounded-md items-center" />
@@ -14,8 +12,8 @@ export default function PokedexEntry({ pokemon }) {
 
   const renderTypes = () => {
     return pokemon.type_pokemon_secondary_typeTotype
-      ? `${pokemon.type_pokemon_primary_typeTotype.name} / ${pokemon.type_pokemon_secondary_typeTotype.name}`
-      : pokemon.type_pokemon_primary_typeTotype.name;
+      ? `${pokemon.primary_type.name} / ${pokemon.secondary_type.name}`
+      : pokemon.primary_type.name;
   };
 
   const statList = [
@@ -27,7 +25,7 @@ export default function PokedexEntry({ pokemon }) {
   ];
 
   return (
-    <section className="flex flex-col w-full m-4 ml-0 p-6 bg-gray-200 rounded-md items-center">
+    <section className="flex flex-col w-full m-4 ml-0 p-6 bg-gray-200 rounded-md items-center overflow-y-scroll">
       <h1 className="text-4xl">{`#${String(pokemon.pokedex_number).padStart(
         3,
         "0"
@@ -78,7 +76,38 @@ export default function PokedexEntry({ pokemon }) {
           </tr>
         </thead>
         <tbody>
-          <tr></tr>
+          {pokemon.pokemon_moves
+            .sort((a, b) =>
+              a.move.name > b.move.name ? 1 : b.move.name > a.move.name ? -1 : 0
+            )
+            .map((moveData, index) => {
+              return (
+                <tr
+                  key={`move-row-${index + 1}`}
+                  testid={`move-row-${index + 1}`}
+                  className="bg-white"
+                >
+                  <td className="p-2 border-2 border-black">
+                    {moveData.move.name}
+                  </td>
+                  <td className="p-2 border-2 border-black">
+                    {moveData.move.type.name}
+                  </td>
+                  <td className="p-2 border-2 border-black text-center">
+                    {moveData.move.power ?? "--"}
+                  </td>
+                  <td className="p-2 border-2 border-black text-center">
+                    {moveData.move.accuracy ?? "--"}
+                  </td>
+                  <td className="p-2 border-2 border-black text-center">
+                    {moveData.move.pp ?? "--"}
+                  </td>
+                  <td className="p-2 border-2 border-black">
+                    {moveData.move.effect}
+                  </td>
+                </tr>
+              );
+            })}
         </tbody>
       </table>
     </section>
