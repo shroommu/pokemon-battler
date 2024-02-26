@@ -2,15 +2,15 @@
 import Image from "next/image";
 
 import TypePill from "@/components/TypePill";
+import PokedexEntrySkeleton from "./pokedexEntrySkeleton";
 
 const STAT_NAMES = ["HP", "Attack", "Defense", "Special", "Speed"];
 const MOVE_TABLE_LABELS = ["Name", "Type", "Power", "Accuracy", "PP", "Effect"];
 
 export default function PokedexEntry({ pokemon }) {
   if (!pokemon) {
-    return (
-      <section className="flex flex-col w-full m-4 ml-0 p-6 bg-gray-200 rounded-md items-center" />
-    );
+    console.log("rendering without pokemon");
+    return <PokedexEntrySkeleton />;
   }
 
   const renderTypes = () => {

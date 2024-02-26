@@ -1,5 +1,4 @@
 import { PrismaClient } from "@prisma/client";
-import { useRouter } from "next/navigation";
 
 import PokedexList from "./components/pokemonList";
 
