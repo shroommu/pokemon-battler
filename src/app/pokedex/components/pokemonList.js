@@ -28,6 +28,7 @@ export default function PokemonList({ pokemons }) {
                 ? pokemon.name.replace(" ", "-").toLowerCase()
                 : `pokedex/${pokemon.name.replace(" ", "-").toLowerCase()}`
             }
+            prefetch
             key={pokemon.name}
           >
             <li
