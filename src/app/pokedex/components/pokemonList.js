@@ -25,15 +25,17 @@ export default function PokemonList({ pokemons }) {
           <Link
             href={
               pathname.includes("pokedex/")
-                ? pokemon.name.toLowerCase()
-                : `pokedex/${pokemon.name.toLowerCase()}`
+                ? pokemon.name.replace(" ", "-").toLowerCase()
+                : `pokedex/${pokemon.name.replace(" ", "-").toLowerCase()}`
             }
             key={pokemon.name}
           >
             <li
               className={pokemonListButtonStyle({
                 state:
-                  pathname.includes(pokemon.name.toLowerCase()) && "selected",
+                  pathname.includes(
+                    pokemon.name.replace(" ", "-").toLowerCase()
+                  ) && "selected",
               })}
             >
               <button className="flex flex-row items-center w-full group-hover:[&>img]:animate-party_bounce">

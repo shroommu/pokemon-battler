@@ -31,7 +31,8 @@ export default async function PokedexEntryContainer({ params }) {
     <PokedexEntry
       pokemon={
         pokemons.filter(
-          (pokemon) => pokemon.name.toLowerCase() === params.pokemon
+          (pokemon) =>
+            pokemon.name.replace(" ", "-").toLowerCase() === params.pokemon
         )[0]
       }
     />
