@@ -7,11 +7,11 @@ export default function PokemonList({ pokemons, onClick }) {
           return (
             <li
               key={pokemon.name}
-              className="py-2 px-4 mb-1 bg-gray-400 rounded-md hover:bg-gray-300 active:bg-gray-500 w-full"
+              className="group py-2 px-4 mb-1 bg-gray-400 rounded-md hover:bg-gray-300 active:bg-gray-500 w-full"
             >
               <button
                 onClick={() => onClick(pokemon.pokedex_number)}
-                className="flex flex-row items-center w-full"
+                className="flex flex-row items-center w-full group-hover:[&>img]:animate-party_bounce"
               >
                 <div className="mr-2">{`#${String(pokemon.pokedex_number).padStart(3, "0")}`}</div>
                 <Image

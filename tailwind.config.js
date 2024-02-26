@@ -6,4 +6,16 @@ module.exports = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   plugins: [],
+  theme: {
+    extend: {
+      keyframes: {
+        party_bounce: {
+          to: { transform: "translate(0px, 6px)" },
+        },
+      },
+      animation: {
+        party_bounce: "party_bounce 1s steps(2, end) infinite",
+      },
+    },
+  },
 };

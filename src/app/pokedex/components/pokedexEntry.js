@@ -1,5 +1,7 @@
 import Image from "next/image";
 
+import TypePill from "@/components/TypePill";
+
 const STAT_NAMES = ["HP", "Attack", "Defense", "Special", "Speed"];
 const MOVE_TABLE_LABELS = ["Name", "Type", "Power", "Accuracy", "PP", "Effect"];
 
@@ -11,9 +13,21 @@ export default function PokedexEntry({ pokemon }) {
   }
 
   const renderTypes = () => {
-    return pokemon.type_pokemon_secondary_typeTotype
-      ? `${pokemon.primary_type.name} / ${pokemon.secondary_type.name}`
-      : pokemon.primary_type.name;
+    return pokemon.secondary_type ? (
+      <div className="flex flex-row">
+        <TypePill typeName={pokemon.primary_type.name}>
+          {pokemon.primary_type.name}
+        </TypePill>
+        <div className="px-2">/</div>
+        <TypePill typeName={pokemon.secondary_type.name}>
+          {pokemon.secondary_type.name}
+        </TypePill>
+      </div>
+    ) : (
+      <TypePill typeName={pokemon.primary_type.name}>
+        {pokemon.primary_type.name}
+      </TypePill>
+    );
   };
 
   const statList = [
@@ -35,7 +49,7 @@ export default function PokedexEntry({ pokemon }) {
         width={0}
         height={0}
         style={{ width: "100%", height: "100%" }}
-        className="max-w-64 max-h-64 mt-4 border-gray-600 border-4 rounded-md bg-white p-1"
+        className="max-w-64 max-h-64 mt-4 border-gray-600 border-4 rounded-md bg-white p-1 [image-rendering:pixelated]"
         priority
         unoptimized
         alt={`${pokemon.name} front sprite`}
@@ -92,7 +106,9 @@ export default function PokedexEntry({ pokemon }) {
                     {moveData.move.name}
                   </td>
                   <td className="p-2 border-2 border-black">
-                    {moveData.move.type.name}
+                    <TypePill typeName={moveData.move.type.name}>
+                      {moveData.move.type.name}
+                    </TypePill>
                   </td>
                   <td className="p-2 border-2 border-black text-center">
                     {moveData.move.power ?? "--"}

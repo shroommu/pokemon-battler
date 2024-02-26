@@ -10,7 +10,7 @@ datasource db {
 
 model move {
   id            String         @id @default(uuid()) @db.Uuid
-  name          String?        @db.VarChar(255) @unique
+  name          String?        @unique @db.VarChar(255)
   type_id       String?        @db.Uuid
   power         Int?
   accuracy      Int?
@@ -42,9 +42,9 @@ model pokemon {
 model pokemon_move {
   pokemon_id String  @db.Uuid
   move_id    String  @db.Uuid
+  name       String  @unique
   move       move    @relation(fields: [move_id], references: [id], onDelete: Cascade)
   pokemon    pokemon @relation(fields: [pokemon_id], references: [id], onDelete: Cascade)
-  name       String  @unique
 
   @@id([pokemon_id, move_id])
 }
@@ -52,6 +52,7 @@ model pokemon_move {
 model type {
   name                        String?   @db.VarChar(255)
   id                          String    @id @default(uuid()) @db.Uuid
+  display_color               String?
   moves_with_type             move[]
   pokemon_with_primary_type   pokemon[] @relation("pokemon_primary_type")
   pokemon_with_secondary_type pokemon[] @relation("pokemon_secondary_type")
