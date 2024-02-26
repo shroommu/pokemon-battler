@@ -1,5 +1,5 @@
 import PokedexEntrySkeleton from "./components/pokedexEntrySkeleton";
 
-export default async function PokedexEntryLoading() {
+export default function PokedexEntryLoading() {
   return <PokedexEntrySkeleton />;
 }
