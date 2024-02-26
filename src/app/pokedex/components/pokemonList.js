@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function PokemonList({ pokemons, onClick }) {
   return (
-      <ul className="m-4 grow basis-0 overflow-y-scroll">
+      <ul className="m-4 grow basis-0 overflow-y-scroll no-scrollbar">
         {pokemons?.map((pokemon) => {
           return (
             <li
