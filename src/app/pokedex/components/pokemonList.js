@@ -22,19 +22,19 @@ export default function PokemonList({ pokemons }) {
     <ul className="m-4 grow basis-0 overflow-y-scroll no-scrollbar">
       {pokemons?.map((pokemon) => {
         return (
-          <li
+          <Link
+            href={
+              pathname.includes("pokedex/")
+                ? pokemon.name.toLowerCase()
+                : `pokedex/${pokemon.name.toLowerCase()}`
+            }
             key={pokemon.name}
-            className={pokemonListButtonStyle({
-              state:
-                pathname.includes(pokemon.name.toLowerCase()) && "selected",
-            })}
           >
-            <Link
-              href={
-                pathname.includes("pokedex/")
-                  ? pokemon.name.toLowerCase()
-                  : `pokedex/${pokemon.name.toLowerCase()}`
-              }
+            <li
+              className={pokemonListButtonStyle({
+                state:
+                  pathname.includes(pokemon.name.toLowerCase()) && "selected",
+              })}
             >
               <button className="flex flex-row items-center w-full group-hover:[&>img]:animate-party_bounce">
                 <div className="mr-2">{`#${String(
@@ -52,8 +52,8 @@ export default function PokemonList({ pokemons }) {
                 />
                 <div className="ml-auto">{pokemon.name}</div>
               </button>
-            </Link>
-          </li>
+            </li>
+          </Link>
         );
       })}
     </ul>
