@@ -42,6 +42,6 @@ export async function generateStaticParams() {
   const pokemons = await prisma.pokemon.findMany({ select: { name: true } });
 
   return pokemons.map((pokemon) => ({
-    pokemon: pokemon.name,
+    pokemon: pokemon.name.replace(" ", "-"),
   }));
 }
