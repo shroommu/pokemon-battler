@@ -1,5 +1,4 @@
 import { PrismaClient } from "@prisma/client";
-import { Suspense } from "react";
 
 import PokedexEntry from "./components/pokedexEntry";
 
@@ -29,15 +28,13 @@ export default async function PokedexEntryContainer({ params }) {
   });
 
   return (
-    <Suspense>
-      <PokedexEntry
-        pokemon={
-          pokemons.filter(
-            (pokemon) => pokemon.name.toLowerCase() === params.pokemon
-          )[0]
-        }
-      />
-    </Suspense>
+    <PokedexEntry
+      pokemon={
+        pokemons.filter(
+          (pokemon) => pokemon.name.toLowerCase() === params.pokemon
+        )[0]
+      }
+    />
   );
 }
 
