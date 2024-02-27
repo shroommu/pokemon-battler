@@ -9,7 +9,7 @@ const MOVE_TABLE_LABELS = ["Name", "Type", "Power", "Accuracy", "PP", "Effect"];
 
 export default function PokedexEntry({ pokemon }) {
   if (!pokemon) {
-    return null;
+    return <PokedexEntrySkeleton />;
   }
 
   const renderTypes = () => {
