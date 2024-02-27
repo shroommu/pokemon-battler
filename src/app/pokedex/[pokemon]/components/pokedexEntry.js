@@ -2,7 +2,7 @@
 import Image from "next/image";
 
 import TypePill from "@/components/TypePill";
-import PokedexEntrySkeleton from "../../components/pokedexEntrySkeleton";
+import PokedexEntrySkeleton from "./pokedexEntrySkeleton";
 
 const STAT_NAMES = ["HP", "Attack", "Defense", "Special", "Speed"];
 const MOVE_TABLE_LABELS = ["Name", "Type", "Power", "Accuracy", "PP", "Effect"];
