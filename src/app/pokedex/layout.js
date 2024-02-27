@@ -1,5 +1,7 @@
 import { PrismaClient } from "@prisma/client";
+import { Suspense } from "react";
 
+import PokedexEntrySkeleton from "./components/pokedexEntrySkeleton";
 import PokedexList from "./components/pokemonList";
 
 const prisma = new PrismaClient();
@@ -33,7 +35,9 @@ export default async function Pokedex({ children }) {
         <div className="flex flex-col flex-none">
           <PokedexList pokemons={pokemons} />
         </div>
-        <div className="flex flex-col w-full m-4 ml-0">{children}</div>
+        <Suspense fallback={<PokedexEntrySkeleton />}>
+          <div className="flex flex-col w-full m-4 ml-0">{children}</div>
+        </Suspense>
       </section>
     </div>
   );
