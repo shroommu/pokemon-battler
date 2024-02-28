@@ -2,14 +2,13 @@
 import Image from "next/image";
 
 import TypePill from "@/components/TypePill";
-import PokedexEntrySkeleton from "./pokedexEntrySkeleton";
 
 const STAT_NAMES = ["HP", "Attack", "Defense", "Special", "Speed"];
 const MOVE_TABLE_LABELS = ["Name", "Type", "Power", "Accuracy", "PP", "Effect"];
 
 export default function PokedexEntry({ pokemon }) {
   if (!pokemon) {
-    return <PokedexEntrySkeleton />;
+    return null;
   }
 
   const renderTypes = () => {
@@ -39,7 +38,10 @@ export default function PokedexEntry({ pokemon }) {
   ];
 
   return (
-    <section className="flex flex-col p-6 bg-gray-200 rounded-md items-center">
+    <section
+      className="flex flex-col p-6 bg-gray-200 rounded-md items-center"
+      testid={`${pokemon.name.replace(" ", "-").toLowerCase()}-pokedex-entry`}
+    >
       <h1 className="text-4xl">{`#${String(pokemon.pokedex_number).padStart(
         3,
         "0"
