@@ -46,3 +46,5 @@ export async function generateStaticParams() {
     pokemon: pokemon.name.replace(" ", "-"),
   }));
 }
+
+export const dynamic = "force-dynamic";
