@@ -39,12 +39,4 @@ export default async function PokedexEntryContainer({ params }) {
   );
 }
 
-export async function generateStaticParams() {
-  const pokemons = await prisma.pokemon.findMany({ select: { name: true } });
-
-  return pokemons.map((pokemon) => ({
-    pokemon: pokemon.name.replace(" ", "-"),
-  }));
-}
-
 export const dynamic = "force-dynamic";

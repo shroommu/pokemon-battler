@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 
-import PokedexList from "./components/pokemonList";
+import PokemonList from "./components/pokemonList";
+import PokemonListDropdown from "./components/pokemonListDropdown";
 
 const prisma = new PrismaClient();
 
@@ -29,15 +30,21 @@ export default async function PokedexLayout({ children }) {
 
   return (
     <div testid="container" className="flex grow flex-row h-auto w-auto">
-      <section className="flex flex-row w-full">
+      <section className="flex flex-col lg:flex-row w-full">
         <div
-          className="flex flex-col flex-none"
+          className="hidden flex-col flex-none lg:flex"
           testid="pokemon-list-container"
         >
-          <PokedexList pokemons={pokemons} />
+          <PokemonList pokemons={pokemons} />
         </div>
         <div
-          className="flex flex-col w-full m-4 ml-0"
+          className="flex flex-col m-4 items-center lg:hidden"
+          testid="pokemon-list-mobile-dropdown-container"
+        >
+          <PokemonListDropdown pokemons={pokemons} />
+        </div>
+        <div
+          className="flex flex-col m-4 items-center"
           testid="pokedex-entry-container"
         >
           {children}

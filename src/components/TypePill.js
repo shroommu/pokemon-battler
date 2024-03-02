@@ -1,7 +1,7 @@
 import { tv } from "tailwind-variants";
 
 const typePillClass = tv({
-  base: "flex h-8 w-[6rem] text-center justify-center items-center rounded-md text-white [text-shadow:1px_1px_2px_black;] [border:1px_solid_rgba(0,0,0,.2)]",
+  base: "flex h-6 w-12 text-xs md:h-8 md:w-[6rem] md:text-base text-center justify-center items-center rounded-md text-white [text-shadow:1px_1px_2px_black;] [border:1px_solid_rgba(0,0,0,.2)]",
   variants: {
     type: {
       bug: "bg-[#ab2]",
