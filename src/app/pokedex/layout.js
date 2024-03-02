@@ -44,7 +44,7 @@ export default async function PokedexLayout({ children }) {
           <PokemonListDropdown pokemons={pokemons} />
         </div>
         <div
-          className="flex flex-col m-4 items-center"
+          className="flex flex-col m-4 w-full items-center"
           testid="pokedex-entry-container"
         >
           {children}
