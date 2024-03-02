@@ -16,10 +16,13 @@ const pokemonListButtonStyle = tv({
   },
 });
 
+const SORTING_METHODS = { alphabetical: "ALPHA", numerical: "NUM" };
+
 export default function PokemonList({ pokemons }) {
   const pathname = usePathname();
 
   const [nameFilter, setNameFilter] = useState("");
+  const [sort, setSort] = useState(null);
 
   return (
     <div
@@ -39,12 +42,44 @@ export default function PokemonList({ pokemons }) {
           onChange={(event) => setNameFilter(event.target.value)}
         />
       </LabeledElement>
-
+      <LabeledElement
+        label="Sort"
+        testId="pokemon-list-sort-dropdown"
+        containerTwExtraClasses="w-full"
+      >
+        <select
+          className="w-full rounded-md border-2 border-gray-400 p-2"
+          testid="pokemon-list-search-input"
+          value={sort}
+          onChange={(event) => setSort(event.target.value)}
+        >
+          <option value={SORTING_METHODS.numerical}>By Pokedex Number</option>
+          <option value={SORTING_METHODS.alphabetical}>By Name</option>
+        </select>
+      </LabeledElement>
       <ul className="min-w-[250px] mt-4 overflow-y-scroll no-scrollbar">
         {pokemons
           ?.filter((pokemon) =>
             pokemon.name.toLowerCase().includes(nameFilter.toLowerCase())
           )
+          .sort((pokemon1, pokemon2) => {
+            switch (sort) {
+              case SORTING_METHODS.alphabetical:
+                return pokemon1.name > pokemon2.name
+                  ? 1
+                  : pokemon2.name > pokemon1.name
+                  ? -1
+                  : 0;
+              case SORTING_METHODS.numerical:
+                return pokemon1.pokedex_number > pokemon2.pokedex_number
+                  ? 1
+                  : pokemon2.pokedex_number > pokemon1.pokedex_number
+                  ? -1
+                  : 0;
+              default:
+                return pokemon1;
+            }
+          })
           .map((pokemon) => {
             return (
               <Link
@@ -53,7 +88,6 @@ export default function PokemonList({ pokemons }) {
                     ? pokemon.name.replace(" ", "-").toLowerCase()
                     : `pokedex/${pokemon.name.replace(" ", "-").toLowerCase()}`
                 }
-                prefetch={true}
                 key={pokemon.name}
               >
                 <li
