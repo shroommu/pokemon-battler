@@ -32,7 +32,7 @@ export default async function PokedexLayout({ children }) {
     <div testid="container" className="flex grow flex-row h-auto w-auto">
       <section className="flex flex-col lg:flex-row w-full">
         <div
-          className="hidden flex-col flex-none lg:flex"
+          className="hidden flex-col lg:mr-0 m-4 flex-none lg:flex"
           testid="pokemon-list-container"
         >
           <PokemonList pokemons={pokemons} />
