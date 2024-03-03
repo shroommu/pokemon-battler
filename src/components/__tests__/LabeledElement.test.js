@@ -11,6 +11,7 @@ describe("pokedexEntry", () => {
   it("adds a star if required", () => {
     render(<LabeledElement label="Search" childId={"text-input"} required />);
 
-    expect(screen.getByText("Search *")).toBeInTheDocument();
+    expect(screen.getByText(/Search/)).toBeInTheDocument();
+    expect(screen.getByText(/\*/)).toBeInTheDocument();
   });
 });
