@@ -7,6 +7,8 @@ const STAT_NAMES = ["HP", "Attack", "Defense", "Special", "Speed"];
 const MOVE_TABLE_LABELS = ["Name", "Type", "Power", "Accuracy", "PP", "Effect"];
 
 export default function PokedexEntry({ pokemon }) {
+  console.log("testing");
+
   if (!pokemon) {
     return null;
   }
