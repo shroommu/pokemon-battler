@@ -1,7 +1,6 @@
 import "./globals.css";
 import Image from "next/image";
 
-import Button from "@/components/Button";
 import Nav from "@/components/Nav";
 import Link from "next/link";
 
@@ -37,9 +36,7 @@ export default function RootLayout({ children }) {
             Account
           </Button> */}
         </header>
-        <section className="flex flex-row grow bg-gray-600">
-          {children}
-        </section>
+        <section className="flex flex-row grow bg-gray-600">{children}</section>
       </body>
     </html>
   );

@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 
-import TypePill from "../../../../components/TypePill";
+import TypePill from "@/components/TypePill";
 
 const STAT_NAMES = ["HP", "Attack", "Defense", "Special", "Speed"];
 const MOVE_TABLE_LABELS = ["Name", "Type", "Power", "Accuracy", "PP", "Effect"];

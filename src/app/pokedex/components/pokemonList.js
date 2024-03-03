@@ -32,7 +32,7 @@ export default function PokemonList({ pokemons }) {
       <h1 className="text-2xl">Pokemon</h1>
       <LabeledElement
         label="Search"
-        data-testid="pokemon-list-search-input"
+        testId="pokemon-list-search-input"
         containerTwExtraClasses="w-full"
       >
         <input
@@ -44,7 +44,7 @@ export default function PokemonList({ pokemons }) {
       </LabeledElement>
       <LabeledElement
         label="Sort"
-        data-testid="pokemon-list-sort-dropdown"
+        testId="pokemon-list-sort-dropdown"
         containerTwExtraClasses="w-full"
       >
         <select
