@@ -21,7 +21,7 @@ model move {
 }
 
 model pokemon {
-  name                  String?        @db.VarChar(255)
+  name                  String         @unique @db.VarChar(255)
   pokedex_number        Int?
   id                    String         @id @default(uuid()) @db.Uuid
   primary_type_id       String?        @db.Uuid
@@ -34,6 +34,7 @@ model pokemon {
   sprite_front_filepath String?        @db.VarChar(255)
   sprite_back_filepath  String?        @db.VarChar(255)
   sprite_party_filepath String?        @db.VarChar(255)
+  pokedex_entry         String?
   primary_type          type?          @relation("pokemon_primary_type", fields: [primary_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_primary_type")
   secondary_type        type?          @relation("pokemon_secondary_type", fields: [secondary_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_secondary_type")
   pokemon_moves         pokemon_move[]
