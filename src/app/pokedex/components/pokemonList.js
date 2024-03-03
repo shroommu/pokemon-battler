@@ -16,13 +16,13 @@ const pokemonListButtonStyle = tv({
   },
 });
 
-const SORTING_METHODS = { alphabetical: "ALPHA", numerical: "NUM" };
+export const SORTING_METHODS = { alphabetical: "ALPHA", numerical: "NUM" };
 
 export default function PokemonList({ pokemons }) {
   const pathname = usePathname();
 
   const [nameFilter, setNameFilter] = useState("");
-  const [sort, setSort] = useState(null);
+  const [sort, setSort] = useState(SORTING_METHODS.numerical);
 
   return (
     <div
@@ -49,7 +49,7 @@ export default function PokemonList({ pokemons }) {
       >
         <select
           className="w-full rounded-md border-2 border-gray-400 p-2"
-          data-testid="pokemon-list-search-input"
+          data-testid="pokemon-list-sort-dropdown"
           value={sort}
           onChange={(event) => setSort(event.target.value)}
         >
@@ -57,7 +57,10 @@ export default function PokemonList({ pokemons }) {
           <option value={SORTING_METHODS.alphabetical}>By Name</option>
         </select>
       </LabeledElement>
-      <ul className="min-w-[250px] mt-4 overflow-y-scroll no-scrollbar">
+      <ul
+        className="min-w-[250px] mt-4 overflow-y-scroll no-scrollbar"
+        data-testid="pokemon-list"
+      >
         {pokemons
           ?.filter((pokemon) =>
             pokemon.name.toLowerCase().includes(nameFilter.toLowerCase())
@@ -65,19 +68,15 @@ export default function PokemonList({ pokemons }) {
           .sort((pokemon1, pokemon2) => {
             switch (sort) {
               case SORTING_METHODS.alphabetical:
-                return pokemon1.name > pokemon2.name
-                  ? 1
-                  : pokemon2.name > pokemon1.name
-                  ? -1
-                  : 0;
+                return (
+                  (pokemon1.name > pokemon2.name) -
+                  (pokemon1.name < pokemon2.name)
+                );
               case SORTING_METHODS.numerical:
-                return pokemon1.pokedex_number > pokemon2.pokedex_number
-                  ? 1
-                  : pokemon2.pokedex_number > pokemon1.pokedex_number
-                  ? -1
-                  : 0;
-              default:
-                return pokemon1;
+                return (
+                  (pokemon1.pokedex_number > pokemon2.pokedex_number) -
+                  (pokemon1.pokedex_number < pokemon2.pokedex_number)
+                );
             }
           })
           .map((pokemon) => {
@@ -89,6 +88,9 @@ export default function PokemonList({ pokemons }) {
                     : `pokedex/${pokemon.name.replace(" ", "-").toLowerCase()}`
                 }
                 key={pokemon.name}
+                data-testid={`${pokemon.name
+                  .replace(" ", "-")
+                  .toLowerCase()}-link`}
               >
                 <li
                   className={pokemonListButtonStyle({

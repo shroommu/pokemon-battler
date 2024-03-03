@@ -127,12 +127,9 @@ export default function PokedexEntry({ pokemon }) {
             </thead>
             <tbody>
               {pokemon.pokemon_moves
-                .sort((a, b) =>
-                  a.move.name > b.move.name
-                    ? 1
-                    : b.move.name > a.move.name
-                    ? -1
-                    : 0
+                .sort(
+                  (a, b) =>
+                    (a.move.name > b.move.name) - (a.move.name < b.move.name)
                 )
                 .map((moveData, index) => {
                   return (
