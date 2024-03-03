@@ -1,7 +1,7 @@
 export default function LabeledElement({
   children,
   childId,
-  testId,
+  data-testid,
   containerTwExtraClasses,
   label,
   required,
@@ -9,7 +9,7 @@ export default function LabeledElement({
 }) {
   return (
     <div className={`flex flex-col ${containerTwExtraClasses}`}>
-      <label className="pb-2" for={childId} testid={testId}>
+      <label className="pb-2" for={childId} data-testid={data-testid}>
         {label}
         {required && "*"}
       </label>

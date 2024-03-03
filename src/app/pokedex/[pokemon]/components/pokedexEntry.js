@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 
-import TypePill from "@/components/TypePill";
+import TypePill from "../../../../components/TypePill";
 
 const STAT_NAMES = ["HP", "Attack", "Defense", "Special", "Speed"];
 const MOVE_TABLE_LABELS = ["Name", "Type", "Power", "Accuracy", "PP", "Effect"];
@@ -40,15 +40,22 @@ export default function PokedexEntry({ pokemon }) {
   return (
     <section
       className="flex flex-col xl:flex-row w-full p-6 bg-gray-200 rounded-md items-center xl:items-start"
-      testid={`${pokemon.name.replace(" ", "-").toLowerCase()}-pokedex-entry`}
+      data-testid={`${pokemon.name
+        .replace(" ", "-")
+        .toLowerCase()}-pokedex-entry`}
     >
       <section
         className="flex flex-col xl:flex-1 items-center"
-        testid={`${pokemon.name.replace(" ", "-").toLowerCase()}-pokemon-data`}
+        data-testid={`${pokemon.name
+          .replace(" ", "-")
+          .toLowerCase()}-pokemon-data`}
       >
-        <h1 className="text-2xl md:text-4xl">{`#${String(
-          pokemon.pokedex_number
-        ).padStart(3, "0")} ${pokemon.name}`}</h1>
+        <h1
+          className="text-2xl md:text-4xl"
+          data-testid="pokemon-name"
+        >{`#${String(pokemon.pokedex_number).padStart(3, "0")} ${
+          pokemon.name
+        }`}</h1>
         <Image
           src={pokemon.sprite_front_filepath.toLowerCase()}
           width={0}
@@ -58,11 +65,16 @@ export default function PokedexEntry({ pokemon }) {
           priority
           unoptimized
           alt={`${pokemon.name} front sprite`}
+          data-testid="pokemon-image"
         />
-        <div className="mt-2">{renderTypes()}</div>
-        <p className="px-8 mt-2 text-center">{pokemon.pokedex_entry}</p>
+        <div className="mt-2" data-testid="pokemon-type">
+          {renderTypes()}
+        </div>
+        <p className="px-8 mt-2 text-center" data-testid="pokedex-blurb">
+          {pokemon.pokedex_entry}
+        </p>
         <h2 className="text-2xl mt-2">Stats</h2>
-        <table className="border-2 border-black mt-2" testid="stats-table">
+        <table className="border-2 border-black mt-2" data-testid="stats-table">
           <thead className="bg-gray-300">
             <tr>
               {STAT_NAMES.map((statName) => (
@@ -88,14 +100,19 @@ export default function PokedexEntry({ pokemon }) {
       </section>
       <section
         className="flex flex-col xl:flex-1 items-center"
-        testid={`${pokemon.name.replace(" ", "-").toLowerCase()}-pokemon-moves`}
+        data-testid={`${pokemon.name
+          .replace(" ", "-")
+          .toLowerCase()}-pokemon-moves`}
       >
         <h2 className="text-2xl mt-2">Moves</h2>
         <div
           className="overflow-x-scroll md:overflow-auto max-w-xs md:max-w-none"
-          testid="move-table-scroller"
+          data-testid="move-table-scroller"
         >
-          <table className="border-2 border-black mt-2" testid="move-table">
+          <table
+            className="border-2 border-black mt-2"
+            data-testid="move-table"
+          >
             <thead className="bg-gray-300">
               <tr>
                 {MOVE_TABLE_LABELS.map((moveTableLabel) => (
@@ -121,7 +138,7 @@ export default function PokedexEntry({ pokemon }) {
                   return (
                     <tr
                       key={`move-row-${index + 1}`}
-                      testid={`move-row-${index + 1}`}
+                      data-testid={`move-row-${index + 1}`}
                       className="bg-white"
                     >
                       <td className="p-2 border-2 border-black">

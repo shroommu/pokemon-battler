@@ -25,7 +25,10 @@ const typePillClass = tv({
 
 export default function TypePill({ children, typeName }) {
   return (
-    <div className={typePillClass({ type: typeName.toLowerCase() })}>
+    <div
+      className={typePillClass({ type: typeName.toLowerCase() })}
+      data-testid={`${typeName}-pill`}
+    >
       {children}
     </div>
   );
