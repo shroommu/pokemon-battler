@@ -60,6 +60,7 @@ export default function PokedexEntry({ pokemon }) {
           alt={`${pokemon.name} front sprite`}
         />
         <div className="mt-2">{renderTypes()}</div>
+        <p className="px-8 mt-2 text-center">{pokemon.pokedex_entry}</p>
         <h2 className="text-2xl mt-2">Stats</h2>
         <table className="border-2 border-black mt-2" testid="stats-table">
           <thead className="bg-gray-300">
