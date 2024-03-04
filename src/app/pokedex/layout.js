@@ -1,9 +1,7 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "../../../lib/prisma";
 
 import PokemonList from "./components/pokemonList";
 import PokemonListDropdown from "./components/pokemonListDropdown";
-
-const prisma = new PrismaClient();
 
 export default async function PokedexLayout({ children }) {
   const pokemons = await prisma.pokemon.findMany({
