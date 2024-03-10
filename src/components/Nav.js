@@ -11,7 +11,7 @@ export default function Nav({}) {
   const { data: session } = getSession();
 
   return (
-    <nav className="flex">
+    <nav className="flex w-full">
       <ul className="flex flex-row items-center">
         <li>
           <Link href={locations.POKEDEX}>
