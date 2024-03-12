@@ -2,13 +2,13 @@
 
 import React from "react";
 import Link from "next/link";
-import { getSession } from "next-auth/react";
+// import { getSession } from "next-auth/react";
 
 import Button from "./Button";
 import { locations } from "@/app/constants";
 
 export default function Nav({}) {
-  const { data: session } = getSession();
+  // const { data: session } = getSession();
 
   return (
     <nav className="flex w-full">
@@ -25,7 +25,7 @@ export default function Nav({}) {
           </Link>
         </li>
       </ul>
-      {session ? (
+      {/* {session ? (
         <Button
           margin="ml-auto"
           fontSize="text-2xl"
@@ -41,7 +41,7 @@ export default function Nav({}) {
         >
           Sign In
         </Button>
-      )}
+      )} */}
     </nav>
   );
 }
