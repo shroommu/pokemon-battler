@@ -21,6 +21,7 @@
     "@popperjs/core": "^2.11.8",
     "@prisma/client": "^5.9.1",
     "@vercel/postgres": "^0.7.2",
+    "crypto-js": "^4.2.0",
     "csv": "^6.3.6",
     "lint-staged": "^15.2.2",
     "next": "14.1.0",

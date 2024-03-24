@@ -8,10 +8,10 @@ export default function LabeledElement({
   error,
 }) {
   return (
-    <div className={`flex flex-col ${containerTwExtraClasses}`}>
+    <div className={`flex flex-col ${containerTwExtraClasses ?? ""}`}>
       <label className="pb-2" htmlFor={childId} data-testid={`${testId}-label`}>
         {label}
-        {required && "*"}
+        {required && <div className="inline text-red-500 ml-1">*</div>}
       </label>
       {children}
       <div className="pt-1 text-red-500">{error}</div>

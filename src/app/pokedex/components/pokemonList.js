@@ -1,6 +1,7 @@
 "use client";
 
 import LabeledElement from "@/components/LabeledElement";
+import Input from "@/components/Input";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -35,9 +36,8 @@ export default function PokemonList({ pokemons }) {
         testId="pokemon-list-search-input"
         containerTwExtraClasses="w-full"
       >
-        <input
-          className="w-full rounded-md border-2 border-gray-400 p-2"
-          data-testid="pokemon-list-search-input"
+        <Input
+          testId="pokemon-list-search"
           value={nameFilter}
           onChange={(event) => setNameFilter(event.target.value)}
         />
