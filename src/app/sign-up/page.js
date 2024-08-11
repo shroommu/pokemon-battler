@@ -1,5 +1,8 @@
 "use client";
+
 import { useState } from "react";
+
+import { string } from "yup";
 
 import Input from "@/components/Input";
 import LabeledElement from "@/components/LabeledElement";
@@ -10,7 +13,24 @@ export default function SignUpPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // add data validation
+  const [emailValid, setEmailValid] = useState(true);
+
+  const [userCreated, setUserCreated] = useState(false);
+
+  const [usernameExists, setUsernameExists] = useState(false);
+  const [emailExists, setEmailExists] = useState(false);
+
+  const validateEmail = async () => {
+    const schema = string().required().email();
+    setEmailValid(await schema.isValid(email));
+  };
+
+  const validatePassword = async () => {
+    const schema = string().required();
+    if (await schema.isValid(password)) {
+      // console.log("Password is valid");
+    }
+  };
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -20,13 +40,17 @@ export default function SignUpPage() {
       password,
     };
 
-    const res = fetch("/api/user/create", {
+    const res = await fetch("/api/user/create", {
       method: "POST",
       body: JSON.stringify(userData),
       headers: {
         "Content-Type": "application/json",
       },
-    });
+    }).then((res) => res.json());
+
+    setEmailExists(res?.errors?.emailExists);
+    setUsernameExists(res?.errors?.usernameExists);
+    setUserCreated(Object.keys(res.errors).length === 0);
   }
 
   return (
@@ -39,28 +63,60 @@ export default function SignUpPage() {
         <Input
           testId="signup-username"
           value={username}
-          onChange={(event) => setUsername(event.target.value)}
+          onChange={(event) => {
+            setUsernameExists(false);
+            setUsername(event.target.value);
+          }}
         />
       </LabeledElement>
+      {usernameExists && (
+        <div className="text-red-500" data-testid="username-exists-text">
+          This username already exists
+        </div>
+      )}
       <LabeledElement required label="Email" testId="signup-email">
         <Input
           type="email"
           testId="signup-email"
           value={email}
-          onChange={(event) => setEmail(event.target.value)}
+          onChange={(event) => {
+            setEmailExists(false);
+            setEmail(event.target.value);
+            validateEmail();
+          }}
         />
       </LabeledElement>
+      {!emailValid && (
+        <div className="text-red-500" data-testid="email-invalid-text">
+          Please enter a valid email address
+        </div>
+      )}
+      {emailExists && (
+        <div className="text-red-500" data-testid="email-exists-text">
+          This email already exists
+        </div>
+      )}
       <LabeledElement required label="Password" testId="signup-password">
         <Input
           type="password"
           testId="signup-password"
           value={password}
-          onChange={(event) => setPassword(event.target.value)}
+          onChange={(event) => {
+            setPassword(event.target.value);
+            validatePassword();
+          }}
         />
       </LabeledElement>
       <Button onClick={handleSubmit} type="primary" extraClasses="mt-2">
         Create Account
       </Button>
+      {userCreated && (
+        <div>
+          Account created successfully!
+          <br />
+          In the future, you will be redirected to your home page
+        </div>
+      )}
     </section>
   );
 }
