@@ -8,7 +8,7 @@ import Button from "./Button";
 import { locations } from "@/app/constants";
 
 export default function Nav({}) {
-  const { data: session } = getSession();
+  // const { data: session } = getSession();
 
   return (
     <nav className="flex w-full">
@@ -23,7 +23,7 @@ export default function Nav({}) {
           </Link>
         </li>
       </ul>
-      {session ? (
+      {/* {session ? (
         <Button
           extraClasses={"ml-auto text-2xl hover:bg-red-500 active:bg-red-700"}
         >
@@ -35,7 +35,12 @@ export default function Nav({}) {
         >
           Sign In
         </Button>
-      )}
+      )} */}
+      <Button
+        extraClasses={"ml-auto text-2xl hover:bg-red-500 active:bg-red-700"}
+      >
+        Sign In
+      </Button>
     </nav>
   );
 }

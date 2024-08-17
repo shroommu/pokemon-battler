@@ -1,13 +1,14 @@
-import { hashSync } from "bcryptjs";
-import prisma from "../../../../../lib/prisma";
+import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
+
+import { hashPassword } from "../utils";
 
 export async function POST(req, res) {
   const data = await req.json();
 
   try {
     await prisma.user.create({
-      data: { ...data, password: hashSync(data.password, 10) },
+      data: { ...data, password: hashPassword(data.password) },
     });
 
     return new Response(

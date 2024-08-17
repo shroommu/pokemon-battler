@@ -1,4 +1,4 @@
-import prisma from "../../../lib/prisma";
+import prisma from "@/lib/prisma";
 
 import PokemonList from "./components/pokemonList";
 import PokemonListDropdown from "./components/pokemonListDropdown";

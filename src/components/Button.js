@@ -1,7 +1,7 @@
 import { tv } from "tailwind-variants";
 
 const buttonClass = tv({
-  base: "flex p-2 h-fit w-fit",
+  base: "flex p-2 h-fit w-fit disabled:bg-gray-600 disabled:opacity-50",
   variants: {
     type: {
       primary: "bg-red-600 rounded-md hover:bg-red-500 active:bg-red-700",

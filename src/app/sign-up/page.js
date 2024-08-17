@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 
-import { string } from "yup";
+import * as z from "zod";
 
 import Input from "@/components/Input";
 import LabeledElement from "@/components/LabeledElement";
 import Button from "@/components/Button";
+import { createUser } from "@/actions/createUser";
 
 export default function SignUpPage() {
   const [username, setUsername] = useState("");
@@ -21,32 +22,27 @@ export default function SignUpPage() {
   const [emailExists, setEmailExists] = useState(false);
 
   const validateEmail = async () => {
-    const schema = string().required().email();
-    setEmailValid(await schema.isValid(email));
+    const emailSchema = z.object({ email: z.string().email() });
+    setEmailValid(emailSchema.safeParse({ email }).success);
   };
 
   const validatePassword = async () => {
-    const schema = string().required();
-    if (await schema.isValid(password)) {
-      // console.log("Password is valid");
-    }
+    return;
   };
 
   async function handleSubmit(e) {
     e.preventDefault();
+
+    const lowerUsername = username.toLowerCase();
+    const lowerEmail = email.toLowerCase();
+
     let userData = {
-      username,
-      email,
-      password,
+      username: lowerUsername,
+      email: lowerEmail,
+      password: password,
     };
 
-    const res = await fetch("/api/user/create", {
-      method: "POST",
-      body: JSON.stringify(userData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((res) => res.json());
+    const res = await createUser(userData);
 
     setEmailExists(res?.errors?.emailExists);
     setUsernameExists(res?.errors?.usernameExists);
@@ -107,7 +103,19 @@ export default function SignUpPage() {
           }}
         />
       </LabeledElement>
-      <Button onClick={handleSubmit} type="primary" extraClasses="mt-2">
+      <Button
+        onClick={handleSubmit}
+        disabled={
+          !username ||
+          !email ||
+          !password ||
+          !emailValid ||
+          emailExists ||
+          usernameExists
+        }
+        type="primary"
+        extraClasses="mt-2"
+      >
         Create Account
       </Button>
       {userCreated && (
