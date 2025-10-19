@@ -7,14 +7,14 @@ import Nav from "@/components/Nav";
 // import { locations } from "./constants";
 
 export const metadata = {
-  title: "Pokemon Battler",
+  title: "Pokedex",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="h-auto">
-        <header className="flex flex-row bg-red-700 pr-4 items-center">
+      <body className="h-full">
+        <header className="flex flex-row bg-red-700 pr-4 items-center justify-center">
           {/* <Link href={locations.INDEX}> */}
           <div className="flex flex-col px-8 py-3 pb-8 mr-4 bg-red-700 items-center">
             <Image
@@ -26,12 +26,12 @@ export default function RootLayout({ children }) {
               src="/images/pokemonLogo.svg"
               alt="pokemon logo"
             />
-            <div className="text-center text-xl bg-white rounded-2xl w-fit px-4">
+            {/* <div className="text-center text-xl bg-white rounded-2xl w-fit px-4">
               Battler
-            </div>
+            </div> */}
           </div>
           {/* </Link> */}
-          <Nav />
+          {/* <Nav /> */}
         </header>
         <section className="flex flex-row grow bg-gray-600">{children}</section>
       </body>

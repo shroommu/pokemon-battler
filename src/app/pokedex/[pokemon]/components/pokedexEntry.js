@@ -39,7 +39,7 @@ export default function PokedexEntry({ pokemon }) {
 
   return (
     <section
-      className="flex flex-col xl:flex-row w-full p-6 bg-gray-200 rounded-md items-center xl:items-start"
+      className="flex flex-col xl:flex-row w-full p-6 bg-gray-200 rounded-md items-center xl:items-start h-full"
       data-testid={`${pokemon.name
         .replace(" ", "-")
         .toLowerCase()}-pokedex-entry`}
@@ -74,11 +74,14 @@ export default function PokedexEntry({ pokemon }) {
           {pokemon.pokedex_entry}
         </p>
         <h2 className="text-2xl mt-2">Stats</h2>
-        <table className="border-2 border-black mt-2" data-testid="stats-table">
+        <table
+          className="border-2 border-gray-400 mt-2 rounded-md"
+          data-testid="stats-table"
+        >
           <thead className="bg-gray-300">
             <tr>
               {STAT_NAMES.map((statName) => (
-                <td key={statName} className="p-2 border-2 border-black">
+                <td key={statName} className="p-2 border-2 border-gray-500">
                   {statName}
                 </td>
               ))}
@@ -89,7 +92,7 @@ export default function PokedexEntry({ pokemon }) {
               {statList.map((stat, index) => (
                 <td
                   key={`${pokemon.name}-${STAT_NAMES[index]}`}
-                  className="p-2 border-2 border-black text-center"
+                  className="p-2 border-2 border-gray-400 text-center"
                 >
                   {stat}
                 </td>
@@ -110,7 +113,7 @@ export default function PokedexEntry({ pokemon }) {
           data-testid="move-table-scroller"
         >
           <table
-            className="border-2 border-black mt-2"
+            className="border-2 border-gray-400 mt-2"
             data-testid="move-table"
           >
             <thead className="bg-gray-300">
@@ -118,7 +121,7 @@ export default function PokedexEntry({ pokemon }) {
                 {MOVE_TABLE_LABELS.map((moveTableLabel) => (
                   <td
                     key={moveTableLabel}
-                    className="p-2 border-2 border-black"
+                    className="p-2 border-2 border-gray-500"
                   >
                     {moveTableLabel}
                   </td>
@@ -138,24 +141,24 @@ export default function PokedexEntry({ pokemon }) {
                       data-testid={`move-row-${index + 1}`}
                       className="bg-white"
                     >
-                      <td className="p-2 border-2 border-black">
+                      <td className="p-2 border-2 border-gray-400">
                         {moveData.move.name}
                       </td>
-                      <td className="p-2 border-2 border-black">
+                      <td className="p-2 border-2 border-gray-400">
                         <TypePill typeName={moveData.move.type.name}>
                           {moveData.move.type.name}
                         </TypePill>
                       </td>
-                      <td className="p-2 border-2 border-black text-center">
+                      <td className="p-2 border-2 border-gray-400 text-center">
                         {moveData.move.power ?? "--"}
                       </td>
-                      <td className="p-2 border-2 border-black text-center">
+                      <td className="p-2 border-2 border-gray-400 text-center">
                         {moveData.move.accuracy ?? "--"}
                       </td>
-                      <td className="p-2 border-2 border-black text-center">
+                      <td className="p-2 border-2 border-gray-400 text-center">
                         {moveData.move.pp ?? "--"}
                       </td>
-                      <td className="p-2 border-2 border-black">
+                      <td className="p-2 border-2 border-gray-400">
                         {moveData.move.effect}
                       </td>
                     </tr>
