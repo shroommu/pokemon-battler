@@ -36,11 +36,11 @@ export default function Nav({}) {
           Sign In
         </Button>
       )} */}
-      <Button
+      {/* <Button
         extraClasses={"ml-auto text-2xl hover:bg-red-500 active:bg-red-700"}
       >
         Sign In
-      </Button>
+      </Button> */}
     </nav>
   );
 }

@@ -46,7 +46,7 @@ export default function SignUpPage() {
 
     setEmailExists(res?.errors?.emailExists);
     setUsernameExists(res?.errors?.usernameExists);
-    setUserCreated(Object.keys(res.errors).length === 0);
+    // setUserCreated(Object.keys(res?.errors).length === 0);
   }
 
   return (

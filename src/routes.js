@@ -1,8 +1,3 @@
-/*
- * An array of routes that are accessible to the public
- * These types do not require authentication
- */
-
 // eventually i need a way to match all the pokemon's names because this wildcard doesn't actually work
 export const publicRoutes = ["/", "/pokedex", "/pokedex/:pokemon*"];
 
