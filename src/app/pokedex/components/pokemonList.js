@@ -82,6 +82,7 @@ export default function PokemonList({ pokemons }) {
           .map((pokemon) => {
             return (
               <Link
+                prefetch={true}
                 href={
                   pathname.includes("pokedex/")
                     ? pokemon.name.replace(" ", "-").toLowerCase()
