@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
 export default function PokemonListDropdown({ pokemons }) {
@@ -28,9 +29,21 @@ export default function PokemonListDropdown({ pokemons }) {
               .replace(" ", "-")
               .toLowerCase()}-option`}
           >
-            {`#${String(pokemon.pokedex_number).padStart(3, "0")} ${
-              pokemon.name
-            }`}
+            <Link
+              prefetch={true}
+              href={
+                pathname.includes("pokedex/")
+                  ? pokemon.name.replace(" ", "-").toLowerCase()
+                  : `pokedex/${pokemon.name.replace(" ", "-").toLowerCase()}`
+              }
+              data-testid={`${pokemon.name
+                .replace(" ", "-")
+                .toLowerCase()}-link`}
+            >
+              {`#${String(pokemon.pokedex_number).padStart(3, "0")} ${
+                pokemon.name
+              }`}
+            </Link>
           </option>
         );
       })}
