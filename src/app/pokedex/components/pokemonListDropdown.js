@@ -1,34 +1,22 @@
 "use client";
 
+import Dropdown from "@/components/Dropdown";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
 export default function PokemonListDropdown({ pokemons }) {
-  const router = useRouter();
   const pathname = usePathname();
 
   return (
-    <select
-      onChange={(event) => {
-        pathname.includes("pokedex/")
-          ? router.push(event.target.value)
-          : router.push(`pokedex/${event.target.value}`);
-      }}
+    <Dropdown
+      buttonText={"Select a Pokemon"}
+      buttonType={"tertiary"}
       className="rounded-md p-2"
       data-testid="pokemon-list-dropdown"
     >
-      <option value="" data-testid="default-option">
-        Select a Pokemon
-      </option>
       {pokemons?.map((pokemon) => {
         return (
-          <option
-            key={pokemon.name}
-            value={pokemon.name.replace(" ", "-").toLowerCase()}
-            data-testid={`${pokemon.name
-              .replace(" ", "-")
-              .toLowerCase()}-option`}
-          >
+          <div key={pokemon.name} className="p-2">
             <Link
               prefetch={true}
               href={
@@ -44,9 +32,9 @@ export default function PokemonListDropdown({ pokemons }) {
                 pokemon.name
               }`}
             </Link>
-          </option>
+          </div>
         );
       })}
-    </select>
+    </Dropdown>
   );
 }

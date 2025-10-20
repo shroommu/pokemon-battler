@@ -109,7 +109,7 @@ export default function PokedexEntry({ pokemon }) {
       >
         <h2 className="text-2xl mt-2">Moves</h2>
         <div
-          className="overflow-x-scroll md:overflow-auto max-w-xs md:max-w-none"
+          className="overflow-x-scroll md:overflow-auto md:max-w-none"
           data-testid="move-table-scroller"
         >
           <table

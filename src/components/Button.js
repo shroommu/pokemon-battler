@@ -5,6 +5,8 @@ const buttonClass = tv({
   variants: {
     type: {
       primary: "bg-red-600 rounded-md hover:bg-red-500 active:bg-red-700",
+      secondary: "bg-gray-600 rounded-md hover:bg-gray-500 active:bg-gray-700",
+      tertiary: "bg-white rounded-md hover:bg-gray-100 active:bg-gray-200",
     },
   },
 });
