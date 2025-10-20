@@ -58,8 +58,8 @@ export default function PokedexEntry({ pokemon }) {
         }`}</h1>
         <Image
           src={pokemon.sprite_front_filepath.toLowerCase()}
-          width={0}
-          height={0}
+          width={32}
+          height={32}
           style={{ width: "100%", height: "100%" }}
           className="max-w-32 max-h-32 w-32 h-32 md:max-w-64 md:max-h-64 mt-4 border-gray-600 border-4 rounded-md bg-white p-1 [image-rendering:pixelated]"
           priority
