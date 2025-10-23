@@ -4,9 +4,17 @@ import { useState } from "react";
 
 import PokemonList from "./pokemonList";
 import PokemonListDropdown from "./pokemonListDropdown";
+import Button from "@/components/Button";
+import { getPokemonData } from "@/actions/getPokemonData";
 
 export default function Dashboard({ pokemons }) {
   const [selectedPokemon, setSelectedPokemon] = useState("Bulbasaur");
+
+  async function getData() {
+    const pokemonData = await getPokemonData();
+    
+    console.log(pokemonData);
+  } 
 
   return (
     <div data-testid="container" className="flex grow flex-row h-auto w-auto">
@@ -32,6 +40,8 @@ export default function Dashboard({ pokemons }) {
             data-testid="pokedex-home-page"
           >
             Selected Pokemon: {selectedPokemon}
+
+            <Button onClick={() => getData()} type={"primary"}>Get Data</Button>
           </section>
         </div>
       </section>
