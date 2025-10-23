@@ -17,7 +17,7 @@ const pokemonListButtonStyle = tv({
 
 export const SORTING_METHODS = { alphabetical: "ALPHA", numerical: "NUM" };
 
-export default function PokemonList({ pokemons, selectedPokemon, setSelectedPokemon }) {
+export default function PokemonList({ pokemons, selectedPokemon, setSelectedPokemon, getPokemonData }) {
 
   const [nameFilter, setNameFilter] = useState("");
   const [sort, setSort] = useState(SORTING_METHODS.numerical);
@@ -85,7 +85,7 @@ export default function PokemonList({ pokemons, selectedPokemon, setSelectedPoke
                     pokemon.name == selectedPokemon && "selected",
                 })}
               >
-                <button className="flex flex-row items-center w-full group-hover:[&>img]:animate-party_bounce" onClick={() => setSelectedPokemon(pokemon.name)}>
+                <button className="flex flex-row items-center w-full group-hover:[&>img]:animate-party_bounce" onClick={() => getPokemonData(pokemon.name)}>
                   <div className="mr-2">{`#${String(
                     pokemon.pokedex_number
                   ).padStart(3, "0")}`}</div>
