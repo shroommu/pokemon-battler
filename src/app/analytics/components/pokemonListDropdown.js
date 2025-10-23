@@ -2,7 +2,7 @@
 
 import Dropdown from "@/components/Dropdown";
 
-export default function PokemonListDropdown({ pokemons }) {
+export default function PokemonListDropdown({ pokemons, setSelectedPokemon }) {
 
   return (
     <Dropdown
@@ -13,7 +13,7 @@ export default function PokemonListDropdown({ pokemons }) {
     >
       {pokemons?.map((pokemon) => {
         return (
-          <div key={pokemon.name} className="p-2">
+          <div key={pokemon.name} className="p-2" onClick={() => setSelectedPokemon(pokemon.name)}>
               {`#${String(pokemon.pokedex_number).padStart(3, "0")} ${
                 pokemon.name
               }`}
