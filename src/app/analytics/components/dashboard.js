@@ -25,13 +25,13 @@ export default function Dashboard({ pokemons }) {
           className="hidden flex-col lg:mr-0 m-4 flex-none lg:flex"
           data-testid="pokemon-list-container"
         >
-          <PokemonList pokemons={pokemons} selectedPokemon={selectedPokemon} setSelectedPokemon={setSelectedPokemon} getPokemonData={getPokemonData} />
+          <PokemonList pokemons={pokemons} selectedPokemon={selectedPokemon} getPokemonData={getPokemonData} />
         </div>
         <div
           className="flex flex-col m-4 items-center lg:hidden"
           data-testid="pokemon-list-mobile-dropdown-container"
         >
-          <PokemonListDropdown pokemons={pokemons} setSelectedPokemon={setSelectedPokemon} />
+          <PokemonListDropdown pokemons={pokemons} getPokemonData={getPokemonData} />
         </div>
         <div
           className="flex flex-col m-4 md:w-full items-center"
