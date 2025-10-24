@@ -7,6 +7,7 @@ import PokemonListDropdown from "./pokemonListDropdown";
 import BarChart from "@/components/charts/BarChart";
 
 import { getUniquePokemonByName } from "@/actions/getUniquePokemonByName";
+import { getAllPokemonAverageStats } from "@/actions/getAllPokemonAverageStats";
 
 
 export default function Dashboard({ pokemons }) {
@@ -15,9 +16,12 @@ export default function Dashboard({ pokemons }) {
 
   async function getPokemonData(pokemonName) {
     const pokemonData = await getUniquePokemonByName(pokemonName);
+    const avgData = await getAllPokemonAverageStats()
 
     setSelectedPokemon(pokemonData?.data?.name);
     setSelectedPokemonData(pokemonData.data);
+
+    console.log(avgData);
 
   } 
 

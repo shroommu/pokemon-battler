@@ -27,11 +27,8 @@ export default function BarChart ({ width, height, data, barFillColor }) {
   }, [data, width]);
 
   const allShapes = data.map((d, index) => {
-    console.log(d);
     const y = yScale(d.name);
-    console.log(y);
     if (y === undefined) {
-      console.log("i'm null!")
       return null;
     }
 
