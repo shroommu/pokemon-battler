@@ -5,25 +5,39 @@ import { useState } from "react";
 import PokemonList from "./pokemonList";
 import PokemonListDropdown from "./pokemonListDropdown";
 import BarChart from "@/components/charts/BarChart";
+import Button from "@/components/Button";
 
 import { getUniquePokemonByName } from "@/actions/getUniquePokemonByName";
 import { getAllPokemonAverageStats } from "@/actions/getAllPokemonAverageStats";
+import { getPokemonTypeAverageStats } from "@/actions/getPokemonTypeAverageStats";
 
 
 export default function Dashboard({ pokemons }) {
   const [selectedPokemon, setSelectedPokemon] = useState();
   const [selectedPokemonData, setSelectedPokemonData] = useState();
+  const [referenceLineData, setReferenceLineData] = useState();
+  const [showReferenceLine, setShowReferenceLine] = useState(false);
 
   async function getPokemonData(pokemonName) {
     const pokemonData = await getUniquePokemonByName(pokemonName);
-    const avgData = await getAllPokemonAverageStats()
 
     setSelectedPokemon(pokemonData?.data?.name);
     setSelectedPokemonData(pokemonData.data);
-
-    console.log(avgData);
-
   } 
+
+  async function getAllPokemonAverageStatData() {
+    const avgData = await getAllPokemonAverageStats();
+
+    setReferenceLineData(avgData.data);
+    setShowReferenceLine(true);
+  }
+
+  async function getPokemonTypeAverageStatData() {
+    const avgData = await getPokemonTypeAverageStats(selectedPokemonData?.primary_type.name);
+
+    setReferenceLineData(avgData.data);
+    setShowReferenceLine(true);
+  }
 
   return (
     <div data-testid="container" className="flex grow flex-row h-auto w-auto">
@@ -32,13 +46,13 @@ export default function Dashboard({ pokemons }) {
           className="hidden flex-col lg:mr-0 m-4 flex-none lg:flex"
           data-testid="pokemon-list-container"
         >
-          <PokemonList pokemons={pokemons} selectedPokemon={selectedPokemon} getPokemonData={getPokemonData} />
+          <PokemonList pokemons={pokemons} selectedPokemon={selectedPokemon} getPokemonData={getPokemonData} setShowReferenceLine={setShowReferenceLine} />
         </div>
         <div
           className="flex flex-col m-4 items-center lg:hidden"
           data-testid="pokemon-list-mobile-dropdown-container"
         >
-          <PokemonListDropdown pokemons={pokemons} getPokemonData={getPokemonData} />
+          <PokemonListDropdown pokemons={pokemons} getPokemonData={getPokemonData} setShowReferenceLine={setShowReferenceLine} />
         </div>
         <div
           className="flex flex-col m-4 md:w-full items-center"
@@ -51,16 +65,22 @@ export default function Dashboard({ pokemons }) {
             <BarChart
               data={
                 [
-                  {name: "HP", value: selectedPokemonData?.hp},
-                  {name: "Attack", value: selectedPokemonData?.attack},
-                  {name: "Defense", value: selectedPokemonData?.defense},
-                  {name: "Special", value: selectedPokemonData?.special},
-                  {name: "Speed", value: selectedPokemonData?.speed},
+                  {name: "HP", value: selectedPokemonData?.hp, referenceLine: referenceLineData?.hp},
+                  {name: "Attack", value: selectedPokemonData?.attack, referenceLine: referenceLineData?.attack},
+                  {name: "Defense", value: selectedPokemonData?.defense, referenceLine: referenceLineData?.defense},
+                  {name: "Special", value: selectedPokemonData?.special, referenceLine: referenceLineData?.special},
+                  {name: "Speed", value: selectedPokemonData?.speed, referenceLine: referenceLineData?.speed},
                 ]
               }
+              showReferenceLine={showReferenceLine}
               width={700}
               height={400}
-              barFillColor={selectedPokemonData?.primary_type.display_color}/>
+              barFillColor={selectedPokemonData?.primary_type.display_color}
+            />
+            <div className="flex flex-row">
+              <Button onClick={() => getAllPokemonAverageStatData()} type={"tertiary"} extraClasses={'mr-4'}>Compare To All</Button>
+              <Button onClick={() => getPokemonTypeAverageStatData()} type={"tertiary"}>Compare To All {selectedPokemonData?.primary_type?.name} Types</Button>
+            </div>
           </section>
         </div>
       </section>

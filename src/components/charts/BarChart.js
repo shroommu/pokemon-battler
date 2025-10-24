@@ -4,7 +4,7 @@ import { useMemo } from "react";
 const MARGIN = { top: 30, right: 30, bottom: 30, left: 30 };
 const BAR_PADDING = 0.3;
 
-export default function BarChart ({ width, height, data, barFillColor }) {
+export default function BarChart ({ width, height, data, showReferenceLine, barFillColor }) {
 
   const boundsWidth = width - MARGIN.right - MARGIN.left;
   const boundsHeight = height - MARGIN.top - MARGIN.bottom;
@@ -22,7 +22,7 @@ export default function BarChart ({ width, height, data, barFillColor }) {
     const [min, max] = d3.extent(data.map((d) => d.value));
     return d3
       .scaleLinear()
-      .domain([0, max || 10])
+      .domain([0, 100])
       .range([0, boundsWidth]);
   }, [data, width]);
 
@@ -61,13 +61,23 @@ export default function BarChart ({ width, height, data, barFillColor }) {
         >
           {d.name}
         </text>
+        {showReferenceLine &&
+          <rect
+            width={8}
+            height={yScale.bandwidth() + 8}
+            x={xScale(d.referenceLine) - 4}
+            y={yScale(d.name) - 4}
+            fill={'#888888ff'}
+            opacity={0.5}
+            rx={1}
+          />
+        }
       </g>
     );
   });
 
   const grid = xScale
     .ticks(5)
-    .slice(1)
     .map((value, i) => (
       <g key={i}>
         <line
