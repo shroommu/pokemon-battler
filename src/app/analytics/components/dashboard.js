@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import Plot from 'react-plotly.js';
+import CanvasJSReact from '@canvasjs/react-charts';
 
 import PokemonList from "./pokemonList";
 import PokemonListDropdown from "./pokemonListDropdown";
 import { getUniquePokemonByName } from "@/actions/getUniquePokemonByName";
+import BarChart from "@/components/charts/BarChart";
 
 export default function Dashboard({ pokemons }) {
   const [selectedPokemon, setSelectedPokemon] = useState();
@@ -42,19 +44,19 @@ export default function Dashboard({ pokemons }) {
             className="flex flex-col p-6 w-full bg-gray-200 rounded-md items-center h-screen"
             data-testid="pokedex-home-page"
           >
-            Selected Pokemon: {selectedPokemonData?.name}
-
-            <Plot
-              data={[
-                {type: 'bar', x: ['HP', 'Attack', 'Defense', 'Special', 'Speed'], y: [selectedPokemonData?.hp, selectedPokemonData?.attack, selectedPokemonData?.defense, selectedPokemonData?.special, selectedPokemonData?.speed]},
-              ]}
-              layout={ { 
-                  width: 320,
-                  height: 240,
-                  title: {text: `${selectedPokemonData?.name || ''} Stats`},
-                } }
-              config={ { displayModeBar: false } }
-            />
+            <BarChart
+              data={
+                [
+                  {name: "HP", value: selectedPokemonData?.hp},
+                  {name: "Attack", value: selectedPokemonData?.attack},
+                  {name: "Defense", value: selectedPokemonData?.defense},
+                  {name: "Special", value: selectedPokemonData?.special},
+                  {name: "Speed", value: selectedPokemonData?.speed},
+                ]
+              }
+              width={700}
+              height={400}
+              barFillColor={selectedPokemonData?.primary_type.display_color}/>
           </section>
         </div>
       </section>

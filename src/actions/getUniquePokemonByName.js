@@ -7,6 +7,9 @@ export async function getUniquePokemonByName( pokemonName ) {
     where: {
       name: pokemonName
     },
+    include: {
+      primary_type: true,
+    }
   })
 
   return { data };
