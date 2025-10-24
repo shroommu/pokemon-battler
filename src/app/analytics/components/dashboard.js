@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Plot from 'react-plotly.js';
 
 import PokemonList from "./pokemonList";
 import PokemonListDropdown from "./pokemonListDropdown";
@@ -14,7 +15,7 @@ export default function Dashboard({ pokemons }) {
     const pokemonData = await getUniquePokemonByName(pokemonName);
 
     setSelectedPokemon(pokemonData?.data?.name);
-    setSelectedPokemonData(pokemonData);
+    setSelectedPokemonData(pokemonData.data);
 
   } 
 
@@ -41,7 +42,19 @@ export default function Dashboard({ pokemons }) {
             className="flex flex-col p-6 w-full bg-gray-200 rounded-md items-center h-screen"
             data-testid="pokedex-home-page"
           >
-            Selected Pokemon: {selectedPokemonData?.data?.name}
+            Selected Pokemon: {selectedPokemonData?.name}
+
+            <Plot
+              data={[
+                {type: 'bar', x: ['HP', 'Attack', 'Defense', 'Special', 'Speed'], y: [selectedPokemonData?.hp, selectedPokemonData?.attack, selectedPokemonData?.defense, selectedPokemonData?.special, selectedPokemonData?.speed]},
+              ]}
+              layout={ { 
+                  width: 320,
+                  height: 240,
+                  title: {text: `${selectedPokemonData?.name || ''} Stats`},
+                } }
+              config={ { displayModeBar: false } }
+            />
           </section>
         </div>
       </section>
