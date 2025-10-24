@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import Plot from 'react-plotly.js';
-import CanvasJSReact from '@canvasjs/react-charts';
 
 import PokemonList from "./pokemonList";
 import PokemonListDropdown from "./pokemonListDropdown";
-import { getUniquePokemonByName } from "@/actions/getUniquePokemonByName";
 import BarChart from "@/components/charts/BarChart";
+
+import { getUniquePokemonByName } from "@/actions/getUniquePokemonByName";
+
 
 export default function Dashboard({ pokemons }) {
   const [selectedPokemon, setSelectedPokemon] = useState();
