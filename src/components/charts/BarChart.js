@@ -4,8 +4,13 @@ import { useMemo } from "react";
 const MARGIN = { top: 30, right: 30, bottom: 30, left: 30 };
 const BAR_PADDING = 0.3;
 
-export default function BarChart ({ width, height, data, showReferenceLine, barFillColor }) {
-
+export default function BarChart({
+  width,
+  height,
+  data,
+  showReferenceLine,
+  barFillColor,
+}) {
   const boundsWidth = width - MARGIN.right - MARGIN.left;
   const boundsHeight = height - MARGIN.top - MARGIN.bottom;
 
@@ -20,10 +25,7 @@ export default function BarChart ({ width, height, data, showReferenceLine, barF
 
   const xScale = useMemo(() => {
     const [min, max] = d3.extent(data.map((d) => d.value));
-    return d3
-      .scaleLinear()
-      .domain([0, 100])
-      .range([0, boundsWidth]);
+    return d3.scaleLinear().domain([0, 175]).range([0, boundsWidth]);
   }, [data, width]);
 
   const allShapes = data.map((d, index) => {
@@ -39,7 +41,7 @@ export default function BarChart ({ width, height, data, showReferenceLine, barF
           y={yScale(d.name)}
           width={xScale(d.value)}
           height={yScale.bandwidth()}
-          fill={barFillColor || '#ffffffff'}
+          fill={barFillColor || "#ffffffff"}
           rx={1}
         />
         <text
@@ -61,46 +63,44 @@ export default function BarChart ({ width, height, data, showReferenceLine, barF
         >
           {d.name}
         </text>
-        {showReferenceLine &&
+        {showReferenceLine && (
           <rect
             width={8}
             height={yScale.bandwidth() + 8}
             x={xScale(d.referenceLine) - 4}
             y={yScale(d.name) - 4}
-            fill={'#888888ff'}
+            fill={"#888888ff"}
             opacity={0.5}
             rx={1}
           />
-        }
+        )}
       </g>
     );
   });
 
-  const grid = xScale
-    .ticks(5)
-    .map((value, i) => (
-      <g key={i}>
-        <line
-          x1={xScale(value)}
-          x2={xScale(value)}
-          y1={0}
-          y2={boundsHeight}
-          stroke="#808080"
-          opacity={0.2}
-        />
-        <text
-          x={xScale(value)}
-          y={boundsHeight + 10}
-          textAnchor="middle"
-          alignmentBaseline="central"
-          fontSize={9}
-          stroke="#808080"
-          opacity={0.8}
-        >
-          {value}
-        </text>
-      </g>
-    ));
+  const grid = xScale.ticks(5).map((value, i) => (
+    <g key={i}>
+      <line
+        x1={xScale(value)}
+        x2={xScale(value)}
+        y1={0}
+        y2={boundsHeight}
+        stroke="#808080"
+        opacity={0.2}
+      />
+      <text
+        x={xScale(value)}
+        y={boundsHeight + 10}
+        textAnchor="middle"
+        alignmentBaseline="central"
+        fontSize={9}
+        stroke="#808080"
+        opacity={0.8}
+      >
+        {value}
+      </text>
+    </g>
+  ));
 
   return (
     <div>
@@ -116,4 +116,4 @@ export default function BarChart ({ width, height, data, showReferenceLine, barF
       </svg>
     </div>
   );
-};
+}
