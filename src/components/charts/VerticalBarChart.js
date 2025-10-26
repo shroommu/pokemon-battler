@@ -105,7 +105,6 @@ export default function VerticalBarChart({
         textAnchor="middle"
         alignmentBaseline="central"
         fontSize={9}
-        stroke="#808080"
         opacity={0.8}
       >
         {value}
