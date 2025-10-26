@@ -2,15 +2,16 @@
 
 import prisma from "@/lib/prisma";
 
-export async function getUniquePokemonByName ( pokemonName ) {
+export async function getUniquePokemonByName(pokemonName) {
   const data = await prisma.pokemon.findUnique({
     where: {
-      name: pokemonName
+      name: pokemonName,
     },
     include: {
       primary_type: true,
-    }
-  })
+      secondary_type: true,
+    },
+  });
 
   return { data };
 }

@@ -4,13 +4,13 @@ import { useState } from "react";
 
 import PokemonList from "./pokemonList";
 import PokemonListDropdown from "./pokemonListDropdown";
-import BarChart from "@/components/charts/BarChart";
+import HorizontalBarChart from "@/components/charts/HorizontalBarChart";
 import Button from "@/components/Button";
 
 import { getUniquePokemonByName } from "@/actions/getUniquePokemonByName";
 import { getAllPokemonAverageStats } from "@/actions/getAllPokemonAverageStats";
 import { getPokemonTypeAverageStats } from "@/actions/getPokemonTypeAverageStats";
-
+import VerticalBarChart from "@/components/charts/VerticalBarChart";
 
 export default function Dashboard({ pokemons }) {
   const [selectedPokemon, setSelectedPokemon] = useState();
@@ -23,7 +23,7 @@ export default function Dashboard({ pokemons }) {
 
     setSelectedPokemon(pokemonData?.data?.name);
     setSelectedPokemonData(pokemonData.data);
-  } 
+  }
 
   async function getAllPokemonAverageStatData() {
     const avgData = await getAllPokemonAverageStats();
@@ -32,8 +32,8 @@ export default function Dashboard({ pokemons }) {
     setShowReferenceLine(true);
   }
 
-  async function getPokemonTypeAverageStatData() {
-    const avgData = await getPokemonTypeAverageStats(selectedPokemonData?.primary_type.name);
+  async function getPokemonTypeAverageStatData(pokemonType) {
+    const avgData = await getPokemonTypeAverageStats(pokemonType);
 
     setReferenceLineData(avgData.data);
     setShowReferenceLine(true);
@@ -46,13 +46,22 @@ export default function Dashboard({ pokemons }) {
           className="hidden flex-col lg:mr-0 m-4 flex-none lg:flex"
           data-testid="pokemon-list-container"
         >
-          <PokemonList pokemons={pokemons} selectedPokemon={selectedPokemon} getPokemonData={getPokemonData} setShowReferenceLine={setShowReferenceLine} />
+          <PokemonList
+            pokemons={pokemons}
+            selectedPokemon={selectedPokemon}
+            getPokemonData={getPokemonData}
+            setShowReferenceLine={setShowReferenceLine}
+          />
         </div>
         <div
           className="flex flex-col m-4 items-center lg:hidden"
           data-testid="pokemon-list-mobile-dropdown-container"
         >
-          <PokemonListDropdown pokemons={pokemons} getPokemonData={getPokemonData} setShowReferenceLine={setShowReferenceLine} />
+          <PokemonListDropdown
+            pokemons={pokemons}
+            getPokemonData={getPokemonData}
+            setShowReferenceLine={setShowReferenceLine}
+          />
         </div>
         <div
           className="flex flex-col m-4 md:w-full items-center"
@@ -62,24 +71,109 @@ export default function Dashboard({ pokemons }) {
             className="flex flex-col p-6 w-full bg-gray-200 rounded-md items-center h-screen"
             data-testid="pokedex-home-page"
           >
-            <BarChart
-              data={
-                [
-                  {name: "HP", value: selectedPokemonData?.hp, referenceLine: referenceLineData?.hp},
-                  {name: "Attack", value: selectedPokemonData?.attack, referenceLine: referenceLineData?.attack},
-                  {name: "Defense", value: selectedPokemonData?.defense, referenceLine: referenceLineData?.defense},
-                  {name: "Special", value: selectedPokemonData?.special, referenceLine: referenceLineData?.special},
-                  {name: "Speed", value: selectedPokemonData?.speed, referenceLine: referenceLineData?.speed},
-                ]
-              }
-              showReferenceLine={showReferenceLine}
-              width={700}
-              height={400}
-              barFillColor={selectedPokemonData?.primary_type.display_color}
-            />
+            <div className="hidden lg:flex">
+              <HorizontalBarChart
+                data={[
+                  {
+                    name: "HP",
+                    value: selectedPokemonData?.hp || 0,
+                    referenceLine: referenceLineData?.hp,
+                  },
+                  {
+                    name: "Attack",
+                    value: selectedPokemonData?.attack || 0,
+                    referenceLine: referenceLineData?.attack,
+                  },
+                  {
+                    name: "Defense",
+                    value: selectedPokemonData?.defense || 0,
+                    referenceLine: referenceLineData?.defense,
+                  },
+                  {
+                    name: "Special",
+                    value: selectedPokemonData?.special || 0,
+                    referenceLine: referenceLineData?.special,
+                  },
+                  {
+                    name: "Speed",
+                    value: selectedPokemonData?.speed || 0,
+                    referenceLine: referenceLineData?.speed,
+                  },
+                ]}
+                showReferenceLine={showReferenceLine}
+                width={700}
+                height={400}
+                fixedDomainMax={175}
+                barFillColor={selectedPokemonData?.primary_type.display_color}
+              />
+            </div>
+            <div className="lg:hidden">
+              <VerticalBarChart
+                data={[
+                  {
+                    name: "HP",
+                    value: selectedPokemonData?.hp || 0,
+                    referenceLine: referenceLineData?.hp,
+                  },
+                  {
+                    name: "Attack",
+                    value: selectedPokemonData?.attack || 0,
+                    referenceLine: referenceLineData?.attack,
+                  },
+                  {
+                    name: "Defense",
+                    value: selectedPokemonData?.defense || 0,
+                    referenceLine: referenceLineData?.defense,
+                  },
+                  {
+                    name: "Special",
+                    value: selectedPokemonData?.special || 0,
+                    referenceLine: referenceLineData?.special,
+                  },
+                  {
+                    name: "Speed",
+                    value: selectedPokemonData?.speed || 0,
+                    referenceLine: referenceLineData?.speed,
+                  },
+                ]}
+                showReferenceLine={showReferenceLine}
+                width={300}
+                height={400}
+                barFillColor={selectedPokemonData?.primary_type.display_color}
+              />
+            </div>
             <div className="flex flex-row">
-              <Button onClick={() => getAllPokemonAverageStatData()} type={"tertiary"} extraClasses={'mr-4'}>Compare To All</Button>
-              <Button onClick={() => getPokemonTypeAverageStatData()} type={"tertiary"}>Compare To All {selectedPokemonData?.primary_type?.name} Types</Button>
+              <Button
+                onClick={() => getAllPokemonAverageStatData()}
+                type={"tertiary"}
+                extraClasses={"mr-4"}
+              >
+                Compare To All
+              </Button>
+              <Button
+                onClick={() =>
+                  getPokemonTypeAverageStatData(
+                    selectedPokemonData?.primary_type?.name
+                  )
+                }
+                type={"tertiary"}
+                extraClasses={"mr-4"}
+              >
+                Compare To All {selectedPokemonData?.primary_type?.name} Types
+              </Button>
+              {selectedPokemonData?.secondary_type?.name && (
+                <Button
+                  onClick={() =>
+                    getPokemonTypeAverageStatData(
+                      selectedPokemonData?.secondary_type?.name
+                    )
+                  }
+                  type={"tertiary"}
+                >
+                  Compare To All {selectedPokemonData?.secondary_type?.name}{" "}
+                  Types
+                </Button>
+              )}
             </div>
           </section>
         </div>
