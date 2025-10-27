@@ -61,10 +61,10 @@ export default function Dashboard({ pokemons }) {
   };
 
   return (
-    <div data-testid="container" className="flex grow flex-row h-auto w-auto">
-      <section className="flex flex-col lg:flex-row w-full">
+    <div data-testid="container" className="flex flex-row h-auto w-auto items-center">
+      <section className="flex flex-col lg:flex-row items-center">
         <div
-          className="hidden flex-col lg:mr-0 m-4 flex-none lg:flex"
+          className="hidden flex-col lg:mr-0 m-4 flex-none lg:flex h-full"
           data-testid="pokemon-list-container"
         >
           <PokemonList
@@ -89,14 +89,14 @@ export default function Dashboard({ pokemons }) {
           data-testid="pokedex-dashboard-container"
         >
           <section
-            className="flex flex-col p-6 w-full bg-gray-200 rounded-md items-center h-screen"
+            className="flex flex-col p-6 w-full bg-gray-200 rounded-md items-center"
             data-testid="pokemon-analytics-dashboard"
           >
             {!selectedPokemonData ? (
               "Select a Pokemon from the list"
             ) : (
               <section className="flex flex-col xl:flex-1 items-center">
-                <h1 className="text-2xl md:text-4xl" data-testid="pokemon-name">
+                <h1 className="text-3xl md:text-4xl" data-testid="pokemon-name">
                   {`#${String(selectedPokemonData?.pokedex_number).padStart(
                     3,
                     "0"
@@ -104,10 +104,10 @@ export default function Dashboard({ pokemons }) {
                 </h1>
                 <Image
                   src={selectedPokemonData.sprite_front_filepath.toLowerCase()}
-                  width={16}
-                  height={16}
+                  width={32}
+                  height={32}
                   style={{ width: "100%", height: "100%" }}
-                  className="max-w-16 max-h-16 w-16 h-16 md:max-w-32 md:max-h-32 mt-4 border-gray-600 border-4 rounded-md bg-white p-1 [image-rendering:pixelated]"
+                  className="max-w-32 max-h-32 w-32 h-32 md:max-w-64 md:max-h-64 mt-4 border-gray-600 border-4 rounded-md bg-white p-1 [image-rendering:pixelated]"
                   priority
                   unoptimized
                   alt={`${selectedPokemonData.name} front sprite`}
@@ -117,7 +117,7 @@ export default function Dashboard({ pokemons }) {
                   {renderTypes()}
                 </div>
                 <h2
-                  className="text-1xl md:text-3xl"
+                  className="text-2xl md:text-3xl mt-4"
                   data-testid="stats-chart-title"
                 >
                   Stats

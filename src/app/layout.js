@@ -14,7 +14,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="h-full">
-        <header className="flex flex-row bg-red-700 pr-4 items-center justify-center">
+        <header className="flex flex-row bg-red-700 items-center justify-center">
           {/* <Link href={locations.INDEX}> */}
           <div className="flex flex-col px-8 py-3 pb-8 mr-4 bg-red-700 items-center">
             <Image
@@ -33,7 +33,7 @@ export default function RootLayout({ children }) {
           {/* </Link> */}
           {/* <Nav /> */}
         </header>
-        <section className="flex flex-row grow bg-gray-600">{children}</section>
+        <section className="flex flex-row items-center justify-center bg-gray-600">{children}</section>
       </body>
     </html>
   );
