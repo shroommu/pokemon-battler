@@ -1,9 +1,12 @@
-export const useDimensions = (targetRef) => {
+import { useState, useEffect, useLayoutEffect } from "react";
 
+export const useDimensions = (targetRef) => {
   const getDimensions = () => {
+    console.log("getting dimensions");
+    console.log(targetRef);
     return {
       width: targetRef.current ? targetRef.current.offsetWidth : 0,
-      height: targetRef.current ? targetRef.current.offsetHeight : 0
+      height: targetRef.current ? targetRef.current.offsetHeight : 0,
     };
   };
 
@@ -23,4 +26,4 @@ export const useDimensions = (targetRef) => {
   }, []);
 
   return dimensions;
-}
+};

@@ -11,6 +11,7 @@ export default function HorizontalBarChart({
   showReferenceLine,
   barFillColor,
   fixedDomainMax,
+  innerRef,
 }) {
   const boundsWidth = width - MARGIN.right - MARGIN.left;
   const boundsHeight = height - MARGIN.top - MARGIN.bottom;
@@ -112,8 +113,11 @@ export default function HorizontalBarChart({
     </g>
   ));
 
+  console.log('width', width);
+  console.log('height', height);
+
   return (
-    <div>
+    <div className="h-full w-full" ref={innerRef}>
       <svg width={width} height={height}>
         <g
           width={boundsWidth}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 
 import HorizontalBarChart from "@/components/charts/HorizontalBarChart";
@@ -14,6 +14,7 @@ import PokemonListDropdown from "./pokemonListDropdown";
 import { getUniquePokemonByName } from "@/actions/getUniquePokemonByName";
 import { getAllPokemonAverageStats } from "@/actions/getAllPokemonAverageStats";
 import { getPokemonTypeAverageStats } from "@/actions/getPokemonTypeAverageStats";
+import { useDimensions } from "@/hooks/useDimensions";
 
 export default function Dashboard({ pokemons }) {
   const [selectedPokemon, setSelectedPokemon] = useState();
@@ -26,6 +27,7 @@ export default function Dashboard({ pokemons }) {
 
     setSelectedPokemon(pokemonData?.data?.name);
     setSelectedPokemonData(pokemonData.data);
+    console.log(chartDimensions);
   }
 
   async function getAllPokemonAverageStatData() {
@@ -41,6 +43,9 @@ export default function Dashboard({ pokemons }) {
     setReferenceLineData(avgData.data);
     setShowReferenceLine(true);
   }
+
+  const chart = useRef();
+  const chartDimensions = useDimensions(chart);
 
   const renderTypes = () => {
     return selectedPokemonData.secondary_type ? (
@@ -98,7 +103,7 @@ export default function Dashboard({ pokemons }) {
             {!selectedPokemonData ? (
               "Select a Pokemon from the list"
             ) : (
-              <section className="flex flex-col xl:flex-1 items-center">
+              <section className="flex flex-col xl:flex-1 h-full w-full items-center">
                 <h1 className="text-3xl md:text-4xl" data-testid="pokemon-name">
                   {`#${String(selectedPokemonData?.pokedex_number).padStart(
                     3,
@@ -125,7 +130,7 @@ export default function Dashboard({ pokemons }) {
                 >
                   Stats
                 </h2>
-                <div className="hidden lg:flex">
+                <div className="hidden lg:flex h-full w-full">
                   <HorizontalBarChart
                     data={[
                       {
@@ -155,12 +160,13 @@ export default function Dashboard({ pokemons }) {
                       },
                     ]}
                     showReferenceLine={showReferenceLine}
-                    width={700}
-                    height={400}
+                    width={chartDimensions.width}
+                    height={chartDimensions.height}
                     fixedDomainMax={175}
                     barFillColor={
                       selectedPokemonData?.primary_type.display_color
                     }
+                    innerRef={chart}
                   />
                 </div>
                 <div className="lg:hidden">
