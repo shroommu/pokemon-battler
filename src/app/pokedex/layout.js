@@ -27,10 +27,13 @@ export default async function PokedexLayout({ children }) {
   });
 
   return (
-    <div data-testid="container" className="flex flex-row h-auto w-100 m-4 items-center">
-      <section className="flex flex-col lg:flex-row items-center">
+    <div
+      data-testid="container"
+      className="flex flex-row h-auto w-full items-center"
+    >
+      <section className="flex flex-col lg:flex-row h-full w-full">
         <div
-          className="hidden flex-col lg:mr-0 m-4 flex-none lg:flex h-full"
+          className="hidden flex-col lg:mr-0 m-4 flex-none lg:flex h-auto"
           data-testid="pokemon-list-container"
         >
           <PokemonList pokemons={pokemons} />
@@ -42,7 +45,7 @@ export default async function PokedexLayout({ children }) {
           <PokemonListDropdown pokemons={pokemons} />
         </div>
         <div
-          className="flex flex-col m-4 w-full items-center"
+          className="flex flex-col m-4 h-auto w-full"
           data-testid="pokedex-entry-container"
         >
           {children}
