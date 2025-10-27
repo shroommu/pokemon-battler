@@ -21,15 +21,9 @@ export default function PokemonList({
   pokemons,
   selectedPokemon,
   getPokemonData,
-  setShowReferenceLine,
 }) {
   const [nameFilter, setNameFilter] = useState("");
   const [sort, setSort] = useState(SORTING_METHODS.numerical);
-
-  function onClickHandler(pokemonName) {
-    getPokemonData(pokemonName);
-    setShowReferenceLine(false);
-  }
 
   return (
     <div
@@ -92,7 +86,7 @@ export default function PokemonList({
                 className={pokemonListButtonStyle({
                   state: pokemon.name == selectedPokemon && "selected",
                 })}
-                onClick={() => onClickHandler(pokemon.name)}
+                onClick={() => getPokemonData(pokemon.name)}
               >
                 <button className="flex flex-row items-center w-full group-hover:[&>img]:animate-party_bounce">
                   <div className="mr-2">{`#${String(
