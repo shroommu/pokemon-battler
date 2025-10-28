@@ -67,7 +67,7 @@ export default function HorizontalBarChart({
             : setInteractionData({
                 xPos: MARGIN.left + xScale(d.value),
                 yPos: y + yScale.bandwidth() / 2 + BAR_PADDING * 100,
-                text: <div>{d.name}</div>,
+                children: <div>{d.name}</div>,
               })
         }
       >
