@@ -1,4 +1,20 @@
-export default function Tooltip({ interactionData }) {
+import { tv } from "tailwind-variants";
+
+const tooltipArrowClass = tv({
+  base: "absolute h-0 w-0",
+  variants: {
+    position: {
+      top: "left-1/2 -translate-x-1/2 top-full border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-white",
+      bottom:
+        "left-1/2 -translate-x-1/2 bottom-full border-l-4 border-r-4 border-b-4 border-l-transparent border-r-transparent border-b-white",
+      left: "top-1/2 -translate-y-1/2 left-full border-t-4 border-b-4 border-l-4 border-t-transparent border-b-transparent border-l-white",
+      right:
+        "top-1/2 -translate-y-1/2 right-full border-t-4 border-b-4 border-r-4 border-t-transparent border-b-transparent border-r-white",
+    },
+  },
+});
+
+export default function Tooltip({ interactionData, position }) {
   if (!interactionData) {
     return null;
   }
@@ -20,7 +36,9 @@ export default function Tooltip({ interactionData }) {
       >
         {children}
         <div
-          class="absolute top-1/2 -translate-y-1/2 right-full  h-0 w-0 border-t-4 border-b-4 border-r-4 border-t-transparent border-b-transparent border-r-white"
+          className={tooltipArrowClass({
+            position: position,
+          })}
           data-testid="tooltip-arrow"
         />
       </div>
