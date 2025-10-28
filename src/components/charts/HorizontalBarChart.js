@@ -55,12 +55,21 @@ export default function HorizontalBarChart({
         key={index}
         onMouseEnter={() =>
           setInteractionData({
-            xPos: 0,
-            yPos: y + yScale.bandwidth(),
-            text: d.name,
+            xPos: MARGIN.left + xScale(d.value),
+            yPos: y + yScale.bandwidth() / 2 + BAR_PADDING * 100,
+            children: <div>{d.name}</div>,
           })
         }
         onMouseLeave={() => setInteractionData(null)}
+        onClick={() =>
+          interactionData
+            ? setInteractionData(null)
+            : setInteractionData({
+                xPos: MARGIN.left + xScale(d.value),
+                yPos: y + yScale.bandwidth() / 2 + BAR_PADDING * 100,
+                text: <div>{d.name}</div>,
+              })
+        }
       >
         <rect
           x={xScale(0)}
@@ -76,7 +85,7 @@ export default function HorizontalBarChart({
           textAnchor="end"
           alignmentBaseline="central"
           fontSize={12}
-          opacity={xScale(d.value) > 90 ? 1 : 0} // hide label if bar is not wide enough
+          opacity={xScale(d.value) > domainMaxWithReferenceLine / 3 ? 1 : 0} // hide label if bar is not wide enough
         >
           {d.value}
         </text>
@@ -146,7 +155,6 @@ export default function HorizontalBarChart({
       <div
         style={{
           position: "absolute",
-          alignmentBaseline: "central",
           width,
           height,
           top: 0,
