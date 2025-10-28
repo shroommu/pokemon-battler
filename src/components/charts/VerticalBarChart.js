@@ -11,6 +11,7 @@ export default function VerticalBarChart({
   showReferenceLine,
   barFillColor,
   fixedDomainMax,
+  innerRef,
 }) {
   const boundsWidth = width - MARGIN.right - MARGIN.left;
   const boundsHeight = height - MARGIN.top - MARGIN.bottom;
@@ -113,7 +114,7 @@ export default function VerticalBarChart({
   ));
 
   return (
-    <div>
+    <div className="h-full w-full" ref={innerRef}>
       <svg width={width} height={height}>
         <g
           width={boundsWidth}

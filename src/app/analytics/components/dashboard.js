@@ -49,7 +49,7 @@ export default function Dashboard({ pokemons }) {
           />
         </div>
         <div
-          className="flex flex-col m-4 h-auto w-full items-center"
+          className="flex flex-col m-4 h-auto w-auto"
           data-testid="pokemon-analytics-dashboard-container"
         >
           {selectedPokemonData ? (

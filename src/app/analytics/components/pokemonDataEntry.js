@@ -54,8 +54,10 @@ export default function PokemonDataEntry({ pokemonData }) {
     );
   };
 
-  const chart = useRef();
-  const chartDimensions = useDimensions(chart);
+  const horizontalStatsChartRef = useRef();
+  const horizontalStatsChartDimensions = useDimensions(horizontalStatsChartRef);
+  const verticalStatsChartRef = useRef();
+  const verticalStatsChartDimensions = useDimensions(verticalStatsChartRef);
 
   return (
     <section
@@ -64,23 +66,23 @@ export default function PokemonDataEntry({ pokemonData }) {
     >
       <section className="flex flex-col xl:flex-1 h-full w-full items-center">
         <h1 className="text-3xl md:text-4xl" data-testid="pokemon-name">
-          {`#${String(pokemonData?.pokedex_number).padStart(3, "0")} ${
-            pokemonData?.name
+          {`#${String(pokemonData.pokedex_number).padStart(3, "0")} ${
+            pokemonData.name
           }`}
         </h1>
         <Image
-          src={pokemonData?.sprite_front_filepath.toLowerCase()}
+          src={pokemonData.sprite_front_filepath.toLowerCase()}
           width={32}
           height={32}
           style={{ width: "100%", height: "100%" }}
           className="max-w-32 max-h-32 w-32 h-32 md:max-w-64 md:max-h-64 mt-4 border-gray-600 border-4 rounded-md bg-white p-1 [image-rendering:pixelated]"
           priority
           unoptimized
-          alt={`${pokemonData?.name} front sprite`}
+          alt={`${pokemonData.name} front sprite`}
           data-testid="pokemon-image"
         />
         <div className="mt-2" data-testid="pokemon-type">
-          {pokemonData && renderTypes()}
+          {renderTypes()}
         </div>
         <h2
           className="text-2xl md:text-3xl mt-4"
@@ -93,71 +95,72 @@ export default function PokemonDataEntry({ pokemonData }) {
             data={[
               {
                 name: "HP",
-                value: pokemonData?.hp || 0,
+                value: pokemonData.hp || 0,
                 referenceLine: referenceLineData?.hp,
               },
               {
                 name: "Attack",
-                value: pokemonData?.attack || 0,
+                value: pokemonData.attack || 0,
                 referenceLine: referenceLineData?.attack,
               },
               {
                 name: "Defense",
-                value: pokemonData?.defense || 0,
+                value: pokemonData.defense || 0,
                 referenceLine: referenceLineData?.defense,
               },
               {
                 name: "Special",
-                value: pokemonData?.special || 0,
+                value: pokemonData.special || 0,
                 referenceLine: referenceLineData?.special,
               },
               {
                 name: "Speed",
-                value: pokemonData?.speed || 0,
+                value: pokemonData.speed || 0,
                 referenceLine: referenceLineData?.speed,
               },
             ]}
             showReferenceLine={showReferenceLine}
-            width={chartDimensions.width}
-            height={chartDimensions.height}
+            width={horizontalStatsChartDimensions.width}
+            height={horizontalStatsChartDimensions.height}
             fixedDomainMax={175}
-            barFillColor={pokemonData?.primary_type.display_color}
-            innerRef={chart}
+            barFillColor={pokemonData.primary_type.display_color}
+            innerRef={horizontalStatsChartRef}
           />
         </div>
-        <div className="lg:hidden">
+        <div className="visible h-full w-full">
           <VerticalBarChart
             data={[
               {
                 name: "HP",
-                value: pokemonData?.hp || 0,
+                value: pokemonData.hp || 0,
                 referenceLine: referenceLineData?.hp,
               },
               {
                 name: "Attack",
-                value: pokemonData?.attack || 0,
+                value: pokemonData.attack || 0,
                 referenceLine: referenceLineData?.attack,
               },
               {
                 name: "Defense",
-                value: pokemonData?.defense || 0,
+                value: pokemonData.defense || 0,
                 referenceLine: referenceLineData?.defense,
               },
               {
                 name: "Special",
-                value: pokemonData?.special || 0,
+                value: pokemonData.special || 0,
                 referenceLine: referenceLineData?.special,
               },
               {
                 name: "Speed",
-                value: pokemonData?.speed || 0,
+                value: pokemonData.speed || 0,
                 referenceLine: referenceLineData?.speed,
               },
             ]}
             showReferenceLine={showReferenceLine}
-            width={300}
-            height={400}
-            barFillColor={pokemonData?.primary_type.display_color}
+            width={verticalStatsChartDimensions.width}
+            height={verticalStatsChartDimensions.height}
+            barFillColor={pokemonData.primary_type.display_color}
+            innerRef={verticalStatsChartRef}
           />
         </div>
         <div className="flex flex-row">
@@ -170,21 +173,21 @@ export default function PokemonDataEntry({ pokemonData }) {
           </Button>
           <Button
             onClick={() =>
-              getPokemonTypeAverageStatData(pokemonData?.primary_type?.name)
+              getPokemonTypeAverageStatData(pokemonData.primary_type?.name)
             }
             type={"tertiary"}
             extraClasses={"mr-4"}
           >
-            Compare To All {pokemonData?.primary_type?.name} Types
+            Compare To All {pokemonData.primary_type.name} Types
           </Button>
-          {pokemonData?.secondary_type?.name && (
+          {pokemonData.secondary_type && (
             <Button
               onClick={() =>
-                getPokemonTypeAverageStatData(pokemonData?.secondary_type?.name)
+                getPokemonTypeAverageStatData(pokemonData.secondary_type.name)
               }
               type={"tertiary"}
             >
-              Compare To All {pokemonData?.secondary_type?.name} Types
+              Compare To All {pokemonData.secondary_type.name} Types
             </Button>
           )}
         </div>

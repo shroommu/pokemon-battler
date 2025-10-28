@@ -113,9 +113,6 @@ export default function HorizontalBarChart({
     </g>
   ));
 
-  console.log('width', width);
-  console.log('height', height);
-
   return (
     <div className="h-full w-full" ref={innerRef}>
       <svg width={width} height={height}>
