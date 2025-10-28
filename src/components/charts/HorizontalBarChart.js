@@ -1,5 +1,7 @@
 import * as d3 from "d3";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+
+import Tooltip from "./components/Tooltip";
 
 const MARGIN = { top: 30, right: 30, bottom: 30, left: 30 };
 const BAR_PADDING = 0.3;
@@ -13,6 +15,8 @@ export default function HorizontalBarChart({
   fixedDomainMax,
   innerRef,
 }) {
+  const [interactionData, setInteractionData] = useState(null);
+
   const boundsWidth = width - MARGIN.right - MARGIN.left;
   const boundsHeight = height - MARGIN.top - MARGIN.bottom;
 
@@ -47,10 +51,20 @@ export default function HorizontalBarChart({
     }
 
     return (
-      <g key={index}>
+      <g
+        key={index}
+        onMouseEnter={() =>
+          setInteractionData({
+            xPos: 0,
+            yPos: y + yScale.bandwidth(),
+            text: d.name,
+          })
+        }
+        onMouseLeave={() => setInteractionData(null)}
+      >
         <rect
           x={xScale(0)}
-          y={yScale(d.name)}
+          y={y}
           width={xScale(d.value)}
           height={yScale.bandwidth()}
           fill={barFillColor || "#ffffffff"}
@@ -114,7 +128,11 @@ export default function HorizontalBarChart({
   ));
 
   return (
-    <div className="h-full w-full" ref={innerRef}>
+    <div
+      className="h-full w-full relative"
+      ref={innerRef}
+      data-testid="horizontal-bar-chart-container"
+    >
       <svg width={width} height={height}>
         <g
           width={boundsWidth}
@@ -125,6 +143,20 @@ export default function HorizontalBarChart({
           {allShapes}
         </g>
       </svg>
+      <div
+        style={{
+          position: "absolute",
+          alignmentBaseline: "central",
+          width,
+          height,
+          top: 0,
+          left: 0,
+          pointerEvents: "none",
+        }}
+        data-testid="tooltip-layer"
+      >
+        <Tooltip interactionData={interactionData} />
+      </div>
     </div>
   );
 }
