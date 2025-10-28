@@ -14,6 +14,7 @@ export default function HorizontalBarChart({
   barFillColor,
   fixedDomainMax,
   innerRef,
+  tooltipChildren,
 }) {
   const [interactionData, setInteractionData] = useState(null);
 
@@ -51,26 +52,7 @@ export default function HorizontalBarChart({
     }
 
     return (
-      <g
-        key={index}
-        onMouseEnter={() =>
-          setInteractionData({
-            xPos: MARGIN.left + xScale(d.value),
-            yPos: y + yScale.bandwidth() / 2 + BAR_PADDING * 100,
-            children: <div>{d.name}</div>,
-          })
-        }
-        onMouseLeave={() => setInteractionData(null)}
-        onClick={() =>
-          interactionData
-            ? setInteractionData(null)
-            : setInteractionData({
-                xPos: MARGIN.left + xScale(d.value),
-                yPos: y + yScale.bandwidth() / 2 + BAR_PADDING * 100,
-                children: <div>{d.name}</div>,
-              })
-        }
-      >
+      <g key={index}>
         <rect
           x={xScale(0)}
           y={y}
@@ -78,6 +60,23 @@ export default function HorizontalBarChart({
           height={yScale.bandwidth()}
           fill={barFillColor || "#ffffffff"}
           rx={1}
+          onMouseEnter={() =>
+            setInteractionData({
+              xPos: MARGIN.left + xScale(d.value),
+              yPos: y + yScale.bandwidth() / 2 + BAR_PADDING * 100,
+              children: tooltipChildren,
+            })
+          }
+          onMouseLeave={() => setInteractionData(null)}
+          onClick={() =>
+            interactionData
+              ? setInteractionData(null)
+              : setInteractionData({
+                  xPos: MARGIN.left + xScale(d.value),
+                  yPos: y + yScale.bandwidth() / 2 + BAR_PADDING * 100,
+                  children: tooltipChildren,
+                })
+          }
         />
         <text
           x={xScale(d.value) - 7}
@@ -86,6 +85,7 @@ export default function HorizontalBarChart({
           alignmentBaseline="central"
           fontSize={12}
           opacity={xScale(d.value) > domainMaxWithReferenceLine / 3 ? 1 : 0} // hide label if bar is not wide enough
+          pointerEvents={"none"}
         >
           {d.value}
         </text>
@@ -95,6 +95,7 @@ export default function HorizontalBarChart({
           textAnchor="start"
           alignmentBaseline="central"
           fontSize={12}
+          pointerEvents={"none"}
         >
           {d.name}
         </text>
@@ -107,6 +108,23 @@ export default function HorizontalBarChart({
             fill={"#888888ff"}
             opacity={0.75}
             rx={1}
+            onMouseEnter={() =>
+              setInteractionData({
+                xPos: MARGIN.left + xScale(d.referenceLine) + 4,
+                yPos: y + yScale.bandwidth() / 2 + BAR_PADDING * 100,
+                children: tooltipChildren,
+              })
+            }
+            onMouseLeave={() => setInteractionData(null)}
+            onClick={() =>
+              interactionData
+                ? setInteractionData(null)
+                : setInteractionData({
+                    xPos: MARGIN.left + xScale(d.referenceLine) + 4,
+                    yPos: y + yScale.bandwidth() / 2 + BAR_PADDING * 100,
+                    children: tooltipChildren,
+                  })
+            }
           />
         )}
       </g>
