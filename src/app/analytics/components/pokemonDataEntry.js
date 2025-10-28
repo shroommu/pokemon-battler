@@ -13,6 +13,7 @@ import { useDimensions } from "@/hooks/useDimensions";
 
 import { getAllPokemonAverageStats } from "@/actions/getAllPokemonAverageStats";
 import { getPokemonTypeAverageStats } from "@/actions/getPokemonTypeAverageStats";
+import TypeTable from "@/components/TypeTable";
 
 export default function PokemonDataEntry({ pokemonData }) {
   const [referenceLineData, setReferenceLineData] = useState();
@@ -128,6 +129,7 @@ export default function PokemonDataEntry({ pokemonData }) {
         <div className="mt-2" data-testid="pokemon-type">
           {renderTypes()}
         </div>
+        <TypeTable />
       </section>
       <section
         className="flex flex-col h-full w-full items-center"

@@ -1,0 +1,92 @@
+[
+  {
+    "name": "Bug",
+    "weaknesses": ["Fire", "Flying", "Poison", "Rock"],
+    "strengths": ["Grass", "Psychic"],
+    "immunes": []
+  },
+  {
+    "name": "Dragon",
+    "weaknesses": ["Ice", "Dragon"],
+    "strengths": ["Dragon"],
+    "immunes": []
+  },
+  {
+    "name": "Electric",
+    "weaknesses": ["Ground"],
+    "strengths": ["Flying", "Water"],
+    "immunes": []
+  },
+  {
+    "name": "Fighting",
+    "weaknesses": ["Flying", "Psychic"],
+    "strengths": ["Ice", "Normal", "Rock"],
+    "immunes": []
+  },
+  {
+    "name": "Fire",
+    "weaknesses": ["Ground", "Rock", "Water"],
+    "strengths": ["Bug", "Grass", "Ice"],
+    "immunes": []
+  },
+  {
+    "name": "Flying",
+    "weaknesses": ["Electric", "Ice", "Rock"],
+    "strengths": ["Bug", "Fighting", "Grass"],
+    "immunes": ["Ground"]
+  },
+  {
+    "name": "Ghost",
+    "weaknesses": ["Ghost"],
+    "strengths": ["Ghost"],
+    "immunes": ["Normal", "Fighting"]
+  },
+  {
+    "name": "Grass",
+    "weaknesses": ["Bug", "Fire", "Flying", "Ice", "Poison"],
+    "strengths": ["Ground", "Rock", "Water"],
+    "immunes": []
+  },
+  {
+    "name": "Ground",
+    "weaknesses": ["Grass", "Ice", "Water"],
+    "strengths": ["Electric", "Fire", "Poison", "Rock"],
+    "immunes": ["Electric"]
+  },
+  {
+    "name": "Ice",
+    "weaknesses": ["Fighting", "Fire", "Rock"],
+    "strengths": ["Flying", "Ground", "Grass", "Dragon"],
+    "immunes": []
+  },
+  {
+    "name": "Normal",
+    "weaknesses": ["Fire", "Flying", "Poison", "Rock"],
+    "strengths": ["Grass", "Psychic"],
+    "immunes": []
+  },
+  {
+    "name": "Poison",
+    "weaknesses": ["Fire", "Flying", "Poison", "Rock"],
+    "strengths": ["Grass", "Psychic"],
+    "immunes": []
+  },
+  {
+    "name": "Psychic",
+    "weaknesses": ["Fire", "Flying", "Poison", "Rock"],
+    "strengths": ["Grass", "Psychic"],
+    "immunes": []
+  },
+  {
+    "name": "Rock",
+    "weaknesses": ["Fire", "Flying", "Poison", "Rock"],
+    "strengths": ["Grass", "Psychic"],
+    "immunes": []
+  },
+  {
+    "name": "Water",
+    "weaknesses": ["Fire", "Flying", "Poison", "Rock"],
+    "strengths": ["Grass", "Psychic"],
+    "immunes": []
+  }
+]
