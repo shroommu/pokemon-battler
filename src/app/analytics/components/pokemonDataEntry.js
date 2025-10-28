@@ -62,6 +62,44 @@ export default function PokemonDataEntry({ pokemonData }) {
   const verticalStatsChartRef = useRef();
   const verticalStatsChartDimensions = useDimensions(verticalStatsChartRef);
 
+  const statsChartData = [
+    {
+      name: "HP",
+      value: pokemonData.hp || 0,
+      tooltipText: `Max HP of ${pokemonData.name}: `,
+      referenceLineTooltipText: `Average HP of ${referenceLineType} Pokemon: `,
+      referenceLine: referenceLineData?.hp,
+    },
+    {
+      name: "Attack",
+      value: pokemonData.attack || 0,
+      tooltipText: `Max Attack of ${pokemonData.name}: `,
+      referenceLineTooltipText: `Average Attack of ${referenceLineType} Pokemon: `,
+      referenceLine: referenceLineData?.attack,
+    },
+    {
+      name: "Defense",
+      value: pokemonData.defense || 0,
+      tooltipText: `Max Defense of ${pokemonData.name}: `,
+      referenceLineTooltipText: `Average Defense of ${referenceLineType} Pokemon: `,
+      referenceLine: referenceLineData?.defense,
+    },
+    {
+      name: "Special",
+      value: pokemonData.special || 0,
+      tooltipText: `Max Special of ${pokemonData.name}: `,
+      referenceLineTooltipText: `Average Special of ${referenceLineType} Pokemon: `,
+      referenceLine: referenceLineData?.special,
+    },
+    {
+      name: "Speed",
+      value: pokemonData.speed || 0,
+      tooltipText: `Max Speed of ${pokemonData.name}: `,
+      referenceLineTooltipText: `Average Speed of ${referenceLineType} Pokemon: `,
+      referenceLine: referenceLineData?.speed,
+    },
+  ];
+
   return (
     <section
       className="flex flex-col md:flex-row p-6 h-full w-full bg-gray-200 rounded-md"
@@ -106,43 +144,7 @@ export default function PokemonDataEntry({ pokemonData }) {
           data-testid="horizontal-stats-bar-chart-container"
         >
           <HorizontalBarChart
-            data={[
-              {
-                name: "HP",
-                value: pokemonData.hp || 0,
-                tooltipText: `Max HP of ${pokemonData.name}: `,
-                referenceLineTooltipText: `Average HP of ${referenceLineType} Pokemon: `,
-                referenceLine: referenceLineData?.hp,
-              },
-              {
-                name: "Attack",
-                value: pokemonData.attack || 0,
-                tooltipText: `Max Attack of ${pokemonData.name}: `,
-                referenceLineTooltipText: `Average Attack of ${referenceLineType} Pokemon: `,
-                referenceLine: referenceLineData?.attack,
-              },
-              {
-                name: "Defense",
-                value: pokemonData.defense || 0,
-                tooltipText: `Max Defense of ${pokemonData.name}: `,
-                referenceLineTooltipText: `Average Defense of ${referenceLineType} Pokemon: `,
-                referenceLine: referenceLineData?.defense,
-              },
-              {
-                name: "Special",
-                value: pokemonData.special || 0,
-                tooltipText: `Max Special of ${pokemonData.name}: `,
-                referenceLineTooltipText: `Average Special of ${referenceLineType} Pokemon: `,
-                referenceLine: referenceLineData?.special,
-              },
-              {
-                name: "Speed",
-                value: pokemonData.speed || 0,
-                tooltipText: `Max Speed of ${pokemonData.name}: `,
-                referenceLineTooltipText: `Average Speed of ${referenceLineType} Pokemon: `,
-                referenceLine: referenceLineData?.speed,
-              },
-            ]}
+            data={statsChartData}
             showReferenceLine={showReferenceLine}
             width={horizontalStatsChartDimensions.width}
             height={horizontalStatsChartDimensions.height}
@@ -156,33 +158,7 @@ export default function PokemonDataEntry({ pokemonData }) {
           data-testid="vertical-stats-bar-chart-container"
         >
           <VerticalBarChart
-            data={[
-              {
-                name: "HP",
-                value: pokemonData.hp || 0,
-                referenceLine: referenceLineData?.hp,
-              },
-              {
-                name: "Attack",
-                value: pokemonData.attack || 0,
-                referenceLine: referenceLineData?.attack,
-              },
-              {
-                name: "Defense",
-                value: pokemonData.defense || 0,
-                referenceLine: referenceLineData?.defense,
-              },
-              {
-                name: "Special",
-                value: pokemonData.special || 0,
-                referenceLine: referenceLineData?.special,
-              },
-              {
-                name: "Speed",
-                value: pokemonData.speed || 0,
-                referenceLine: referenceLineData?.speed,
-              },
-            ]}
+            data={statsChartData}
             showReferenceLine={showReferenceLine}
             width={verticalStatsChartDimensions.width}
             height={verticalStatsChartDimensions.height}
