@@ -78,8 +78,6 @@ export default function Tooltip({ interactionData, position }) {
       };
   }
 
-  console.log(coordinates);
-
   return (
     <div
       style={coordinates}

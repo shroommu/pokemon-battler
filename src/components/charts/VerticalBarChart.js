@@ -1,5 +1,7 @@
 import * as d3 from "d3";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+
+import Tooltip from "./components/Tooltip";
 
 const MARGIN = { top: 30, right: 30, bottom: 30, left: 30 };
 const BAR_PADDING = 0.3;
@@ -13,6 +15,8 @@ export default function VerticalBarChart({
   fixedDomainMax,
   innerRef,
 }) {
+  const [interactionData, setInteractionData] = useState(null);
+
   const boundsWidth = width - MARGIN.right - MARGIN.left;
   const boundsHeight = height - MARGIN.top - MARGIN.bottom;
 
@@ -55,6 +59,35 @@ export default function VerticalBarChart({
           height={yScale(d.value)}
           fill={barFillColor || "#ffffffff"}
           rx={1}
+          onMouseEnter={() =>
+            interactionData
+              ? setInteractionData(null)
+              : setInteractionData({
+                  xPos: x + xScale.bandwidth() / 2 + BAR_PADDING * 100,
+                  yPos: MARGIN.bottom + yScale(d.value),
+                  children: (
+                    <div>
+                      {d.tooltipText}
+                      {d.value}
+                    </div>
+                  ),
+                })
+          }
+          onMouseLeave={() => setInteractionData(null)}
+          onClick={() =>
+            interactionData
+              ? setInteractionData(null)
+              : setInteractionData({
+                  xPos: x + xScale.bandwidth() / 2 + BAR_PADDING * 100,
+                  yPos: MARGIN.bottom + yScale(d.value),
+                  children: (
+                    <div>
+                      {d.tooltipText}
+                      {d.value}
+                    </div>
+                  ),
+                })
+          }
         />
         <text
           x={x + xScale.bandwidth() / 2}
@@ -62,7 +95,8 @@ export default function VerticalBarChart({
           textAnchor="middle"
           alignmentBaseline="central"
           fontSize={12}
-          opacity={yScale(d.value) > 90 ? 1 : 0} // hide label if bar is not tall enough
+          opacity={xScale(d.value) > domainMaxWithReferenceLine / 3 ? 1 : 0} // hide label if bar is not wide enough
+          pointerEvents={"none"}
         >
           {d.value}
         </text>
@@ -72,6 +106,7 @@ export default function VerticalBarChart({
           textAnchor="middle"
           alignmentBaseline="central"
           fontSize={12}
+          pointerEvents={"none"}
         >
           {d.name}
         </text>
@@ -84,6 +119,35 @@ export default function VerticalBarChart({
             fill={"#888888ff"}
             opacity={0.75}
             rx={1}
+            onMouseEnter={() =>
+              interactionData
+                ? setInteractionData(null)
+                : setInteractionData({
+                    xPos: x + xScale.bandwidth() / 2 + BAR_PADDING * 100,
+                    yPos: MARGIN.bottom + yScale(d.referenceLine),
+                    children: (
+                      <div>
+                        {d.referenceLineTooltipText}
+                        {d.referenceLine}
+                      </div>
+                    ),
+                  })
+            }
+            onMouseLeave={() => setInteractionData(null)}
+            onClick={() =>
+              interactionData
+                ? setInteractionData(null)
+                : setInteractionData({
+                    xPos: x + xScale.bandwidth() / 2 + BAR_PADDING * 100,
+                    yPos: MARGIN.bottom + yScale(d.referenceLine),
+                    children: (
+                      <div>
+                        {d.referenceLineTooltipText}
+                        {d.referenceLine}
+                      </div>
+                    ),
+                  })
+            }
           />
         )}
       </g>
@@ -114,7 +178,11 @@ export default function VerticalBarChart({
   ));
 
   return (
-    <div className="h-full w-full" ref={innerRef}>
+    <div
+      className="h-full w-full relative"
+      ref={innerRef}
+      data-testid="vertical-bar-chart-container"
+    >
       <svg width={width} height={height}>
         <g
           width={boundsWidth}
@@ -125,6 +193,19 @@ export default function VerticalBarChart({
           {allShapes}
         </g>
       </svg>
+      <div
+        style={{
+          position: "absolute",
+          width,
+          height,
+          top: 0,
+          left: 0,
+          pointerEvents: "none",
+        }}
+        data-testid="tooltip-layer"
+      >
+        <Tooltip interactionData={interactionData} position={"top"} />
+      </div>
     </div>
   );
 }

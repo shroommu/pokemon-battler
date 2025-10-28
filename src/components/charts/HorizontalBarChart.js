@@ -200,7 +200,7 @@ export default function HorizontalBarChart({
         }}
         data-testid="tooltip-layer"
       >
-        <Tooltip interactionData={interactionData} />
+        <Tooltip interactionData={interactionData} position={"right"} />
       </div>
     </div>
   );
