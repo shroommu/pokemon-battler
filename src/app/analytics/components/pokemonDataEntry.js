@@ -65,7 +65,7 @@ export default function PokemonDataEntry({ pokemonData }) {
       data-testid="pokemon-entry"
     >
       <section
-        className="flex flex-col h-full w-full items-center"
+        className="flex flex-col h-auto md:h-full w-full items-center"
         data-testid="pokemon-basics-container"
       >
         <h1 className="text-3xl md:text-4xl" data-testid="pokemon-name">
