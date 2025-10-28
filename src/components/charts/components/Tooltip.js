@@ -45,12 +45,44 @@ export default function Tooltip({ interactionData, position }) {
 
   const { xPos, yPos, children } = interactionData;
 
-  return (
-    <div
-      style={{
+  let coordinates;
+  switch (position) {
+    case "top":
+      coordinates = {
+        left: xPos,
+        bottom: yPos,
+      };
+      break;
+    case "right":
+      coordinates = {
         left: xPos,
         top: yPos,
-      }}
+      };
+      break;
+    case "bottom":
+      coordinates = {
+        left: xPos,
+        bottom: yPos,
+      };
+      break;
+    case "left":
+      coordinates = {
+        left: xPos,
+        top: yPos,
+      };
+      break;
+    default:
+      coordinates = {
+        left: xPos,
+        top: yPos,
+      };
+  }
+
+  console.log(coordinates);
+
+  return (
+    <div
+      style={coordinates}
       className={tooltipContainerClass({
         position: position,
       })}
