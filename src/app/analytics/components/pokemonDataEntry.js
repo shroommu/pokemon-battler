@@ -16,6 +16,7 @@ import { getPokemonTypeAverageStats } from "@/actions/getPokemonTypeAverageStats
 
 export default function PokemonDataEntry({ pokemonData }) {
   const [referenceLineData, setReferenceLineData] = useState();
+  const [referenceLineType, setReferenceLineType] = useState();
   const [showReferenceLine, setShowReferenceLine] = useState(false);
 
   useEffect(() => {
@@ -26,6 +27,7 @@ export default function PokemonDataEntry({ pokemonData }) {
     const avgData = await getAllPokemonAverageStats();
 
     setReferenceLineData(avgData.data);
+    setReferenceLineType("All");
     setShowReferenceLine(true);
   }
 
@@ -33,6 +35,7 @@ export default function PokemonDataEntry({ pokemonData }) {
     const avgData = await getPokemonTypeAverageStats(pokemonType);
 
     setReferenceLineData(avgData.data);
+    setReferenceLineType(`${pokemonType} Type`);
     setShowReferenceLine(true);
   }
 
@@ -107,26 +110,36 @@ export default function PokemonDataEntry({ pokemonData }) {
               {
                 name: "HP",
                 value: pokemonData.hp || 0,
+                tooltipText: `Max HP of ${pokemonData.name}: `,
+                referenceLineTooltipText: `Average HP of ${referenceLineType} Pokemon: `,
                 referenceLine: referenceLineData?.hp,
               },
               {
                 name: "Attack",
                 value: pokemonData.attack || 0,
+                tooltipText: `Max Attack of ${pokemonData.name}: `,
+                referenceLineTooltipText: `Average Attack of ${referenceLineType} Pokemon: `,
                 referenceLine: referenceLineData?.attack,
               },
               {
                 name: "Defense",
                 value: pokemonData.defense || 0,
+                tooltipText: `Max Defense of ${pokemonData.name}: `,
+                referenceLineTooltipText: `Average Defense of ${referenceLineType} Pokemon: `,
                 referenceLine: referenceLineData?.defense,
               },
               {
                 name: "Special",
                 value: pokemonData.special || 0,
+                tooltipText: `Max Special of ${pokemonData.name}: `,
+                referenceLineTooltipText: `Average Special of ${referenceLineType} Pokemon: `,
                 referenceLine: referenceLineData?.special,
               },
               {
                 name: "Speed",
                 value: pokemonData.speed || 0,
+                tooltipText: `Max Speed of ${pokemonData.name}: `,
+                referenceLineTooltipText: `Average Speed of ${referenceLineType} Pokemon: `,
                 referenceLine: referenceLineData?.speed,
               },
             ]}

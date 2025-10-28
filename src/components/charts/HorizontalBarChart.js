@@ -14,7 +14,6 @@ export default function HorizontalBarChart({
   barFillColor,
   fixedDomainMax,
   innerRef,
-  tooltipChildren,
 }) {
   const [interactionData, setInteractionData] = useState(null);
 
@@ -64,7 +63,12 @@ export default function HorizontalBarChart({
             setInteractionData({
               xPos: MARGIN.left + xScale(d.value),
               yPos: y + yScale.bandwidth() / 2 + BAR_PADDING * 100,
-              children: tooltipChildren,
+              children: (
+                <div>
+                  {d.tooltipText}
+                  {d.value}
+                </div>
+              ),
             })
           }
           onMouseLeave={() => setInteractionData(null)}
@@ -74,7 +78,12 @@ export default function HorizontalBarChart({
               : setInteractionData({
                   xPos: MARGIN.left + xScale(d.value),
                   yPos: y + yScale.bandwidth() / 2 + BAR_PADDING * 100,
-                  children: tooltipChildren,
+                  children: (
+                    <div>
+                      {d.tooltipText}
+                      {d.value}
+                    </div>
+                  ),
                 })
           }
         />
@@ -112,7 +121,12 @@ export default function HorizontalBarChart({
               setInteractionData({
                 xPos: MARGIN.left + xScale(d.referenceLine) + 4,
                 yPos: y + yScale.bandwidth() / 2 + BAR_PADDING * 100,
-                children: tooltipChildren,
+                children: (
+                  <div>
+                    {d.referenceLineTooltipText}
+                    {d.referenceLine}
+                  </div>
+                ),
               })
             }
             onMouseLeave={() => setInteractionData(null)}
@@ -122,7 +136,12 @@ export default function HorizontalBarChart({
                 : setInteractionData({
                     xPos: MARGIN.left + xScale(d.referenceLine) + 4,
                     yPos: y + yScale.bandwidth() / 2 + BAR_PADDING * 100,
-                    children: tooltipChildren,
+                    children: (
+                      <div>
+                        {d.referenceLineTooltipText}
+                        {d.referenceLine}
+                      </div>
+                    ),
                   })
             }
           />
