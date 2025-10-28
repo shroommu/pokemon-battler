@@ -13,7 +13,7 @@ export default function Dropdown({ buttonText, buttonType, children, testId }) {
       {isOpen && (
         <div
           data-testid={`${testId}-list`}
-          className="flex flex-col absolute bg-white h-1/2 overflow-y-scroll"
+          className="flex flex-col absolute bg-white h-1/2 overflow-y-scroll z-10"
           onClick={() => setIsOpen(false)}
         >
           {children}
