@@ -14,6 +14,18 @@ const tooltipArrowClass = tv({
   },
 });
 
+const tooltipBodyClass = tv({
+  base: "relative p-2 bg-white text-xs rounded-md",
+  variants: {
+    position: {
+      top: "mb-2",
+      bottom: "mt-2",
+      left: "mr-2",
+      right: "ml-2",
+    },
+  },
+});
+
 export default function Tooltip({ interactionData, position }) {
   if (!interactionData) {
     return null;
@@ -31,7 +43,9 @@ export default function Tooltip({ interactionData, position }) {
       data-testid="tooltip-container"
     >
       <div
-        className="relative p-2 ml-2 bg-white text-xs rounded-md"
+        className={tooltipBodyClass({
+          position: position,
+        })}
         data-testid="tooltip-body"
       >
         {children}
