@@ -59,7 +59,7 @@ export default function Dashboard({ pokemons }) {
               className="flex flex-col p-6 h-full w-full bg-gray-200 rounded-md items-center"
               data-testid="pokemon-analytics-dashboard"
             >
-              "loading..."
+              loading...
             </section>
           )}
         </div>
