@@ -61,10 +61,13 @@ export default function PokemonDataEntry({ pokemonData }) {
 
   return (
     <section
-      className="flex flex-col p-6 h-full w-full bg-gray-200 rounded-md items-center"
+      className="flex flex-col md:flex-row p-6 h-full w-full bg-gray-200 rounded-md"
       data-testid="pokemon-entry"
     >
-      <section className="flex flex-col xl:flex-1 h-full w-full items-center">
+      <section
+        className="flex flex-col h-full w-full items-center"
+        data-testid="pokemon-basics-container"
+      >
         <h1 className="text-3xl md:text-4xl" data-testid="pokemon-name">
           {`#${String(pokemonData.pokedex_number).padStart(3, "0")} ${
             pokemonData.name
@@ -84,6 +87,11 @@ export default function PokemonDataEntry({ pokemonData }) {
         <div className="mt-2" data-testid="pokemon-type">
           {renderTypes()}
         </div>
+      </section>
+      <section
+        className="flex flex-col h-full w-full items-center"
+        data-testid="stats-chart-and-controls-container"
+      >
         <h2
           className="text-2xl md:text-3xl mt-4"
           data-testid="stats-chart-title"
@@ -91,7 +99,7 @@ export default function PokemonDataEntry({ pokemonData }) {
           Stats
         </h2>
         <div
-          className="invisible lg:visible h-full w-full"
+          className="hidden md:flex h-full w-full"
           data-testid="horizontal-stats-bar-chart-container"
         >
           <HorizontalBarChart
@@ -131,7 +139,7 @@ export default function PokemonDataEntry({ pokemonData }) {
           />
         </div>
         <div
-          className="visible h-full w-full"
+          className="flex md:hidden h-full w-full"
           data-testid="vertical-stats-bar-chart-container"
         >
           <VerticalBarChart

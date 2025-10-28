@@ -26,44 +26,42 @@ export default function Dashboard({ pokemons }) {
   return (
     <div
       data-testid="analytics-dashboard-container"
-      className="flex flex-row h-auto w-full items-center"
+      className="flex flex-col md:flex-row h-auto w-full"
     >
-      <section className="flex flex-col lg:flex-row h-full w-full">
-        <div
-          className="hidden flex-col lg:mr-0 m-4 flex-none lg:flex h-auto"
-          data-testid="pokemon-list-container"
-        >
-          <PokemonList
-            pokemons={pokemons}
-            selectedPokemon={selectedPokemon}
-            getPokemonData={getPokemonData}
-          />
-        </div>
-        <div
-          className="flex flex-col m-4 items-center lg:hidden"
-          data-testid="pokemon-list-mobile-dropdown-container"
-        >
-          <PokemonListDropdown
-            pokemons={pokemons}
-            getPokemonData={getPokemonData}
-          />
-        </div>
-        <div
-          className="flex flex-col m-4 h-auto w-auto"
-          data-testid="pokemon-entry-container"
-        >
-          {selectedPokemonData ? (
-            <PokemonDataEntry pokemonData={selectedPokemonData} />
-          ) : (
-            <section
-              className="flex flex-col p-6 h-full w-full bg-gray-200 rounded-md items-center"
-              data-testid="loading-container"
-            >
-              loading...
-            </section>
-          )}
-        </div>
-      </section>
+      <div
+        className="hidden flex-col lg:mr-0 m-4 flex-none lg:flex h-auto"
+        data-testid="pokemon-list-container"
+      >
+        <PokemonList
+          pokemons={pokemons}
+          selectedPokemon={selectedPokemon}
+          getPokemonData={getPokemonData}
+        />
+      </div>
+      <div
+        className="flex flex-col m-4 mb-0 items-center lg:hidden"
+        data-testid="pokemon-list-mobile-dropdown-container"
+      >
+        <PokemonListDropdown
+          pokemons={pokemons}
+          getPokemonData={getPokemonData}
+        />
+      </div>
+      <div
+        className="flex flex-col m-4 h-full md:h-auto md:w-full"
+        data-testid="pokemon-entry-container"
+      >
+        {selectedPokemonData ? (
+          <PokemonDataEntry pokemonData={selectedPokemonData} />
+        ) : (
+          <section
+            className="flex flex-col p-6 h-full w-full bg-gray-200 rounded-md items-center"
+            data-testid="loading-container"
+          >
+            loading...
+          </section>
+        )}
+      </div>
     </div>
   );
 }
