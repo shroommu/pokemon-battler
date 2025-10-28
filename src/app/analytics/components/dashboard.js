@@ -25,7 +25,7 @@ export default function Dashboard({ pokemons }) {
 
   return (
     <div
-      data-testid="container"
+      data-testid="analytics-dashboard-container"
       className="flex flex-row h-auto w-full items-center"
     >
       <section className="flex flex-col lg:flex-row h-full w-full">
@@ -50,14 +50,14 @@ export default function Dashboard({ pokemons }) {
         </div>
         <div
           className="flex flex-col m-4 h-auto w-auto"
-          data-testid="pokemon-analytics-dashboard-container"
+          data-testid="pokemon-entry-container"
         >
           {selectedPokemonData ? (
             <PokemonDataEntry pokemonData={selectedPokemonData} />
           ) : (
             <section
               className="flex flex-col p-6 h-full w-full bg-gray-200 rounded-md items-center"
-              data-testid="pokemon-analytics-dashboard"
+              data-testid="loading-container"
             >
               loading...
             </section>

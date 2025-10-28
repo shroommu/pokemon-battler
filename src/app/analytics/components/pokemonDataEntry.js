@@ -62,7 +62,7 @@ export default function PokemonDataEntry({ pokemonData }) {
   return (
     <section
       className="flex flex-col p-6 h-full w-full bg-gray-200 rounded-md items-center"
-      data-testid="pokemon-analytics-dashboard"
+      data-testid="pokemon-entry"
     >
       <section className="flex flex-col xl:flex-1 h-full w-full items-center">
         <h1 className="text-3xl md:text-4xl" data-testid="pokemon-name">
@@ -90,7 +90,10 @@ export default function PokemonDataEntry({ pokemonData }) {
         >
           Stats
         </h2>
-        <div className="invisible lg:visible h-full w-full">
+        <div
+          className="invisible lg:visible h-full w-full"
+          data-testid="horizontal-stats-bar-chart-container"
+        >
           <HorizontalBarChart
             data={[
               {
@@ -127,7 +130,10 @@ export default function PokemonDataEntry({ pokemonData }) {
             innerRef={horizontalStatsChartRef}
           />
         </div>
-        <div className="visible h-full w-full">
+        <div
+          className="visible h-full w-full"
+          data-testid="vertical-stats-bar-chart-container"
+        >
           <VerticalBarChart
             data={[
               {
@@ -163,11 +169,15 @@ export default function PokemonDataEntry({ pokemonData }) {
             innerRef={verticalStatsChartRef}
           />
         </div>
-        <div className="flex flex-row">
+        <div
+          className="flex flex-row"
+          data-testid="stats-chart-controls-container"
+        >
           <Button
             onClick={() => getAllPokemonAverageStatData()}
             type={"tertiary"}
             extraClasses={"mr-4"}
+            testId="compare-to-all-pokemon-button"
           >
             Compare To All Pokemon
           </Button>
@@ -177,6 +187,7 @@ export default function PokemonDataEntry({ pokemonData }) {
             }
             type={"tertiary"}
             extraClasses={"mr-4"}
+            testId="compare-to-primary-type-button"
           >
             Compare To All {pokemonData.primary_type.name} Types
           </Button>
@@ -186,6 +197,7 @@ export default function PokemonDataEntry({ pokemonData }) {
                 getPokemonTypeAverageStatData(pokemonData.secondary_type.name)
               }
               type={"tertiary"}
+              testId="compare-to-secondary-type-button"
             >
               Compare To All {pokemonData.secondary_type.name} Types
             </Button>
