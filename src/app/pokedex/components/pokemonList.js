@@ -58,7 +58,7 @@ export default function PokemonList({ pokemons }) {
         </select>
       </LabeledElement>
       <ul
-        className="min-w-[250px] mt-4 overflow-y-scroll no-scrollbar"
+        className="min-w-[250px] mt-4 overflow-y-scroll"
         data-testid="pokemon-list"
       >
         {pokemons
