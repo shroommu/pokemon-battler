@@ -1,0 +1,92 @@
+export const types = [
+  {
+    name: "Bug",
+    weaknesses: ["Fire", "Flying", "Poison", "Rock"],
+    strengths: ["Grass", "Psychic"],
+    immunes: [],
+  },
+  {
+    name: "Dragon",
+    weaknesses: ["Ice", "Dragon"],
+    strengths: ["Dragon"],
+    immunes: [],
+  },
+  {
+    name: "Electric",
+    weaknesses: ["Ground"],
+    strengths: ["Flying", "Water"],
+    immunes: [],
+  },
+  {
+    name: "Fighting",
+    weaknesses: ["Flying", "Psychic"],
+    strengths: ["Ice", "Normal", "Rock"],
+    immunes: [],
+  },
+  {
+    name: "Fire",
+    weaknesses: ["Ground", "Rock", "Water"],
+    strengths: ["Bug", "Grass", "Ice"],
+    immunes: [],
+  },
+  {
+    name: "Flying",
+    weaknesses: ["Electric", "Ice", "Rock"],
+    strengths: ["Bug", "Fighting", "Grass"],
+    immunes: ["Ground"],
+  },
+  {
+    name: "Ghost",
+    weaknesses: ["Ghost"],
+    strengths: ["Ghost"],
+    immunes: ["Normal", "Fighting"],
+  },
+  {
+    name: "Grass",
+    weaknesses: ["Bug", "Fire", "Flying", "Ice", "Poison"],
+    strengths: ["Ground", "Rock", "Water"],
+    immunes: [],
+  },
+  {
+    name: "Ground",
+    weaknesses: ["Grass", "Ice", "Water"],
+    strengths: ["Electric", "Fire", "Poison", "Rock"],
+    immunes: ["Electric"],
+  },
+  {
+    name: "Ice",
+    weaknesses: ["Fighting", "Fire", "Rock"],
+    strengths: ["Flying", "Ground", "Grass", "Dragon"],
+    immunes: [],
+  },
+  {
+    name: "Normal",
+    weaknesses: ["Fighting"],
+    strengths: [],
+    immunes: ["Ghost"],
+  },
+  {
+    name: "Poison",
+    weaknesses: ["Ground", "Psychic"],
+    strengths: ["Grass", "Bug"],
+    immunes: [],
+  },
+  {
+    name: "Psychic",
+    weaknesses: ["Bug"],
+    strengths: ["Fighting", "Poison"],
+    immunes: [],
+  },
+  {
+    name: "Rock",
+    weaknesses: ["Fighting", "Grass", "Ground", "Water"],
+    strengths: ["Bug", "Flying", "Fire", "Ice"],
+    immunes: [],
+  },
+  {
+    name: "Water",
+    weaknesses: ["Electric", "Grass"],
+    strengths: ["Fire", "Ground", "Rock"],
+    immunes: [],
+  },
+];

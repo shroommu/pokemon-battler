@@ -1,23 +1,6 @@
+import { types } from "./constants";
 import TypePill from "./TypePill";
 import TypePillVertical from "./TypePillVertical";
-
-const types = [
-  { name: "Bug" },
-  { name: "Dragon" },
-  { name: "Electric" },
-  { name: "Fighting" },
-  { name: "Fire" },
-  { name: "Flying" },
-  { name: "Ghost" },
-  { name: "Grass" },
-  { name: "Ground" },
-  { name: "Ice" },
-  { name: "Normal" },
-  { name: "Poison" },
-  { name: "Psychic" },
-  { name: "Rock" },
-  { name: "Water" },
-];
 
 export default function TypeTable() {
   return (
@@ -25,7 +8,7 @@ export default function TypeTable() {
       <thead>
         <td />
         {types.map((type) => (
-          <td>
+          <td key={`${type.name}-header`}>
             <TypePillVertical typeName={type.name}>
               {type.name}
             </TypePillVertical>
@@ -33,11 +16,25 @@ export default function TypeTable() {
         ))}
       </thead>
       <tbody>
-        {types.map((type) => (
-          <tr>
+        {types.map((attackingType) => (
+          <tr key={`${attackingType.name}-row`}>
             <td>
-              <TypePill typeName={type.name}>{type.name}</TypePill>
+              <TypePill typeName={attackingType.name}>
+                {attackingType.name}
+              </TypePill>
             </td>
+            {types.map((defendingType) => {
+              return (
+                <td key={`${defendingType.name}-cell`} className="text-center">
+                  {(defendingType.weaknesses.includes(attackingType.name) && (
+                    <div className="w-full h-full bg-green-400">2x</div>
+                  )) ||
+                    (defendingType.strengths.includes(attackingType.name) && (
+                      <div className="w-full h-full bg-red-400">1/2x</div>
+                    ))}
+                </td>
+              );
+            })}
           </tr>
         ))}
       </tbody>
