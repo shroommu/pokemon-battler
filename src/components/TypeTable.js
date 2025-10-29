@@ -25,11 +25,14 @@ export default function TypeTable() {
             </td>
             {types.map((defendingType) => {
               return (
-                <td key={`${defendingType.name}-cell`} className="text-center">
+                <td
+                  key={`${defendingType.name}-cell`}
+                  className="text-center border-2 border-gray-400"
+                >
                   {(defendingType.weaknesses.includes(attackingType.name) && (
                     <div className="w-full h-full bg-green-400">2x</div>
                   )) ||
-                    (defendingType.strengths.includes(attackingType.name) && (
+                    (defendingType.resistances.includes(attackingType.name) && (
                       <div className="w-full h-full bg-red-400">1/2x</div>
                     ))}
                 </td>
