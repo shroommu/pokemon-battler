@@ -5,8 +5,8 @@ import Image from "next/image";
 
 import TypePill from "@/components/TypePill";
 
-import HorizontalBarChart from "@/components/charts/HorizontalBarChart";
-import VerticalBarChart from "@/components/charts/VerticalBarChart";
+import HorizontalBarChart from "@/components/charts/HorizontalBarChart/HorizontalBarChart";
+import VerticalBarChart from "@/components/charts/VerticalBarChart/VerticalBarChart";
 import Button from "@/components/Button";
 
 import { useDimensions } from "@/hooks/useDimensions";

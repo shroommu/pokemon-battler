@@ -1,14 +1,14 @@
 import * as d3 from "d3";
 import { useMemo, useState } from "react";
 
-import Tooltip from "./components/Tooltip";
-import HorizontalBarItem from "./components/HorizontalBarItem";
-import HorizontalBarReferenceLine from "./components/HorizontalBarReferenceLine";
+import Tooltip from "../components/Tooltip";
+import VerticalBarItem from "./VerticalBarItem";
+import VerticalBarReferenceLine from "./VerticalBarReferenceLine";
 
 const MARGIN = { top: 30, right: 30, bottom: 30, left: 30 };
 const BAR_PADDING = 0.3;
 
-export default function HorizontalBarChart({
+export default function VerticalBarChart({
   width,
   height,
   data,
@@ -31,62 +31,68 @@ export default function HorizontalBarChart({
 
   const groups = data.map((d) => d.name);
 
-  const yScale = useMemo(() => {
+  const xScale = useMemo(() => {
     return d3
       .scaleBand()
       .domain(groups)
-      .range([0, boundsHeight])
+      .range([0, boundsWidth])
       .padding(BAR_PADDING);
-  }, [data, height]);
+  }, [data, width]);
 
-  const xScale = useMemo(() => {
+  const yScale = useMemo(() => {
     return d3
       .scaleLinear()
       .domain([0, domainMaxWithReferenceLine])
-      .range([0, boundsWidth]);
-  }, [data, width]);
+      .range([0, boundsHeight]);
+  }, [data, height]);
 
   const allShapes = data.map((d, index) => {
-    const y = yScale(d.name);
-    if (y === undefined) {
+    const x = xScale(d.name);
+    if (x === undefined) {
       return null;
     }
 
     return (
-      <HorizontalBarItem
+      <VerticalBarItem
         key={index}
         testId={`${d.name}-bar-item`}
-        x={xScale(0)}
-        y={y}
-        barWidth={xScale(d.value)}
-        barHeight={yScale.bandwidth()}
-        barColor={barFillColor || "#ffffffff"}
+        x={xScale(d.name)}
+        y={boundsHeight - yScale(d.value)}
+        barOrigin={boundsHeight}
+        barWidth={xScale.bandwidth()}
+        barHeight={yScale(d.value)}
+        barColor={barFillColor}
+        rx={1}
         name={d.name}
         value={d.value}
         onMouseEnter={() =>
-          setInteractionData({
-            xPos: MARGIN.left + xScale(d.value),
-            yPos: y + yScale.bandwidth() / 2 + BAR_PADDING * 100,
-            children: (
-              <div>
-                {d.tooltipText}
-                {d.value}
-              </div>
-            ),
-          })
+          interactionData
+            ? setInteractionData(null)
+            : setInteractionData({
+                xPos: x + xScale.bandwidth() / 2 + BAR_PADDING * 100,
+                yPos: MARGIN.bottom + yScale(d.value),
+                children: (
+                  <div>
+                    {d.tooltipText}
+                    {d.value}
+                  </div>
+                ),
+              })
         }
         onMouseLeave={() => setInteractionData(null)}
         onClick={() =>
-          setInteractionData({
-            xPos: MARGIN.left + xScale(d.value),
-            yPos: y + yScale.bandwidth() / 2 + BAR_PADDING * 100,
-            children: (
-              <div>
-                {d.tooltipText}
-                {d.value}
-              </div>
-            ),
-          })
+          interactionData
+            ? setInteractionData(null)
+            : setInteractionData({
+                xPos: x + xScale.bandwidth() / 2 + BAR_PADDING * 100,
+                yPos: MARGIN.bottom + yScale(d.value),
+                children: (
+                  <div>
+                    {d.tooltipText}
+                    {d.value}
+                  </div>
+                ),
+              })
         }
       />
     );
@@ -99,20 +105,20 @@ export default function HorizontalBarChart({
     }
 
     return (
-      <HorizontalBarReferenceLine
+      <VerticalBarReferenceLine
         key={index}
         testId={`${d.name}-reference-line`}
-        x={xScale(d.referenceLine) - 4}
-        y={yScale(d.name) - 4}
-        barWidth={8}
-        barHeight={yScale.bandwidth()}
+        x={xScale(d.name) - 4}
+        y={boundsHeight - yScale(d.referenceLine) - 4}
+        barWidth={xScale.bandwidth() + 8}
+        barHeight={8}
         fill={"#888888ff"}
         valueOpacity={0.75}
         rx={1}
         onMouseEnter={() =>
           setInteractionData({
-            xPos: MARGIN.left + xScale(d.referenceLine) + 4,
-            yPos: y + yScale.bandwidth() / 2 + BAR_PADDING * 100,
+            xPos: x + xScale.bandwidth() / 2 + BAR_PADDING * 100,
+            yPos: MARGIN.bottom + yScale(d.referenceLine),
             children: (
               <div>
                 {d.referenceLineTooltipText}
@@ -124,8 +130,8 @@ export default function HorizontalBarChart({
         onMouseLeave={() => setInteractionData(null)}
         onClick={() =>
           setInteractionData({
-            xPos: MARGIN.left + xScale(d.referenceLine) + 4,
-            yPos: y + yScale.bandwidth() / 2 + BAR_PADDING * 100,
+            xPos: x + xScale.bandwidth() / 2 + BAR_PADDING * 100,
+            yPos: MARGIN.bottom + yScale(d.referenceLine),
             children: (
               <div>
                 {d.referenceLineTooltipText}
@@ -138,19 +144,19 @@ export default function HorizontalBarChart({
     );
   });
 
-  const grid = xScale.ticks(5).map((value, i) => (
+  const grid = yScale.ticks(5).map((value, i) => (
     <g key={i}>
       <line
-        x1={xScale(value)}
-        x2={xScale(value)}
-        y1={0}
-        y2={boundsHeight}
+        x1={0}
+        x2={boundsWidth}
+        y1={boundsHeight - yScale(value)}
+        y2={boundsHeight - yScale(value)}
         stroke="#808080"
         opacity={0.2}
       />
       <text
-        x={xScale(value)}
-        y={boundsHeight + 10}
+        x={boundsWidth + 10}
+        y={boundsHeight - yScale(value)}
         textAnchor="middle"
         alignmentBaseline="central"
         fontSize={9}
@@ -165,7 +171,7 @@ export default function HorizontalBarChart({
     <div
       className="h-full w-full relative"
       ref={innerRef}
-      data-testid="horizontal-bar-chart-container"
+      data-testid="vertical-bar-chart-container"
     >
       <svg width={width} height={height}>
         {width > 0 && height > 0 && (
@@ -191,7 +197,7 @@ export default function HorizontalBarChart({
         }}
         data-testid="tooltip-layer"
       >
-        <Tooltip interactionData={interactionData} position={"right"} />
+        <Tooltip interactionData={interactionData} position={"top"} />
       </div>
     </div>
   );
