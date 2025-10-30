@@ -1,5 +1,6 @@
 import * as d3 from "d3";
 import { useMemo, useState } from "react";
+import { isMobile } from "react-device-detect";
 
 import Tooltip from "../components/Tooltip";
 import VerticalBarItem from "./VerticalBarItem";
@@ -66,33 +67,29 @@ export default function VerticalBarChart({
         name={d.name}
         value={d.value}
         onMouseEnter={() =>
-          interactionData
-            ? setInteractionData(null)
-            : setInteractionData({
-                xPos: x + xScale.bandwidth() / 2 + BAR_PADDING * 100,
-                yPos: MARGIN.bottom + yScale(d.value),
-                children: (
-                  <div>
-                    {d.tooltipText}
-                    {d.value}
-                  </div>
-                ),
-              })
+          setInteractionData({
+            xPos: x + xScale.bandwidth() / 2 + BAR_PADDING * 100,
+            yPos: MARGIN.bottom + yScale(d.value),
+            children: (
+              <div>
+                {d.tooltipText}
+                {d.value}
+              </div>
+            ),
+          })
         }
         onMouseLeave={() => setInteractionData(null)}
         onClick={() =>
-          interactionData
-            ? setInteractionData(null)
-            : setInteractionData({
-                xPos: x + xScale.bandwidth() / 2 + BAR_PADDING * 100,
-                yPos: MARGIN.bottom + yScale(d.value),
-                children: (
-                  <div>
-                    {d.tooltipText}
-                    {d.value}
-                  </div>
-                ),
-              })
+          setInteractionData({
+            xPos: x + xScale.bandwidth() / 2 + BAR_PADDING * 100,
+            yPos: MARGIN.bottom + yScale(d.value),
+            children: (
+              <div>
+                {d.tooltipText}
+                {d.value}
+              </div>
+            ),
+          })
         }
       />
     );
