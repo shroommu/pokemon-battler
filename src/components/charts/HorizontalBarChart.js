@@ -2,6 +2,7 @@ import * as d3 from "d3";
 import { useMemo, useState } from "react";
 
 import Tooltip from "./components/Tooltip";
+import HorizontalBarItem from "./components/HorizontalBarItem";
 
 const MARGIN = { top: 30, right: 30, bottom: 30, left: 30 };
 const BAR_PADDING = 0.3;
@@ -51,102 +52,41 @@ export default function HorizontalBarChart({
     }
 
     return (
-      <g key={index}>
-        <rect
-          x={xScale(0)}
-          y={y}
-          width={xScale(d.value)}
-          height={yScale.bandwidth()}
-          fill={barFillColor || "#ffffffff"}
-          rx={1}
-          onMouseEnter={() =>
-            setInteractionData({
-              xPos: MARGIN.left + xScale(d.value),
-              yPos: y + yScale.bandwidth() / 2 + BAR_PADDING * 100,
-              children: (
-                <div>
-                  {d.tooltipText}
-                  {d.value}
-                </div>
-              ),
-            })
-          }
-          onMouseLeave={() => setInteractionData(null)}
-          onClick={() =>
-            interactionData
-              ? setInteractionData(null)
-              : setInteractionData({
-                  xPos: MARGIN.left + xScale(d.value),
-                  yPos: y + yScale.bandwidth() / 2 + BAR_PADDING * 100,
-                  children: (
-                    <div>
-                      {d.tooltipText}
-                      {d.value}
-                    </div>
-                  ),
-                })
-          }
-        />
-        <text
-          x={xScale(d.value) - 7}
-          y={y + yScale.bandwidth() / 2}
-          textAnchor="end"
-          alignmentBaseline="central"
-          fontSize={12}
-          opacity={xScale(d.value) > domainMaxWithReferenceLine / 3 ? 1 : 0} // hide label if bar is not wide enough
-          pointerEvents={"none"}
-        >
-          {d.value}
-        </text>
-        <text
-          x={xScale(0) + 7}
-          y={y + yScale.bandwidth() / 2}
-          textAnchor="start"
-          alignmentBaseline="central"
-          fontSize={12}
-          pointerEvents={"none"}
-        >
-          {d.name}
-        </text>
-        {showReferenceLine && (
-          <rect
-            width={8}
-            height={yScale.bandwidth() + 8}
-            x={xScale(d.referenceLine) - 4}
-            y={yScale(d.name) - 4}
-            fill={"#888888ff"}
-            opacity={0.75}
-            rx={1}
-            onMouseEnter={() =>
-              setInteractionData({
-                xPos: MARGIN.left + xScale(d.referenceLine) + 4,
-                yPos: y + yScale.bandwidth() / 2 + BAR_PADDING * 100,
-                children: (
-                  <div>
-                    {d.referenceLineTooltipText}
-                    {d.referenceLine}
-                  </div>
-                ),
-              })
-            }
-            onMouseLeave={() => setInteractionData(null)}
-            onClick={() =>
-              interactionData
-                ? setInteractionData(null)
-                : setInteractionData({
-                    xPos: MARGIN.left + xScale(d.referenceLine) + 4,
-                    yPos: y + yScale.bandwidth() / 2 + BAR_PADDING * 100,
-                    children: (
-                      <div>
-                        {d.referenceLineTooltipText}
-                        {d.referenceLine}
-                      </div>
-                    ),
-                  })
-            }
-          />
-        )}
-      </g>
+      <HorizontalBarItem
+        key={index}
+        x={xScale(0)}
+        y={y}
+        barWidth={xScale(d.value)}
+        barHeight={yScale.bandwidth()}
+        barColor={barFillColor || "#ffffffff"}
+        name={d.name}
+        value={d.value}
+        onMouseEnter={() =>
+          setInteractionData({
+            xPos: MARGIN.left + xScale(d.value),
+            yPos: y + yScale.bandwidth() / 2 + BAR_PADDING * 100,
+            children: (
+              <div>
+                {d.tooltipText}
+                {d.value}
+              </div>
+            ),
+          })
+        }
+        onMouseLeave={() => setInteractionData(null)}
+        onClick={() =>
+          setInteractionData({
+            xPos: MARGIN.left + xScale(d.value),
+            yPos: y + yScale.bandwidth() / 2 + BAR_PADDING * 100,
+            children: (
+              <div>
+                {d.tooltipText}
+                {d.value}
+              </div>
+            ),
+          })
+        }
+      />
     );
   });
 
