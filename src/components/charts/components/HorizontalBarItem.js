@@ -1,6 +1,7 @@
 import { useSpring, animated } from "react-spring";
 
 export default function HorizontalBarItem({
+  testId,
   name,
   value,
   barHeight,
@@ -30,7 +31,7 @@ export default function HorizontalBarItem({
   });
 
   return (
-    <g>
+    <g data-testid={testId}>
       <animated.rect
         x={x}
         y={y}

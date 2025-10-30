@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 
 import Tooltip from "./components/Tooltip";
 import HorizontalBarItem from "./components/HorizontalBarItem";
+import HorizontalBarReferenceLine from "./components/HorizontalBarReferenceLine";
 
 const MARGIN = { top: 30, right: 30, bottom: 30, left: 30 };
 const BAR_PADDING = 0.3;
@@ -54,6 +55,7 @@ export default function HorizontalBarChart({
     return (
       <HorizontalBarItem
         key={index}
+        testId={`${d.name}-bar-item`}
         x={xScale(0)}
         y={y}
         barWidth={xScale(d.value)}
@@ -82,6 +84,52 @@ export default function HorizontalBarChart({
               <div>
                 {d.tooltipText}
                 {d.value}
+              </div>
+            ),
+          })
+        }
+      />
+    );
+  });
+
+  const allReferenceLines = data.map((d, index) => {
+    const y = yScale(d.name);
+    if (y === undefined) {
+      return null;
+    }
+
+    return (
+      <HorizontalBarReferenceLine
+        key={index}
+        testId={`${d.name}-reference-line`}
+        x={xScale(d.referenceLine) - 4}
+        y={yScale(d.name) - 4}
+        barWidth={8}
+        barHeight={yScale.bandwidth()}
+        fill={"#888888ff"}
+        valueOpacity={0.75}
+        rx={1}
+        onMouseEnter={() =>
+          setInteractionData({
+            xPos: MARGIN.left + xScale(d.referenceLine) + 4,
+            yPos: y + yScale.bandwidth() / 2 + BAR_PADDING * 100,
+            children: (
+              <div>
+                {d.referenceLineTooltipText}
+                {d.referenceLine}
+              </div>
+            ),
+          })
+        }
+        onMouseLeave={() => setInteractionData(null)}
+        onClick={() =>
+          setInteractionData({
+            xPos: MARGIN.left + xScale(d.referenceLine) + 4,
+            yPos: y + yScale.bandwidth() / 2 + BAR_PADDING * 100,
+            children: (
+              <div>
+                {d.referenceLineTooltipText}
+                {d.referenceLine}
               </div>
             ),
           })
@@ -127,6 +175,7 @@ export default function HorizontalBarChart({
         >
           {grid}
           {allShapes}
+          {showReferenceLine && allReferenceLines}
         </g>
       </svg>
       <div
