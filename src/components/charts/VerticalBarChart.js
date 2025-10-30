@@ -184,14 +184,16 @@ export default function VerticalBarChart({
       data-testid="vertical-bar-chart-container"
     >
       <svg width={width} height={height}>
-        <g
-          width={boundsWidth}
-          height={boundsHeight}
-          transform={`translate(${[MARGIN.left, MARGIN.top].join(",")})`}
-        >
-          {grid}
-          {allShapes}
-        </g>
+        {width > 0 && height > 0 && (
+          <g
+            width={boundsWidth}
+            height={boundsHeight}
+            transform={`translate(${[MARGIN.left, MARGIN.top].join(",")})`}
+          >
+            {grid}
+            {allShapes}
+          </g>
+        )}
       </svg>
       <div
         style={{

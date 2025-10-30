@@ -168,15 +168,17 @@ export default function HorizontalBarChart({
       data-testid="horizontal-bar-chart-container"
     >
       <svg width={width} height={height}>
-        <g
-          width={boundsWidth}
-          height={boundsHeight}
-          transform={`translate(${[MARGIN.left, MARGIN.top].join(",")})`}
-        >
-          {grid}
-          {allShapes}
-          {showReferenceLine && allReferenceLines}
-        </g>
+        {width > 0 && height > 0 && (
+          <g
+            width={boundsWidth}
+            height={boundsHeight}
+            transform={`translate(${[MARGIN.left, MARGIN.top].join(",")})`}
+          >
+            {grid}
+            {allShapes}
+            {showReferenceLine && allReferenceLines}
+          </g>
+        )}
       </svg>
       <div
         style={{
