@@ -44,8 +44,8 @@ export default function VerticalBarItem({
         onClick={() => onClick()}
       />
       <animated.text
-        x={x}
-        y={y}
+        x={x + barWidth / 2}
+        y={springProps.y?.to((y) => y + 14)}
         textAnchor="middle"
         alignmentBaseline="central"
         fontSize={12}
@@ -55,9 +55,9 @@ export default function VerticalBarItem({
         {springProps.value?.to((value) => value.toFixed(0))}
       </animated.text>
       <animated.text
-        x={x + 7}
-        y={y + barHeight / 2}
-        textAnchor="start"
+        x={x + barWidth / 2}
+        y={barOrigin + 7}
+        textAnchor="middle"
         alignmentBaseline="central"
         fontSize={12}
         pointerEvents={"none"}

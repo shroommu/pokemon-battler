@@ -99,8 +99,8 @@ export default function VerticalBarChart({
   });
 
   const allReferenceLines = data.map((d, index) => {
-    const y = yScale(d.name);
-    if (y === undefined) {
+    const x = xScale(d.name);
+    if (x === undefined) {
       return null;
     }
 
@@ -110,6 +110,7 @@ export default function VerticalBarChart({
         testId={`${d.name}-reference-line`}
         x={xScale(d.name) - 4}
         y={boundsHeight - yScale(d.referenceLine) - 4}
+        barOrigin={boundsHeight}
         barWidth={xScale.bandwidth() + 8}
         barHeight={8}
         fill={"#888888ff"}

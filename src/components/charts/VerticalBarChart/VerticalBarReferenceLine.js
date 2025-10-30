@@ -13,15 +13,12 @@ export default function VerticalBarReferenceLine({
 }) {
   const springProps = useSpring({
     from: {
-      value: 0,
-      barWidth: 0,
+      y: barHeight,
       valueOpacity: 0,
     },
     to: {
-      x,
-      value: value,
-      barWidth: barWidth,
       valueOpacity: 0.75,
+      y,
     },
     config: {
       friction: 100,
@@ -31,10 +28,10 @@ export default function VerticalBarReferenceLine({
   return (
     <g data-testid={testId}>
       <animated.rect
-        x={springProps.x}
-        y={y}
-        width={8}
-        height={barHeight + 8}
+        x={x - 4}
+        y={springProps.y}
+        width={barWidth + 8}
+        height={8}
         fill={"#888888ff"}
         opacity={springProps.valueOpacity}
         rx={1}
