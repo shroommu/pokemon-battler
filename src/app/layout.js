@@ -13,8 +13,8 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="h-full">
-        <header className="flex flex-row bg-red-700 items-center justify-center">
+      <body className="h-auto">
+        <header className="flex flex-row bg-red-700 items-center justify-center min-h-[120px]">
           {/* <Link href={locations.INDEX}> */}
           <div className="flex flex-col px-8 py-3 pb-8 mr-4 bg-red-700 items-center">
             <Image
@@ -33,7 +33,7 @@ export default function RootLayout({ children }) {
           {/* </Link> */}
           {/* <Nav /> */}
         </header>
-        <section className="flex flex-row h-full md:h-auto justify-center bg-gray-600">
+        <section className="flex flex-row min-h-[calc(100vh-120px)] justify-center bg-gray-600">
           {children}
         </section>
       </body>

@@ -2,7 +2,7 @@
 
 import Dropdown from "@/components/Dropdown";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 export default function PokemonListDropdown({ pokemons }) {
   const pathname = usePathname();

@@ -39,13 +39,13 @@ export default async function PokedexLayout({ children }) {
           <PokemonList pokemons={pokemons} />
         </div>
         <div
-          className="flex flex-col m-4 items-center lg:hidden"
+          className="flex flex-col m-4 mb-0 items-center lg:hidden"
           data-testid="pokemon-list-mobile-dropdown-container"
         >
           <PokemonListDropdown pokemons={pokemons} />
         </div>
         <div
-          className="flex flex-col m-4 h-auto w-full"
+          className="flex flex-col m-4 h-full md:h-auto md:w-full"
           data-testid="pokedex-entry-container"
         >
           {children}
