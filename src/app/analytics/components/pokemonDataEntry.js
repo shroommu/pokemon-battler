@@ -11,8 +11,8 @@ import Button from "@/components/Button";
 
 import { useDimensions } from "@/hooks/useDimensions";
 
-import { getAllPokemonAverageStats } from "@/actions/getAllPokemonAverageStats";
-import { getPokemonTypeAverageStats } from "@/actions/getPokemonTypeAverageStats";
+import { getAllPokemonAverageStats } from "@/services/getAllPokemonAverageStats";
+import { getPokemonTypeAverageStats } from "@/services/getPokemonTypeAverageStats";
 import TypeTable from "@/components/TypeTable";
 
 export default function PokemonDataEntry({ pokemonData }) {

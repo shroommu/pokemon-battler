@@ -1,8 +1,9 @@
 "use server";
 
+import { cache } from "react";
 import prisma from "@/lib/prisma";
 
-export async function getUniquePokemonByName(pokemonName) {
+export const getUniquePokemonByName = cache(async (pokemonName) => {
   const data = await prisma.pokemon.findUnique({
     where: {
       name: pokemonName,
@@ -14,4 +15,4 @@ export async function getUniquePokemonByName(pokemonName) {
   });
 
   return { data };
-}
+});
