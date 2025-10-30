@@ -17,8 +17,8 @@ export default function VerticalBarItem({
   const springProps = useSpring({
     from: {
       value: 0,
-      barHeight: barOrigin,
-      valueOpacity: 0,
+      barHeight: 0,
+      y: barOrigin,
     },
     to: {
       value: value,
