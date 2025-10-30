@@ -21,7 +21,7 @@ export default function HorizontalBarReferenceLine({
       x,
       value: value,
       barWidth: barWidth,
-      valueOpacity: 0.75,
+      valueOpacity: 1,
     },
     config: {
       friction: 100,
@@ -29,19 +29,41 @@ export default function HorizontalBarReferenceLine({
   });
 
   return (
-    <g data-testid={testId}>
+    <animated.g
+      data-testid={testId}
+      opacity={springProps.valueOpacity}
+      onMouseEnter={() => onMouseEnter()}
+      onMouseLeave={() => onMouseLeave()}
+      onClick={() => onClick()}
+    >
+      <animated.rect
+        x={springProps.x?.to((x) => x - 8)}
+        y={y - 10}
+        width={24}
+        height={14}
+        fill={"#888888ff"}
+        rx={5}
+        ry={5}
+      />
       <animated.rect
         x={springProps.x}
         y={y}
         width={8}
         height={barHeight + 8}
         fill={"#888888ff"}
-        opacity={springProps.valueOpacity}
-        rx={1}
-        onMouseEnter={() => onMouseEnter()}
-        onMouseLeave={() => onMouseLeave()}
-        onClick={() => onClick()}
       />
-    </g>
+      <animated.text
+        x={springProps.x?.to((x) => x + 4)}
+        y={y - 4}
+        fill={"#ffffffff"}
+        rx={1}
+        fontSize={10}
+        textAnchor={"middle"}
+        alignmentBaseline={"central"}
+        pointerEvents={"none"}
+      >
+        AVG
+      </animated.text>
+    </animated.g>
   );
 }

@@ -38,7 +38,6 @@ export default function HorizontalBarItem({
         width={springProps.barWidth}
         height={barHeight}
         fill={barColor || "#ffffffff"}
-        rx={1}
         onMouseEnter={() => onMouseEnter()}
         onMouseLeave={() => onMouseLeave()}
         onClick={() => onClick()}
