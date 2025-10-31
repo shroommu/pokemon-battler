@@ -13,12 +13,12 @@ export default function Home() {
             Welcome to the Wonderful World of Pokemon!
           </h1>
           <p>
-            I'm building this website to level up and evolve my web development
-            and data visualization skills.
+            I&apos;m building this website to level up and evolve my web
+            development and data visualization skills.
           </p>
           <p>
-            I'm using NextJS, postgreSQL, TailwindCSS, and a few other tools and
-            libraries to make the magic happen.
+            I&apos;m using NextJS, postgreSQL, TailwindCSS, and a few other
+            tools and libraries to make the magic happen.
           </p>
           <p>Thanks for visiting!</p>
         </section>
