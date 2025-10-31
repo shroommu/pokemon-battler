@@ -1,5 +1,3 @@
-import { path } from "d3";
-
 const size = {
   mobile: "425px",
   tablet: "768px",
