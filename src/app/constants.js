@@ -1,3 +1,5 @@
+import { path } from "d3";
+
 const size = {
   mobile: "425px",
   tablet: "768px",
@@ -15,9 +17,11 @@ export const device = {
 export const locations = {
   INDEX: "/",
   POKEDEX: "/pokedex/",
+  ANALYTICS: "/analytics/",
 };
 
 export const locationsWithLabels = {
   INDEX: { path: locations.INDEX, label: "Home" },
   POKEDEX: { path: locations.POKEDEX, label: "Pokedex" },
+  ANALYTICS: { path: locations.ANALYTICS, label: "Analytics" },
 };

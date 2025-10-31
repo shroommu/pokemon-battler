@@ -31,7 +31,7 @@ export default function RootLayout({ children }) {
             </div> */}
           </div>
           {/* </Link> */}
-          {/* <Nav /> */}
+          <Nav />
         </header>
         <section className="flex flex-row min-h-[calc(100vh-120px)] justify-center bg-gray-600">
           {children}
