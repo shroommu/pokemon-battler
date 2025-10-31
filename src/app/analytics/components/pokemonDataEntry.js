@@ -5,19 +5,20 @@ import Image from "next/image";
 
 import TypePill from "@/components/TypePill";
 
-import HorizontalBarChart from "@/components/charts/HorizontalBarChart";
-import VerticalBarChart from "@/components/charts/VerticalBarChart";
+import HorizontalBarChart from "@/components/charts/HorizontalBarChart/HorizontalBarChart";
+import VerticalBarChart from "@/components/charts/VerticalBarChart/VerticalBarChart";
 import Button from "@/components/Button";
 
 import { useDimensions } from "@/hooks/useDimensions";
 
-import { getAllPokemonAverageStats } from "@/actions/getAllPokemonAverageStats";
-import { getPokemonTypeAverageStats } from "@/actions/getPokemonTypeAverageStats";
+import { getAllPokemonAverageStats } from "@/services/getAllPokemonAverageStats";
+import { getPokemonTypeAverageStats } from "@/services/getPokemonTypeAverageStats";
 import TypeTable from "@/components/TypeTable";
 
 export default function PokemonDataEntry({ pokemonData }) {
   const [referenceLineData, setReferenceLineData] = useState();
   const [referenceLineType, setReferenceLineType] = useState();
+  const [referenceLineColor, setReferenceLineColor] = useState();
   const [showReferenceLine, setShowReferenceLine] = useState(false);
 
   useEffect(() => {
@@ -29,14 +30,16 @@ export default function PokemonDataEntry({ pokemonData }) {
 
     setReferenceLineData(avgData.data);
     setReferenceLineType("All");
+    setReferenceLineColor("#616161ff");
     setShowReferenceLine(true);
   }
 
   async function getPokemonTypeAverageStatData(pokemonType) {
-    const avgData = await getPokemonTypeAverageStats(pokemonType);
+    const avgData = await getPokemonTypeAverageStats(pokemonType.name);
 
     setReferenceLineData(avgData.data);
-    setReferenceLineType(`${pokemonType} Type`);
+    setReferenceLineType(`${pokemonType.name} Type`);
+    setReferenceLineColor(pokemonType.display_color);
     setShowReferenceLine(true);
   }
 
@@ -118,9 +121,8 @@ export default function PokemonDataEntry({ pokemonData }) {
         <Image
           src={pokemonData.sprite_front_filepath.toLowerCase()}
           width={32}
-          height={32}
-          style={{ width: "100%", height: "100%" }}
-          className="max-w-32 max-h-32 w-32 h-32 md:max-w-64 md:max-h-64 mt-4 border-gray-600 border-4 rounded-md bg-white p-1 [image-rendering:pixelated]"
+          height={0}
+          className="w-full h-auto max-w-64 mt-4 border-gray-600 border-4 rounded-md bg-white p-1 [image-rendering:pixelated]"
           priority
           unoptimized
           alt={`${pokemonData.name} front sprite`}
@@ -152,6 +154,7 @@ export default function PokemonDataEntry({ pokemonData }) {
             height={horizontalStatsChartDimensions.height}
             fixedDomainMax={175}
             barFillColor={pokemonData.primary_type.display_color}
+            referenceLineFillColor={referenceLineColor}
             innerRef={horizontalStatsChartRef}
           />
         </div>
@@ -182,7 +185,7 @@ export default function PokemonDataEntry({ pokemonData }) {
           </Button>
           <Button
             onClick={() =>
-              getPokemonTypeAverageStatData(pokemonData.primary_type?.name)
+              getPokemonTypeAverageStatData(pokemonData.primary_type)
             }
             type={"tertiary"}
             extraClasses={"mr-4"}
@@ -193,7 +196,7 @@ export default function PokemonDataEntry({ pokemonData }) {
           {pokemonData.secondary_type && (
             <Button
               onClick={() =>
-                getPokemonTypeAverageStatData(pokemonData.secondary_type.name)
+                getPokemonTypeAverageStatData(pokemonData.secondary_type)
               }
               type={"tertiary"}
               testId="compare-to-secondary-type-button"

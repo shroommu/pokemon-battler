@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import PokemonList from "./pokemonList";
 import PokemonListDropdown from "./pokemonListDropdown";
 
-import { getUniquePokemonByName } from "@/actions/getUniquePokemonByName";
+import { getUniquePokemonByName } from "@/services/getUniquePokemonByName";
 import PokemonDataEntry from "./pokemonDataEntry";
 
 export default function Dashboard({ pokemons }) {

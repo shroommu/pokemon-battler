@@ -7,7 +7,7 @@ import Nav from "@/components/Nav";
 // import { locations } from "./constants";
 
 export const metadata = {
-  title: "Pokedex",
+  title: "Pokemon",
 };
 
 export default function RootLayout({ children }) {
