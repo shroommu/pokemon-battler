@@ -14,8 +14,6 @@ export default async function PokedexEntryContainer({ params }) {
 
   const pokemon = await getUniquePokemonByName(pokemonNameCapitalized);
 
-  console.log("page data: ", pokemon);
-
   return <PokedexEntry pokemon={pokemon.data} />;
 }
 
