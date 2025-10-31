@@ -22,7 +22,7 @@ export default function HorizontalBarReferenceLine({
       x,
       value: value,
       barWidth: barWidth,
-      valueOpacity: 1,
+      valueOpacity: 0.75,
     },
     config: {
       friction: 100,
@@ -56,7 +56,7 @@ export default function HorizontalBarReferenceLine({
       <animated.text
         x={springProps.x?.to((x) => x + 4)}
         y={y - 4}
-        fill={"#ffffffff"}
+        fill={"#000000ff"}
         rx={1}
         fontSize={10}
         textAnchor={"middle"}

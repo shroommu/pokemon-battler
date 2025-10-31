@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import tinycolor from "tinycolor2";
 
 import TypePill from "@/components/TypePill";
 
@@ -154,7 +155,7 @@ export default function PokemonDataEntry({ pokemonData }) {
             height={horizontalStatsChartDimensions.height}
             fixedDomainMax={175}
             barFillColor={pokemonData.primary_type.display_color}
-            referenceLineFillColor={referenceLineColor}
+            referenceLineFillColor={tinycolor(referenceLineColor).lighten(20)}
             innerRef={horizontalStatsChartRef}
           />
         </div>

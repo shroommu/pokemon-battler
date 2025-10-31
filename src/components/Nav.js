@@ -22,6 +22,15 @@ export default function Nav({}) {
             </Button>
           </Link>
         </li>
+        <li>
+          <Link href={locations.ANALYTICS}>
+            <Button
+              extraClasses={"mr-2 text-2xl hover:bg-red-500 active:bg-red-700"}
+            >
+              Analytics
+            </Button>
+          </Link>
+        </li>
       </ul>
       {/* {session ? (
         <Button

@@ -15,9 +15,11 @@ export const device = {
 export const locations = {
   INDEX: "/",
   POKEDEX: "/pokedex/",
+  ANALYTICS: "/analytics/",
 };
 
 export const locationsWithLabels = {
   INDEX: { path: locations.INDEX, label: "Home" },
   POKEDEX: { path: locations.POKEDEX, label: "Pokedex" },
+  ANALYTICS: { path: locations.ANALYTICS, label: "Analytics" },
 };
