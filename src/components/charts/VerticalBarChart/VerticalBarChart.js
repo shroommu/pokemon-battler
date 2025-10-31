@@ -14,6 +14,7 @@ export default function VerticalBarChart({
   data,
   showReferenceLine,
   barFillColor,
+  referenceLineFillColor,
   fixedDomainMax,
   innerRef,
 }) {
@@ -109,8 +110,7 @@ export default function VerticalBarChart({
         barOrigin={boundsHeight}
         barWidth={xScale.bandwidth() + 8}
         barHeight={8}
-        fill={"#888888ff"}
-        valueOpacity={0.75}
+        color={referenceLineFillColor}
         rx={1}
         onMouseEnter={() =>
           setInteractionData({

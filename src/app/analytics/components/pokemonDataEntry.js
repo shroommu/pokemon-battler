@@ -169,6 +169,7 @@ export default function PokemonDataEntry({ pokemonData }) {
             width={verticalStatsChartDimensions.width}
             height={verticalStatsChartDimensions.height}
             barFillColor={pokemonData.primary_type.display_color}
+            referenceLineFillColor={tinycolor(referenceLineColor).lighten(20)}
             innerRef={verticalStatsChartRef}
           />
         </div>
