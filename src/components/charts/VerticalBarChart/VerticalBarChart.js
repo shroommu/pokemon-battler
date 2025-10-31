@@ -1,6 +1,5 @@
 import * as d3 from "d3";
 import { useMemo, useState } from "react";
-import { isMobile } from "react-device-detect";
 
 import Tooltip from "../components/Tooltip";
 import VerticalBarItem from "./VerticalBarItem";
