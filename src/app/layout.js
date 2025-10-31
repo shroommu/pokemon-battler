@@ -2,9 +2,9 @@ import "./globals.css";
 import Image from "next/image";
 
 import Nav from "@/components/Nav";
-// import Link from "next/link";
+import Link from "next/link";
 
-// import { locations } from "./constants";
+import { locations } from "./constants";
 
 export const metadata = {
   title: "Pokemon",
@@ -14,26 +14,23 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="h-auto">
-        <header className="flex flex-row bg-red-700 items-center justify-center min-h-[120px]">
-          {/* <Link href={locations.INDEX}> */}
-          <div className="flex flex-col px-8 py-3 pb-8 mr-4 bg-red-700 items-center">
-            <Image
-              className="max-h-[75px] w-fit"
-              priority
-              width={0}
-              height={0}
-              style={{ width: "100%", height: "100%" }}
-              src="/images/pokemonLogo.svg"
-              alt="pokemon logo"
-            />
-            {/* <div className="text-center text-xl bg-white rounded-2xl w-fit px-4">
-              Battler
-            </div> */}
-          </div>
-          {/* </Link> */}
+        <header className="flex flex-row bg-red-700 items-center justify-center min-h-[00px] md:min-h-[120px]">
+          <Link href={locations.INDEX}>
+            <div className="flex flex-col px-8 py-3 pb-8 mr-4 bg-red-700 items-center">
+              <Image
+                className="max-h-[75px] w-fit"
+                priority
+                width={0}
+                height={0}
+                style={{ width: "100%", height: "100%" }}
+                src="/images/pokemonLogo.svg"
+                alt="pokemon logo"
+              />
+            </div>
+          </Link>
           <Nav />
         </header>
-        <section className="flex flex-row min-h-[calc(100vh-120px)] justify-center bg-gray-600">
+        <section className="flex flex-row min-h-[calc(100vh-60px)] md:min-h-[calc(100vh-120px)] justify-center bg-gray-600">
           {children}
         </section>
       </body>
