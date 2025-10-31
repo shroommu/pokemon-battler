@@ -22,7 +22,7 @@ export default function HorizontalBarReferenceLine({
       x,
       value: value,
       barWidth: barWidth,
-      valueOpacity: 1,
+      valueOpacity: 0.75,
     },
     config: {
       friction: 100,
