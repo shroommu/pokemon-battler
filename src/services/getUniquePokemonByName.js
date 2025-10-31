@@ -11,6 +11,15 @@ export const getUniquePokemonByName = cache(async (pokemonName) => {
     include: {
       primary_type: true,
       secondary_type: true,
+      pokemon_moves: {
+        select: {
+          move: {
+            include: {
+              type: { select: { name: true } },
+            },
+          },
+        },
+      },
     },
   });
 

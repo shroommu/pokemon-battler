@@ -1,40 +1,22 @@
-import prisma from "@/lib/prisma";
-
 import PokedexEntry from "./components/pokedexEntry";
+import { getUniquePokemonByName } from "@/services/getUniquePokemonByName";
 
 export default async function PokedexEntryContainer({ params }) {
-  const pokemons = await prisma.pokemon.findMany({
-    include: {
-      primary_type: true,
-      secondary_type: true,
-      pokemon_moves: {
-        select: {
-          move: {
-            select: {
-              name: true,
-              power: true,
-              accuracy: true,
-              pp: true,
-              effect: true,
-              type: { select: { name: true } },
-            },
-          },
-        },
-      },
-    },
-    orderBy: [{ pokedex_number: "asc" }],
-  });
+  function capitalizePokemonSlug(slug) {
+    const words = slug.split("-");
+    const capitalizedWords = words.map(
+      (word) => String(word).charAt(0).toUpperCase() + String(word).slice(1)
+    );
+    return capitalizedWords.join(" ");
+  }
 
-  return (
-    <PokedexEntry
-      pokemon={
-        pokemons.filter(
-          (pokemon) =>
-            pokemon.name.replace(" ", "-").toLowerCase() === params.pokemon
-        )[0]
-      }
-    />
-  );
+  const pokemonNameCapitalized = capitalizePokemonSlug(params.pokemon);
+
+  const pokemon = await getUniquePokemonByName(pokemonNameCapitalized);
+
+  console.log("page data: ", pokemon);
+
+  return <PokedexEntry pokemon={pokemon.data} />;
 }
 
 export const dynamic = "force-dynamic";
