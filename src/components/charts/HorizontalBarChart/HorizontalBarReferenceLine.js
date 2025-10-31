@@ -5,6 +5,7 @@ export default function HorizontalBarReferenceLine({
   value,
   barHeight,
   barWidth,
+  color,
   x,
   y,
   onMouseEnter,
@@ -41,7 +42,7 @@ export default function HorizontalBarReferenceLine({
         y={y - 10}
         width={24}
         height={14}
-        fill={"#888888ff"}
+        fill={color}
         rx={5}
         ry={5}
       />
@@ -50,7 +51,7 @@ export default function HorizontalBarReferenceLine({
         y={y}
         width={8}
         height={barHeight + 8}
-        fill={"#888888ff"}
+        fill={color}
       />
       <animated.text
         x={springProps.x?.to((x) => x + 4)}

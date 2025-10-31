@@ -14,6 +14,7 @@ export default function HorizontalBarChart({
   data,
   showReferenceLine,
   barFillColor,
+  referenceLineFillColor,
   fixedDomainMax,
   innerRef,
 }) {
@@ -106,7 +107,7 @@ export default function HorizontalBarChart({
         y={yScale(d.name) - 4}
         barWidth={8}
         barHeight={yScale.bandwidth()}
-        fill={"#888888ff"}
+        color={referenceLineFillColor}
         valueOpacity={0.75}
         rx={1}
         onMouseEnter={() =>

@@ -18,6 +18,7 @@ import TypeTable from "@/components/TypeTable";
 export default function PokemonDataEntry({ pokemonData }) {
   const [referenceLineData, setReferenceLineData] = useState();
   const [referenceLineType, setReferenceLineType] = useState();
+  const [referenceLineColor, setReferenceLineColor] = useState();
   const [showReferenceLine, setShowReferenceLine] = useState(false);
 
   useEffect(() => {
@@ -29,14 +30,16 @@ export default function PokemonDataEntry({ pokemonData }) {
 
     setReferenceLineData(avgData.data);
     setReferenceLineType("All");
+    setReferenceLineColor("#616161ff");
     setShowReferenceLine(true);
   }
 
   async function getPokemonTypeAverageStatData(pokemonType) {
-    const avgData = await getPokemonTypeAverageStats(pokemonType);
+    const avgData = await getPokemonTypeAverageStats(pokemonType.name);
 
     setReferenceLineData(avgData.data);
-    setReferenceLineType(`${pokemonType} Type`);
+    setReferenceLineType(`${pokemonType.name} Type`);
+    setReferenceLineColor(pokemonType.display_color);
     setShowReferenceLine(true);
   }
 
@@ -151,6 +154,7 @@ export default function PokemonDataEntry({ pokemonData }) {
             height={horizontalStatsChartDimensions.height}
             fixedDomainMax={175}
             barFillColor={pokemonData.primary_type.display_color}
+            referenceLineFillColor={referenceLineColor}
             innerRef={horizontalStatsChartRef}
           />
         </div>
@@ -181,7 +185,7 @@ export default function PokemonDataEntry({ pokemonData }) {
           </Button>
           <Button
             onClick={() =>
-              getPokemonTypeAverageStatData(pokemonData.primary_type?.name)
+              getPokemonTypeAverageStatData(pokemonData.primary_type)
             }
             type={"tertiary"}
             extraClasses={"mr-4"}
@@ -192,7 +196,7 @@ export default function PokemonDataEntry({ pokemonData }) {
           {pokemonData.secondary_type && (
             <Button
               onClick={() =>
-                getPokemonTypeAverageStatData(pokemonData.secondary_type.name)
+                getPokemonTypeAverageStatData(pokemonData.secondary_type)
               }
               type={"tertiary"}
               testId="compare-to-secondary-type-button"
