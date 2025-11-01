@@ -47,12 +47,12 @@ export default function PokemonDataEntry({ pokemonData }) {
   const renderTypes = () => {
     return pokemonData.secondary_type ? (
       <div className="flex flex-row">
-        <TypePill typeName={pokemonData.primary_type.name} />
+        <TypePill typeName={pokemonData.primary_type.name} size="lg" />
         <div className="px-2">/</div>
-        <TypePill typeName={pokemonData.secondary_type.name} />
+        <TypePill typeName={pokemonData.secondary_type.name} size="lg" />
       </div>
     ) : (
-      <TypePill typeName={pokemonData.primary_type.name} />
+      <TypePill typeName={pokemonData.primary_type.name} size="lg" />
     );
   };
 
@@ -126,7 +126,7 @@ export default function PokemonDataEntry({ pokemonData }) {
         <div className="mt-2" data-testid="pokemon-type">
           {renderTypes()}
         </div>
-        {/* <TypeTable /> */}
+        <TypeTable />
       </section>
       <section
         className="flex flex-col h-full w-full items-center"

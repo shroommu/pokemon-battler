@@ -14,12 +14,12 @@ export default function PokedexEntry({ pokemon }) {
   const renderTypes = () => {
     return pokemon.secondary_type ? (
       <div className="flex flex-row">
-        <TypePill typeName={pokemon.primary_type.name} />
+        <TypePill typeName={pokemon.primary_type.name} size={"lg"} />
         <div className="px-2">/</div>
-        <TypePill typeName={pokemon.secondary_type.name} />
+        <TypePill typeName={pokemon.secondary_type.name} size={"lg"} />
       </div>
     ) : (
-      <TypePill typeName={pokemon.primary_type.name} />
+      <TypePill typeName={pokemon.primary_type.name} size={"lg"} />
     );
   };
 
@@ -138,9 +138,10 @@ export default function PokedexEntry({ pokemon }) {
                         {moveData.move.name}
                       </td>
                       <td className="p-2 border-2 border-gray-400">
-                        <TypePill typeName={moveData.move.type.name}>
-                          {moveData.move.type.name}
-                        </TypePill>
+                        <TypePill
+                          typeName={moveData.move.type.name}
+                          size={"lg"}
+                        />
                       </td>
                       <td className="p-2 border-2 border-gray-400 text-center">
                         {moveData.move.power ?? "--"}
