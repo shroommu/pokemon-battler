@@ -1,7 +1,7 @@
 import { tv } from "tailwind-variants";
 
 const typePillClass = tv({
-  base: "flex h-12 w-6 text-xs md:h-[6rem] md:w-8 md:text-base text-center justify-center items-center rounded-md text-white [text-shadow:-1px_1px_2px_black;] [border:1px_solid_rgba(0,0,0,.2)] [writing-mode:vertical-rl] rotate-180",
+  base: "flex h-6 w-6 text-xs md:h-8 md:w-8 md:text-base text-center justify-center items-center rounded-md text-white [text-shadow:-1px_1px_2px_black;] [border:1px_solid_rgba(0,0,0,.2)] [writing-mode:vertical-rl] rotate-180",
   variants: {
     type: {
       bug: "bg-[#ab2]",
@@ -23,13 +23,13 @@ const typePillClass = tv({
   },
 });
 
-export default function TypePill({ children, typeName }) {
+export default function TypePill({ typeName }) {
   return (
     <div
       className={typePillClass({ type: typeName.toLowerCase() })}
       data-testid={`${typeName}-pill`}
     >
-      {children}
+      {typeName.slice(0, 3)}
     </div>
   );
 }
