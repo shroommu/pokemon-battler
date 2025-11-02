@@ -17,4 +17,4 @@ export default async function PokedexEntryContainer({ params }) {
   return <PokedexEntry pokemon={pokemon.data} />;
 }
 
-// export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic";
