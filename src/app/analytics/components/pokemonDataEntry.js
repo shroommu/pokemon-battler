@@ -14,7 +14,6 @@ import { useDimensions } from "@/hooks/useDimensions";
 
 import { getAllPokemonAverageStats } from "@/services/getAllPokemonAverageStats";
 import { getPokemonTypeAverageStats } from "@/services/getPokemonTypeAverageStats";
-import TypeTable from "@/components/TypeTable";
 
 export default function PokemonDataEntry({ pokemonData }) {
   const [referenceLineData, setReferenceLineData] = useState();

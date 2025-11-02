@@ -65,3 +65,5 @@ export default function Dashboard({ pokemons }) {
     </div>
   );
 }
+
+export const dynamic = "force-dynamic";
