@@ -32,12 +32,7 @@ export default function PokedexEntry({ pokemon }) {
   ];
 
   return (
-    <section
-      className="flex flex-col xl:flex-row h-auto w-full p-6 bg-gray-200 rounded-md items-center xl:items-start"
-      data-testid={`${pokemon.name
-        .replace(" ", "-")
-        .toLowerCase()}-pokedex-entry`}
-    >
+    <div className="flex flex-col xl:flex-row h-auto w-full items-center xl:items-start">
       <section
         className="flex flex-col xl:flex-1 items-center"
         data-testid={`${pokemon.name
@@ -162,6 +157,6 @@ export default function PokedexEntry({ pokemon }) {
           </table>
         </div>
       </section>
-    </section>
+    </div>
   );
 }

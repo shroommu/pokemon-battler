@@ -1,10 +1,3 @@
 export default async function PokedexLandingPage() {
-  return (
-    <section
-      className="flex flex-col p-6 w-full bg-gray-200 rounded-md items-center h-full"
-      data-testid="pokedex-home-page"
-    >
-      Select a Pokemon from the list
-    </section>
-  );
+  return <div className="flex h-full w-full justify-center">Select a Pokemon from the list</div>;
 }
