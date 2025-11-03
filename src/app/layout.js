@@ -31,18 +31,86 @@ export default function RootLayout({ children }) {
           </svg>
 
           <div className="absolute flex flex-row w-full h-full pl-4">
-            <svg className="h-full" viewBox="0 0 4 6">
-              <circle cx={2} cy={3} r={2} fill="#888888ff" />
-              <circle cx={2} cy={3} r={1.75} fill="#58e0ffff" />
+            <svg className="h-full" viewBox="0 0 6 6">
+              <defs>
+                <radialGradient
+                  cx={"50%"}
+                  cy={"50%"}
+                  r={0.5}
+                  id="big-lightbulb-gradient"
+                >
+                  <stop offset="0%" stopColor="#adf0ffff" />
+                  <stop offset="50%" stopColor="#58e0ffff" />
+                  <stop offset="95%" stopColor="#37b8d5ff" />
+                </radialGradient>
+              </defs>
+              <g data-testid="big-lightbulb">
+                <circle cx={3} cy={3} r={2.1} fill="#666666ff" />
+                <circle cx={3} cy={3} r={2} fill="#888888ff" />
+                <circle cx={3} cy={3} r={1.8} fill="#666666ff" />
+                <circle
+                  cx={3}
+                  cy={3}
+                  r={1.75}
+                  fill="url('#big-lightbulb-gradient')"
+                />
+                <circle cx={3.5} cy={2.5} r={0.33} fill="#adf0ffff" />
+              </g>
             </svg>
             <div className="flex flex-col h-full pl-2 justify-center">
               <svg className="h-1/3 w-fit" viewBox="0 0 7 2">
-                <circle cx={1} cy={1} r={0.6} fill="#888888ff" />
-                <circle cx={1} cy={1} r={0.5} className="fill-red-500" />
-                <circle cx={3} cy={1} r={0.6} fill="#888888ff" />
-                <circle cx={3} cy={1} r={0.5} className="fill-yellow-500" />
-                <circle cx={5} cy={1} r={0.6} fill="#888888ff" />
-                <circle cx={5} cy={1} r={0.5} className="fill-green-500" />
+                <defs>
+                  <radialGradient
+                    cx={"50%"}
+                    cy={"50%"}
+                    r={0.5}
+                    id="small-lightbulb-gradient"
+                  >
+                    <stop offset="0%" stopColor="#ffffffa1" />
+                    <stop offset="50%" stopColor="#ffffff6d" />
+                    <stop offset="95%" stopColor="#ffffff01" />
+                  </radialGradient>
+                </defs>
+
+                <g data-testid="red-lightbulb">
+                  <circle cx={1} cy={1} r={0.65} fill="#5e5e5eff" />
+                  <circle cx={1} cy={1} r={0.6} fill="#888888ff" />
+                  <circle cx={1} cy={1} r={0.55} fill="#5e5e5eff" />
+                  <circle cx={1} cy={1} r={0.5} className="fill-red-500" />
+                  <circle
+                    cx={1}
+                    cy={1}
+                    r={0.5}
+                    fill="url('#small-lightbulb-gradient')"
+                  />
+                  <circle cx={1.25} cy={0.75} r={0.1} fill="#ffffff6d" />
+                </g>
+                <g data-testid="yellow-lightbulb">
+                  <circle cx={3} cy={1} r={0.65} fill="#5e5e5eff" />
+                  <circle cx={3} cy={1} r={0.6} fill="#888888ff" />
+                  <circle cx={3} cy={1} r={0.55} fill="#5e5e5eff" />
+                  <circle cx={3} cy={1} r={0.5} className="fill-yellow-500" />
+                  <circle
+                    cx={3}
+                    cy={1}
+                    r={0.5}
+                    fill="url('#small-lightbulb-gradient')"
+                  />
+                  <circle cx={3.25} cy={0.75} r={0.1} fill="#ffffff6d" />
+                </g>
+                <g data-testid="green-lightbulb">
+                  <circle cx={5} cy={1} r={0.65} fill="#5e5e5eff" />
+                  <circle cx={5} cy={1} r={0.6} fill="#888888ff" />
+                  <circle cx={5} cy={1} r={0.55} fill="#5e5e5eff" />
+                  <circle cx={5} cy={1} r={0.5} className="fill-green-500" />
+                  <circle
+                    cx={5}
+                    cy={1}
+                    r={0.5}
+                    fill="url('#small-lightbulb-gradient')"
+                  />
+                  <circle cx={5.25} cy={0.75} r={0.1} fill="#ffffff6d" />
+                </g>
               </svg>
               <Nav />
             </div>
