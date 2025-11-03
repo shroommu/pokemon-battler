@@ -16,13 +16,13 @@ export default function HorizontalBarReferenceLine({
     from: {
       value: 0,
       barWidth: 0,
-      valueOpacity: 0,
+      opacity: 0,
     },
     to: {
       x,
       value: value,
       barWidth: barWidth,
-      valueOpacity: 0.75,
+      opacity: 0.75,
     },
     config: {
       friction: 100,
@@ -32,19 +32,18 @@ export default function HorizontalBarReferenceLine({
   return (
     <animated.g
       data-testid={testId}
-      opacity={springProps.valueOpacity}
+      opacity={springProps.opacity}
       onMouseEnter={() => onMouseEnter()}
       onMouseLeave={() => onMouseLeave()}
       onClick={() => onClick()}
     >
       <animated.rect
-        x={springProps.x?.to((x) => x - 8)}
-        y={y - 10}
-        width={24}
-        height={14}
+        x={springProps.x}
+        y={y}
         fill={color}
         rx={5}
         ry={5}
+        className="h-[14px] w-[24px] sm:h-[22px] sm:w-[40px] -translate-x-[8px] sm:-translate-x-[16px] -translate-y-[10px] sm:-translate-y-[17px]"
       />
       <animated.rect
         x={springProps.x}
@@ -55,13 +54,13 @@ export default function HorizontalBarReferenceLine({
       />
       <animated.text
         x={springProps.x?.to((x) => x + 4)}
-        y={y - 4}
+        y={y}
         fill={"#000000ff"}
         rx={1}
-        fontSize={10}
         textAnchor={"middle"}
         alignmentBaseline={"central"}
         pointerEvents={"none"}
+        className="-translate-y-[4px] sm:-translate-y-[8px]"
       >
         AVG
       </animated.text>

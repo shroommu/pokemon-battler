@@ -13,7 +13,7 @@ const tooltipContainerClass = tv({
 });
 
 const tooltipBodyClass = tv({
-  base: "relative p-2 bg-white text-xs rounded-md",
+  base: "relative p-2 bg-white rounded-md",
   variants: {
     position: {
       top: "mb-2",
