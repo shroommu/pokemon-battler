@@ -57,7 +57,7 @@ export default function RootLayout({ children }) {
                 <circle cx={3.5} cy={2.5} r={0.33} fill="#adf0ffff" />
               </g>
             </svg>
-            <div className="flex flex-col h-full pl-2 justify-center">
+            <div className="flex flex-col h-full justify-center">
               <svg className="h-1/3 w-fit" viewBox="0 0 7 2">
                 <defs>
                   <radialGradient
@@ -112,7 +112,9 @@ export default function RootLayout({ children }) {
                   <circle cx={5.25} cy={0.75} r={0.1} fill="#ffffff6d" />
                 </g>
               </svg>
-              <Nav />
+              <div className="pl-2">
+                <Nav />
+              </div>
             </div>
           </div>
         </header>
