@@ -11,6 +11,9 @@ export default function Nav({}) {
     <nav className="hidden w-full md:flex">
       <ul className="flex flex-row items-center">
         <li>
+          <NavButton href={locations.INDEX} buttonText={"Home"} />
+        </li>
+        <li>
           <NavButton href={locations.POKEDEX} buttonText={"Pokedex"} />
         </li>
         <li>
