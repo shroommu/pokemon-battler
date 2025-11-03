@@ -1,39 +1,43 @@
 import { types } from "./constants";
 import TypePill from "./TypePill";
-import TypePillVertical from "./TypePillVertical";
 
 export default function TypeTable() {
   return (
-    <table>
+    <table className="table h-full min-h-1">
       <thead>
         <td />
         {types.map((type) => (
           <td key={`${type.name}-header`}>
-            <TypePillVertical typeName={type.name}>
-              {type.name}
-            </TypePillVertical>
+            <TypePill typeName={type.name} compact size="md" />
           </td>
         ))}
       </thead>
       <tbody>
         {types.map((attackingType) => (
-          <tr key={`${attackingType.name}-row`}>
-            <td>
-              <TypePill typeName={attackingType.name}>
-                {attackingType.name}
-              </TypePill>
+          <tr key={`${attackingType.name}-row`} className="table-row h-1">
+            <td className="h-full">
+              <TypePill typeName={attackingType.name} size="md" />
             </td>
             {types.map((defendingType) => {
               return (
                 <td
                   key={`${defendingType.name}-cell`}
-                  className="text-center border-2 border-gray-400"
+                  className="table-cell text-center border border-gray-400 p-0 h-full align-middle"
                 >
                   {(defendingType.weaknesses.includes(attackingType.name) && (
-                    <div className="w-full h-full bg-green-400">2x</div>
+                    <div className="flex w-full h-full items-center justify-center bg-green-600 text-white text-xs">
+                      2x
+                    </div>
                   )) ||
                     (defendingType.resistances.includes(attackingType.name) && (
-                      <div className="w-full h-full bg-red-400">1/2x</div>
+                      <div className="flex w-full h-full items-center justify-center bg-red-600 text-white text-xs">
+                        ½x
+                      </div>
+                    )) ||
+                    (defendingType.immunes.includes(attackingType.name) && (
+                      <div className="flex w-full h-full items-center justify-center bg-gray-600 text-white text-xs">
+                        0
+                      </div>
                     ))}
                 </td>
               );

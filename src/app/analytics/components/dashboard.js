@@ -26,7 +26,7 @@ export default function Dashboard({ pokemons }) {
   return (
     <div
       data-testid="analytics-dashboard-container"
-      className="flex flex-col md:flex-row h-auto w-full"
+      className="flex flex-col lg:flex-row h-auto w-full"
     >
       <div
         className="hidden flex-col lg:mr-0 m-4 flex-none lg:flex h-auto"
@@ -48,7 +48,7 @@ export default function Dashboard({ pokemons }) {
         />
       </div>
       <div
-        className="flex flex-col m-4 h-full md:h-auto md:w-full"
+        className="flex flex-col m-4 h-full lg:h-auto lg:w-full"
         data-testid="pokemon-entry-container"
       >
         {selectedPokemonData ? (
@@ -65,3 +65,5 @@ export default function Dashboard({ pokemons }) {
     </div>
   );
 }
+
+export const dynamic = "force-dynamic";

@@ -4,7 +4,6 @@ export default function VerticalBarReferenceLine({
   testId,
   barHeight,
   barWidth,
-  barOrigin,
   color,
   x,
   y,
@@ -35,13 +34,12 @@ export default function VerticalBarReferenceLine({
       onClick={() => onClick()}
     >
       <animated.rect
-        x={x - 10}
-        y={springProps.y?.to((y) => y - 8)}
-        width={14}
-        height={24}
+        x={x}
+        y={springProps.y}
         fill={color}
         rx={5}
         ry={5}
+        className="w-[14px] h-[24px] sm:w-[22px] sm:h-[40px] -translate-y-[8px] sm:-translate-y-[16px] -translate-x-[10px] sm:-translate-x-[17px]"
       />
       <animated.rect
         x={x - 4}
@@ -51,7 +49,7 @@ export default function VerticalBarReferenceLine({
         fill={color}
       />
       <animated.text
-        x={-x + 4}
+        x={-x}
         y={springProps.y?.to((y) => -y - 3)}
         fill={"#000000ff"}
         writingMode={"vertical-lr"}
@@ -59,8 +57,8 @@ export default function VerticalBarReferenceLine({
         textAnchor={"middle"}
         dominant-baseline={"central"}
         alignmentBaseline={"central"}
-        transform={"rotate(180)"}
         pointerEvents={"none"}
+        className="-translate-x-[4px] sm:-translate-x-[8px] rotate-180"
       >
         AVG
       </animated.text>

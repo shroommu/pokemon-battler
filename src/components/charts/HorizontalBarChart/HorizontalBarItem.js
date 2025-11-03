@@ -48,7 +48,7 @@ export default function HorizontalBarItem({
         textAnchor="end"
         alignmentBaseline="central"
         fontSize={12}
-        opacity={1}
+        opacity={springProps.valueOpacity}
         pointerEvents={"none"}
       >
         {springProps.value?.to((value) => value.toFixed(0))}

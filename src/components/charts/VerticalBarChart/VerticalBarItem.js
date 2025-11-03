@@ -18,11 +18,13 @@ export default function VerticalBarItem({
     from: {
       value: 0,
       barHeight: 0,
+      valueOpacity: 0,
       y: barOrigin,
     },
     to: {
       value: value,
       barHeight: barHeight,
+      valueOpacity: barHeight > 30 ? 1 : 0,
       y,
     },
     config: {
@@ -49,7 +51,7 @@ export default function VerticalBarItem({
         textAnchor="middle"
         alignmentBaseline="central"
         fontSize={12}
-        opacity={1}
+        opacity={springProps.valueOpacity}
         pointerEvents={"none"}
       >
         {springProps.value?.to((value) => value.toFixed(0))}
