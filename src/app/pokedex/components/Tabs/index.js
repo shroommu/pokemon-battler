@@ -1,14 +1,13 @@
-"use client";
 import Tab from "./components/tab";
 
-export default function Tabs({ pokemon }) {
+export default function Tabs() {
   return (
-    <div className="h-24">
-      <ul className="h-auto">
-        <li>
+    <div className="h-12">
+      <ul className="flex flex-row h-auto">
+        <li key={'info'}>
           <Tab text={"Info"} />
         </li>
-        <li>
+        <li key={'stats'}>
           <Tab text={"Stats"} />
         </li>
       </ul>

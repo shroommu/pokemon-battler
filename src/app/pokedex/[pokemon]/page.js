@@ -1,6 +1,5 @@
 import PokedexEntry from "./components/pokedexEntry";
 import { getUniquePokemonByName } from "@/services/getUniquePokemonByName";
-import Tabs from "./components/Tabs";
 
 export default async function PokedexEntryContainer({ params }) {
   function capitalizePokemonSlug(slug) {
@@ -15,12 +14,7 @@ export default async function PokedexEntryContainer({ params }) {
     capitalizePokemonSlug(params.pokemon)
   );
 
-  return (
-    <div>
-      <Tabs />
-      <PokedexEntry pokemon={pokemon.data} />
-    </div>
-  );
+  return <PokedexEntry pokemon={pokemon.data} />;
 }
 
 export const dynamic = "force-dynamic";
