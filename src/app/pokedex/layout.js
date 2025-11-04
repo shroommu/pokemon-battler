@@ -25,15 +25,10 @@ export default async function PokedexLayout({ children }) {
       </div>
       <div className="flex w-full p-4">
         <div
-          className="flex w-full p-4 pt-12 border-4 border-gray-500 bg-gray-300 rounded-md"
+          className="flex w-full p-4 pt-12 bg-gray-200 rounded-md"
           data-testid="dark-gray-container"
         >
-          <div
-            className="flex w-full p-6 bg-gray-200 border-2 border-gray-400 rounded-md"
-            data-testid="light-gray-container"
-          >
-            {children}
-          </div>
+          {children}
         </div>
       </div>
     </div>
