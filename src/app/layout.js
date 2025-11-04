@@ -1,10 +1,5 @@
 import "./globals.css";
-import Image from "next/image";
 
-import Nav from "@/components/Nav";
-import Link from "next/link";
-
-import { locations } from "./constants";
 import Header from "@/components/Header";
 
 export const metadata = {
@@ -13,12 +8,12 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className="h-auto">
+    <html lang="en" className="h-dvh">
+      <body className="h-dvh">
         <Header />
-        <section className="flex flex-row min-h-[calc(100vh-60px)] md:min-h-[calc(100vh-119px)] justify-center bg-red-500">
+        <div className="flex min-h-[calc(100vh-60px)] md:min-h-[calc(100vh-120px)] bg-red-500" data-testid="content-body-container">
           {children}
-        </section>
+        </div>
       </body>
     </html>
   );

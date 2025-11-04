@@ -32,7 +32,7 @@ export default function PokedexEntry({ pokemon }) {
   ];
 
   return (
-    <div className="flex flex-col xl:flex-row h-auto w-full items-center xl:items-start">
+    <div className="flex flex-col xl:flex-row w-full xl:items-start" data-testid="pokedex-entry-container">
       <section
         className="flex flex-col xl:flex-1 items-center"
         data-testid={`${pokemon.name

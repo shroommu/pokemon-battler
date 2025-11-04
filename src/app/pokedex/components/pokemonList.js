@@ -48,7 +48,7 @@ export default function PokemonList({ pokemons }) {
         containerTwExtraClasses="w-full"
       >
         <select
-          className="w-full rounded-md border-2 border-gray-400 p-2"
+          className="w-full rounded-md border-2 border-gray-400 bg-white p-2"
           data-testid="pokemon-list-sort-dropdown"
           value={sort}
           onChange={(event) => setSort(event.target.value)}
@@ -101,7 +101,7 @@ export default function PokemonList({ pokemons }) {
                       ) && "selected",
                   })}
                 >
-                  <button className="flex flex-row items-center w-full group-hover:[&>img]:animate-party_bounce">
+                  <button className="flex flex-row items-center w-full [&>img]:group-hover:animate-party_bounce">
                     <div className="mr-2">{`#${String(
                       pokemon.pokedex_number
                     ).padStart(3, "0")}`}</div>
