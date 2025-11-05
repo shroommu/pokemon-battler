@@ -6,7 +6,7 @@ import TypePill from "@/components/TypePill";
 const STAT_NAMES = ["HP", "Attack", "Defense", "Special", "Speed"];
 const MOVE_TABLE_LABELS = ["Name", "Type", "Power", "Accuracy", "PP", "Effect"];
 
-export default function PokedexEntry({ pokemon }) {
+export default function Info({ pokemon }) {
   if (!pokemon) {
     return null;
   }

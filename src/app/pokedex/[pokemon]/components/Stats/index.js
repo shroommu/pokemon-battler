@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from "react";
 
-import PokemonList from "./pokemonList";
-import PokemonListDropdown from "./pokemonListDropdown";
+import PokemonList from "./components/pokemonList";
+import PokemonListDropdown from "./components/pokemonListDropdown";
 
 import { getUniquePokemonByName } from "@/services/getUniquePokemonByName";
-import PokemonDataEntry from "./pokemonDataEntry";
+import PokemonDataEntry from "./components/pokemonDataEntry";
 
-export default function Dashboard({ pokemons }) {
+export default function Stats({ pokemons }) {
   const [selectedPokemon, setSelectedPokemon] = useState();
   const [selectedPokemonData, setSelectedPokemonData] = useState();
 

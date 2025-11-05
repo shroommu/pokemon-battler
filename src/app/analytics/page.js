@@ -1,4 +1,4 @@
-import Dashboard from "./components/dashboard";
+import Dashboard from "../pokedex/[pokemon]/components/Stats";
 import { getAllPokemon } from "@/services/getAllPokemon";
 
 export default async function AnalyticsPage() {
