@@ -20,6 +20,8 @@ function capitalizePokemonSlug(slug) {
 export default function PokedexEntry({ pokemon, pokemons }) {
   const [selectedTab, setSelectedTab] = useState("Info");
 
+  console.log(selectedTab);
+
   return (
     <div
       data-testid="pokedex-container"
@@ -38,7 +40,7 @@ export default function PokedexEntry({ pokemon, pokemons }) {
         <PokemonListDropdown pokemons={pokemons} />
       </div>
       <div className="absolute right-[25%] -top-8">
-        <Tabs selectedTab={selectedTab}/>
+        <Tabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
       </div>
       <div className="flex flex-col w-full p-4" data-testid="tabs-container">
         <div
@@ -46,6 +48,7 @@ export default function PokedexEntry({ pokemon, pokemons }) {
           data-testid="pokemon-data-container"
         >
           {selectedTab == "Info" && <Info pokemon={pokemon} />}
+          {selectedTab == "Stats" && <Stats pokemon={pokemon} />}
         </div>
       </div>
     </div>
