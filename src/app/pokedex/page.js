@@ -1,4 +1,3 @@
-export default async function PokedexLandingPage({ children }) {
-
+export default function PokedexLandingPage({ children }) {
   return children;
 }
