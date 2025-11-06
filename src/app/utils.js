@@ -5,3 +5,12 @@ export function capitalizePokemonSlug(slug) {
   );
   return capitalizedWords.join(" ");
 }
+
+export function buildPath(pathname, pokemonName) {
+  const splitPathname = pathname.split("/");
+  const formattedName = pokemonName.replace(" ", "-").toLowerCase();
+
+  splitPathname.splice(2, 1, formattedName);
+  const newPathname = splitPathname.join("/");
+  return newPathname;
+}

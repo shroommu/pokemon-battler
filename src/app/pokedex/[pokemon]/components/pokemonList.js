@@ -4,6 +4,7 @@ import LabeledElement from "@/components/LabeledElement";
 import Input from "@/components/Input";
 import Image from "next/image";
 import Link from "next/link";
+import { buildPath } from "@/app/utils";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { tv } from "tailwind-variants";
@@ -21,15 +22,6 @@ export const SORTING_METHODS = { alphabetical: "ALPHA", numerical: "NUM" };
 
 export default function PokemonList({ pokemons }) {
   const pathname = usePathname();
-
-  const buildPath = (pokemonName) => {
-    const splitPathname = pathname.split("/");
-    const formattedName = pokemonName.replace(" ", "-").toLowerCase();
-
-    splitPathname.splice(2, 1, formattedName);
-    const newPathname = splitPathname.join("/");
-    return newPathname;
-  };
 
   const [nameFilter, setNameFilter] = useState("");
   const [sort, setSort] = useState(SORTING_METHODS.numerical);
@@ -92,7 +84,7 @@ export default function PokemonList({ pokemons }) {
             return (
               <Link
                 prefetch={true}
-                href={buildPath(pokemon.name)}
+                href={buildPath(pathname, pokemon.name)}
                 key={pokemon.name}
                 data-testid={`${pokemon.name
                   .replace(" ", "-")
