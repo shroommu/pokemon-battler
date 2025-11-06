@@ -12,7 +12,7 @@ export default function RootLayout({ children }) {
       <body className="h-dvh bg-red-500">
         <Header />
         <div
-          className="flex h-auto bg-red-500"
+          className="flex flex-none min-h-[calc(100dvh-120px)] bg-red-500"
           data-testid="content-body-container"
         >
           {children}

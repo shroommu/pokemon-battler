@@ -10,7 +10,7 @@ export default async function PokedexEntryContainer({ params, children }) {
   return (
     <div
       data-testid="pokedex-container"
-      className="relative flex flex-col md:flex-row h-full w-full"
+      className="relative flex flex-col items-stretch md:flex-row h-auto w-full"
     >
       <div
         className="hidden flex-col lg:mr-0 m-4 flex-none lg:flex h-auto"
@@ -29,7 +29,7 @@ export default async function PokedexEntryContainer({ params, children }) {
       </div>
       <div className="flex flex-col w-full p-4" data-testid="tabs-container">
         <div
-          className="flex w-full p-4 pt-12 bg-gray-200 rounded-md"
+          className="flex h-full w-full p-4 pt-12 bg-gray-200 rounded-md"
           data-testid="pokemon-data-container"
         >
           {children}
