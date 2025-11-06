@@ -1,4 +1,5 @@
 "use client";
+
 import Image from "next/image";
 
 import TypePill from "@/components/TypePill";
@@ -32,7 +33,10 @@ export default function Info({ pokemon }) {
   ];
 
   return (
-    <div className="flex flex-col xl:flex-row w-full xl:items-start" data-testid="pokedex-entry-container">
+    <div
+      className="flex flex-col xl:flex-row w-full xl:items-start"
+      data-testid="pokedex-entry-container"
+    >
       <section
         className="flex flex-col xl:flex-1 items-center"
         data-testid={`${pokemon.name

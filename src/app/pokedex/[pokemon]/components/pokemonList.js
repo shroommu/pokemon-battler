@@ -22,6 +22,15 @@ export const SORTING_METHODS = { alphabetical: "ALPHA", numerical: "NUM" };
 export default function PokemonList({ pokemons }) {
   const pathname = usePathname();
 
+  const buildPath = (pokemonName) => {
+    const splitPathname = pathname.split("/");
+    const formattedName = pokemonName.replace(" ", "-").toLowerCase();
+
+    splitPathname.splice(2, 1, formattedName);
+    const newPathname = splitPathname.join("/");
+    return newPathname;
+  };
+
   const [nameFilter, setNameFilter] = useState("");
   const [sort, setSort] = useState(SORTING_METHODS.numerical);
 
@@ -83,11 +92,7 @@ export default function PokemonList({ pokemons }) {
             return (
               <Link
                 prefetch={true}
-                href={
-                  pathname.includes("pokedex/")
-                    ? pokemon.name.replace(" ", "-").toLowerCase()
-                    : `pokedex/${pokemon.name.replace(" ", "-").toLowerCase()}`
-                }
+                href={buildPath(pokemon.name)}
                 key={pokemon.name}
                 data-testid={`${pokemon.name
                   .replace(" ", "-")
