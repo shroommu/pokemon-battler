@@ -1,22 +1,14 @@
 "use client";
 
-import LabeledElement from "@/components/LabeledElement";
-import Input from "@/components/Input";
-import Image from "next/image";
-import Link from "next/link";
-import { buildPath } from "@/app/utils";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { tv } from "tailwind-variants";
 
-const pokemonListButtonStyle = tv({
-  base: "group py-2 px-4 mb-1 bg-gray-400 rounded-md hover:bg-gray-300 active:bg-gray-500 w-full border-2 border-gray-400",
-  variants: {
-    state: {
-      selected: "bg-gray-300 hover:bg-gray-200 active:bg-gray-400",
-    },
-  },
-});
+import { buildPath } from "@/app/utils";
+
+import LabeledElement from "@/components/LabeledElement";
+import Input from "@/components/Input";
+
+import PokedexButton from "../../components/pokedexButton";
 
 export const SORTING_METHODS = { alphabetical: "ALPHA", numerical: "NUM" };
 
@@ -82,40 +74,10 @@ export default function PokemonList({ pokemons }) {
           })
           .map((pokemon) => {
             return (
-              <Link
-                prefetch={true}
+              <PokedexButton
+                pokemon={pokemon}
                 href={buildPath(pathname, pokemon.name)}
-                key={pokemon.name}
-                data-testid={`${pokemon.name
-                  .replace(" ", "-")
-                  .toLowerCase()}-link`}
-              >
-                <li
-                  className={pokemonListButtonStyle({
-                    state:
-                      pathname.includes(
-                        pokemon.name.replace(" ", "-").toLowerCase()
-                      ) && "selected",
-                  })}
-                >
-                  <button className="flex flex-row items-center w-full [&>img]:group-hover:animate-party_bounce">
-                    <div className="mr-2">{`#${String(
-                      pokemon.pokedex_number
-                    ).padStart(3, "0")}`}</div>
-                    <Image
-                      src={pokemon.sprite_party_filepath.toLowerCase()}
-                      width={0}
-                      height={0}
-                      style={{ width: "100%", height: "100%" }}
-                      alt={`${pokemon.name} party sprite`}
-                      className="max-w-[75px]"
-                      unoptimized
-                      priority
-                    />
-                    <div className="ml-auto">{pokemon.name}</div>
-                  </button>
-                </li>
-              </Link>
+              />
             );
           })}
       </ul>
