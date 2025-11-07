@@ -1,8 +1,8 @@
 export default function Home() {
   return (
-    <div data-testid="container" className="flex flex-row h-auto w-full">
+    <div data-testid="container" className="flex flex-row h-full p-4 w-full">
       <div
-        className="flex flex-col m-4 h-auto md:w-full"
+        className="flex flex-col h-auto md:w-full"
         data-testid="home-page-container"
       >
         <section
@@ -17,8 +17,8 @@ export default function Home() {
             development and data visualization skills.
           </p>
           <p>
-            I&apos;m using NextJS, postgreSQL, TailwindCSS, D3.js and a few other
-            tools and libraries to make the magic happen.
+            I&apos;m using NextJS, postgreSQL, TailwindCSS, D3.js and a few
+            other tools and libraries to make the magic happen.
           </p>
           <p>Thanks for visiting!</p>
         </section>

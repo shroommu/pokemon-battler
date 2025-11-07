@@ -1,20 +1,13 @@
-import PokedexEntry from "./components/pokedexEntry";
 import { getUniquePokemonByName } from "@/services/getUniquePokemonByName";
 
-export default async function PokedexEntryContainer({ params }) {
-  function capitalizePokemonSlug(slug) {
-    const words = slug.split("-");
-    const capitalizedWords = words.map(
-      (word) => String(word).charAt(0).toUpperCase() + String(word).slice(1)
-    );
-    return capitalizedWords.join(" ");
-  }
+import { capitalizePokemonSlug } from "@/app/utils";
 
+import Info from ".";
+
+export default async function InfoPage({ params }) {
   const pokemon = await getUniquePokemonByName(
     capitalizePokemonSlug(params.pokemon)
   );
 
-  return <PokedexEntry pokemon={pokemon.data} />;
+  return <Info pokemon={pokemon.data} />;
 }
-
-export const dynamic = "force-dynamic";

@@ -1,4 +1,5 @@
 "use client";
+
 import Image from "next/image";
 
 import TypePill from "@/components/TypePill";
@@ -6,7 +7,7 @@ import TypePill from "@/components/TypePill";
 const STAT_NAMES = ["HP", "Attack", "Defense", "Special", "Speed"];
 const MOVE_TABLE_LABELS = ["Name", "Type", "Power", "Accuracy", "PP", "Effect"];
 
-export default function PokedexEntry({ pokemon }) {
+export default function Info({ pokemon }) {
   if (!pokemon) {
     return null;
   }
@@ -32,7 +33,10 @@ export default function PokedexEntry({ pokemon }) {
   ];
 
   return (
-    <div className="flex flex-col xl:flex-row w-full xl:items-start" data-testid="pokedex-entry-container">
+    <div
+      className="flex flex-col xl:flex-row w-full xl:items-start"
+      data-testid="pokedex-entry-container"
+    >
       <section
         className="flex flex-col xl:flex-1 items-center"
         data-testid={`${pokemon.name
