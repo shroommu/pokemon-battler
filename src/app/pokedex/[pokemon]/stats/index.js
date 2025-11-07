@@ -100,11 +100,11 @@ export default function PokemonDataEntry({ pokemon }) {
 
   return (
     <section
-      className="flex flex-col md:flex-row h-auto w-full justify-center"
+      className="flex flex-col md:flex-row  w-full justify-center"
       data-testid="pokemon-entry"
     >
       <section
-        className="flex flex-col h-auto md:h-full w-full items-center"
+        className="flex flex-col h-full md:h-auto w-full items-center"
         data-testid="pokemon-basics-container"
       >
         <h1 className="text-2xl md:text-4xl" data-testid="pokemon-name">
@@ -127,7 +127,7 @@ export default function PokemonDataEntry({ pokemon }) {
         </div>
       </section>
       <section
-        className="flex flex-col h-auto w-full items-center"
+        className="flex flex-col w-full items-center"
         data-testid="stats-chart-and-controls-container"
       >
         <h2
@@ -152,7 +152,7 @@ export default function PokemonDataEntry({ pokemon }) {
           />
         </div>
         <div
-          className="flex md:hidden h-full w-full"
+          className="flex md:hidden h-full min-h-72 w-full"
           data-testid="vertical-stats-bar-chart-container"
         >
           <VerticalBarChart

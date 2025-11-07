@@ -10,10 +10,7 @@ export default async function Stats({ params }) {
   );
 
   return (
-    <div
-      className="flex flex-col lg:h-auto w-full"
-      data-testid="pokemon-entry-container"
-    >
+    <div className="flex flex-col w-full" data-testid="pokemon-entry-container">
       {pokemon ? (
         <PokemonDataEntry pokemon={pokemon.data} />
       ) : (
