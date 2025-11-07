@@ -100,14 +100,14 @@ export default function PokemonDataEntry({ pokemon }) {
 
   return (
     <section
-      className="flex flex-col md:flex-row h-auto w-full bg-gray-200 rounded-md justify-center"
+      className="flex flex-col md:flex-row h-auto w-full justify-center"
       data-testid="pokemon-entry"
     >
       <section
         className="flex flex-col h-auto md:h-full w-full items-center"
         data-testid="pokemon-basics-container"
       >
-        <h1 className="text-3xl md:text-4xl" data-testid="pokemon-name">
+        <h1 className="text-2xl md:text-4xl" data-testid="pokemon-name">
           {`#${String(pokemon.pokedex_number).padStart(3, "0")} ${
             pokemon.name
           }`}
@@ -127,7 +127,7 @@ export default function PokemonDataEntry({ pokemon }) {
         </div>
       </section>
       <section
-        className="flex flex-col h-full w-full items-center"
+        className="flex flex-col h-auto w-full items-center"
         data-testid="stats-chart-and-controls-container"
       >
         <h2

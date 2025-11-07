@@ -11,7 +11,7 @@ export default async function Stats({ params }) {
 
   return (
     <div
-      className="flex flex-col p-4 h-full lg:h-auto w-full"
+      className="flex flex-col lg:h-auto w-full"
       data-testid="pokemon-entry-container"
     >
       {pokemon ? (

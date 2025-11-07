@@ -25,7 +25,7 @@ export default async function PokedexEntryContainer({ params, children }) {
       >
         <Tabs />
       </div>
-      <div className="flex flex-col w-full p-4">
+      <div className="flex flex-col h-full lg:h-auto w-full p-4">
         <div
           className="flex h-full w-full p-4 bg-gray-200 rounded-md justify-center"
           data-testid="pokemon-data-container"
