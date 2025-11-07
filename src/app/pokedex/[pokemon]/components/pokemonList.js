@@ -75,6 +75,7 @@ export default function PokemonList({ pokemons }) {
           .map((pokemon) => {
             return (
               <PokedexButton
+                key={pokemon.name}
                 pokemon={pokemon}
                 href={buildPath(pathname, pokemon.name)}
               />
