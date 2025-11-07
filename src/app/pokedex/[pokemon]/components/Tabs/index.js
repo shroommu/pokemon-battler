@@ -8,7 +8,7 @@ export default function Tabs({}) {
   const pokemonName = pathname.split("/")[2].replace(" ", "-").toLowerCase();
 
   return (
-    <div className="h-12">
+    <div className="h-8 lg:h-12">
       <ul className="flex flex-row h-auto">
         <li key={"info"}>
           <Tab

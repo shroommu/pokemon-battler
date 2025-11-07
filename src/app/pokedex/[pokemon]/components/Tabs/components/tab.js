@@ -13,7 +13,7 @@ const tabStyle = tv({
 
 export default function Tab({ text, href, selected }) {
   return (
-    <div className="flex relative h-12 w-24">
+    <div className="flex relative h-8 w-16 lg:h-12 lg:w-24">
       <svg
         viewBox="0 0 5 2"
         className="absolute h-full w-full"
@@ -46,7 +46,7 @@ export default function Tab({ text, href, selected }) {
         </Link>
       </svg>
       <div className="absolute flex h-full w-full pointer-events-none">
-        <div className="flex h-full mr-4 ml-auto items-center text-xl">
+        <div className="flex h-full mr-4 ml-auto items-center text-l lg:text-xl">
           {text}
         </div>
       </div>
