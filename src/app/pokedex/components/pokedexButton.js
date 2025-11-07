@@ -34,7 +34,7 @@ export default function PokedexButton({ pokemon, href, selected }) {
             height={0}
             style={{ width: "100%", height: "100%" }}
             alt={`${pokemon.name} party sprite`}
-            className="max-w-[75px]"
+            className="max-w-[50px] md:max-w-[75px]"
             unoptimized
             priority
           />

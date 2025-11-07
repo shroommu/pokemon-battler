@@ -100,7 +100,7 @@ export default function PokemonDataEntry({ pokemon }) {
 
   return (
     <section
-      className="flex flex-col md:flex-row p-6 h-full w-full bg-gray-200 rounded-md"
+      className="flex flex-col md:flex-row h-auto w-full bg-gray-200 rounded-md justify-center"
       data-testid="pokemon-entry"
     >
       <section
@@ -166,7 +166,7 @@ export default function PokemonDataEntry({ pokemon }) {
           />
         </div>
         <div
-          className="flex flex-row"
+          className="flex flex-row justify-center"
           data-testid="stats-chart-controls-container"
         >
           <Button
