@@ -1,4 +1,5 @@
 import { getUniquePokemonByName } from "@/services/getUniquePokemonByName";
+import { getUniquePokemonByNumber } from "@/services/getUniquePokemonByNumber";
 
 import { capitalizePokemonSlug } from "@/app/utils";
 
@@ -9,5 +10,25 @@ export default async function InfoPage({ params }) {
     capitalizePokemonSlug(params.pokemon)
   );
 
-  return <Info pokemon={pokemon.data} />;
+  const previousPokemon = await getUniquePokemonByName(
+    capitalizePokemonSlug(params.pokemon)
+  ).then(
+    async (pokemon) =>
+      await getUniquePokemonByNumber(pokemon.data.pokedex_number - 1)
+  );
+
+  const nextPokemon = await getUniquePokemonByName(
+    capitalizePokemonSlug(params.pokemon)
+  ).then(
+    async (pokemon) =>
+      await getUniquePokemonByNumber(pokemon.data.pokedex_number + 1)
+  );
+
+  return (
+    <Info
+      pokemon={pokemon.data}
+      previousPokemon={previousPokemon?.data}
+      nextPokemon={nextPokemon?.data}
+    />
+  );
 }

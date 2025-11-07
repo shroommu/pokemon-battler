@@ -14,8 +14,13 @@ import { useDimensions } from "@/hooks/useDimensions";
 
 import { getAllPokemonAverageStats } from "@/services/getAllPokemonAverageStats";
 import { getPokemonTypeAverageStats } from "@/services/getPokemonTypeAverageStats";
+import MobilePokedexNav from "../components/MobilePokedexNav";
 
-export default function PokemonDataEntry({ pokemon }) {
+export default function PokemonDataEntry({
+  pokemon,
+  previousPokemon,
+  nextPokemon,
+}) {
   const [referenceLineData, setReferenceLineData] = useState();
   const [referenceLineType, setReferenceLineType] = useState();
   const [referenceLineColor, setReferenceLineColor] = useState();
@@ -103,6 +108,10 @@ export default function PokemonDataEntry({ pokemon }) {
       className="flex flex-col md:flex-row h-full md:h-auto w-full"
       data-testid="pokemon-entry"
     >
+      <MobilePokedexNav
+        previousPokemon={previousPokemon}
+        nextPokemon={nextPokemon}
+      />
       <section
         className="flex flex-col w-full items-center"
         data-testid="pokemon-basics-container"

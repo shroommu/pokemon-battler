@@ -3,11 +3,12 @@
 import Image from "next/image";
 
 import TypePill from "@/components/TypePill";
+import MobilePokedexNav from "./components/MobilePokedexNav";
 
 const STAT_NAMES = ["HP", "Attack", "Defense", "Special", "Speed"];
 const MOVE_TABLE_LABELS = ["Name", "Type", "Power", "Accuracy", "PP", "Effect"];
 
-export default function Info({ pokemon }) {
+export default function Info({ pokemon, previousPokemon, nextPokemon }) {
   if (!pokemon) {
     return null;
   }
@@ -37,6 +38,10 @@ export default function Info({ pokemon }) {
       className="flex flex-col xl:flex-row w-full xl:items-start"
       data-testid="pokedex-entry-container"
     >
+      <MobilePokedexNav
+        previousPokemon={previousPokemon}
+        nextPokemon={nextPokemon}
+      />
       <section
         className="flex flex-col xl:flex-1 items-center"
         data-testid={`${pokemon.name
