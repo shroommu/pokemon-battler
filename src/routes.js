@@ -1,4 +1,9 @@
-export const publicRoutes = ["/", "/pokedex", "/analytics"];
+export const publicRoutes = [
+  "/",
+  "/pokedex",
+  "/analytics",
+  "/api/refreshDaily",
+];
 
 export const authRoutes = ["/login", "/sign-up"];
 

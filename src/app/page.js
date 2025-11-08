@@ -1,4 +1,10 @@
-export default function Home() {
+import PokemonOfTheDay from "@/components/PokemonOfTheDay";
+
+export default async function Home() {
+  const pokedexNumber = await fetch(process.env.URL + "/api/refreshDaily").then(
+    (res) => res.json()
+  );
+
   return (
     <div data-testid="container" className="flex flex-row h-full p-4 w-full">
       <div
@@ -20,7 +26,9 @@ export default function Home() {
             I&apos;m using NextJS, postgreSQL, TailwindCSS, D3.js and a few
             other tools and libraries to make the magic happen.
           </p>
-          <p className="text-center">Thanks for visiting!</p>
+          <p className="text-center mb-4">Thanks for visiting!</p>
+
+          <PokemonOfTheDay pokemon={{ name: pokedexNumber }} />
         </section>
       </div>
     </div>
