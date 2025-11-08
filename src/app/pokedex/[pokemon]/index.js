@@ -57,7 +57,7 @@ export default function Info({ pokemon, previousPokemon, nextPokemon }) {
         <Image
           src={pokemon.sprite_front_filepath.toLowerCase()}
           width={32}
-          height={0}
+          height={32}
           className="w-full h-auto max-w-64 mt-4 border-gray-600 border-4 rounded-md bg-white p-1 [image-rendering:pixelated]"
           priority
           unoptimized

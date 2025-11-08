@@ -124,7 +124,7 @@ export default function PokemonDataEntry({
         <Image
           src={pokemon.sprite_front_filepath.toLowerCase()}
           width={32}
-          height={0}
+          height={32}
           className="w-full h-auto max-w-64 mt-4 border-gray-600 border-4 rounded-md bg-white p-1 [image-rendering:pixelated]"
           priority
           unoptimized
@@ -161,7 +161,7 @@ export default function PokemonDataEntry({
           />
         </div>
         <div
-          className="flex md:hidden h-full min-h-72 w-full"
+          className="flex md:hidden h-full w-full"
           data-testid="vertical-stats-bar-chart-container"
         >
           <VerticalBarChart
