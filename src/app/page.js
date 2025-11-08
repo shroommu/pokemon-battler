@@ -9,18 +9,18 @@ export default function Home() {
           className="flex flex-col p-6 w-full bg-gray-200 rounded-md items-center h-full"
           data-testid="home-page"
         >
-          <h1 className="text-xl mb-4">
+          <h1 className="text-2xl mb-4">
             Welcome to the Wonderful World of Pokemon!
           </h1>
-          <p>
+          <p className="mb-4 text-center">
             I&apos;m building this website to level up and evolve my web
             development and data visualization skills.
           </p>
-          <p>
+          <p className="mb-4 text-center">
             I&apos;m using NextJS, postgreSQL, TailwindCSS, D3.js and a few
             other tools and libraries to make the magic happen.
           </p>
-          <p>Thanks for visiting!</p>
+          <p className="text-center">Thanks for visiting!</p>
         </section>
       </div>
     </div>

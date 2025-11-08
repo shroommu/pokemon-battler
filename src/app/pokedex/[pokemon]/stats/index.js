@@ -104,109 +104,112 @@ export default function PokemonDataEntry({
   ];
 
   return (
-    <section
-      className="flex flex-col md:flex-row h-full md:h-auto w-full"
-      data-testid="pokemon-entry"
+    <div
+      className="flex flex-col h-full w-full"
+      data-testid="pokedex-nav-container"
     >
       <MobilePokedexNav
+        pokemon={pokemon}
         previousPokemon={previousPokemon}
         nextPokemon={nextPokemon}
       />
-      <section
-        className="flex flex-col w-full items-center"
-        data-testid="pokemon-basics-container"
+      <div
+        className="flex flex-col xl:flex-row h-full w-full xl:items-start"
+        data-testid="pokedex-entry-container"
       >
-        <h1 className="text-2xl md:text-4xl" data-testid="pokemon-name">
-          {`#${String(pokemon.pokedex_number).padStart(3, "0")} ${
-            pokemon.name
-          }`}
-        </h1>
-        <Image
-          src={pokemon.sprite_front_filepath.toLowerCase()}
-          width={32}
-          height={32}
-          className="w-full h-auto max-w-64 mt-4 border-gray-600 border-4 rounded-md bg-white p-1 [image-rendering:pixelated]"
-          priority
-          unoptimized
-          alt={`${pokemon.name} front sprite`}
-          data-testid="pokemon-image"
-        />
-        <div className="mt-2" data-testid="pokemon-type">
-          {renderTypes()}
-        </div>
-      </section>
-      <section
-        className="flex flex-col h-full md:h-auto w-full items-center"
-        data-testid="stats-chart-and-controls-container"
-      >
-        <h2
-          className="text-2xl md:text-3xl mt-4"
-          data-testid="stats-chart-title"
+        <section
+          className="flex flex-col w-full xl:flex-1 items-center"
+          data-testid="pokemon-basics-container"
         >
-          Stats
-        </h2>
-        <div
-          className="hidden md:flex h-full w-full"
-          data-testid="horizontal-stats-bar-chart-container"
-        >
-          <HorizontalBarChart
-            data={statsChartData}
-            showReferenceLine={showReferenceLine}
-            width={horizontalStatsChartDimensions.width}
-            height={horizontalStatsChartDimensions.height}
-            fixedDomainMax={175}
-            barFillColor={pokemon.primary_type.display_color}
-            referenceLineFillColor={tinycolor(referenceLineColor).lighten(20)}
-            innerRef={horizontalStatsChartRef}
+          <Image
+            src={pokemon.sprite_front_filepath.toLowerCase()}
+            width={32}
+            height={32}
+            className="w-full h-auto max-w-64 mt-4 border-gray-600 border-4 rounded-md bg-white p-1 [image-rendering:pixelated]"
+            priority
+            unoptimized
+            alt={`${pokemon.name} front sprite`}
+            data-testid="pokemon-image"
           />
-        </div>
-        <div
-          className="flex md:hidden h-full w-full"
-          data-testid="vertical-stats-bar-chart-container"
+          <div className="mt-2" data-testid="pokemon-type">
+            {renderTypes()}
+          </div>
+        </section>
+        <section
+          className="flex flex-col min-h-72 h-full w-full xl:flex-1 items-center"
+          data-testid="stats-chart-and-controls-container"
         >
-          <VerticalBarChart
-            data={statsChartData}
-            showReferenceLine={showReferenceLine}
-            width={verticalStatsChartDimensions.width}
-            height={verticalStatsChartDimensions.height}
-            barFillColor={pokemon.primary_type.display_color}
-            referenceLineFillColor={tinycolor(referenceLineColor).lighten(20)}
-            innerRef={verticalStatsChartRef}
-          />
-        </div>
-        <div
-          className="flex flex-row justify-center"
-          data-testid="stats-chart-controls-container"
-        >
-          <Button
-            onClick={() => getAllPokemonAverageStatData()}
-            type={"tertiary"}
-            extraClasses={"mr-4"}
-            testId="compare-to-all-pokemon-button"
+          <h2
+            className="text-2xl md:text-3xl mt-4 xl:mt-0"
+            data-testid="stats-chart-title"
           >
-            Compare To All Pokemon
-          </Button>
-          <Button
-            onClick={() => getPokemonTypeAverageStatData(pokemon.primary_type)}
-            type={"tertiary"}
-            extraClasses={"mr-4"}
-            testId="compare-to-primary-type-button"
+            Stats
+          </h2>
+          <div
+            className="hidden xl:flex h-full w-full"
+            data-testid="horizontal-stats-bar-chart-container"
           >
-            Compare To All {pokemon.primary_type.name} Types
-          </Button>
-          {pokemon.secondary_type && (
+            <HorizontalBarChart
+              data={statsChartData}
+              showReferenceLine={showReferenceLine}
+              width={horizontalStatsChartDimensions.width}
+              height={horizontalStatsChartDimensions.height}
+              fixedDomainMax={175}
+              barFillColor={pokemon.primary_type.display_color}
+              referenceLineFillColor={tinycolor(referenceLineColor).lighten(20)}
+              innerRef={horizontalStatsChartRef}
+            />
+          </div>
+          <div
+            className="flex xl:hidden h-full w-full"
+            data-testid="vertical-stats-bar-chart-container"
+          >
+            <VerticalBarChart
+              data={statsChartData}
+              showReferenceLine={showReferenceLine}
+              width={verticalStatsChartDimensions.width}
+              height={verticalStatsChartDimensions.height}
+              barFillColor={pokemon.primary_type.display_color}
+              referenceLineFillColor={tinycolor(referenceLineColor).lighten(20)}
+              innerRef={verticalStatsChartRef}
+            />
+          </div>
+          <div
+            className="flex flex-row justify-center"
+            data-testid="stats-chart-controls-container"
+          >
+            <Button
+              onClick={() => getAllPokemonAverageStatData()}
+              type={"tertiary"}
+              extraClasses={"mr-4"}
+              testId="compare-to-all-pokemon-button"
+            >
+              Compare To All Pokemon
+            </Button>
             <Button
               onClick={() =>
-                getPokemonTypeAverageStatData(pokemon.secondary_type)
+                getPokemonTypeAverageStatData(pokemon.primary_type)
               }
               type={"tertiary"}
-              testId="compare-to-secondary-type-button"
+              extraClasses={"mr-4"}
+              testId="compare-to-primary-type-button"
             >
-              Compare To All {pokemon.secondary_type.name} Types
+              Compare To All {pokemon.primary_type.name} Types
             </Button>
-          )}
-        </div>
-      </section>
-    </section>
+            {pokemon.secondary_type && (
+              <Button
+                onClick={() =>
+                  getPokemonTypeAverageStatData(pokemon.secondary_type)
+                }
+                type={"tertiary"}
+                testId="compare-to-secondary-type-button"
+              >
+                Compare To All {pokemon.secondary_type.name} Types
+              </Button>
+            )}
+          </div>
+        </section>
+      </div>
+    </div>
   );
 }

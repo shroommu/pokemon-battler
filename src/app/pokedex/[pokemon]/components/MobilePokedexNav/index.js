@@ -1,32 +1,66 @@
 "use client";
 
-import { locations } from "@/app/constants";
-import { buildPath } from "@/app/utils";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export default function MobilePokedexNav({ previousPokemon, nextPokemon }) {
+import { locations } from "@/app/constants";
+import { buildPath } from "@/app/utils";
+
+export default function PokedexHeader({
+  pokemon,
+  previousPokemon,
+  nextPokemon,
+}) {
   const pathname = usePathname();
 
   return (
-    <div className="grid md:hidden mb-4 justify-center grid-cols-3">
+    <div className="flex justify-center items-center">
       {previousPokemon ? (
         <Link
           href={buildPath(pathname, previousPokemon.name)}
-          className="mr-auto"
+          className="flex flex-row mr-auto items-center underline"
         >
-          ← Previous
+          {`← #${String(previousPokemon.pokedex_number).padStart(3, "0")}`}
+          <Image
+            src={previousPokemon.sprite_party_filepath.toLowerCase()}
+            width={0}
+            height={0}
+            style={{ width: "100%", height: "100%" }}
+            alt={`${previousPokemon.name} party sprite`}
+            className="max-w-[25px] md:max-w-[50px]"
+            unoptimized
+            priority
+          />
         </Link>
       ) : (
-        <div className="mr-auto" />
+        <div className="w-24 mr-auto" />
       )}
-      <Link href={locations.POKEDEX} className="mx-auto">
-        Pokedex
-      </Link>
-      {nextPokemon && (
-        <Link href={buildPath(pathname, nextPokemon.name)} className="ml-auto">
-          Next →
+      <h1
+        className="text-2xl md:text-4xl"
+        data-testid="pokemon-name"
+      >{`#${String(pokemon.pokedex_number).padStart(3, "0")} ${
+        pokemon.name
+      }`}</h1>
+      {nextPokemon ? (
+        <Link
+          href={buildPath(pathname, nextPokemon.name)}
+          className="flex flex-row ml-auto items-center underline"
+        >
+          <Image
+            src={nextPokemon.sprite_party_filepath.toLowerCase()}
+            width={0}
+            height={0}
+            style={{ width: "100%", height: "100%" }}
+            alt={`${nextPokemon.name} party sprite`}
+            className="max-w-[25px] md:max-w-[50px]"
+            unoptimized
+            priority
+          />
+          {`#${String(nextPokemon.pokedex_number).padStart(3, "0")} →`}
         </Link>
+      ) : (
+        <div className="w-24 ml-auto" />
       )}
     </div>
   );
