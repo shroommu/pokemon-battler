@@ -16,7 +16,7 @@ export default async function PokedexHome() {
         >
           <h1 className="text-xl mb-4">Pokedex</h1>
           <div>
-            <ul className="grid gap-1 grid-cols-2 md:grid-cols-4">
+            <ul className="grid gap-1 grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
               {pokemons?.data.map((pokemon) => (
                 <PokedexButton
                   key={pokemon.name}

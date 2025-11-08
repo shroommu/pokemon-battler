@@ -22,7 +22,7 @@ export default function HorizontalBarItem({
     to: {
       value: value,
       barWidth: barWidth,
-      valueOpacity: barWidth > 80 ? 1 : 0,
+      valueOpacity: barWidth > 90 ? 1 : 0,
       y,
     },
     config: {
