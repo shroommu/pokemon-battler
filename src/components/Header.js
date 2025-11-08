@@ -1,4 +1,5 @@
 import Nav from "@/components/Nav";
+import MobileNavMenu from "./MobileNavMenu";
 
 export default function Header() {
   return (
@@ -102,6 +103,7 @@ export default function Header() {
           </svg>
           <div className="pl-2">
             <Nav />
+            <MobileNavMenu />
           </div>
         </div>
       </div>
