@@ -78,6 +78,9 @@ export default function PokemonList({ pokemons }) {
                 key={pokemon.name}
                 pokemon={pokemon}
                 href={buildPath(pathname, pokemon.name)}
+                selected={pathname.includes(
+                  pokemon.name.replace(" ", "-").toLowerCase()
+                )}
               />
             );
           })}
