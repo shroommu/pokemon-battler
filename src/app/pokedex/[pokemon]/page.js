@@ -1,20 +1,34 @@
-import PokedexEntry from "./components/pokedexEntry";
 import { getUniquePokemonByName } from "@/services/getUniquePokemonByName";
+import { getUniquePokemonByNumber } from "@/services/getUniquePokemonByNumber";
 
-export default async function PokedexEntryContainer({ params }) {
-  function capitalizePokemonSlug(slug) {
-    const words = slug.split("-");
-    const capitalizedWords = words.map(
-      (word) => String(word).charAt(0).toUpperCase() + String(word).slice(1)
-    );
-    return capitalizedWords.join(" ");
-  }
+import { capitalizePokemonSlug } from "@/app/utils";
 
-  const pokemonNameCapitalized = capitalizePokemonSlug(params.pokemon);
+import Info from ".";
 
-  const pokemon = await getUniquePokemonByName(pokemonNameCapitalized);
+export default async function InfoPage({ params }) {
+  const pokemon = await getUniquePokemonByName(
+    capitalizePokemonSlug(params.pokemon)
+  );
 
-  return <PokedexEntry pokemon={pokemon.data} />;
+  const previousPokemon = await getUniquePokemonByName(
+    capitalizePokemonSlug(params.pokemon)
+  ).then(
+    async (pokemon) =>
+      await getUniquePokemonByNumber(pokemon.data.pokedex_number - 1)
+  );
+
+  const nextPokemon = await getUniquePokemonByName(
+    capitalizePokemonSlug(params.pokemon)
+  ).then(
+    async (pokemon) =>
+      await getUniquePokemonByNumber(pokemon.data.pokedex_number + 1)
+  );
+
+  return (
+    <Info
+      pokemon={pokemon.data}
+      previousPokemon={previousPokemon?.data}
+      nextPokemon={nextPokemon?.data}
+    />
+  );
 }
-
-export const dynamic = "force-dynamic";

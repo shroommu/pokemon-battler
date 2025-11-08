@@ -14,8 +14,13 @@ import { useDimensions } from "@/hooks/useDimensions";
 
 import { getAllPokemonAverageStats } from "@/services/getAllPokemonAverageStats";
 import { getPokemonTypeAverageStats } from "@/services/getPokemonTypeAverageStats";
+import MobilePokedexNav from "../components/MobilePokedexNav";
 
-export default function PokemonDataEntry({ pokemonData }) {
+export default function PokemonDataEntry({
+  pokemon,
+  previousPokemon,
+  nextPokemon,
+}) {
   const [referenceLineData, setReferenceLineData] = useState();
   const [referenceLineType, setReferenceLineType] = useState();
   const [referenceLineColor, setReferenceLineColor] = useState();
@@ -23,7 +28,7 @@ export default function PokemonDataEntry({ pokemonData }) {
 
   useEffect(() => {
     setShowReferenceLine(false);
-  }, [pokemonData]);
+  }, [pokemon]);
 
   async function getAllPokemonAverageStatData() {
     const avgData = await getAllPokemonAverageStats();
@@ -44,14 +49,14 @@ export default function PokemonDataEntry({ pokemonData }) {
   }
 
   const renderTypes = () => {
-    return pokemonData.secondary_type ? (
+    return pokemon.secondary_type ? (
       <div className="flex flex-row">
-        <TypePill typeName={pokemonData.primary_type.name} size="lg" />
+        <TypePill typeName={pokemon.primary_type.name} size="lg" />
         <div className="px-2">/</div>
-        <TypePill typeName={pokemonData.secondary_type.name} size="lg" />
+        <TypePill typeName={pokemon.secondary_type.name} size="lg" />
       </div>
     ) : (
-      <TypePill typeName={pokemonData.primary_type.name} size="lg" />
+      <TypePill typeName={pokemon.primary_type.name} size="lg" />
     );
   };
 
@@ -63,36 +68,36 @@ export default function PokemonDataEntry({ pokemonData }) {
   const statsChartData = [
     {
       name: "HP",
-      value: pokemonData.hp || 0,
-      tooltipText: `Max HP of ${pokemonData.name}: `,
+      value: pokemon.hp || 0,
+      tooltipText: `Max HP of ${pokemon.name}: `,
       referenceLineTooltipText: `Average HP of ${referenceLineType} Pokemon: `,
       referenceLine: referenceLineData?.hp,
     },
     {
       name: "Attack",
-      value: pokemonData.attack || 0,
-      tooltipText: `Max Attack of ${pokemonData.name}: `,
+      value: pokemon.attack || 0,
+      tooltipText: `Max Attack of ${pokemon.name}: `,
       referenceLineTooltipText: `Average Attack of ${referenceLineType} Pokemon: `,
       referenceLine: referenceLineData?.attack,
     },
     {
       name: "Defense",
-      value: pokemonData.defense || 0,
-      tooltipText: `Max Defense of ${pokemonData.name}: `,
+      value: pokemon.defense || 0,
+      tooltipText: `Max Defense of ${pokemon.name}: `,
       referenceLineTooltipText: `Average Defense of ${referenceLineType} Pokemon: `,
       referenceLine: referenceLineData?.defense,
     },
     {
       name: "Special",
-      value: pokemonData.special || 0,
-      tooltipText: `Max Special of ${pokemonData.name}: `,
+      value: pokemon.special || 0,
+      tooltipText: `Max Special of ${pokemon.name}: `,
       referenceLineTooltipText: `Average Special of ${referenceLineType} Pokemon: `,
       referenceLine: referenceLineData?.special,
     },
     {
       name: "Speed",
-      value: pokemonData.speed || 0,
-      tooltipText: `Max Speed of ${pokemonData.name}: `,
+      value: pokemon.speed || 0,
+      tooltipText: `Max Speed of ${pokemon.name}: `,
       referenceLineTooltipText: `Average Speed of ${referenceLineType} Pokemon: `,
       referenceLine: referenceLineData?.speed,
     },
@@ -100,26 +105,30 @@ export default function PokemonDataEntry({ pokemonData }) {
 
   return (
     <section
-      className="flex flex-col md:flex-row p-6 h-full w-full bg-gray-200 rounded-md"
+      className="flex flex-col md:flex-row h-full md:h-auto w-full"
       data-testid="pokemon-entry"
     >
+      <MobilePokedexNav
+        previousPokemon={previousPokemon}
+        nextPokemon={nextPokemon}
+      />
       <section
-        className="flex flex-col h-auto md:h-full w-full items-center"
+        className="flex flex-col w-full items-center"
         data-testid="pokemon-basics-container"
       >
-        <h1 className="text-3xl md:text-4xl" data-testid="pokemon-name">
-          {`#${String(pokemonData.pokedex_number).padStart(3, "0")} ${
-            pokemonData.name
+        <h1 className="text-2xl md:text-4xl" data-testid="pokemon-name">
+          {`#${String(pokemon.pokedex_number).padStart(3, "0")} ${
+            pokemon.name
           }`}
         </h1>
         <Image
-          src={pokemonData.sprite_front_filepath.toLowerCase()}
+          src={pokemon.sprite_front_filepath.toLowerCase()}
           width={32}
-          height={0}
+          height={32}
           className="w-full h-auto max-w-64 mt-4 border-gray-600 border-4 rounded-md bg-white p-1 [image-rendering:pixelated]"
           priority
           unoptimized
-          alt={`${pokemonData.name} front sprite`}
+          alt={`${pokemon.name} front sprite`}
           data-testid="pokemon-image"
         />
         <div className="mt-2" data-testid="pokemon-type">
@@ -127,7 +136,7 @@ export default function PokemonDataEntry({ pokemonData }) {
         </div>
       </section>
       <section
-        className="flex flex-col h-full w-full items-center"
+        className="flex flex-col h-full md:h-auto w-full items-center"
         data-testid="stats-chart-and-controls-container"
       >
         <h2
@@ -146,7 +155,7 @@ export default function PokemonDataEntry({ pokemonData }) {
             width={horizontalStatsChartDimensions.width}
             height={horizontalStatsChartDimensions.height}
             fixedDomainMax={175}
-            barFillColor={pokemonData.primary_type.display_color}
+            barFillColor={pokemon.primary_type.display_color}
             referenceLineFillColor={tinycolor(referenceLineColor).lighten(20)}
             innerRef={horizontalStatsChartRef}
           />
@@ -160,13 +169,13 @@ export default function PokemonDataEntry({ pokemonData }) {
             showReferenceLine={showReferenceLine}
             width={verticalStatsChartDimensions.width}
             height={verticalStatsChartDimensions.height}
-            barFillColor={pokemonData.primary_type.display_color}
+            barFillColor={pokemon.primary_type.display_color}
             referenceLineFillColor={tinycolor(referenceLineColor).lighten(20)}
             innerRef={verticalStatsChartRef}
           />
         </div>
         <div
-          className="flex flex-row"
+          className="flex flex-row justify-center"
           data-testid="stats-chart-controls-container"
         >
           <Button
@@ -178,24 +187,22 @@ export default function PokemonDataEntry({ pokemonData }) {
             Compare To All Pokemon
           </Button>
           <Button
-            onClick={() =>
-              getPokemonTypeAverageStatData(pokemonData.primary_type)
-            }
+            onClick={() => getPokemonTypeAverageStatData(pokemon.primary_type)}
             type={"tertiary"}
             extraClasses={"mr-4"}
             testId="compare-to-primary-type-button"
           >
-            Compare To All {pokemonData.primary_type.name} Types
+            Compare To All {pokemon.primary_type.name} Types
           </Button>
-          {pokemonData.secondary_type && (
+          {pokemon.secondary_type && (
             <Button
               onClick={() =>
-                getPokemonTypeAverageStatData(pokemonData.secondary_type)
+                getPokemonTypeAverageStatData(pokemon.secondary_type)
               }
               type={"tertiary"}
               testId="compare-to-secondary-type-button"
             >
-              Compare To All {pokemonData.secondary_type.name} Types
+              Compare To All {pokemon.secondary_type.name} Types
             </Button>
           )}
         </div>

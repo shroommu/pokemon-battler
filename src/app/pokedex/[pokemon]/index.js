@@ -1,12 +1,14 @@
 "use client";
+
 import Image from "next/image";
 
 import TypePill from "@/components/TypePill";
+import MobilePokedexNav from "./components/MobilePokedexNav";
 
 const STAT_NAMES = ["HP", "Attack", "Defense", "Special", "Speed"];
 const MOVE_TABLE_LABELS = ["Name", "Type", "Power", "Accuracy", "PP", "Effect"];
 
-export default function PokedexEntry({ pokemon }) {
+export default function Info({ pokemon, previousPokemon, nextPokemon }) {
   if (!pokemon) {
     return null;
   }
@@ -32,12 +34,14 @@ export default function PokedexEntry({ pokemon }) {
   ];
 
   return (
-    <section
-      className="flex flex-col xl:flex-row h-auto w-full p-6 bg-gray-200 rounded-md items-center xl:items-start"
-      data-testid={`${pokemon.name
-        .replace(" ", "-")
-        .toLowerCase()}-pokedex-entry`}
+    <div
+      className="flex flex-col xl:flex-row w-full xl:items-start"
+      data-testid="pokedex-entry-container"
     >
+      <MobilePokedexNav
+        previousPokemon={previousPokemon}
+        nextPokemon={nextPokemon}
+      />
       <section
         className="flex flex-col xl:flex-1 items-center"
         data-testid={`${pokemon.name
@@ -53,7 +57,7 @@ export default function PokedexEntry({ pokemon }) {
         <Image
           src={pokemon.sprite_front_filepath.toLowerCase()}
           width={32}
-          height={0}
+          height={32}
           className="w-full h-auto max-w-64 mt-4 border-gray-600 border-4 rounded-md bg-white p-1 [image-rendering:pixelated]"
           priority
           unoptimized
@@ -162,6 +166,6 @@ export default function PokedexEntry({ pokemon }) {
           </table>
         </div>
       </section>
-    </section>
+    </div>
   );
 }

@@ -1,8 +1,11 @@
 "use client";
 
-import Dropdown from "@/components/Dropdown";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+
+import { buildPath } from "@/app/utils";
+
+import Dropdown from "@/components/Dropdown";
 
 export default function PokemonListDropdown({ pokemons }) {
   const pathname = usePathname();
@@ -19,11 +22,7 @@ export default function PokemonListDropdown({ pokemons }) {
           <div key={pokemon.name} className="p-2">
             <Link
               prefetch={true}
-              href={
-                pathname.includes("pokedex/")
-                  ? pokemon.name.replace(" ", "-").toLowerCase()
-                  : `pokedex/${pokemon.name.replace(" ", "-").toLowerCase()}`
-              }
+              href={buildPath(pathname, pokemon.name)}
               data-testid={`${pokemon.name
                 .replace(" ", "-")
                 .toLowerCase()}-link`}
