@@ -9,7 +9,7 @@ export default function Home() {
           className="flex flex-col p-6 w-full bg-gray-200 rounded-md items-center h-full"
           data-testid="home-page"
         >
-          <h1 className="text-2xl mb-4">
+          <h1 className="text-2xl mb-4 text-center">
             Welcome to the Wonderful World of Pokemon!
           </h1>
           <p className="mb-4 text-center">
