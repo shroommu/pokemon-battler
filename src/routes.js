@@ -2,7 +2,7 @@ export const publicRoutes = [
   "/",
   "/pokedex",
   "/analytics",
-  "/api/refreshDaily",
+  "/api/generateRandomPokedexNumber",
 ];
 
 export const authRoutes = ["/login", "/sign-up"];

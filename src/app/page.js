@@ -1,8 +1,10 @@
 import PokemonOfTheDay from "@/components/PokemonOfTheDay";
+import { getUniquePokemonByNumber } from "@/services/getUniquePokemonByNumber";
+import { generateRandomPokedexNumberPerDay } from "./utils";
 
 export default async function Home() {
-  const pokedexNumber = await fetch(process.env.URL + "/api/refreshDaily").then(
-    (res) => res.json()
+  const pokemon = await getUniquePokemonByNumber(
+    generateRandomPokedexNumberPerDay()
   );
 
   return (
@@ -28,7 +30,7 @@ export default async function Home() {
           </p>
           <p className="text-center mb-4">Thanks for visiting!</p>
 
-          <PokemonOfTheDay pokemon={{ name: pokedexNumber }} />
+          <PokemonOfTheDay pokemon={pokemon.data} />
         </section>
       </div>
     </div>
