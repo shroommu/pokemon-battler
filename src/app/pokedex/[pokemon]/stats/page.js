@@ -1,34 +1,55 @@
+import { Suspense } from "react";
+
 import { getUniquePokemonByName } from "@/services/getUniquePokemonByName";
+import { getUniquePokemonByNumber } from "@/services/getUniquePokemonByNumber";
 
 import { capitalizePokemonSlug } from "@/app/utils";
 
 import PokemonDataEntry from ".";
-import { getUniquePokemonByNumber } from "@/services/getUniquePokemonByNumber";
 
-export default async function Stats({ params }) {
+async function getPokemon(pokemonName) {
   const pokemon = await getUniquePokemonByName(
-    capitalizePokemonSlug(params.pokemon)
+    capitalizePokemonSlug(pokemonName)
   );
+  return pokemon;
+}
 
-  const previousPokemon = await getUniquePokemonByName(
-    capitalizePokemonSlug(params.pokemon)
+async function getPreviousPokemon(pokemonName) {
+  const pokemon = await getUniquePokemonByName(
+    capitalizePokemonSlug(pokemonName)
   ).then(
     async (pokemon) =>
       await getUniquePokemonByNumber(pokemon.data.pokedex_number - 1)
   );
+  return pokemon;
+}
 
-  const nextPokemon = await getUniquePokemonByName(
-    capitalizePokemonSlug(params.pokemon)
+async function getNextPokemon(pokemonName) {
+  const pokemon = await getUniquePokemonByName(
+    capitalizePokemonSlug(pokemonName)
   ).then(
     async (pokemon) =>
       await getUniquePokemonByNumber(pokemon.data.pokedex_number + 1)
   );
+  return pokemon;
+}
+
+export default async function Stats({ params }) {
+  const pokemonData = getPokemon(params.pokemon);
+  const previousPokemonData = getPreviousPokemon(params.pokemon);
+  const nextPokemonData = getNextPokemon(params.pokemon);
+
+  const [pokemon, previousPokemon, nextPokemon] = await Promise.all([
+    pokemonData,
+    previousPokemonData,
+    nextPokemonData,
+  ]);
 
   return (
     <PokemonDataEntry
       pokemon={pokemon.data}
-      previousPokemon={previousPokemon?.data}
-      nextPokemon={nextPokemon?.data}
+      previousPokemon={previousPokemon.data}
+      nextPokemon={nextPokemon.data}
     />
   );
 }

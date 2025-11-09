@@ -1,7 +1,6 @@
 import { getAllPokemon } from "@/services/getAllPokemon";
 
 import PokemonList from "./components/pokemonList";
-import PokemonListDropdown from "./components/pokemonListDropdown";
 import Tabs from "./components/Tabs";
 
 export default async function PokedexEntryContainer({ params, children }) {

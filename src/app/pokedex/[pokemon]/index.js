@@ -5,7 +5,6 @@ import Image from "next/image";
 import TypePill from "@/components/TypePill";
 import MobilePokedexNav from "./components/MobilePokedexNav";
 
-const STAT_NAMES = ["HP", "Attack", "Defense", "Special", "Speed"];
 const MOVE_TABLE_LABELS = ["Name", "Type", "Power", "Accuracy", "PP", "Effect"];
 
 export default function Info({ pokemon, previousPokemon, nextPokemon }) {
@@ -24,14 +23,6 @@ export default function Info({ pokemon, previousPokemon, nextPokemon }) {
       <TypePill typeName={pokemon.primary_type.name} size={"lg"} />
     );
   };
-
-  const statList = [
-    pokemon.hp,
-    pokemon.attack,
-    pokemon.defense,
-    pokemon.special,
-    pokemon.speed,
-  ];
 
   return (
     <div className="flex flex-col" data-testid="pokedex-nav-container">
