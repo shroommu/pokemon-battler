@@ -2,7 +2,7 @@ import { SVGSkeleton, Skeleton } from "../loadingIndicators";
 
 export default function PokedexNavSkeleton() {
   return (
-    <div className="flex justify-center w-full h-16">
+    <div className="flex justify-center w-full h-[50px]">
       <div className="flex flex-row mr-auto items-center">
         <Skeleton className="h-full w-24" />
       </div>
