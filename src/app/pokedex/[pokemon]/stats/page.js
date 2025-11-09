@@ -1,5 +1,3 @@
-import { Suspense } from "react";
-
 import { getUniquePokemonByName } from "@/services/getUniquePokemonByName";
 import { getUniquePokemonByNumber } from "@/services/getUniquePokemonByNumber";
 
@@ -46,12 +44,10 @@ export default async function Stats({ params }) {
   ]);
 
   return (
-    <Suspense fallback={<div>loading</div>}>
-      <PokemonDataEntry
-        pokemon={pokemon.data}
-        previousPokemon={previousPokemon.data}
-        nextPokemon={nextPokemon.data}
-      />
-    </Suspense>
+    <PokemonDataEntry
+      pokemon={pokemon.data}
+      previousPokemon={previousPokemon.data}
+      nextPokemon={nextPokemon.data}
+    />
   );
 }
