@@ -3,8 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-import { locations } from "@/app/constants";
 import { buildPath } from "@/app/utils";
 
 export default function PokedexHeader({
@@ -18,6 +16,7 @@ export default function PokedexHeader({
     <div className="flex justify-center items-center">
       {previousPokemon ? (
         <Link
+          prefetch={true}
           href={buildPath(pathname, previousPokemon.name)}
           className="flex flex-row mr-auto items-center underline"
         >
@@ -28,7 +27,7 @@ export default function PokedexHeader({
             height={0}
             style={{ width: "100%", height: "100%" }}
             alt={`${previousPokemon.name} party sprite`}
-            className="max-w-[25px] md:max-w-[50px]"
+            className="max-w-[50px]"
             unoptimized
             priority
           />

@@ -12,6 +12,7 @@ const pokemonListButtonStyle = tv({
 export default function PokedexButton({ pokemon, href, selected }) {
   return (
     <Link
+      prefetch={true}
       href={href}
       key={pokemon.name}
       data-testid={`${pokemon.name.replace(" ", "-").toLowerCase()}-link`}

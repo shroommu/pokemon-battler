@@ -31,7 +31,7 @@ export default function Tab({ text, href, selected }) {
             <stop offset="100%" stopColor="rgba(0, 0, 0, .25)" />
           </linearGradient>
         </defs>
-        <Link href={href}>
+        <Link prefetch={true} href={href}>
           <rect
             clipPath="url(#folder-tab-clip)"
             className={tabStyle({ selected: selected })}

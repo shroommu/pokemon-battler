@@ -43,5 +43,3 @@ export default async function Stats({ params }) {
     </div>
   );
 }
-
-export const dynamic = "force-dynamic";

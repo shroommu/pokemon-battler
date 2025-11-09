@@ -1,4 +1,12 @@
-export default function Home() {
+import PokemonOfTheDay from "@/components/PokemonOfTheDay";
+import { getUniquePokemonByNumber } from "@/services/getUniquePokemonByNumber";
+import { generateRandomPokedexNumberPerDay } from "./utils";
+
+export default async function Home() {
+  const pokemon = await getUniquePokemonByNumber(
+    generateRandomPokedexNumberPerDay()
+  );
+
   return (
     <div data-testid="container" className="flex flex-row h-full p-4 w-full">
       <div
@@ -9,7 +17,7 @@ export default function Home() {
           className="flex flex-col p-6 w-full bg-gray-200 rounded-md items-center h-full"
           data-testid="home-page"
         >
-          <h1 className="text-2xl mb-4">
+          <h1 className="text-2xl mb-4 text-center">
             Welcome to the Wonderful World of Pokemon!
           </h1>
           <p className="mb-4 text-center">
@@ -20,7 +28,9 @@ export default function Home() {
             I&apos;m using NextJS, postgreSQL, TailwindCSS, D3.js and a few
             other tools and libraries to make the magic happen.
           </p>
-          <p className="text-center">Thanks for visiting!</p>
+          <p className="text-center mb-4">Thanks for visiting!</p>
+
+          <PokemonOfTheDay pokemon={pokemon.data} />
         </section>
       </div>
     </div>
