@@ -46,10 +46,12 @@ export default async function Stats({ params }) {
   ]);
 
   return (
-    <PokemonDataEntry
-      pokemon={pokemon.data}
-      previousPokemon={previousPokemon.data}
-      nextPokemon={nextPokemon.data}
-    />
+    <Suspense fallback={<div>loading</div>}>
+      <PokemonDataEntry
+        pokemon={pokemon.data}
+        previousPokemon={previousPokemon.data}
+        nextPokemon={nextPokemon.data}
+      />
+    </Suspense>
   );
 }
