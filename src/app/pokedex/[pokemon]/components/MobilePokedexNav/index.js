@@ -52,7 +52,7 @@ export default function PokedexHeader({
             height={0}
             style={{ width: "100%", height: "100%" }}
             alt={`${nextPokemon.name} party sprite`}
-            className="max-w-[25px] md:max-w-[50px]"
+            className="max-w-[50px]"
             unoptimized
             priority
           />
