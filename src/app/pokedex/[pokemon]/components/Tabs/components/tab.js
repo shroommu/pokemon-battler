@@ -46,7 +46,7 @@ export default function Tab({ text, href, selected }) {
         </Link>
       </svg>
       <div className="absolute flex h-full w-full pointer-events-none">
-        <div className="flex h-full mr-4 ml-auto items-center text-l lg:text-xl">
+        <div className="flex h-full lg:mr-4 ml-auto mr-2 items-center text-l lg:text-xl">
           {text}
         </div>
       </div>

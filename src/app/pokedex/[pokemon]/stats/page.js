@@ -1,5 +1,3 @@
-import { Suspense } from "react";
-
 import { getUniquePokemonByName } from "@/services/getUniquePokemonByName";
 import { getUniquePokemonByNumber } from "@/services/getUniquePokemonByNumber";
 
