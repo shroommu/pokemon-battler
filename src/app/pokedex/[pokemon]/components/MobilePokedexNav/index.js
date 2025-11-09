@@ -18,6 +18,7 @@ export default function PokedexHeader({
     <div className="flex justify-center items-center">
       {previousPokemon ? (
         <Link
+          prefetch={true}
           href={buildPath(pathname, previousPokemon.name)}
           className="flex flex-row mr-auto items-center underline"
         >
