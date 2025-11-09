@@ -3,8 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-import { locations } from "@/app/constants";
 import { buildPath } from "@/app/utils";
 
 export default function PokedexHeader({
