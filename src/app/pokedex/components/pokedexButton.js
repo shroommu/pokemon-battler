@@ -5,7 +5,7 @@ import { tv } from "tailwind-variants";
 const pokemonListButtonStyle = tv({
   base: "group py-2 px-4 mb-1 bg-gray-400 rounded-md hover:bg-gray-300 active:bg-gray-500 w-full border-2 border-gray-400",
   variants: {
-    selected: { true: "bg-gray-300 hover:bg-gray-200 active:bg-gray-400" },
+    selected: { true: "bg-gray-200 hover:bg-gray-100 active:bg-gray-300" },
   },
 });
 
