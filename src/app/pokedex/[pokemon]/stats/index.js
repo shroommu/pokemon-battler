@@ -14,7 +14,7 @@ import { useDimensions } from "@/hooks/useDimensions";
 
 import { getAllPokemonAverageStats } from "@/services/getAllPokemonAverageStats";
 import { getPokemonTypeAverageStats } from "@/services/getPokemonTypeAverageStats";
-import MobilePokedexNav from "../components/MobilePokedexNav";
+import MobilePokedexNav from "../components/PokedexNav";
 
 export default function PokemonDataEntry({
   pokemon,

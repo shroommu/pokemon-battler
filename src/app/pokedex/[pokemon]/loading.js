@@ -1,5 +1,5 @@
 import { Skeleton } from "./components/loadingIndicators";
-import PokedexNavSkeleton from "./components/MobilePokedexNav/skeleton";
+import PokedexNavSkeleton from "./components/PokedexNav/skeleton";
 import PokedexInfoSkeleton from "./skeleton";
 
 export default function PokedexLoading() {

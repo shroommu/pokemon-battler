@@ -3,7 +3,7 @@
 import Image from "next/image";
 
 import TypePill from "@/components/TypePill";
-import MobilePokedexNav from "./components/MobilePokedexNav";
+import MobilePokedexNav from "./components/PokedexNav";
 
 const MOVE_TABLE_LABELS = ["Name", "Type", "Power", "Accuracy", "PP", "Effect"];
 
