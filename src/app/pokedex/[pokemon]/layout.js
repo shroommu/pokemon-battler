@@ -17,13 +17,6 @@ export default async function PokedexEntryContainer({ params, children }) {
       >
         <PokemonList pokemons={pokemons.data} />
       </div>
-
-      <div
-        className="absolute right-[7.5%] -top-4 lg:right-[25%] lg:-top-8"
-        data-testid="tabs-container"
-      >
-        <Tabs />
-      </div>
       <div className="flex flex-col h-full lg:h-auto w-full">{children}</div>
     </div>
   );
