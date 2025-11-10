@@ -20,7 +20,7 @@ export default function PokemonList({ pokemons }) {
 
   return (
     <div
-      className="flex flex-col p-6 w-full bg-gray-200 rounded-md items-center basis-0 grow overflow-y-scroll no-scrollbar"
+      className="flex flex-col p-4 w-full items-center basis-0 grow overflow-y-scroll no-scrollbar"
       data-testid="pokemon-list-with-actions-container"
     >
       <h1 className="text-2xl">Pokemon</h1>
