@@ -9,10 +9,10 @@ export default function Footer() {
         data-testid="footer-lip"
       />
       <div
-        className="flex flex-col width-full h-[120px] p-4 bg-red-700"
+        className="flex flex-col width-full min-h-[120px] p-4 bg-red-700"
         data-testid="footer-body"
       >
-        <div className="flex flex-col" data-testid="sitemap-container">
+        <div className="flex flex-col mb-8" data-testid="sitemap-container">
           <h1>SITEMAP</h1>
           <Link href={locations.INDEX} className="underline">
             Home
