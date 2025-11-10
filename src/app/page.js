@@ -1,20 +1,12 @@
-"use client";
-
-import { useMemo, useState } from "react";
-
 import { getUniquePokemonByNumber } from "@/services/getUniquePokemonByNumber";
 import { generateRandomPokedexNumberPerDay } from "./utils";
 
 import PokemonOfTheDay from "@/components/PokemonOfTheDay";
 
-export default function Home() {
-  const [pokemon, setPokemon] = useState();
-
-  useMemo(async () => {
-    setPokemon(
-      await getUniquePokemonByNumber(generateRandomPokedexNumberPerDay())
-    );
-  }, []);
+export default async function Home() {
+  const pokemon = await getUniquePokemonByNumber(
+    generateRandomPokedexNumberPerDay()
+  );
 
   return (
     <div data-testid="container" className="flex flex-row h-full p-4 w-full">
@@ -44,3 +36,5 @@ export default function Home() {
     </div>
   );
 }
+
+export const revalidate = 43200;
