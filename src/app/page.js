@@ -10,8 +10,11 @@ export default async function Home() {
   );
 
   return (
-    <div className="flex flex-col lg:flex-row items-center">
-      <section data-testid="professor-oak-container">
+    <div className="flex flex-col w-full items-center">
+      <section
+        data-testid="professor-oak-container"
+        className="w-full xl:w-3/4"
+      >
         <div
           className="relative"
           data-testid="professor-oak-speech-bubble-container"
