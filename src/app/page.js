@@ -35,7 +35,16 @@ export default async function Home() {
             </p>
             <p className="text-center">
               Let&apos;s start by learning about today&apos;s Pokemon,{" "}
-              {pokemon.data.name}!
+              <Link
+                prefetch={true}
+                href={`/pokedex/${pokemon.data.name
+                  .replace(" ", "-")
+                  .toLowerCase()}`}
+                className="underline"
+                data-testid="pokemon-of-the-day-link"
+              >
+                {pokemon.data.name}!
+              </Link>
             </p>
           </div>
           <div
@@ -50,7 +59,7 @@ export default async function Home() {
               .replace(" ", "-")
               .toLowerCase()}`}
             className="mt-auto"
-            data-testid="pokemon-of-the-day-link"
+            data-testid="pokemon-of-the-day-image-link"
           >
             <Image
               src={pokemon.data.sprite_front_filepath.toLowerCase()}
