@@ -1,11 +1,20 @@
-import PokemonOfTheDay from "@/components/PokemonOfTheDay";
+"use client";
+
+import { useMemo, useState } from "react";
+
 import { getUniquePokemonByNumber } from "@/services/getUniquePokemonByNumber";
 import { generateRandomPokedexNumberPerDay } from "./utils";
 
-export default async function Home() {
-  const pokemon = await getUniquePokemonByNumber(
-    generateRandomPokedexNumberPerDay()
-  );
+import PokemonOfTheDay from "@/components/PokemonOfTheDay";
+
+export default function Home() {
+  const [pokemon, setPokemon] = useState();
+
+  useMemo(async () => {
+    setPokemon(
+      await getUniquePokemonByNumber(generateRandomPokedexNumberPerDay())
+    );
+  }, []);
 
   return (
     <div data-testid="container" className="flex flex-row h-full p-4 w-full">
@@ -29,8 +38,7 @@ export default async function Home() {
             other tools and libraries to make the magic happen.
           </p>
           <p className="text-center mb-4">Thanks for visiting!</p>
-
-          <PokemonOfTheDay pokemon={pokemon.data} />
+          <PokemonOfTheDay pokemon={pokemon?.data} />
         </section>
       </div>
     </div>
