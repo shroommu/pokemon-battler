@@ -16,6 +16,7 @@ export const locations = {
   INDEX: "/",
   POKEDEX: "/pokedex/",
   ANALYTICS: "/analytics/",
+  ABOUT: "/about/",
 };
 
 export const locationsWithLabels = {
