@@ -12,7 +12,7 @@ export default async function Home() {
   return (
     <div data-testid="container" className="flex flex-row h-full p-4 w-full">
       <div
-        className="flex flex-col p-6 w-full bg-gray-200 rounded-md h-full"
+        className="flex flex-col p-6 w-full bg-gray-200 rounded-md border-2 border-red-800 h-full shadow-[0_0_8px_0_rgba(0,0,0,0.5)_inset]"
         data-testid="home-page-container"
       >
         <div className="flex flex-col lg:flex-row items-center">

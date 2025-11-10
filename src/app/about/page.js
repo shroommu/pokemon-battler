@@ -6,7 +6,7 @@ export default function AboutPage() {
         data-testid="home-page-container"
       >
         <section
-          className="flex flex-col p-6 w-full bg-gray-200 rounded-md items-center h-full"
+          className="flex flex-col p-6 w-full bg-gray-200 rounded-md items-center h-full border-2 border-red-800 h-full shadow-[0_0_8px_0_rgba(0,0,0,0.5)_inset]"
           data-testid="home-page"
         >
           <h1 className="text-2xl mb-4 text-center">
