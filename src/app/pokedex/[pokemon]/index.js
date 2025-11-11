@@ -25,7 +25,10 @@ export default function Info({ pokemon, previousPokemon, nextPokemon }) {
   };
 
   return (
-    <div className="flex flex-col" data-testid="pokedex-nav-container">
+    <div
+      className="flex flex-col pb-6 lg:pb-0"
+      data-testid="pokedex-nav-container"
+    >
       <MobilePokedexNav
         pokemon={pokemon}
         previousPokemon={previousPokemon}
