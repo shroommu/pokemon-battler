@@ -32,7 +32,8 @@ async function getNextPokemon(pokemonName) {
   return pokemon;
 }
 
-export default async function Stats({ params }) {
+export default async function Stats(props) {
+  const params = await props.params;
   const pokemonData = getPokemon(params.pokemon);
   const previousPokemonData = getPreviousPokemon(params.pokemon);
   const nextPokemonData = getNextPokemon(params.pokemon);
