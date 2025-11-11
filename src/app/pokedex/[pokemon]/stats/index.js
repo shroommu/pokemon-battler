@@ -105,7 +105,7 @@ export default function PokemonDataEntry({
 
   return (
     <div
-      className="flex flex-col h-full w-full"
+      className="flex flex-col h-full w-full pb-6 lg:pb-0"
       data-testid="pokedex-nav-container"
     >
       <MobilePokedexNav
