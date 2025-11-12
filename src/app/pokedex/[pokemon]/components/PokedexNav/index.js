@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { buildPath } from "@/app/utils";
+import PagePill from "./components/pagePill";
 
 export default function PokedexHeader({
   pokemon,
@@ -13,54 +14,71 @@ export default function PokedexHeader({
   const pathname = usePathname();
 
   return (
-    <div className="flex justify-center items-center">
-      {previousPokemon ? (
-        <Link
-          prefetch={true}
-          href={buildPath(pathname, previousPokemon.name)}
-          className="flex flex-row mr-auto items-center underline"
-        >
-          {`← #${String(previousPokemon.pokedex_number).padStart(3, "0")}`}
-          <Image
-            src={previousPokemon.sprite_party_filepath.toLowerCase()}
-            width={0}
-            height={0}
-            style={{ width: "100%", height: "100%" }}
-            alt={`${previousPokemon.name} party sprite`}
-            className="max-w-[50px] [image-rendering:pixelated]"
-            unoptimized
-            priority
-          />
-        </Link>
-      ) : (
-        <div className="w-24 mr-auto" />
-      )}
-      <h1
-        className="text-2xl md:text-4xl"
-        data-testid="pokemon-name"
-      >{`#${String(pokemon.pokedex_number).padStart(3, "0")} ${
-        pokemon.name
-      }`}</h1>
-      {nextPokemon ? (
-        <Link
-          href={buildPath(pathname, nextPokemon.name)}
-          className="flex flex-row ml-auto items-center underline"
-        >
-          <Image
-            src={nextPokemon.sprite_party_filepath.toLowerCase()}
-            width={0}
-            height={0}
-            style={{ width: "100%", height: "100%" }}
-            alt={`${nextPokemon.name} party sprite`}
-            className="max-w-[50px] [image-rendering:pixelated]"
-            unoptimized
-            priority
-          />
-          {`#${String(nextPokemon.pokedex_number).padStart(3, "0")} →`}
-        </Link>
-      ) : (
-        <div className="w-24 ml-auto" />
-      )}
+    <div className="flex flex-col w-full">
+      <div className="flex justify-center items-center mb-2">
+        {previousPokemon ? (
+          <Link
+            prefetch={true}
+            href={buildPath(pathname, previousPokemon.name)}
+            className="flex flex-row mr-auto items-center underline"
+          >
+            {`← #${String(previousPokemon.pokedex_number).padStart(3, "0")}`}
+            <Image
+              src={previousPokemon.sprite_party_filepath.toLowerCase()}
+              width={0}
+              height={0}
+              style={{ width: "100%", height: "100%" }}
+              alt={`${previousPokemon.name} party sprite`}
+              className="max-w-[50px] [image-rendering:pixelated]"
+              unoptimized
+              priority
+            />
+          </Link>
+        ) : (
+          <div className="w-24 mr-auto" />
+        )}
+        <h1
+          className="text-2xl md:text-4xl"
+          data-testid="pokemon-name"
+        >{`#${String(pokemon.pokedex_number).padStart(3, "0")} ${
+          pokemon.name
+        }`}</h1>
+        {nextPokemon ? (
+          <Link
+            href={buildPath(pathname, nextPokemon.name)}
+            className="flex flex-row ml-auto items-center underline"
+          >
+            <Image
+              src={nextPokemon.sprite_party_filepath.toLowerCase()}
+              width={0}
+              height={0}
+              style={{ width: "100%", height: "100%" }}
+              alt={`${nextPokemon.name} party sprite`}
+              className="max-w-[50px] [image-rendering:pixelated]"
+              unoptimized
+              priority
+            />
+            {`#${String(nextPokemon.pokedex_number).padStart(3, "0")} →`}
+          </Link>
+        ) : (
+          <div className="w-24 ml-auto" />
+        )}
+      </div>
+      <div
+        className="flex w-full justify-center"
+        data-testid="subpage-navigation"
+      >
+        <PagePill
+          text={"Info"}
+          href={`/pokedex/${pokemon.name}`}
+          selected={pathname.split("/").length == 3}
+        />
+        <PagePill
+          text={"Stats"}
+          href={`/pokedex/${pokemon.name}/stats`}
+          selected={pathname.includes("stats")}
+        />
+      </div>
     </div>
   );
 }
