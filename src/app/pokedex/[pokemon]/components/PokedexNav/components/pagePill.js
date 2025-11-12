@@ -13,10 +13,12 @@ const pillStyle = tv({
 
 export default function PagePill({ text, href, selected }) {
   return (
-    <div className={pillStyle({ selected: selected })}>
-      <Link prefetch={true} href={href}>
-        {text}
-      </Link>
-    </div>
+    <Link
+      prefetch={true}
+      href={href}
+      className={pillStyle({ selected: selected })}
+    >
+      {text}
+    </Link>
   );
 }
