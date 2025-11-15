@@ -55,28 +55,26 @@ export default async function Home() {
             data-testid="speech-bubble-pointer"
           />
         </div>
-        <div className="flex flex-row justify-center">
+        <div className="grid grid-cols-2 justify-center">
           <Link
             prefetch={true}
             href={`/pokedex/${pokemon.data.name
               .replace(" ", "-")
               .toLowerCase()}`}
-            className="mt-auto"
+            className="relative mt-auto ml-auto w-full max-w-64 max-h-64 aspect-square"
             data-testid="pokemon-of-the-day-image-link"
           >
-            <div className="relative w-64 h-64">
-              <Image
-                src={pokemon.data.sprite_front_filepath.toLowerCase()}
-                fill
-                className="[image-rendering:pixelated]"
-                priority
-                unoptimized
-                alt={`${pokemon.data.name} front sprite`}
-                data-testid="pokemon-image"
-              />
-            </div>
+            <Image
+              src={pokemon.data.sprite_front_filepath.toLowerCase()}
+              fill
+              className="[image-rendering:pixelated]"
+              priority
+              unoptimized
+              alt={`${pokemon.data.name} front sprite`}
+              data-testid="pokemon-image"
+            />
           </Link>
-          <div className="relative w-64 h-[384px]">
+          <div className="relative max-w-64 aspect-[69/130]">
             <Image
               src={"/images/professorOak.png"}
               fill
