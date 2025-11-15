@@ -75,12 +75,14 @@ export default function PokedexHeader({
       >
         <PagePill
           text={"Info"}
-          href={`/pokedex/${pokemon.name}`}
+          href={`/pokedex/${pokemon.name.replace(" ", "-").toLowerCase()}`}
           selected={pathname.split("/").length == 3}
         />
         <PagePill
           text={"Stats"}
-          href={`/pokedex/${pokemon.name}/stats`}
+          href={`/pokedex/${pokemon.name
+            .replace(" ", "-")
+            .toLowerCase()}/stats`}
           selected={pathname.includes("stats")}
         />
       </div>
