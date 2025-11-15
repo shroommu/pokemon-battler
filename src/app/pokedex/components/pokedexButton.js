@@ -16,18 +16,19 @@ export default function PokedexButton({ pokemon, href, selected }) {
       href={href}
       key={pokemon.name}
       data-testid={`${pokemon.name.replace(" ", "-").toLowerCase()}-link`}
+      className="group"
     >
       <li
         className={pokemonListButtonStyle({
           selected: selected,
         })}
       >
-        <button className="flex flex-row items-center w-full [&>img]:group-hover:animate-party_bounce">
+        <button className="flex flex-row items-center w-full">
           <div className="mr-2">{`#${String(pokemon.pokedex_number).padStart(
             3,
             "0"
           )}`}</div>
-          <div className="relative w-[50px] md:w-[75px] aspect-square">
+          <div className="relative w-[50px] md:w-[75px] aspect-square group-hover:animate-party_bounce">
             <Image
               src={pokemon.sprite_party_filepath.toLowerCase()}
               fill
