@@ -7,9 +7,6 @@ import { capitalizePokemonSlug } from "@/app/utils";
 import PokemonList from "./components/pokemonList";
 import PokemonInfo from "./components/PokemonInfo";
 import PokedexHeader from "./components/PokedexHeader";
-import { Suspense } from "react";
-import PokedexNavSkeleton from "./components/PokedexHeader/skeleton";
-import PokedexInfoSkeleton from "./skeleton";
 
 async function getPokemon(pokemonName) {
   const pokemon = await getUniquePokemonByName(
@@ -67,20 +64,16 @@ export default async function PokedexEntryContainer({ params, children }) {
         className="flex flex-col h-full lg:h-auto w-full"
         data-testid="pokedex-entry-layout"
       >
-        <Suspense fallback={<PokedexNavSkeleton />}>
-          <PokedexHeader
-            pokemon={pokemon.data}
-            nextPokemon={nextPokemon.data}
-            previousPokemon={previousPokemon.data}
-          />
-        </Suspense>
+        <PokedexHeader
+          pokemon={pokemon.data}
+          nextPokemon={nextPokemon.data}
+          previousPokemon={previousPokemon.data}
+        />
         <div
           className="flex flex-col xl:flex-row w-full xl:items-start"
           data-testid="pokedex-entry-container"
         >
-          <Suspense fallback={<PokedexInfoSkeleton />}>
-            <PokemonInfo pokemon={pokemon.data} />
-          </Suspense>
+          <PokemonInfo pokemon={pokemon.data} />
           {children}
         </div>
       </div>

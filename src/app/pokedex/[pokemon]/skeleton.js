@@ -1,4 +1,4 @@
-import { SVGSkeleton, Skeleton } from "./components/loadingIndicators";
+import { SVGSkeleton, Skeleton } from "@/components/LoadingIndicators";
 
 export default function PokedexInfoSkeleton() {
   return (
