@@ -58,7 +58,7 @@ export default function PokedexHeader({
                 src={nextPokemon.sprite_party_filepath.toLowerCase()}
                 fill
                 alt={`${nextPokemon.name} party sprite`}
-                className="max-w-[50px] [image-rendering:pixelated]"
+                className="max-w-[50px]"
                 unoptimized
                 priority
               />
