@@ -27,16 +27,16 @@ export default function PokedexButton({ pokemon, href, selected }) {
             3,
             "0"
           )}`}</div>
-          <Image
-            src={pokemon.sprite_party_filepath.toLowerCase()}
-            width={0}
-            height={0}
-            style={{ width: "100%", height: "100%" }}
-            alt={`${pokemon.name} party sprite`}
-            className="max-w-[50px] md:max-w-[75px]"
-            unoptimized
-            priority
-          />
+          <div className="relative w-[50px] md:w-[75px] aspect-square">
+            <Image
+              src={pokemon.sprite_party_filepath.toLowerCase()}
+              fill
+              alt={`${pokemon.name} party sprite`}
+              className="[image-rendering:pixelated]"
+              unoptimized
+              priority
+            />
+          </div>
           <div className="ml-auto">{pokemon.name}</div>
         </button>
       </li>

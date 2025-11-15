@@ -23,16 +23,16 @@ export default function PokedexHeader({
             className="flex flex-row mr-auto items-center underline"
           >
             {`← #${String(previousPokemon.pokedex_number).padStart(3, "0")}`}
-            <Image
-              src={previousPokemon.sprite_party_filepath.toLowerCase()}
-              width={0}
-              height={0}
-              style={{ width: "100%", height: "100%" }}
-              alt={`${previousPokemon.name} party sprite`}
-              className="max-w-[50px] [image-rendering:pixelated]"
-              unoptimized
-              priority
-            />
+            <div className="relative w-[50px] aspect-square">
+              <Image
+                src={previousPokemon.sprite_party_filepath.toLowerCase()}
+                fill
+                alt={`${previousPokemon.name} party sprite`}
+                className="[image-rendering:pixelated]"
+                unoptimized
+                priority
+              />
+            </div>
           </Link>
         ) : (
           <div className="w-24 mr-auto" />
@@ -48,16 +48,16 @@ export default function PokedexHeader({
             href={buildPath(pathname, nextPokemon.name)}
             className="flex flex-row ml-auto items-center underline"
           >
-            <Image
-              src={nextPokemon.sprite_party_filepath.toLowerCase()}
-              width={0}
-              height={0}
-              style={{ width: "100%", height: "100%" }}
-              alt={`${nextPokemon.name} party sprite`}
-              className="max-w-[50px] [image-rendering:pixelated]"
-              unoptimized
-              priority
-            />
+            <div className="relative w-[50px] aspect-square">
+              <Image
+                src={nextPokemon.sprite_party_filepath.toLowerCase()}
+                fill
+                alt={`${nextPokemon.name} party sprite`}
+                className="max-w-[50px] [image-rendering:pixelated]"
+                unoptimized
+                priority
+              />
+            </div>
             {`#${String(nextPokemon.pokedex_number).padStart(3, "0")} →`}
           </Link>
         ) : (
