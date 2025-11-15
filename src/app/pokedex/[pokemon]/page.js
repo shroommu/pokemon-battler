@@ -34,21 +34,7 @@ async function getNextPokemon(pokemonName) {
 
 export default async function InfoPage(props) {
   const params = await props.params;
-  const pokemonData = getPokemon(params.pokemon);
-  const previousPokemonData = getPreviousPokemon(params.pokemon);
-  const nextPokemonData = getNextPokemon(params.pokemon);
+  const pokemon = await getPokemon(params.pokemon);
 
-  const [pokemon, previousPokemon, nextPokemon] = await Promise.all([
-    pokemonData,
-    previousPokemonData,
-    nextPokemonData,
-  ]);
-
-  return (
-    <Info
-      pokemon={pokemon.data}
-      previousPokemon={previousPokemon.data}
-      nextPokemon={nextPokemon.data}
-    />
-  );
+  return <Info pokemon={pokemon.data} />;
 }

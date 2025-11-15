@@ -19,7 +19,10 @@ export default function PokedexHeader({
         {previousPokemon ? (
           <Link
             prefetch={true}
-            href={buildPath(pathname, previousPokemon.name)}
+            href={buildPath(
+              pathname,
+              previousPokemon.name.replace(" ", "-").toLowerCase()
+            )}
             className="flex flex-row mr-auto items-center underline"
           >
             {`← #${String(previousPokemon.pokedex_number).padStart(3, "0")}`}
@@ -44,7 +47,10 @@ export default function PokedexHeader({
         }`}</h1>
         {nextPokemon ? (
           <Link
-            href={buildPath(pathname, nextPokemon.name)}
+            href={buildPath(
+              pathname,
+              nextPokemon.name.replace(" ", "-").toLowerCase()
+            )}
             className="flex flex-row ml-auto items-center underline"
           >
             <div className="relative w-[50px] aspect-square">
@@ -69,12 +75,14 @@ export default function PokedexHeader({
       >
         <PagePill
           text={"Info"}
-          href={`/pokedex/${pokemon.name}`}
+          href={`/pokedex/${pokemon.name.replace(" ", "-").toLowerCase()}`}
           selected={pathname.split("/").length == 3}
         />
         <PagePill
           text={"Stats"}
-          href={`/pokedex/${pokemon.name}/stats`}
+          href={`/pokedex/${pokemon.name
+            .replace(" ", "-")
+            .toLowerCase()}/stats`}
           selected={pathname.includes("stats")}
         />
       </div>
