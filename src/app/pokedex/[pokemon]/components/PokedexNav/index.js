@@ -28,7 +28,6 @@ export default function PokedexHeader({
                 src={previousPokemon.sprite_party_filepath.toLowerCase()}
                 fill
                 alt={`${previousPokemon.name} party sprite`}
-                className="[image-rendering:pixelated]"
                 unoptimized
                 priority
               />

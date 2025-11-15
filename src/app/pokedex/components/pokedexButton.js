@@ -32,7 +32,6 @@ export default function PokedexButton({ pokemon, href, selected }) {
               src={pokemon.sprite_party_filepath.toLowerCase()}
               fill
               alt={`${pokemon.name} party sprite`}
-              className="[image-rendering:pixelated]"
               unoptimized
               priority
             />
