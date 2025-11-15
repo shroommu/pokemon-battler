@@ -21,7 +21,7 @@ export default function PokedexHeader({
             prefetch={true}
             href={buildPath(
               pathname,
-              previousPokemon.replace(" ", "-").toLowerCase()
+              previousPokemon.name.replace(" ", "-").toLowerCase()
             )}
             className="flex flex-row mr-auto items-center underline"
           >
@@ -49,7 +49,7 @@ export default function PokedexHeader({
           <Link
             href={buildPath(
               pathname,
-              nextPokemon.replace(" ", "-").toLowerCase()
+              nextPokemon.name.replace(" ", "-").toLowerCase()
             )}
             className="flex flex-row ml-auto items-center underline"
           >
