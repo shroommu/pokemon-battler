@@ -32,7 +32,7 @@ export default function EnterPage({}) {
       logoColorApi.start({
         from: { opacity: 0.5 },
         to: { opacity: 0 },
-        config: { duration: 1500 },
+        config: { duration: 1000 },
         delay: 500,
       }),
   }));
@@ -59,17 +59,17 @@ export default function EnterPage({}) {
   return (
     <div className="flex h-full w-full items-center justify-center">
       <div
-        className="absolute flex flex-none h-[calc(100dvh-80px)] md:h-[calc(100dvh-120px)] lg:h-auto lg:min-h-[calc(100dvh-120px)] w-full bg-red-500"
+        className="absolute flex flex-none h-[calc(100svh-80px)] md:h-[calc(100svh-120px)] lg:h-auto lg:min-h-[calc(100svh-120px)] w-full bg-red-500"
         data-testid="enter-content-body-container"
       >
         <div
           data-testid="enter-screen-container"
-          className="relative flex flex-row h-full p-4 w-full"
+          className="relative flex flex-row h-auto p-4 w-full"
         >
           <animated.div
             className="flex flex-col p-6 w-full rounded-md border-2 border-red-800 h-full shadow-[0_0_12px_0_rgba(0,0,0,0.5)_inset] items-center justify-center"
             data-testid="enter-screen"
-            style={{ backgroundColor: screenColorSpring.color }}
+            style={{ "background-color": screenColorSpring.color }}
           >
             <svg viewBox="0 0 6 6" className="h-48 w-96">
               <g>
