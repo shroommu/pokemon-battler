@@ -70,7 +70,7 @@ export default async function PokedexEntryContainer({ params, children }) {
           previousPokemon={previousPokemon.data}
         />
         <div
-          className="flex flex-col xl:flex-row w-full xl:items-start"
+          className="flex flex-col xl:flex-row w-full xl:items-start pb-4 lg:pb-0"
           data-testid="pokedex-entry-container"
         >
           <PokemonInfo pokemon={pokemon.data} />
