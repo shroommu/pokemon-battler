@@ -19,7 +19,10 @@ export default function PokedexHeader({
         {previousPokemon ? (
           <Link
             prefetch={true}
-            href={buildPath(pathname, previousPokemon.name)}
+            href={buildPath(
+              pathname,
+              previousPokemon.replace(" ", "-").toLowerCase()
+            )}
             className="flex flex-row mr-auto items-center underline"
           >
             {`← #${String(previousPokemon.pokedex_number).padStart(3, "0")}`}
@@ -44,7 +47,10 @@ export default function PokedexHeader({
         }`}</h1>
         {nextPokemon ? (
           <Link
-            href={buildPath(pathname, nextPokemon.name)}
+            href={buildPath(
+              pathname,
+              nextPokemon.replace(" ", "-").toLowerCase()
+            )}
             className="flex flex-row ml-auto items-center underline"
           >
             <div className="relative w-[50px] aspect-square">
