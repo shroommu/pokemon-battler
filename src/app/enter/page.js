@@ -69,7 +69,7 @@ export default function EnterPage({}) {
           <animated.div
             className="flex flex-col p-6 w-full rounded-md border-2 border-red-800 h-full shadow-[0_0_12px_0_rgba(0,0,0,0.5)_inset] items-center justify-center"
             data-testid="enter-screen"
-            style={{ "background-color": screenColorSpring.color }}
+            style={{ backgroundColor: screenColorSpring.color }}
           >
             <svg viewBox="0 0 6 6" className="h-48 w-96">
               <g>
