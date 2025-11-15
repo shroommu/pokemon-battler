@@ -121,16 +121,17 @@ export default function PokemonDataEntry({
           className="flex flex-col w-full xl:flex-1 items-center"
           data-testid="pokemon-basics-container"
         >
-          <Image
-            src={pokemon.sprite_front_filepath.toLowerCase()}
-            width={32}
-            height={32}
-            className="w-full h-auto max-w-64 mt-4 border-gray-600 border-4 rounded-md bg-white p-1 [image-rendering:pixelated]"
-            priority
-            unoptimized
-            alt={`${pokemon.name} front sprite`}
-            data-testid="pokemon-image"
-          />
+          <div className="mt-4 relative w-full h-auto max-w-64 aspect-square">
+            <Image
+              src={pokemon.sprite_front_filepath.toLowerCase()}
+              fill
+              className="border-gray-600 border-4 rounded-md bg-white p-1 [image-rendering:pixelated]"
+              priority
+              unoptimized
+              alt={`${pokemon.name} front sprite`}
+              data-testid="pokemon-image"
+            />
+          </div>
           <div className="mt-2" data-testid="pokemon-type">
             {renderTypes()}
           </div>
