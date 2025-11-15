@@ -1,5 +1,4 @@
 import { getUniquePokemonByName } from "@/services/getUniquePokemonByName";
-import { getUniquePokemonByNumber } from "@/services/getUniquePokemonByNumber";
 
 import { capitalizePokemonSlug } from "@/app/utils";
 
@@ -12,43 +11,9 @@ async function getPokemon(pokemonName) {
   return pokemon;
 }
 
-async function getPreviousPokemon(pokemonName) {
-  const pokemon = await getUniquePokemonByName(
-    capitalizePokemonSlug(pokemonName)
-  ).then(
-    async (pokemon) =>
-      await getUniquePokemonByNumber(pokemon.data.pokedex_number - 1)
-  );
-  return pokemon;
-}
-
-async function getNextPokemon(pokemonName) {
-  const pokemon = await getUniquePokemonByName(
-    capitalizePokemonSlug(pokemonName)
-  ).then(
-    async (pokemon) =>
-      await getUniquePokemonByNumber(pokemon.data.pokedex_number + 1)
-  );
-  return pokemon;
-}
-
 export default async function Stats(props) {
   const params = await props.params;
-  const pokemonData = getPokemon(params.pokemon);
-  const previousPokemonData = getPreviousPokemon(params.pokemon);
-  const nextPokemonData = getNextPokemon(params.pokemon);
+  const pokemon = getPokemon(params.pokemon);
 
-  const [pokemon, previousPokemon, nextPokemon] = await Promise.all([
-    pokemonData,
-    previousPokemonData,
-    nextPokemonData,
-  ]);
-
-  return (
-    <PokemonDataEntry
-      pokemon={pokemon.data}
-      previousPokemon={previousPokemon.data}
-      nextPokemon={nextPokemon.data}
-    />
-  );
+  return <PokemonDataEntry pokemon={pokemon.data} />;
 }
