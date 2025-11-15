@@ -64,27 +64,29 @@ export default async function Home() {
             className="mt-auto"
             data-testid="pokemon-of-the-day-image-link"
           >
+            <div className="relative w-64 h-64">
+              <Image
+                src={pokemon.data.sprite_front_filepath.toLowerCase()}
+                fill
+                className="[image-rendering:pixelated]"
+                priority
+                unoptimized
+                alt={`${pokemon.data.name} front sprite`}
+                data-testid="pokemon-image"
+              />
+            </div>
+          </Link>
+          <div className="relative w-64 h-[384px]">
             <Image
-              src={pokemon.data.sprite_front_filepath.toLowerCase()}
-              width={32}
-              height={32}
-              className="w-64 h-auto [image-rendering:pixelated]"
+              src={"/images/professorOak.png"}
+              fill
+              className="[image-rendering:pixelated]"
               priority
               unoptimized
-              alt={`${pokemon.data.name} front sprite`}
-              data-testid="pokemon-image"
+              alt={"Professor Oak Sprite"}
+              data-testid="professor-oak-image"
             />
-          </Link>
-          <Image
-            src={"/images/professorOak.png"}
-            width={32}
-            height={32}
-            className="w-64 h-auto [image-rendering:pixelated]"
-            priority
-            unoptimized
-            alt={"Professor Oak Sprite"}
-            data-testid="professor-oak-image"
-          />
+          </div>
         </div>
       </section>
     </div>
