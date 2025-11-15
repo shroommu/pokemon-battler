@@ -11,9 +11,9 @@ async function getPokemon(pokemonName) {
   return pokemon;
 }
 
-export default async function Stats(props) {
-  const params = await props.params;
-  const pokemon = getPokemon(params.pokemon);
+export default async function Stats({ params }) {
+  const pokemonSlug = await params;
+  const pokemon = await getPokemon(pokemonSlug.pokemon);
 
   return <PokemonDataEntry pokemon={pokemon.data} />;
 }

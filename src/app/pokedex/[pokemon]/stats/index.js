@@ -127,13 +127,14 @@ export default function PokemonDataEntry({ pokemon }) {
         className="flex flex-row justify-center"
         data-testid="stats-chart-controls-container"
       >
+        <h2 className="flex items-center mr-4">Compare To:</h2>
         <Button
           onClick={() => getAllPokemonAverageStatData()}
           type={"tertiary"}
           extraClasses={"mr-4"}
           testId="compare-to-all-pokemon-button"
         >
-          Compare To All Pokemon
+          All Pokemon
         </Button>
         <Button
           onClick={() => getPokemonTypeAverageStatData(pokemon.primary_type)}
@@ -141,7 +142,7 @@ export default function PokemonDataEntry({ pokemon }) {
           extraClasses={"mr-4"}
           testId="compare-to-primary-type-button"
         >
-          Compare To All {pokemon.primary_type.name} Types
+          All {pokemon.primary_type.name} Types
         </Button>
         {pokemon.secondary_type && (
           <Button
@@ -151,7 +152,7 @@ export default function PokemonDataEntry({ pokemon }) {
             type={"tertiary"}
             testId="compare-to-secondary-type-button"
           >
-            Compare To All {pokemon.secondary_type.name} Types
+            All {pokemon.secondary_type.name} Types
           </Button>
         )}
       </div>
