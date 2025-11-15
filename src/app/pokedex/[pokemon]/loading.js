@@ -1,4 +1,4 @@
-import { Skeleton } from "./components/loadingIndicators";
+import { Skeleton } from "@/components/LoadingIndicators";
 
 export default function PokedexLoading() {
   return (
