@@ -10,11 +10,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="h-dvh">
-      <body className="h-dvh bg-red-500">
+    <html lang="en" className="h-svh">
+      <body className="h-svh bg-red-500">
         <Header />
         <div
-          className="flex flex-none h-[calc(100dvh-80px)] md:h-[calc(100dvh-120px)] lg:h-auto lg:min-h-[calc(100dvh-120px)] bg-red-500"
+          className="flex flex-none h-[calc(100svh-80px)] md:h-[calc(100svh-120px)] lg:h-auto lg:min-h-[calc(100svh-120px)] bg-red-500"
           data-testid="content-body-container"
         >
           <div

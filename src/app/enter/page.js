@@ -32,7 +32,7 @@ export default function EnterPage({}) {
       logoColorApi.start({
         from: { opacity: 0.5 },
         to: { opacity: 0 },
-        config: { duration: 1500 },
+        config: { duration: 1000 },
         delay: 500,
       }),
   }));
@@ -59,12 +59,12 @@ export default function EnterPage({}) {
   return (
     <div className="flex h-full w-full items-center justify-center">
       <div
-        className="absolute flex flex-none h-[calc(100dvh-80px)] md:h-[calc(100dvh-120px)] lg:h-auto lg:min-h-[calc(100dvh-120px)] w-full bg-red-500"
+        className="absolute left-0 flex flex-none h-[calc(100svh-80px)] md:h-[calc(100svh-120px)] lg:h-auto lg:min-h-[calc(100svh-120px)] w-full bg-red-500"
         data-testid="enter-content-body-container"
       >
         <div
           data-testid="enter-screen-container"
-          className="relative flex flex-row h-full p-4 w-full"
+          className="relative flex flex-row h-auto p-4 w-full"
         >
           <animated.div
             className="flex flex-col p-6 w-full rounded-md border-2 border-red-800 h-full shadow-[0_0_12px_0_rgba(0,0,0,0.5)_inset] items-center justify-center"
@@ -131,10 +131,10 @@ export default function EnterPage({}) {
             />
           </svg>
           <svg className="relative mt-12 h-12 w-24 group" viewBox="0 0 4 2.4">
-            <rect className="fill-yellow-600 h-[.4px] w-[4px] translate-y-[2px] group-hover:translate-y-[2.2px] group-active:translate-y-[2.4px]" />
+            <rect className="fill-yellow-600 h-[.4px] w-[4px] translate-y-[2px] group-hover:translate-y-[2.2px] group-active:translate-y-[2.4px] cursor-pointer" />
             <path
               d="M 0 2 L 2 0 L 4 2 L 0 2 Z"
-              className="fill-yellow-400 group-hover:translate-y-[.2px] group-active:translate-y-[.4px]"
+              className="fill-yellow-400 group-hover:translate-y-[.2px] group-active:translate-y-[.4px] cursor-pointer"
             />
           </svg>
         </animated.div>
