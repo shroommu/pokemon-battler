@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+
 import { getAllPokemon } from "@/services/getAllPokemon";
 import { getUniquePokemonByName } from "@/services/getUniquePokemonByName";
 import { getUniquePokemonByNumber } from "@/services/getUniquePokemonByNumber";
@@ -7,6 +9,7 @@ import { capitalizePokemonSlug } from "@/app/utils";
 import PokemonList from "./components/pokemonList";
 import PokemonInfo from "./components/PokemonInfo";
 import PokedexHeader from "./components/PokedexHeader";
+import { Skeleton } from "@/components/LoadingIndicators";
 
 async function getPokemon(pokemonName) {
   const pokemon = await getUniquePokemonByName(
@@ -50,33 +53,61 @@ export default async function PokedexEntryContainer({ params, children }) {
   ]);
 
   return (
-    <div
-      data-testid="pokedex-container"
-      className="relative flex flex-col items-stretch md:flex-row h-full w-full"
-    >
+    <Suspense fallback={<LayoutSkeleton />}>
       <div
-        className="hidden flex-col flex-none rounded-md bg-gray-300 mr-4 lg:flex h-auto"
-        data-testid="pokemon-list-container"
+        data-testid="pokedex-container"
+        className="relative flex flex-col items-stretch md:flex-row h-full w-full"
       >
-        <PokemonList pokemons={pokemons.data} />
-      </div>
-      <div
-        className="flex flex-col h-full lg:h-auto w-full"
-        data-testid="pokedex-entry-layout"
-      >
-        <PokedexHeader
-          pokemon={pokemon.data}
-          nextPokemon={nextPokemon.data}
-          previousPokemon={previousPokemon.data}
-        />
         <div
-          className="flex flex-col xl:flex-row w-full xl:items-start pb-4 lg:pb-0"
-          data-testid="pokedex-entry-container"
+          className="hidden flex-col flex-none rounded-md bg-gray-300 mr-4 lg:flex h-auto"
+          data-testid="pokemon-list-container"
         >
-          <PokemonInfo pokemon={pokemon.data} />
-          {children}
+          <PokemonList pokemons={pokemons.data} />
+        </div>
+        <div
+          className="flex flex-col h-full lg:h-auto w-full"
+          data-testid="pokedex-entry-layout"
+        >
+          <PokedexHeader
+            pokemon={pokemon.data}
+            nextPokemon={nextPokemon.data}
+            previousPokemon={previousPokemon.data}
+          />
+          <div
+            className="flex flex-col xl:flex-row w-full xl:items-start pb-4 lg:pb-0"
+            data-testid="pokedex-entry-container"
+          >
+            <PokemonInfo pokemon={pokemon.data} />
+            {children}
+          </div>
         </div>
       </div>
-    </div>
+    </Suspense>
   );
 }
+
+const LayoutSkeleton = (
+  <div
+    data-testid="pokedex-container"
+    className="relative flex flex-col items-stretch md:flex-row h-full w-full"
+  >
+    <div
+      className="hidden flex-col flex-none rounded-md bg-gray-300 mr-4 lg:flex h-auto"
+      data-testid="pokemon-list-container"
+    >
+      <Skeleton />
+    </div>
+    <div
+      className="flex flex-col h-full lg:h-auto w-full"
+      data-testid="pokedex-entry-layout"
+    >
+      <Skeleton />
+      <div
+        className="flex flex-col xl:flex-row w-full xl:items-start pb-4 lg:pb-0"
+        data-testid="pokedex-entry-container"
+      >
+        <Skeleton />
+      </div>
+    </div>
+  </div>
+);
