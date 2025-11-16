@@ -5,10 +5,6 @@ import TypePill from "@/components/TypePill";
 const MOVE_TABLE_LABELS = ["Name", "Type", "Power", "Accuracy", "PP", "Effect"];
 
 export default function Info({ pokemon }) {
-  if (!pokemon) {
-    return null;
-  }
-
   return (
     <section
       className="flex flex-col xl:flex-1 items-center"
