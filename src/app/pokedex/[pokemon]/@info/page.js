@@ -2,7 +2,7 @@ import { getUniquePokemonByName } from "@/services/getUniquePokemonByName";
 
 import { capitalizePokemonSlug } from "@/app/utils";
 
-import Info from ".";
+import PokemonInfo from "../components/PokemonInfo";
 
 async function getPokemon(pokemonName) {
   const pokemon = await getUniquePokemonByName(
@@ -11,9 +11,10 @@ async function getPokemon(pokemonName) {
   return pokemon;
 }
 
-export default async function InfoPage(props) {
-  const params = await props.params;
-  const pokemon = await getPokemon(params.pokemon);
+export default async function Page({ params }) {
+  const { pokemon } = await params;
 
-  return <Info pokemon={pokemon.data} />;
+  const pokemonData = await getPokemon(pokemon);
+
+  return <PokemonInfo pokemon={pokemonData.data} />;
 }

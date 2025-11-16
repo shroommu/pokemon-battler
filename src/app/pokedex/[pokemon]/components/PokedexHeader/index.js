@@ -69,7 +69,7 @@ export default function PokedexHeader({
           <div className="w-24 ml-auto" />
         )}
       </div>
-      <div
+      {/* <div
         className="flex w-full justify-center"
         data-testid="subpage-navigation"
       >
@@ -85,7 +85,7 @@ export default function PokedexHeader({
             .toLowerCase()}/stats`}
           selected={pathname.includes("stats")}
         />
-      </div>
+      </div> */}
     </div>
   );
 }
