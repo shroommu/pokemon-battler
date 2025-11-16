@@ -1,4 +1,10 @@
-export default async function Layout({ info, details, header, sidebar }) {
+import { getAllPokemon } from "@/services/getAllPokemon";
+
+import PokemonList from "./components/pokemonList";
+
+export default async function Layout({ info, details, header }) {
+  const pokemons = await getAllPokemon();
+
   return (
     <div
       data-testid="pokedex-container"
@@ -8,7 +14,7 @@ export default async function Layout({ info, details, header, sidebar }) {
         className="hidden flex-col flex-none rounded-md bg-gray-300 mr-4 lg:flex h-auto"
         data-testid="pokemon-list-container"
       >
-        {sidebar}
+        <PokemonList pokemons={pokemons.data} />
       </div>
       <div
         className="flex flex-col h-full lg:h-auto w-full"
