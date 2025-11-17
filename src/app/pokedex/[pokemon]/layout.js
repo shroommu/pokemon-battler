@@ -3,7 +3,7 @@ import { getAllPokemon } from "@/services/getAllPokemon";
 import PokemonList from "./components/pokemonList";
 
 export default async function Layout({ info, details, header }) {
-  const pokemons = await getAllPokemon();
+  const { data: pokemons } = await getAllPokemon();
 
   return (
     <div
@@ -14,7 +14,7 @@ export default async function Layout({ info, details, header }) {
         className="hidden flex-col flex-none rounded-md bg-gray-300 mr-4 lg:flex h-auto"
         data-testid="pokemon-list-container"
       >
-        <PokemonList pokemons={pokemons.data} />
+        <PokemonList pokemons={pokemons} />
       </div>
       <div
         className="flex flex-col h-full lg:h-auto w-full"
