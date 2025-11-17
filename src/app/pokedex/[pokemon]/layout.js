@@ -22,7 +22,7 @@ export default async function Layout({ info, details, header }) {
       >
         {header}
         <div
-          className="flex flex-col xl:flex-row w-full xl:items-start pb-4 lg:pb-0 xl:flex-1"
+          className="flex flex-col xl:flex-row h-full w-full xl:items-start lg:pb-0 xl:flex-1"
           data-testid="pokedex-entry-container"
         >
           {info}
