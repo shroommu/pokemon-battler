@@ -28,7 +28,7 @@ export default function PokedexButton({ pokemon, href, selected }) {
             3,
             "0"
           )}`}</div>
-          <div className="relative w-[50px] md:w-[75px] aspect-square group-hover:animate-party_bounce">
+          <div className="relative w-[50px] h-[50px] md:w-[75px] md:h-[75px] aspect-square group-hover:animate-party_bounce">
             <Image
               src={pokemon.sprite_party_filepath.toLowerCase()}
               fill
