@@ -22,10 +22,10 @@ export default function RootLayout({ children }) {
             className="flex flex-row h-full p-4 w-full"
           >
             <div
-              className="flex flex-col p-6 w-full bg-gray-200 rounded-md border-2 border-red-800 h-full overflow-y-scroll lg:overflow-y-auto shadow-[0_0_12px_0_rgba(0,0,0,0.5)_inset]"
+              className="flex flex-col p-6 w-full bg-gray-200 rounded-md border-2 border-red-800 h-full overflow-y-auto shadow-[0_0_12px_0_rgba(0,0,0,0.5)_inset]"
               data-testid="screen"
             >
-              <ViewTransition>{children}</ViewTransition>
+              {children}
             </div>
           </div>
         </div>
