@@ -40,19 +40,33 @@ export default function MobileNavMenu({}) {
         </div>
       </Button>
       {isOpen && (
-        <div className="absolute bg-white mt-2 p-2 z-20 rounded-md">
-          <ul>
-            <li>
-              <Link href={locations.INDEX} onClick={() => setIsOpen(false)}>
-                <h1 className="text-lg">Home</h1>
-              </Link>
-            </li>
-            <li>
-              <Link href={locations.POKEDEX} onClick={() => setIsOpen(false)}>
-                <h1 className="text-lg">Pokedex</h1>
-              </Link>
-            </li>
-          </ul>
+        <div
+          className="absolute flex left-0 top-[80px] h-[calc(100svh-80px)] w-full z-20 p-4"
+          data-testid="mobile-menu-container"
+          onClick={() => setIsOpen(false)}
+        >
+          <div
+            className="flex h-full w-full backdrop-blur-xs backdrop-brightness-75 rounded-md border-2 border-red-800 justify-center"
+            data-testid="blur-container"
+          >
+            <div className="flex p-6 shadow-lg bg-gray-200 border-2 border-gray-400 rounded-md mt-[33%] mb-auto">
+              <ul className="flex flex-col gap-2">
+                <li>
+                  <Link href={locations.INDEX} onClick={() => setIsOpen(false)}>
+                    <h1 className="text-lg">Home</h1>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href={locations.POKEDEX}
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <h1 className="text-lg">Pokedex</h1>
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       )}
     </div>
