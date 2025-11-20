@@ -11,11 +11,7 @@ const pillStyle = tv({
 
 export default function PagePill({ text, onClick, selected }) {
   return (
-    <div
-      prefetch={true}
-      onClick={onClick}
-      className={pillStyle({ selected: selected })}
-    >
+    <div onClick={onClick} className={pillStyle({ selected: selected })}>
       {text}
     </div>
   );
