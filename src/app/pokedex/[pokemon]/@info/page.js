@@ -1,13 +1,22 @@
-"use client";
+import { getUniquePokemonByName } from "@/services/getUniquePokemonByName";
+
+import { capitalizePokemonSlug } from "@/app/utils";
 
 import Image from "next/image";
 
 import TypePill from "@/components/TypePill";
 
-export default function PokemonInfo({ pokemon }) {
-  if (!pokemon) {
-    return null;
-  }
+async function getPokemon(pokemonName) {
+  const pokemon = await getUniquePokemonByName(
+    capitalizePokemonSlug(pokemonName)
+  );
+  return pokemon;
+}
+
+export default async function Page({ params }) {
+  const { pokemon: pokemonSlug } = await params;
+
+  const { data: pokemon } = await getPokemon(pokemonSlug);
 
   const renderTypes = () => {
     return pokemon.secondary_type ? (
