@@ -47,7 +47,7 @@ export default function StarChart({
       stroke={stroke}
       fill={fill}
       strokeWidth={0.1 / scale}
-      transform={`scale(${scale}) translate(${(1 - scale) * 5}, ${(1 - scale) * 5})`}
+      transform={`scale(${scale}) translate(${(1 - scale) * (5 * (1 / scale))}, ${(1 - scale) * (5 * (1 / scale))})`}
     />
   );
 
@@ -56,8 +56,13 @@ export default function StarChart({
   });
 
   const grid = (
-    <g>
-      <g>{defaultStarPath({ stroke: "black", scale: "0.25" })}</g>
+    <g opacity={0.5}>
+      <g>
+        {defaultStarPath({ stroke: "black", scale: "0.25" })}
+        {defaultStarPath({ stroke: "black", scale: "0.50" })}
+        {defaultStarPath({ stroke: "black", scale: "0.75" })}
+        {defaultStarPath({ stroke: "black", scale: "1" })}
+      </g>
       <g>
         <line x1={5} y1={5} x2={5} y2={0} stroke="black" strokeWidth={0.1} />
         <line x1={5} y1={5} x2={10} y2={3} stroke="black" strokeWidth={0.1} />
