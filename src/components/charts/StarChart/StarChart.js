@@ -7,27 +7,27 @@ const HIGHEST_STAT = 155;
 const TEST_DATA = [
   {
     name: "HP",
-    value: 50,
+    value: 25,
     tooltipText: `Max HP of MissingNo: `,
   },
   {
     name: "Attack",
-    value: 45,
+    value: 75,
     tooltipText: `Max Attack of MissingNo: `,
   },
   {
     name: "Defense",
-    value: 40,
+    value: 50,
     tooltipText: `Max Defense of MissingNo: `,
   },
   {
     name: "Special",
-    value: 35,
+    value: 75,
     tooltipText: `Max Special of MissingNo: `,
   },
   {
     name: "Speed",
-    value: 30,
+    value: 155,
     tooltipText: `Max Speed of MissingNo: `,
   },
 ];
@@ -37,31 +37,55 @@ export default function StarChart({
   width = 100,
   data = TEST_DATA,
 }) {
-  const defaultStarPath = ({
+  const starPath = ({
     stroke = "",
     fill = "transparent",
     scale = 1,
-  }) => (
-    <path
-      d="M 5 0 L 10 3 L 8 9 L 2 9 L 0 3 Z"
-      stroke={stroke}
-      fill={fill}
-      strokeWidth={0.1 / scale}
-      transform={`scale(${scale}) translate(${(1 - scale) * (5 * (1 / scale))}, ${(1 - scale) * (5 * (1 / scale))})`}
-    />
-  );
+    dataPoints = [],
+  }) => {
+    const statDistances = dataPoints.map((d) => d.value / HIGHEST_STAT);
+    const baseStarCoordinates = [
+      { x: 5, y: 0 },
+      { x: 10, y: 3 },
+      { x: 8, y: 9 },
+      { x: 2, y: 9 },
+      { x: 0, y: 3 },
+    ];
 
-  data.map((d, index) => {
-    console.log(d.value);
-  });
+    const interpolatedStarCoordinates = baseStarCoordinates.map((sc, index) => {
+      return {
+        x: d3.interpolateNumber(5, sc.x)(statDistances[index]),
+        y: d3.interpolateNumber(5, sc.y)(statDistances[index]),
+      };
+    });
+
+    let pathString = "M";
+    interpolatedStarCoordinates.forEach(
+      (isc, index) =>
+        (pathString += ` ${isc.x} ${isc.y} ${index < 4 ? "L" : "Z"}`),
+    );
+    const starPoints = statDistances.length
+      ? pathString
+      : "M 5 0 L 10 3 L 8 9 L 2 9 L 0 3 Z";
+
+    return (
+      <path
+        d={starPoints}
+        stroke={stroke}
+        fill={fill}
+        strokeWidth={0.1 / scale}
+        transform={`scale(${scale}) translate(${(1 - scale) * (5 * (1 / scale))}, ${(1 - scale) * (5 * (1 / scale))})`}
+      />
+    );
+  };
 
   const grid = (
     <g opacity={0.5}>
       <g>
-        {defaultStarPath({ stroke: "black", scale: "0.25" })}
-        {defaultStarPath({ stroke: "black", scale: "0.50" })}
-        {defaultStarPath({ stroke: "black", scale: "0.75" })}
-        {defaultStarPath({ stroke: "black", scale: "1" })}
+        {starPath({ stroke: "black", scale: "0.25" })}
+        {starPath({ stroke: "black", scale: "0.50" })}
+        {starPath({ stroke: "black", scale: "0.75" })}
+        {starPath({ stroke: "black", scale: "1" })}
       </g>
       <g>
         <line x1={5} y1={5} x2={5} y2={0} stroke="black" strokeWidth={0.1} />
@@ -73,6 +97,8 @@ export default function StarChart({
     </g>
   );
 
+  const statsStar = starPath({ dataPoints: data, fill: "blue" });
+
   return (
     <div
       className="h-full w-full relative"
@@ -80,13 +106,10 @@ export default function StarChart({
     >
       <svg width={width} height={height} viewBox="0 0 10 10">
         {width > 0 && height > 0 && (
-          <g
-            width={width}
-            height={height}
-            // transform={`translate(${[MARGIN.left, MARGIN.top].join(",")})`}
-          >
-            {defaultStarPath({ fill: "white" })}
+          <g width={width} height={height}>
+            {starPath({ fill: "white" })}
             {grid}
+            {statsStar}
           </g>
         )}
       </svg>
