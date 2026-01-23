@@ -1,7 +1,5 @@
 import * as d3 from "d3";
 
-const MARGIN = { top: 30, right: 30, bottom: 30, left: 30 };
-const BAR_PADDING = 0.3;
 const HIGHEST_STAT = 155;
 
 const TEST_DATA = [
@@ -37,13 +35,7 @@ export default function StarChart({
   width = 100,
   data = TEST_DATA,
 }) {
-  const starPath = ({
-    stroke = "",
-    fill = "transparent",
-    scale = 1,
-    dataPoints = [],
-  }) => {
-    const statDistances = dataPoints.map((d) => d.value / HIGHEST_STAT);
+  const getInterpolatedStarPoints = (dataPoints) => {
     const baseStarCoordinates = [
       { x: 5, y: 0 },
       { x: 10, y: 3 },
@@ -51,6 +43,8 @@ export default function StarChart({
       { x: 2, y: 9 },
       { x: 0, y: 3 },
     ];
+
+    const statDistances = dataPoints.map((d) => d.value / HIGHEST_STAT);
 
     const interpolatedStarCoordinates = baseStarCoordinates.map((sc, index) => {
       return {
@@ -64,8 +58,16 @@ export default function StarChart({
       (isc, index) =>
         (pathString += ` ${isc.x} ${isc.y} ${index < 4 ? "L" : "Z"}`),
     );
-    const starPoints = statDistances.length
-      ? pathString
+  };
+
+  const starPath = ({
+    stroke = "",
+    fill = "transparent",
+    scale = 1,
+    dataPoints = [],
+  }) => {
+    const starPoints = dataPoints.length
+      ? getInterpolatedStarPoints(dataPoints)
       : "M 5 0 L 10 3 L 8 9 L 2 9 L 0 3 Z";
 
     return (
