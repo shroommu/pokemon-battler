@@ -1,3 +1,5 @@
+import StarChart from "@/components/charts/StarChart/StarChart";
+
 export default function AboutPage() {
   return (
     <div
@@ -16,6 +18,7 @@ export default function AboutPage() {
         tools and libraries to make the magic happen.
       </p>
       <p className="text-center mb-4">Thanks for visiting!</p>
+      <StarChart />
     </div>
   );
 }
