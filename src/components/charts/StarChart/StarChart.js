@@ -58,10 +58,11 @@ export default function StarChart({
       (isc, index) =>
         (pathString += ` ${isc.x} ${isc.y} ${index < 4 ? "L" : "Z"}`),
     );
+    return pathString;
   };
 
   const starPath = ({
-    stroke = "",
+    stroke = "transparent",
     fill = "transparent",
     scale = 1,
     dataPoints = [],
@@ -110,8 +111,8 @@ export default function StarChart({
         {width > 0 && height > 0 && (
           <g width={width} height={height}>
             {starPath({ fill: "white" })}
-            {grid}
             {statsStar}
+            {grid}
           </g>
         )}
       </svg>
