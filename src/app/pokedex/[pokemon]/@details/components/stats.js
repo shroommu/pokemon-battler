@@ -5,6 +5,7 @@ import tinycolor from "tinycolor2";
 
 import HorizontalBarChart from "@/components/charts/HorizontalBarChart/HorizontalBarChart";
 import VerticalBarChart from "@/components/charts/VerticalBarChart/VerticalBarChart";
+import StarChart from "@/components/charts/StarChart/StarChart";
 import Button from "@/components/Button";
 
 import { useDimensions } from "@/hooks/useDimensions";
@@ -80,78 +81,86 @@ export default function Stats({ pokemon }) {
   ];
 
   return (
-    <section
-      className="flex flex-col min-h-72 h-full w-full xl:flex-1 items-center"
-      data-testid="stats-chart-and-controls-container"
-    >
-      <h2
-        className="text-2xl md:text-3xl mt-4 xl:mt-0"
-        data-testid="stats-chart-title"
+    <div className="flex flex-col items-center">
+      <section
+        className="flex flex-col min-h-72 h-128 w-full xl:flex-1 items-center"
+        data-testid="stats-chart-and-controls-container"
       >
-        Max Stats
-      </h2>
-      <div
-        className="hidden xl:flex h-full w-full"
-        data-testid="horizontal-stats-bar-chart-container"
-      >
-        <HorizontalBarChart
-          data={statsChartData}
-          showReferenceLine={showReferenceLine}
-          width={horizontalStatsChartDimensions.width}
-          height={horizontalStatsChartDimensions.height}
-          fixedDomainMax={175}
-          barFillColor={pokemon.primary_type.display_color}
-          referenceLineFillColor={tinycolor(referenceLineColor).lighten(20)}
-          innerRef={horizontalStatsChartRef}
-        />
-      </div>
-      <div
-        className="flex xl:hidden h-full w-full"
-        data-testid="vertical-stats-bar-chart-container"
-      >
-        <VerticalBarChart
-          data={statsChartData}
-          showReferenceLine={showReferenceLine}
-          width={verticalStatsChartDimensions.width}
-          height={verticalStatsChartDimensions.height}
-          barFillColor={pokemon.primary_type.display_color}
-          referenceLineFillColor={tinycolor(referenceLineColor).lighten(20)}
-          innerRef={verticalStatsChartRef}
-        />
-      </div>
-      <div
-        className="flex flex-row justify-center"
-        data-testid="stats-chart-controls-container"
-      >
-        <h2 className="flex items-center mr-4">Compare To:</h2>
-        <Button
-          onClick={() => getAllPokemonAverageStatData()}
-          type={"tertiary"}
-          extraClasses={"mr-4"}
-          testId="compare-to-all-pokemon-button"
+        <h2
+          className="text-2xl md:text-3xl mt-4 xl:mt-0"
+          data-testid="stats-chart-title"
         >
-          All Pokemon
-        </Button>
-        <Button
-          onClick={() => getPokemonTypeAverageStatData(pokemon.primary_type)}
-          type={"tertiary"}
-          extraClasses={"mr-4"}
-          testId="compare-to-primary-type-button"
+          Max Stats
+        </h2>
+        <div
+          className="hidden xl:flex h-full w-full"
+          data-testid="horizontal-stats-bar-chart-container"
         >
-          All {pokemon.primary_type.name} Types
-        </Button>
-        {pokemon.secondary_type && (
+          <HorizontalBarChart
+            data={statsChartData}
+            showReferenceLine={showReferenceLine}
+            width={horizontalStatsChartDimensions.width}
+            height={horizontalStatsChartDimensions.height}
+            fixedDomainMax={175}
+            barFillColor={pokemon.primary_type.display_color}
+            referenceLineFillColor={tinycolor(referenceLineColor).lighten(20)}
+            innerRef={horizontalStatsChartRef}
+          />
+        </div>
+        <div
+          className="flex xl:hidden h-full w-full"
+          data-testid="vertical-stats-bar-chart-container"
+        >
+          <VerticalBarChart
+            data={statsChartData}
+            showReferenceLine={showReferenceLine}
+            width={verticalStatsChartDimensions.width}
+            height={verticalStatsChartDimensions.height}
+            barFillColor={pokemon.primary_type.display_color}
+            referenceLineFillColor={tinycolor(referenceLineColor).lighten(20)}
+            innerRef={verticalStatsChartRef}
+          />
+        </div>
+        <div
+          className="flex flex-row justify-center"
+          data-testid="stats-chart-controls-container"
+        >
+          <h2 className="flex items-center mr-4">Compare To:</h2>
           <Button
-            onClick={() =>
-              getPokemonTypeAverageStatData(pokemon.secondary_type)
-            }
+            onClick={() => getAllPokemonAverageStatData()}
             type={"tertiary"}
-            testId="compare-to-secondary-type-button"
+            extraClasses={"mr-4"}
+            testId="compare-to-all-pokemon-button"
           >
-            All {pokemon.secondary_type.name} Types
+            All Pokemon
           </Button>
-        )}
-      </div>
-    </section>
+          <Button
+            onClick={() => getPokemonTypeAverageStatData(pokemon.primary_type)}
+            type={"tertiary"}
+            extraClasses={"mr-4"}
+            testId="compare-to-primary-type-button"
+          >
+            All {pokemon.primary_type.name} Types
+          </Button>
+          {pokemon.secondary_type && (
+            <Button
+              onClick={() =>
+                getPokemonTypeAverageStatData(pokemon.secondary_type)
+              }
+              type={"tertiary"}
+              testId="compare-to-secondary-type-button"
+            >
+              All {pokemon.secondary_type.name} Types
+            </Button>
+          )}
+        </div>
+      </section>
+      <section data-testid="star-chart-container" className="h-64">
+        <StarChart
+          data={statsChartData}
+          fillColor={pokemon.primary_type.display_color}
+        />
+      </section>
+    </div>
   );
 }

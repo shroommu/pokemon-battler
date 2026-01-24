@@ -2,34 +2,6 @@ import * as d3 from "d3";
 
 import { HIGHEST_STAT } from "@/components/constants";
 
-const TEST_DATA = [
-  {
-    name: "HP",
-    value: 25,
-    tooltipText: `Max HP of MissingNo: `,
-  },
-  {
-    name: "Attack",
-    value: 75,
-    tooltipText: `Max Attack of MissingNo: `,
-  },
-  {
-    name: "Defense",
-    value: 50,
-    tooltipText: `Max Defense of MissingNo: `,
-  },
-  {
-    name: "Special",
-    value: 75,
-    tooltipText: `Max Special of MissingNo: `,
-  },
-  {
-    name: "Speed",
-    value: 155,
-    tooltipText: `Max Speed of MissingNo: `,
-  },
-];
-
 const starPath = ({
   stroke = "transparent",
   fill = "transparent",
@@ -81,7 +53,8 @@ const getInterpolatedStarPoints = (dataPoints) => {
 export default function StarChart({
   height = 100,
   width = 100,
-  data = TEST_DATA,
+  data,
+  fillColor,
 }) {
   const grid = (
     <g opacity={0.5}>
@@ -101,13 +74,10 @@ export default function StarChart({
     </g>
   );
 
-  const statsStar = starPath({ dataPoints: data, fill: "blue" });
+  const statsStar = starPath({ dataPoints: data, fill: fillColor });
 
   return (
-    <div
-      className="h-full w-full relative"
-      data-testid="horizontal-bar-chart-container"
-    >
+    <div className="h-full w-full relative" data-testid="star-chart-container">
       <svg width={width} height={height} viewBox="0 0 10 10">
         {width > 0 && height > 0 && (
           <g width={width} height={height}>
