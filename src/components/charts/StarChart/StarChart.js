@@ -59,7 +59,7 @@ export default function StarChart({
   const svgWidth = width * 1.25;
 
   const grid = (
-    <g opacity={0.25}>
+    <g opacity={0.25} data-testid="grid-group">
       <g>
         {starPath({ stroke: "black", scale: "0.25" })}
         {starPath({ stroke: "black", scale: "0.50" })}
@@ -78,7 +78,7 @@ export default function StarChart({
 
   const labels = ({ width, height }) => {
     return (
-      <g>
+      <g data-testid="labels-group">
         <text textAnchor="middle" x={width * 0.5} y={height * 0.1}>
           HP
         </text>
@@ -101,16 +101,17 @@ export default function StarChart({
   const statsStar = starPath({ dataPoints: data, fill: fillColor });
 
   return (
-    <div className="h-full w-full relative" data-testid="star-chart-container">
+    <div data-testid="star-chart-container">
       <svg
         width={svgWidth}
         height={height}
         viewBox={`0 0 ${svgWidth} ${height}`}
       >
         {width > 0 && height > 0 && (
-          <g>
+          <g data-testid="star-chart-with-labels-group">
             <g
               transform={`translate(${(svgWidth - height * 0.7) / 2}, ${height * 0.15}) scale(${height * 0.07})`}
+              data-testid="stars-and-grid-group"
             >
               {starPath({ fill: "white" })}
               {statsStar}
