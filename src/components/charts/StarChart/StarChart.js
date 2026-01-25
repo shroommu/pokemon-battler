@@ -1,3 +1,7 @@
+import { interpolateNumber } from "d3";
+
+import { HIGHEST_STAT } from "@/components/constants";
+
 import AnimatedStar from "./AnimatedStar";
 import AnimatedValueLabel from "./AnimatedValueLabel";
 
@@ -15,6 +19,27 @@ const starPath = ({
       transform={`scale(${scale}) translate(${(1 - scale) * (5 * (1 / scale))}, ${(1 - scale) * (5 * (1 / scale))})`}
     />
   );
+};
+
+const getInterpolatedStarPoints = (dataPoints) => {
+  const baseStarCoordinates = [
+    { x: 5, y: 0 },
+    { x: 10, y: 3 },
+    { x: 8, y: 9 },
+    { x: 2, y: 9 },
+    { x: 0, y: 3 },
+  ];
+
+  const statDistances = dataPoints.map((d) => d.value / HIGHEST_STAT);
+
+  const interpolatedStarPoints = baseStarCoordinates.map((sc, index) => {
+    return {
+      x: interpolateNumber(5, sc.x)(statDistances[index]),
+      y: interpolateNumber(5, sc.y)(statDistances[index]),
+    };
+  });
+
+  return interpolatedStarPoints;
 };
 
 export default function StarChart({
@@ -64,7 +89,15 @@ export default function StarChart({
     );
   };
 
-  const statsStar = AnimatedStar({ dataPoints: data, fill: fillColor });
+  const interpolatedStarPoints = getInterpolatedStarPoints(data);
+
+  const statsStar = AnimatedStar({
+    starPoints: interpolatedStarPoints,
+    fill: fillColor,
+  });
+
+  console.log(width);
+  console.log(height);
 
   return (
     <div
@@ -83,12 +116,14 @@ export default function StarChart({
               {statsStar}
               {grid}
             </g>
-            {data.map((d) => (
+            {interpolatedStarPoints.map((d, index) => (
               <AnimatedValueLabel
                 key={`${d.name}-value`}
-                x={width * 0.5}
-                y={height * 0.5}
-                value={0}
+                centerX={width * 0.5}
+                centerY={height * 0.5}
+                x={height * d.x * 0.1 + width * 0.5 - height * 0.5}
+                y={height * d.y * 0.1}
+                value={data[index].value}
               />
             ))}
             {labels({ width, height })}

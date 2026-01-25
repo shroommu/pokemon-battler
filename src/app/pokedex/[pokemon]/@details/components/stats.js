@@ -12,6 +12,7 @@ import { useDimensions } from "@/hooks/useDimensions";
 
 import { getAllPokemonAverageStats } from "@/services/getAllPokemonAverageStats";
 import { getPokemonTypeAverageStats } from "@/services/getPokemonTypeAverageStats";
+import { HIGHEST_STAT } from "@/components/constants";
 
 export default function Stats({ pokemon }) {
   const [referenceLineData, setReferenceLineData] = useState();
@@ -41,6 +42,8 @@ export default function Stats({ pokemon }) {
   const horizontalStatsChartDimensions = useDimensions(horizontalStatsChartRef);
   const verticalStatsChartRef = useRef();
   const verticalStatsChartDimensions = useDimensions(verticalStatsChartRef);
+  const starChartRef = useRef();
+  const starChartDimensions = useDimensions(starChartRef);
 
   const statsChartData = [
     {
@@ -90,8 +93,8 @@ export default function Stats({ pokemon }) {
       </h2>
       <div className="flex flex-row w-full">
         <section
-          className="flex flex-col w-full h-72 xl:flex-1 items-center"
-          data-testid="stats-bar-chart-and-controls-container"
+          className="flex flex-col w-full flex-3 h-64"
+          data-testid="stats-bar-charts-container"
         >
           <div
             className="hidden xl:flex h-full w-full"
@@ -102,7 +105,7 @@ export default function Stats({ pokemon }) {
               showReferenceLine={showReferenceLine}
               width={horizontalStatsChartDimensions.width}
               height={horizontalStatsChartDimensions.height}
-              fixedDomainMax={175}
+              fixedDomainMax={HIGHEST_STAT}
               barFillColor={pokemon.primary_type.display_color}
               referenceLineFillColor={tinycolor(referenceLineColor).lighten(20)}
               innerRef={horizontalStatsChartRef}
@@ -123,10 +126,16 @@ export default function Stats({ pokemon }) {
             />
           </div>
         </section>
-        <section data-testid="star-chart-container" className="h-64">
+        <section
+          data-testid="star-chart-container"
+          className="h-64 flex-2 w-full"
+        >
           <StarChart
+            width={starChartDimensions.width}
+            height={starChartDimensions.height}
             data={statsChartData}
             fillColor={pokemon.primary_type.display_color}
+            innerRef={starChartRef}
           />
         </section>
       </div>
