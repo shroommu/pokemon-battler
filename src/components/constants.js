@@ -105,3 +105,5 @@ export const types = [
     immunes: [],
   },
 ];
+
+export const HIGHEST_STAT = 155;
