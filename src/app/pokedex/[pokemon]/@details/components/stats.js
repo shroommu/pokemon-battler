@@ -136,6 +136,8 @@ export default function Stats({ pokemon }) {
             data={statsChartData}
             fillColor={pokemon.primary_type.display_color}
             innerRef={starChartRef}
+            showReferenceStar={showReferenceLine}
+            referenceStarFillColor={tinycolor(referenceLineColor).lighten(20)}
           />
         </section>
       </div>
