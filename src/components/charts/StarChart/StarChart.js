@@ -1,4 +1,5 @@
 import AnimatedStar from "./AnimatedStar";
+import AnimatedValueLabel from "./AnimatedValueLabel";
 
 const starPath = ({
   stroke = "transparent",
@@ -44,19 +45,19 @@ export default function StarChart({
   const labels = ({ width, height }) => {
     return (
       <g data-testid="labels-group">
-        <text textAnchor="middle" x={width * 0.5} y={height * 0.2}>
+        <text textAnchor="middle" x={width * 0.5} y={height * 0.1}>
           HP
         </text>
-        <text textAnchor="start" x={width * 0.75} y={height * 0.4}>
+        <text textAnchor="start" x={width * 0.8} y={height * 0.3}>
           Attack
         </text>
-        <text textAnchor="start" x={width * 0.65} y={height * 0.9}>
+        <text textAnchor="start" x={width * 0.7} y={height * 0.875}>
           Defense
         </text>
-        <text textAnchor="end" x={width * 0.35} y={height * 0.9}>
+        <text textAnchor="end" x={width * 0.3} y={height * 0.875}>
           Special
         </text>
-        <text textAnchor="end" x={width * 0.25} y={height * 0.4}>
+        <text textAnchor="end" x={width * 0.2} y={height * 0.3}>
           Speed
         </text>
       </g>
@@ -75,13 +76,21 @@ export default function StarChart({
         {width > 0 && height > 0 && (
           <g data-testid="star-chart-with-labels-group">
             <g
-              transform={`translate(${width * 0.25}, ${height * 0.25}) scale(${height * 0.065})`}
+              transform={`translate(${width * 0.5 - height * 0.75 * 0.5}, ${height * 0.5 - height * 0.75 * 0.5}) scale(${height * 0.075})`}
               data-testid="stars-and-grid-group"
             >
               {starPath({ fill: "white" })}
               {statsStar}
               {grid}
             </g>
+            {data.map((d) => (
+              <AnimatedValueLabel
+                key={`${d.name}-value`}
+                x={width * 0.5}
+                y={height * 0.5}
+                value={0}
+              />
+            ))}
             {labels({ width, height })}
           </g>
         )}
