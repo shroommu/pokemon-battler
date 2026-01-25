@@ -91,9 +91,9 @@ export default function Stats({ pokemon }) {
       >
         Max Stats
       </h2>
-      <div className="flex flex-col lg:flex-row h-full w-full">
+      <div className="flex flex-col lg:flex-row xl:flex-col h-full w-full">
         <section
-          className="flex flex-col w-full flex-3 xl:flex-auto h-64"
+          className="flex flex-col w-full lg:flex-3 xl:flex-auto h-64"
           data-testid="stats-bar-charts-container"
         >
           <div
@@ -128,7 +128,7 @@ export default function Stats({ pokemon }) {
         </section>
         <section
           data-testid="star-chart-container"
-          className="h-64 lg:flex-2 flex-auto w-full"
+          className="h-64 lg:flex-2 xl:flex-auto w-full"
         >
           <StarChart
             width={starChartDimensions.width}
