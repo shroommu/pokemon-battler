@@ -30,12 +30,7 @@ const getInterpolatedStarPoints = (dataPoints) => {
   return pathString;
 };
 
-export default function AnimatedStar({
-  stroke = "transparent",
-  fill = "transparent",
-  scale = 1,
-  dataPoints = [],
-}) {
+export default function AnimatedStar({ fill, dataPoints = [] }) {
   const springProps = useSpring({
     from: { d: "M 5 5 L 5 5 L 5 5 L 5 5 L 5 5 Z" },
     to: { d: getInterpolatedStarPoints(dataPoints) },
@@ -44,13 +39,5 @@ export default function AnimatedStar({
     },
   });
 
-  return (
-    <animated.path
-      d={springProps.d}
-      stroke={stroke}
-      fill={fill}
-      strokeWidth={0.05 / scale}
-      transform={`scale(${scale}) translate(${(1 - scale) * (5 * (1 / scale))}, ${(1 - scale) * (5 * (1 / scale))})`}
-    />
-  );
+  return <animated.path d={springProps.d} fill={fill} />;
 }
