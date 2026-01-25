@@ -17,13 +17,12 @@ const starPath = ({
 };
 
 export default function StarChart({
-  height = 200,
-  width = 200,
+  height,
+  width,
   data,
   fillColor,
+  innerRef,
 }) {
-  const svgWidth = width * 1.25;
-
   const grid = (
     <g opacity={0.25} data-testid="grid-group">
       <g>
@@ -45,19 +44,19 @@ export default function StarChart({
   const labels = ({ width, height }) => {
     return (
       <g data-testid="labels-group">
-        <text textAnchor="middle" x={width * 0.5} y={height * 0.1}>
+        <text textAnchor="middle" x={width * 0.5} y={height * 0.2}>
           HP
         </text>
-        <text textAnchor="start" x={width * 0.8} y={height * 0.35}>
+        <text textAnchor="start" x={width * 0.75} y={height * 0.4}>
           Attack
         </text>
-        <text textAnchor="start" x={width * 0.7} y={height * 0.85}>
+        <text textAnchor="start" x={width * 0.65} y={height * 0.9}>
           Defense
         </text>
-        <text textAnchor="end" x={width * 0.3} y={height * 0.85}>
+        <text textAnchor="end" x={width * 0.35} y={height * 0.9}>
           Special
         </text>
-        <text textAnchor="end" x={width * 0.2} y={height * 0.35}>
+        <text textAnchor="end" x={width * 0.25} y={height * 0.4}>
           Speed
         </text>
       </g>
@@ -67,23 +66,23 @@ export default function StarChart({
   const statsStar = AnimatedStar({ dataPoints: data, fill: fillColor });
 
   return (
-    <div data-testid="star-chart-container">
-      <svg
-        width={svgWidth}
-        height={height}
-        viewBox={`0 0 ${svgWidth} ${height}`}
-      >
+    <div
+      className="h-full w-full relative"
+      ref={innerRef}
+      data-testid="star-chart-container"
+    >
+      <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
         {width > 0 && height > 0 && (
           <g data-testid="star-chart-with-labels-group">
             <g
-              transform={`translate(${(svgWidth - height * 0.7) / 2}, ${height * 0.15}) scale(${height * 0.07})`}
+              transform={`translate(${width * 0.25}, ${height * 0.25}) scale(${height * 0.065})`}
               data-testid="stars-and-grid-group"
             >
               {starPath({ fill: "white" })}
               {statsStar}
               {grid}
             </g>
-            {labels({ width: svgWidth, height })}
+            {labels({ width, height })}
           </g>
         )}
       </svg>
