@@ -96,9 +96,6 @@ export default function StarChart({
     fill: fillColor,
   });
 
-  console.log(width);
-  console.log(height);
-
   return (
     <div
       className="h-full w-full relative"
@@ -118,7 +115,7 @@ export default function StarChart({
             </g>
             {interpolatedStarPoints.map((d, index) => (
               <AnimatedValueLabel
-                key={`${d.name}-value`}
+                key={`${data[index].name}-value`}
                 centerX={width * 0.5}
                 centerY={height * 0.5}
                 x={height * d.x * 0.1 + width * 0.5 - height * 0.5}
