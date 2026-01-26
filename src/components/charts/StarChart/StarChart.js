@@ -30,7 +30,7 @@ const getInterpolatedStarPoints = (dataPoints) => {
     { x: 0, y: 3 },
   ];
 
-  const statDistances = dataPoints.map((d) => d.value / HIGHEST_STAT);
+  const statDistances = dataPoints.map((d) => d / HIGHEST_STAT);
 
   const interpolatedStarPoints = baseStarCoordinates.map((sc, index) => {
     return {
@@ -48,6 +48,8 @@ export default function StarChart({
   data,
   fillColor,
   innerRef,
+  showReferenceStar,
+  referenceStarFillColor,
 }) {
   const grid = (
     <g opacity={0.25} data-testid="grid-group">
@@ -70,29 +72,54 @@ export default function StarChart({
   const labels = ({ width, height }) => {
     return (
       <g data-testid="labels-group">
-        <text textAnchor="middle" x={width * 0.5} y={height * 0.1}>
+        <text
+          textAnchor="middle"
+          x={height * 0.5 + width * 0.5 - height * 0.5}
+          y={height * 0.1}
+        >
           HP
         </text>
-        <text textAnchor="start" x={width * 0.8} y={height * 0.3}>
+        <text
+          textAnchor="start"
+          x={height * 0.9 + width * 0.5 - height * 0.5}
+          y={height * 0.35}
+        >
           Attack
         </text>
-        <text textAnchor="start" x={width * 0.7} y={height * 0.875}>
+        <text
+          textAnchor="start"
+          x={height * 0.75 + width * 0.5 - height * 0.5}
+          y={height * 0.875}
+        >
           Defense
         </text>
-        <text textAnchor="end" x={width * 0.3} y={height * 0.875}>
+        <text
+          textAnchor="end"
+          x={height * 0.25 + width * 0.5 - height * 0.5}
+          y={height * 0.875}
+        >
           Special
         </text>
-        <text textAnchor="end" x={width * 0.2} y={height * 0.3}>
+        <text
+          textAnchor="end"
+          x={height * 0.1 + width * 0.5 - height * 0.5}
+          y={height * 0.35}
+        >
           Speed
         </text>
       </g>
     );
   };
 
-  const interpolatedStarPoints = getInterpolatedStarPoints(data);
+  const statsInterpolatedStarPoints = getInterpolatedStarPoints(
+    data.map((d) => d.value),
+  );
+  const referenceInterpolatedStarPoints = getInterpolatedStarPoints(
+    data.map((d) => d.referenceLine),
+  );
 
   const statsStar = AnimatedStar({
-    starPoints: interpolatedStarPoints,
+    starPoints: statsInterpolatedStarPoints,
     fill: fillColor,
   });
 
@@ -111,9 +138,17 @@ export default function StarChart({
             >
               {starPath({ fill: "white" })}
               {statsStar}
+              <g opacity={0.5}>
+                {showReferenceStar && (
+                  <AnimatedStar
+                    starPoints={referenceInterpolatedStarPoints}
+                    fill={referenceStarFillColor}
+                  />
+                )}
+              </g>
               {grid}
             </g>
-            {interpolatedStarPoints.map((d, index) => (
+            {statsInterpolatedStarPoints.map((d, index) => (
               <AnimatedValueLabel
                 key={`${data[index].name}-value`}
                 centerX={width * 0.5}
