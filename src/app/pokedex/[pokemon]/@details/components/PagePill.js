@@ -1,7 +1,7 @@
 import { tv } from "tailwind-variants";
 
 const pillStyle = tv({
-  base: "flex justify-center items-center w-12 h-8 p-2 rounded-md bg-gray-300",
+  base: "flex justify-center items-center p-2 rounded-md bg-gray-300 cursor-pointer",
   variants: {
     selected: {
       true: "bg-gray-400",
