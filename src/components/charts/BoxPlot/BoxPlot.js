@@ -1,6 +1,9 @@
 import BoxPlotItem from "./BoxPlotItem";
 
 const SAMPLE_DATA = {
+  dataPoints: [
+    0.12, 0.14, 0.17, 0.23, 0.37, 0.47, 0.53, 0.67, 0.65, 0.75, 0.88,
+  ],
   leftWhisker: 0.12,
   q1: 0.44,
   mean: 0.62,

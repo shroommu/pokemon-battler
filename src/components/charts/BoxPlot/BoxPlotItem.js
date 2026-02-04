@@ -1,5 +1,4 @@
 export default function BoxPlotItem({ data, width, height, yPos }) {
-  console.log(yPos);
   return (
     <g data-testid="box-plot-item-group">
       <g data-testid="box-plot-left-whisker-group">
@@ -9,7 +8,7 @@ export default function BoxPlotItem({ data, width, height, yPos }) {
           y1={yPos - height / 2}
           y2={yPos + height / 2}
           stroke="black"
-          stroke-width={2}
+          strokeWidth={2}
         />
         <line
           x1={width * data.leftWhisker}
@@ -17,7 +16,7 @@ export default function BoxPlotItem({ data, width, height, yPos }) {
           y1={yPos}
           y2={yPos}
           stroke="black"
-          stroke-width={2}
+          strokeWidth={2}
         />
       </g>
       <rect
@@ -46,7 +45,7 @@ export default function BoxPlotItem({ data, width, height, yPos }) {
           y1={yPos - height / 2}
           y2={yPos + height / 2}
           stroke="black"
-          stroke-width={2}
+          strokeWidth={2}
         />
         <line
           x1={width * data.q3}
@@ -54,8 +53,13 @@ export default function BoxPlotItem({ data, width, height, yPos }) {
           y1={yPos}
           y2={yPos}
           stroke="black"
-          stroke-width={2}
+          strokeWidth={2}
         />
+      </g>
+      <g data-testid="data-points-group">
+        {data.dataPoints.map((dataPoint) => (
+          <circle r={4} cx={width * dataPoint} cy={yPos} key={dataPoint} />
+        ))}
       </g>
     </g>
   );
