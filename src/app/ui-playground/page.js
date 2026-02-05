@@ -1,9 +1,13 @@
+import { getAllPokemonWithMaxStats } from "@/services/getAllPokemonWithMaxStats";
+
 import BoxPlot from "@/components/charts/BoxPlot/BoxPlot";
 
-export default function UIPlayground({}) {
+export default async function UIPlayground({}) {
+  const { data: pokemons } = await getAllPokemonWithMaxStats();
+
   return (
     <div>
-      <BoxPlot />
+      <BoxPlot data={pokemons} />
     </div>
   );
 }

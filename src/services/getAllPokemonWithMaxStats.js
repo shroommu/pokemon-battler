@@ -6,7 +6,7 @@ import prisma from "@/lib/prisma";
 
 import { sum } from "mathjs";
 
-export const getAllPokemonMaxStats = cache(async () => {
+export const getAllPokemonWithMaxStats = cache(async () => {
   const pokemons = await prisma.pokemon.findMany();
 
   const data = pokemons.map((pokemon) => {
