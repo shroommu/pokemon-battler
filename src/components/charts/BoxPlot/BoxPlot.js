@@ -1,5 +1,4 @@
 import { useMemo } from "react";
-
 import { scaleLinear } from "d3";
 
 import BoxPlotItem from "./BoxPlotItem";
@@ -15,7 +14,7 @@ export default function BoxPlot({ width = 600, height = 400, data }) {
       .range([0, boundsWidth]);
   }, [data, boundsWidth]);
 
-  const grid = xScale.ticks(7).map((value, i) => (
+  const grid = xScale.ticks(13).map((value, i) => (
     <g key={i}>
       <line
         x1={xScale(value)}
@@ -52,7 +51,7 @@ export default function BoxPlot({ width = 600, height = 400, data }) {
           <BoxPlotItem
             data={data}
             width={xScale(data.max)}
-            height={100}
+            height={50}
             yPos={boundsHeight / 2}
           />
         </g>

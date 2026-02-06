@@ -8,8 +8,6 @@ export default async function UIPlayground({}) {
     getBoxplotData(res.data),
   );
 
-  console.log(data);
-
   return (
     <div>
       <BoxPlot data={data} />
