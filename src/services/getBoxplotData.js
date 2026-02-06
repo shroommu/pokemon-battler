@@ -12,17 +12,13 @@ export const getBoxplotData = cache(async (dataPoints) => {
   const q3 = quantile(values, 0.75);
   const maxValue = max(values);
 
-  const normalizedDatapoints = dataPoints.map((dataPoint) => {
-    return { ...dataPoint, normalizedValue: dataPoint.value / maxValue };
-  });
-
   const data = {
-    dataPoints: normalizedDatapoints,
-    leftWhisker: minValue / maxValue,
-    q1: q1 / maxValue,
-    mean: mean / maxValue,
-    q3: q3 / maxValue,
-    rightWhisker: maxValue / maxValue,
+    dataPoints,
+    min: minValue,
+    q1,
+    mean,
+    q3,
+    max: maxValue,
     outliers: [],
   };
 
