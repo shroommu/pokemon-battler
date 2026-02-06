@@ -1,5 +1,3 @@
-import { range } from "d3";
-
 export default function BoxPlotItem({ data, width, height, yPos }) {
   return (
     <g data-testid="box-plot-item-group">
@@ -26,7 +24,7 @@ export default function BoxPlotItem({ data, width, height, yPos }) {
         height={height}
         x={(width * data.q1) / data.max}
         y={yPos - height / 2}
-        fill={data.fillColor}
+        fill={"#ababab"}
         stroke="black"
         strokeWidth={2}
         data-testid="quantile-box"

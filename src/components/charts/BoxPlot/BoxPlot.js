@@ -9,12 +9,19 @@ export default function BoxPlot({ width = 600, height = 400, data }) {
     <div data-testid="boxplot-container">
       <svg width={width} height={height}>
         <rect width="100%" height="100%" fill="white" />
-        <BoxPlotItem
-          data={data}
+        <g
           width={boundsWidth}
-          height={100}
-          yPos={height / 2}
-        />
+          height={boundsHeight}
+          transform={`translate(${[padding, padding].join(",")})`}
+          data-testid="padding-group"
+        >
+          <BoxPlotItem
+            data={data}
+            width={boundsWidth}
+            height={100}
+            yPos={boundsHeight / 2}
+          />
+        </g>
         <line x1={width / 2} x2={width / 2} y1={0} y2={height} stroke="black" />
         <line
           x1={0}
