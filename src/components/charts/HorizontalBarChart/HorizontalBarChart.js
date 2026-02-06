@@ -38,14 +38,14 @@ export default function HorizontalBarChart({
       .domain(groups)
       .range([0, boundsHeight])
       .padding(BAR_PADDING);
-  }, [data, height]);
+  }, [groups, boundsHeight]);
 
   const xScale = useMemo(() => {
     return d3
       .scaleLinear()
       .domain([0, domainMaxWithReferenceLine])
       .range([0, boundsWidth]);
-  }, [data, width]);
+  }, [domainMaxWithReferenceLine, boundsWidth]);
 
   const allShapes = data.map((d, index) => {
     const y = yScale(d.name);
