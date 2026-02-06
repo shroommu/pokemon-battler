@@ -35,7 +35,7 @@ export default function BoxPlotItem({ data, width, height, yPos }) {
         y1={yPos - height / 2}
         y2={yPos + height / 2}
         stroke="black"
-        stroke-width={2}
+        strokeWidth={2}
         data-testid="mean-line"
       />
       <g data-testid="box-plot-left-whisker-group">
@@ -63,7 +63,7 @@ export default function BoxPlotItem({ data, width, height, yPos }) {
             cx={dataPoint.normalizedValue * width}
             cy={yPos}
             key={dataPoint.name}
-            data-testId={dataPoint.name}
+            data-testid={dataPoint.name}
           />
         ))}
       </g>
