@@ -11,15 +11,24 @@ export const getBoxplotData = cache(async (dataPoints) => {
   const mean = quantile(values, 0.5);
   const q3 = quantile(values, 0.75);
   const maxValue = max(values);
+  const iqr = q3 - q1;
+  const lowerOutlierBounds = Math.max(minValue, q1 - iqr * 1.5);
+  const upperOutlierBounds = Math.min(maxValue, q3 + iqr * 1.5);
+
+  const outliers = dataPoints.filter(
+    (dataPoint) =>
+      dataPoint.value < lowerOutlierBounds ||
+      dataPoint.value > upperOutlierBounds,
+  );
 
   const data = {
     dataPoints,
-    min: minValue,
+    min: lowerOutlierBounds,
     q1,
     mean,
     q3,
-    max: maxValue,
-    outliers: [],
+    max: upperOutlierBounds,
+    outliers,
   };
 
   return { data };
