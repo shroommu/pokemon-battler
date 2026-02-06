@@ -58,7 +58,13 @@ export default function BoxPlotItem({ data, width, height, yPos }) {
       </g>
       <g data-testid="data-points-group">
         {data.dataPoints.map((dataPoint) => (
-          <circle r={4} cx={width * dataPoint} cy={yPos} key={dataPoint} />
+          <circle
+            r={4}
+            cx={dataPoint.normalizedValue * width}
+            cy={yPos}
+            key={dataPoint.name}
+            data-testId={dataPoint.name}
+          />
         ))}
       </g>
     </g>

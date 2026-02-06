@@ -1,16 +1,29 @@
 "use server";
 
+import { max, min, quantile } from "d3";
 import { cache } from "react";
 
 export const getBoxplotData = cache(async (dataPoints) => {
+  const values = dataPoints.map((dataPoint) => dataPoint.value);
+
+  const minValue = min(values);
+  const q1 = quantile(values, 0.25);
+  const mean = quantile(values, 0.5);
+  const q3 = quantile(values, 0.75);
+  const maxValue = max(values);
+
+  const normalizedDatapoints = dataPoints.map((dataPoint) => {
+    return { ...dataPoint, normalizedValue: dataPoint.value / maxValue };
+  });
+
   const data = {
-    leftOutliers: [],
-    leftWhisker: 0.05,
-    q1: 0.25,
-    mean: 0.5,
-    q2: 0.75,
-    rightWhisker: 0.95,
-    rightOutliers: [],
+    dataPoints: normalizedDatapoints,
+    leftWhisker: minValue / maxValue,
+    q1: q1 / maxValue,
+    mean: mean / maxValue,
+    q3: q3 / maxValue,
+    rightWhisker: maxValue / maxValue,
+    outliers: [],
   };
 
   return { data };

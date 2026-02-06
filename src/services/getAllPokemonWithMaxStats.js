@@ -12,7 +12,7 @@ export const getAllPokemonWithMaxStats = cache(async () => {
   const data = pokemons.map((pokemon) => {
     return {
       ...pokemon,
-      maxStats: sum([
+      value: sum([
         pokemon.hp,
         pokemon.attack,
         pokemon.defense,
