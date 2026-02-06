@@ -27,8 +27,8 @@ export default function HorizontalBarChart({
   const domainMaxWithReferenceLine = fixedDomainMax
     ? fixedDomainMax
     : showReferenceLine
-    ? d3.max(data.map((d) => d3.max([d.value, d.referenceLine])))
-    : domainMax;
+      ? d3.max(data.map((d) => d3.max([d.value, d.referenceLine])))
+      : domainMax;
 
   const groups = data.map((d) => d.name);
 
@@ -174,6 +174,7 @@ export default function HorizontalBarChart({
             width={boundsWidth}
             height={boundsHeight}
             transform={`translate(${[MARGIN.left, MARGIN.top].join(",")})`}
+            data-testid="padding-group"
           >
             {grid}
             {allShapes}
