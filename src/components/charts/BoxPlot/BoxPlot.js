@@ -17,7 +17,20 @@ export default function BoxPlot({
   const boundsWidth = width - padding * 2;
   const boundsHeight = height - padding * 2;
 
-  const [activeFilters, setActiveFilters] = useState([]);
+  const [activeFilters, setActiveFilters] = useState(() => {
+    const activeFiltersObject = filterList.reduce(
+      (acc, curr) => ((acc[curr] = false), acc),
+      {},
+    );
+    if (Object.keys(activeFiltersObject)) {
+      activeFiltersObject["All"] = false;
+      console.log(filterList[0]);
+      activeFiltersObject[filterList[0]] = true;
+    }
+    return activeFiltersObject;
+  });
+
+  console.log(activeFilters);
 
   const xScale = useMemo(() => {
     return scaleLinear()
@@ -87,6 +100,7 @@ export default function BoxPlot({
         {multi && (
           <MultiBoxControl
             filterList={filterList}
+            activeFilters={activeFilters}
             onChange={setActiveFilters}
           />
         )}
