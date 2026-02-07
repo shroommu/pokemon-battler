@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { filter, scaleLinear } from "d3";
+import { scaleBand, scaleLinear } from "d3";
 
 import { getBoxplotData } from "./getBoxplotData";
 
@@ -11,6 +11,7 @@ import MultiBoxControl from "./MultiBoxControl";
 export default function BoxPlot({
   width = 600,
   height = 400,
+  fixedDomainMax,
   multi = false,
   filterList = [],
   filterBy,
@@ -44,16 +45,21 @@ export default function BoxPlot({
     {},
   );
 
-  console.log(filteredData);
+  const activeFilterList = Object.entries(activeFilters)
+    .filter(([_, value]) => {
+      return value == true;
+    })
+    .map(([key, _]) => key);
 
   const xScale = useMemo(() => {
-    return (
-      scaleLinear()
-        //.domain([0, Math.ceil(data.max / 100) * 100])
-        .domain([0, 600])
-        .range([0, boundsWidth])
-    );
-  }, [data, boundsWidth]);
+    return scaleLinear().domain([0, fixedDomainMax]).range([0, boundsWidth]);
+  }, [fixedDomainMax, boundsWidth]);
+
+  const yPos = useMemo(() => {
+    return scaleBand()
+      .domain(activeFilterList)
+      .range([boundsHeight / activeFilterList.length / 2, boundsHeight]);
+  }, [activeFilterList, boundsHeight]);
 
   const grid = xScale.ticks(13).map((value, i) => (
     <g key={i}>
@@ -98,8 +104,11 @@ export default function BoxPlot({
                     key={key}
                     data={data}
                     width={xScale(data.max)}
-                    height={50}
-                    yPos={boundsHeight / 2}
+                    height={Math.min(
+                      (boundsHeight - padding) / activeFilterList.length,
+                      boundsHeight / 4,
+                    )}
+                    yPos={yPos(key)}
                     valueKey={valueKey}
                   />
                 ) : null;

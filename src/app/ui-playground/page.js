@@ -13,6 +13,7 @@ export default async function UIPlayground({}) {
     <div className="flex flex-row">
       <BoxPlot
         data={data}
+        fixedDomainMax={600}
         filterList={typesList}
         filterBy={"primary_type_name"}
         valueKey={"max_stats"}
