@@ -1,10 +1,7 @@
-"use server";
-
 import { max, min, quantile } from "d3";
-import { cache } from "react";
 
-export const getBoxplotData = cache(async (dataPoints) => {
-  const values = dataPoints.map((dataPoint) => dataPoint.value);
+export const getBoxplotData = (dataPoints, valueKey) => {
+  const values = dataPoints.map((dataPoint) => dataPoint[valueKey]);
 
   const minValue = min(values);
   const q1 = quantile(values, 0.25);
@@ -31,5 +28,5 @@ export const getBoxplotData = cache(async (dataPoints) => {
     outliers,
   };
 
-  return { data };
-});
+  return data;
+};

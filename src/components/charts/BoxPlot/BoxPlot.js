@@ -1,7 +1,9 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { scaleLinear } from "d3";
+import { filter, scaleLinear } from "d3";
+
+import { getBoxplotData } from "./getBoxplotData";
 
 import BoxPlotItem from "./BoxPlotItem";
 import MultiBoxControl from "./MultiBoxControl";
@@ -11,6 +13,8 @@ export default function BoxPlot({
   height = 400,
   multi = false,
   filterList = [],
+  filterBy,
+  valueKey,
   data,
 }) {
   const padding = 30;
@@ -24,18 +28,31 @@ export default function BoxPlot({
     );
     if (Object.keys(activeFiltersObject)) {
       activeFiltersObject["All"] = false;
-      console.log(filterList[0]);
       activeFiltersObject[filterList[0]] = true;
     }
     return activeFiltersObject;
   });
 
-  console.log(activeFilters);
+  const filteredData = filterList.reduce(
+    (acc, curr) => (
+      (acc[curr] = getBoxplotData(
+        data.filter((d) => d[filterBy] == curr),
+        valueKey,
+      )),
+      acc
+    ),
+    {},
+  );
+
+  console.log(filteredData);
 
   const xScale = useMemo(() => {
-    return scaleLinear()
-      .domain([0, Math.ceil(data.max / 100) * 100])
-      .range([0, boundsWidth]);
+    return (
+      scaleLinear()
+        //.domain([0, Math.ceil(data.max / 100) * 100])
+        .domain([0, 600])
+        .range([0, boundsWidth])
+    );
   }, [data, boundsWidth]);
 
   const grid = xScale.ticks(13).map((value, i) => (
@@ -73,12 +90,20 @@ export default function BoxPlot({
             data-testid="padding-group"
           >
             {grid}
-            <BoxPlotItem
-              data={data}
-              width={xScale(data.max)}
-              height={50}
-              yPos={boundsHeight / 2}
-            />
+            {Object.entries(filteredData)
+              .filter(([key, _]) => activeFilters[key] == true)
+              .map(([key, data]) => {
+                return data.dataPoints.length ? (
+                  <BoxPlotItem
+                    key={key}
+                    data={data}
+                    width={xScale(data.max)}
+                    height={50}
+                    yPos={boundsHeight / 2}
+                    valueKey={valueKey}
+                  />
+                ) : null;
+              })}
           </g>
           <line
             x1={width / 2}

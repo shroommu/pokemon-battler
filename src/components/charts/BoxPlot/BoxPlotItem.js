@@ -1,4 +1,4 @@
-export default function BoxPlotItem({ data, width, height, yPos }) {
+export default function BoxPlotItem({ data, valueKey, width, height, yPos }) {
   return (
     <g data-testid="box-plot-item-group">
       <g data-testid="box-plot-left-whisker-group">
@@ -38,7 +38,7 @@ export default function BoxPlotItem({ data, width, height, yPos }) {
         strokeWidth={2}
         data-testid="mean-line"
       />
-      <g data-testid="box-plot-left-whisker-group">
+      <g data-testid="box-plot-right-whisker-group">
         <line
           x1={(width * data.max) / data.max}
           x2={(width * data.max) / data.max}
@@ -60,7 +60,7 @@ export default function BoxPlotItem({ data, width, height, yPos }) {
         {data.dataPoints.map((dataPoint) => (
           <circle
             r={4}
-            cx={(dataPoint.value * width) / data.max}
+            cx={(dataPoint[valueKey] * width) / data.max}
             cy={yPos}
             key={dataPoint.name}
             data-testid={dataPoint.name}
