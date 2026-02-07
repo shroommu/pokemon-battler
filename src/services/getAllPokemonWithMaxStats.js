@@ -24,8 +24,6 @@ export const getAllPokemonWithMaxStats = cache(async () => {
         pokemon.special,
         pokemon.speed,
       ]),
-      primary_type_name: pokemon.primary_type.name,
-      secondary_type_name: pokemon.secondary_type?.name,
     };
   });
 

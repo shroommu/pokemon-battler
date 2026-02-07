@@ -3,8 +3,6 @@
 import { useMemo, useState } from "react";
 import { scaleBand, scaleLinear } from "d3";
 
-import { getBoxplotData } from "./getBoxplotData";
-
 import BoxPlotItem from "./BoxPlotItem";
 import MultiBoxControl from "./MultiBoxControl";
 
@@ -14,7 +12,6 @@ export default function BoxPlot({
   fixedDomainMax,
   multi = false,
   filterList = [],
-  filterBy,
   valueKey,
   data,
 }) {
@@ -33,17 +30,6 @@ export default function BoxPlot({
     }
     return activeFiltersObject;
   });
-
-  const filteredData = filterList.reduce(
-    (acc, curr) => (
-      (acc[curr] = getBoxplotData(
-        data.filter((d) => d[filterBy] == curr),
-        valueKey,
-      )),
-      acc
-    ),
-    {},
-  );
 
   const activeFilterList = Object.entries(activeFilters)
     .filter(([_, value]) => {
@@ -90,7 +76,7 @@ export default function BoxPlot({
 
   const plotLabels = (
     <g data-testid="plot-label-group">
-      {Object.entries(filteredData)
+      {Object.entries(data)
         .filter(([key, _]) => activeFilters[key] == true)
         .map(([key, data]) => {
           return data.dataPoints.length ? (
@@ -121,7 +107,7 @@ export default function BoxPlot({
           >
             {grid}
             {plotLabels}
-            {Object.entries(filteredData)
+            {Object.entries(data)
               .filter(([key, _]) => activeFilters[key] == true)
               .map(([key, data]) => {
                 return data.dataPoints.length ? (
@@ -136,20 +122,6 @@ export default function BoxPlot({
                 ) : null;
               })}
           </g>
-          <line
-            x1={width / 2}
-            x2={width / 2}
-            y1={0}
-            y2={height}
-            stroke="black"
-          />
-          <line
-            x1={0}
-            x2={width}
-            y1={height / 2}
-            y2={height / 2}
-            stroke="black"
-          />
         </svg>
       </div>
       <div className="h-full">
