@@ -1,4 +1,4 @@
-export const types = [
+export const TYPES = [
   {
     name: "Bug",
     weaknesses: ["Fire", "Flying", "Poison", "Rock"],

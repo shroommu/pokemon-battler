@@ -1,0 +1,138 @@
+"use client";
+
+import { useMemo, useState } from "react";
+import { scaleBand, scaleLinear } from "d3";
+
+import BoxPlotItem from "./BoxPlotItem";
+import MultiBoxControl from "./MultiBoxControl";
+
+export default function BoxPlot({
+  width = 600,
+  height = 400,
+  fixedDomainMax,
+  multi = false,
+  filterList = [],
+  valueKey,
+  data,
+}) {
+  const padding = 30;
+  const boundsWidth = width - padding * 2;
+  const boundsHeight = height - padding * 2;
+
+  const [activeFilters, setActiveFilters] = useState(() => {
+    const activeFiltersObject = filterList.reduce(
+      (acc, curr) => ((acc[curr] = false), acc),
+      {},
+    );
+    if (Object.keys(activeFiltersObject)) {
+      activeFiltersObject["All"] = false;
+      activeFiltersObject[filterList[0]] = true;
+    }
+    return activeFiltersObject;
+  });
+
+  const activeFilterList = Object.entries(activeFilters)
+    .filter(([_, value]) => {
+      return value == true;
+    })
+    .map(([key, _]) => key);
+
+  const xScale = useMemo(() => {
+    return scaleLinear().domain([0, fixedDomainMax]).range([0, boundsWidth]);
+  }, [fixedDomainMax, boundsWidth]);
+
+  const yScale = useMemo(() => {
+    return scaleBand()
+      .domain(activeFilterList)
+      .range([
+        (boundsHeight - padding) / activeFilterList.length / 2,
+        boundsHeight,
+      ])
+      .padding(0.1);
+  }, [activeFilterList, boundsHeight]);
+
+  const grid = xScale.ticks(13).map((value, i) => (
+    <g key={i}>
+      <line
+        x1={xScale(value)}
+        x2={xScale(value)}
+        y1={0}
+        y2={boundsHeight}
+        stroke="#808080"
+        opacity={0.2}
+      />
+      <text
+        x={xScale(value)}
+        y={boundsHeight + 10}
+        textAnchor="middle"
+        alignmentBaseline="central"
+        fontSize={9}
+        opacity={0.8}
+      >
+        {value}
+      </text>
+    </g>
+  ));
+
+  const plotLabels = (
+    <g data-testid="plot-label-group">
+      {Object.entries(data)
+        .filter(([key, _]) => activeFilters[key] == true)
+        .map(([key, data]) => {
+          return data.dataPoints.length ? (
+            <text
+              key={key}
+              x={xScale(data.min) - 8}
+              y={yScale(key)}
+              textAnchor="end"
+              alignmentBaseline="middle"
+            >
+              {key}
+            </text>
+          ) : null;
+        })}
+    </g>
+  );
+
+  return (
+    <div data-testid="boxplot-and-controls-container" className="flex flex-row">
+      <div data-testid="boxplot-container">
+        <svg width={width} height={height}>
+          <rect width="100%" height="100%" fill="white" />
+          <g
+            width={boundsWidth}
+            height={boundsHeight}
+            transform={`translate(${[padding, padding].join(",")})`}
+            data-testid="padding-group"
+          >
+            {grid}
+            {plotLabels}
+            {Object.entries(data)
+              .filter(([key, _]) => activeFilters[key] == true)
+              .map(([key, data]) => {
+                return data.dataPoints.length ? (
+                  <BoxPlotItem
+                    key={key}
+                    data={data}
+                    width={xScale(data.max)}
+                    height={yScale.bandwidth()}
+                    yPos={yScale(key)}
+                    valueKey={valueKey}
+                  />
+                ) : null;
+              })}
+          </g>
+        </svg>
+      </div>
+      <div className="h-full">
+        {multi && (
+          <MultiBoxControl
+            filterList={filterList}
+            activeFilters={activeFilters}
+            onChange={setActiveFilters}
+          />
+        )}
+      </div>
+    </div>
+  );
+}

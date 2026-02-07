@@ -27,8 +27,8 @@ export default function HorizontalBarChart({
   const domainMaxWithReferenceLine = fixedDomainMax
     ? fixedDomainMax
     : showReferenceLine
-    ? d3.max(data.map((d) => d3.max([d.value, d.referenceLine])))
-    : domainMax;
+      ? d3.max(data.map((d) => d3.max([d.value, d.referenceLine])))
+      : domainMax;
 
   const groups = data.map((d) => d.name);
 
@@ -38,14 +38,14 @@ export default function HorizontalBarChart({
       .domain(groups)
       .range([0, boundsHeight])
       .padding(BAR_PADDING);
-  }, [data, height]);
+  }, [groups, boundsHeight]);
 
   const xScale = useMemo(() => {
     return d3
       .scaleLinear()
       .domain([0, domainMaxWithReferenceLine])
       .range([0, boundsWidth]);
-  }, [data, width]);
+  }, [domainMaxWithReferenceLine, boundsWidth]);
 
   const allShapes = data.map((d, index) => {
     const y = yScale(d.name);
@@ -174,6 +174,7 @@ export default function HorizontalBarChart({
             width={boundsWidth}
             height={boundsHeight}
             transform={`translate(${[MARGIN.left, MARGIN.top].join(",")})`}
+            data-testid="padding-group"
           >
             {grid}
             {allShapes}

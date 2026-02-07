@@ -1,4 +1,4 @@
-import { types } from "./constants";
+import { TYPES } from "./constants";
 import TypePill from "./TypePill";
 
 export default function TypeTable() {
@@ -6,19 +6,19 @@ export default function TypeTable() {
     <table className="table h-full min-h-1">
       <thead>
         <td />
-        {types.map((type) => (
+        {TYPES.map((type) => (
           <td key={`${type.name}-header`}>
             <TypePill typeName={type.name} compact size="md" />
           </td>
         ))}
       </thead>
       <tbody>
-        {types.map((attackingType) => (
+        {TYPES.map((attackingType) => (
           <tr key={`${attackingType.name}-row`} className="table-row h-1">
             <td className="h-full">
               <TypePill typeName={attackingType.name} size="md" />
             </td>
-            {types.map((defendingType) => {
+            {TYPES.map((defendingType) => {
               return (
                 <td
                   key={`${defendingType.name}-cell`}
