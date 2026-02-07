@@ -1,6 +1,6 @@
 import { getAllPokemonWithMaxStats } from "@/services/getAllPokemonWithMaxStats";
 
-import { getBoxplotData } from "@/components/charts/BoxPlot/getBoxplotData";
+import { getBoxplotData } from "@/utils/getBoxplotData";
 
 import { TYPES } from "@/components/constants";
 
