@@ -55,10 +55,14 @@ export default function BoxPlot({
     return scaleLinear().domain([0, fixedDomainMax]).range([0, boundsWidth]);
   }, [fixedDomainMax, boundsWidth]);
 
-  const yPos = useMemo(() => {
+  const yScale = useMemo(() => {
     return scaleBand()
       .domain(activeFilterList)
-      .range([boundsHeight / activeFilterList.length / 2, boundsHeight]);
+      .range([
+        (boundsHeight - padding) / activeFilterList.length / 2,
+        boundsHeight,
+      ])
+      .padding(0.1);
   }, [activeFilterList, boundsHeight]);
 
   const grid = xScale.ticks(13).map((value, i) => (
@@ -84,6 +88,26 @@ export default function BoxPlot({
     </g>
   ));
 
+  const plotLabels = (
+    <g data-testid="plot-label-group">
+      {Object.entries(filteredData)
+        .filter(([key, _]) => activeFilters[key] == true)
+        .map(([key, data]) => {
+          return data.dataPoints.length ? (
+            <text
+              key={key}
+              x={xScale(data.min) - 8}
+              y={yScale(key)}
+              textAnchor="end"
+              alignmentBaseline="middle"
+            >
+              {key}
+            </text>
+          ) : null;
+        })}
+    </g>
+  );
+
   return (
     <div data-testid="boxplot-and-controls-container" className="flex flex-row">
       <div data-testid="boxplot-container">
@@ -96,6 +120,7 @@ export default function BoxPlot({
             data-testid="padding-group"
           >
             {grid}
+            {plotLabels}
             {Object.entries(filteredData)
               .filter(([key, _]) => activeFilters[key] == true)
               .map(([key, data]) => {
@@ -104,11 +129,8 @@ export default function BoxPlot({
                     key={key}
                     data={data}
                     width={xScale(data.max)}
-                    height={Math.min(
-                      (boundsHeight - padding) / activeFilterList.length,
-                      boundsHeight / 4,
-                    )}
-                    yPos={yPos(key)}
+                    height={yScale.bandwidth()}
+                    yPos={yScale(key)}
                     valueKey={valueKey}
                   />
                 ) : null;
