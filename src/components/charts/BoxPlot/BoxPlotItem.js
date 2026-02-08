@@ -5,6 +5,8 @@ export default function BoxPlotItem({
   height,
   yPos,
   fillColor,
+  setInteractionData,
+  tooltipOffset,
 }) {
   const strokeColor = "#4a4a4a";
 
@@ -66,19 +68,35 @@ export default function BoxPlotItem({
         />
       </g>
       <g data-testid="data-points-group">
-        {data.dataPoints.map((dataPoint) => (
-          <circle
-            r={4}
-            cx={(dataPoint[valueKey] * width) / data.max}
-            cy={yPos}
-            key={dataPoint.name}
-            data-testid={dataPoint.name}
-            opacity={0.75}
-            transformBox="fill-box"
-            transformOrigin="center"
-            className="[transform-box:fill-box] hover:scale-150"
-          />
-        ))}
+        {data.dataPoints.map((dataPoint) => {
+          const showTooltip = () =>
+            setInteractionData({
+              xPos: (dataPoint[valueKey] * width) / data.max + tooltipOffset,
+              yPos: yPos - tooltipOffset - 16,
+              children: (
+                <div className="flex flex-col items-center">
+                  <div>{dataPoint.name}</div>
+                  <div>{`Max Stats: ${dataPoint[valueKey]}`}</div>
+                </div>
+              ),
+            });
+          return (
+            <circle
+              r={4}
+              cx={(dataPoint[valueKey] * width) / data.max}
+              cy={yPos}
+              key={dataPoint.name}
+              data-testid={dataPoint.name}
+              opacity={0.75}
+              transformBox="fill-box"
+              transformOrigin="center"
+              className="[transform-box:fill-box] hover:scale-150"
+              onMouseEnter={() => showTooltip()}
+              onMouseLeave={() => setInteractionData(null)}
+              onClick={() => showTooltip()}
+            />
+          );
+        })}
       </g>
     </g>
   );

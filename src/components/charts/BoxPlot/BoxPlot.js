@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { scaleBand, scaleLinear } from "d3";
 
+import Tooltip from "../components/Tooltip";
 import BoxPlotItem from "./BoxPlotItem";
 import MultiBoxControl from "./MultiBoxControl";
 
@@ -18,6 +19,9 @@ export default function BoxPlot({
   const padding = 30;
   const boundsWidth = width - padding * 2;
   const boundsHeight = height - padding * 2;
+
+  const [interactionData, setInteractionData] = useState(null);
+  console.log(interactionData);
 
   const [activeFilters, setActiveFilters] = useState(() => {
     const activeFiltersObject = filterList.reduce(
@@ -95,10 +99,13 @@ export default function BoxPlot({
   );
 
   return (
-    <div data-testid="boxplot-and-controls-container" className="flex flex-row">
+    <div
+      data-testid="boxplot-and-controls-container"
+      className="relative flex flex-row"
+    >
       <div data-testid="boxplot-container">
         <svg width={width} height={height}>
-          <rect width="100%" height="100%" fill="white" />
+          {/* <rect width="100%" height="100%" fill="white" /> */}
           <g
             width={boundsWidth}
             height={boundsHeight}
@@ -119,11 +126,26 @@ export default function BoxPlot({
                     yPos={yScale(key)}
                     valueKey={valueKey}
                     fillColor={value.displayColor}
+                    setInteractionData={setInteractionData}
+                    tooltipOffset={padding}
                   />
                 ) : null;
               })}
           </g>
         </svg>
+        <div
+          style={{
+            position: "absolute",
+            width,
+            height,
+            top: 0,
+            left: 0,
+            pointerEvents: "none",
+          }}
+          data-testid="tooltip-layer"
+        >
+          <Tooltip interactionData={interactionData} position={"top"} />
+        </div>
       </div>
       <div className="h-full">
         {multi && (
