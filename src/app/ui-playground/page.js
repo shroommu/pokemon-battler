@@ -17,7 +17,7 @@ export default async function UIPlayground({}) {
       tooltip: (
         <div key={`${d.name}-tooltip`} className="flex flex-row items-center">
           <Image
-            src={d.sprite_party_filepath}
+            src={d.sprite_party_filepath.toLowerCase()}
             width={50}
             height={50}
             priority
