@@ -21,7 +21,6 @@ export default function BoxPlot({
   const boundsHeight = height - padding * 2;
 
   const [interactionData, setInteractionData] = useState(null);
-  console.log(interactionData);
 
   const [activeFilters, setActiveFilters] = useState(() => {
     const activeFiltersObject = filterList.reduce(
@@ -105,7 +104,6 @@ export default function BoxPlot({
     >
       <div data-testid="boxplot-container">
         <svg width={width} height={height}>
-          {/* <rect width="100%" height="100%" fill="white" /> */}
           <g
             width={boundsWidth}
             height={boundsHeight}
@@ -136,13 +134,12 @@ export default function BoxPlot({
         <div
           style={{
             position: "absolute",
-            width,
-            height,
             top: 0,
             left: 0,
             pointerEvents: "none",
           }}
           data-testid="tooltip-layer"
+          className="w-full h-full"
         >
           <Tooltip interactionData={interactionData} position={"top"} />
         </div>

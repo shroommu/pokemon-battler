@@ -72,13 +72,8 @@ export default function BoxPlotItem({
           const showTooltip = () =>
             setInteractionData({
               xPos: (dataPoint[valueKey] * width) / data.max + tooltipOffset,
-              yPos: yPos - tooltipOffset - 16,
-              children: (
-                <div className="flex flex-col items-center">
-                  <div>{dataPoint.name}</div>
-                  <div>{`Max Stats: ${dataPoint[valueKey]}`}</div>
-                </div>
-              ),
+              yPos: yPos - tooltipOffset - 24,
+              children: dataPoint.tooltip,
             });
           return (
             <circle
@@ -88,9 +83,7 @@ export default function BoxPlotItem({
               key={dataPoint.name}
               data-testid={dataPoint.name}
               opacity={0.75}
-              transformBox="fill-box"
-              transformOrigin="center"
-              className="[transform-box:fill-box] hover:scale-150"
+              className="[transform-box:fill-box] [transform-origin:center] hover:scale-150"
               onMouseEnter={() => showTooltip()}
               onMouseLeave={() => setInteractionData(null)}
               onClick={() => showTooltip()}
