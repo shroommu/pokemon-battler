@@ -9,16 +9,19 @@ import BoxPlot from "@/components/charts/BoxPlot/BoxPlot";
 export default async function UIPlayground({}) {
   const { data } = await getAllPokemonWithMaxStats();
 
-  const typesList = TYPES.map((type) => type.name);
-
-  const dataFilteredByType = typesList.reduce(
+  const dataFilteredByType = TYPES.reduce(
     (acc, curr) => (
-      (acc[curr] = getBoxplotData(
-        data.filter(
-          (d) => d.primary_type.name == curr || d.secondary_type?.name == curr,
+      (acc[curr.name] = {
+        data: getBoxplotData(
+          data.filter(
+            (d) =>
+              d.primary_type.name == curr.name ||
+              d.secondary_type?.name == curr.name,
+          ),
+          "max_stats",
         ),
-        "max_stats",
-      )),
+        displayColor: curr.displayColor,
+      }),
       acc
     ),
     {},
@@ -29,7 +32,7 @@ export default async function UIPlayground({}) {
       <BoxPlot
         data={dataFilteredByType}
         fixedDomainMax={600}
-        filterList={typesList}
+        filterList={Object.keys(dataFilteredByType)}
         valueKey={"max_stats"}
         multi
       />

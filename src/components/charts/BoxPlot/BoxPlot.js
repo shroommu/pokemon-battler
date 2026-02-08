@@ -78,11 +78,11 @@ export default function BoxPlot({
     <g data-testid="plot-label-group">
       {Object.entries(data)
         .filter(([key, _]) => activeFilters[key] == true)
-        .map(([key, data]) => {
-          return data.dataPoints.length ? (
+        .map(([key, value]) => {
+          return value.data.dataPoints.length ? (
             <text
               key={key}
-              x={xScale(data.min) - 8}
+              x={xScale(value.data.min) - 8}
               y={yScale(key)}
               textAnchor="end"
               alignmentBaseline="middle"
@@ -109,15 +109,16 @@ export default function BoxPlot({
             {plotLabels}
             {Object.entries(data)
               .filter(([key, _]) => activeFilters[key] == true)
-              .map(([key, data]) => {
-                return data.dataPoints.length ? (
+              .map(([key, value]) => {
+                return value.data.dataPoints.length ? (
                   <BoxPlotItem
                     key={key}
-                    data={data}
-                    width={xScale(data.max)}
+                    data={value.data}
+                    width={xScale(value.data.max)}
                     height={yScale.bandwidth()}
                     yPos={yScale(key)}
                     valueKey={valueKey}
+                    fillColor={value.displayColor}
                   />
                 ) : null;
               })}

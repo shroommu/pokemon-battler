@@ -1,4 +1,13 @@
-export default function BoxPlotItem({ data, valueKey, width, height, yPos }) {
+export default function BoxPlotItem({
+  data,
+  valueKey,
+  width,
+  height,
+  yPos,
+  fillColor,
+}) {
+  const strokeColor = "#4a4a4a";
+
   return (
     <g data-testid="box-plot-item-group">
       <g data-testid="box-plot-left-whisker-group">
@@ -7,7 +16,7 @@ export default function BoxPlotItem({ data, valueKey, width, height, yPos }) {
           x2={(width * data.min) / data.max}
           y1={yPos - height / 2}
           y2={yPos + height / 2}
-          stroke="black"
+          stroke={strokeColor}
           strokeWidth={2}
         />
         <line
@@ -15,7 +24,7 @@ export default function BoxPlotItem({ data, valueKey, width, height, yPos }) {
           x2={(width * data.q1) / data.max}
           y1={yPos}
           y2={yPos}
-          stroke="black"
+          stroke={strokeColor}
           strokeWidth={2}
         />
       </g>
@@ -24,8 +33,8 @@ export default function BoxPlotItem({ data, valueKey, width, height, yPos }) {
         height={height}
         x={(width * data.q1) / data.max}
         y={yPos - height / 2}
-        fill={"#ababab"}
-        stroke="black"
+        fill={fillColor}
+        stroke={strokeColor}
         strokeWidth={2}
         data-testid="quantile-box"
       />
@@ -34,7 +43,7 @@ export default function BoxPlotItem({ data, valueKey, width, height, yPos }) {
         x2={(width * data.mean) / data.max}
         y1={yPos - height / 2}
         y2={yPos + height / 2}
-        stroke="black"
+        stroke={strokeColor}
         strokeWidth={2}
         data-testid="mean-line"
       />
@@ -44,7 +53,7 @@ export default function BoxPlotItem({ data, valueKey, width, height, yPos }) {
           x2={(width * data.max) / data.max}
           y1={yPos - height / 2}
           y2={yPos + height / 2}
-          stroke="black"
+          stroke={strokeColor}
           strokeWidth={2}
         />
         <line
@@ -52,7 +61,7 @@ export default function BoxPlotItem({ data, valueKey, width, height, yPos }) {
           x2={(width * data.max) / data.max}
           y1={yPos}
           y2={yPos}
-          stroke="black"
+          stroke={strokeColor}
           strokeWidth={2}
         />
       </g>
@@ -64,6 +73,10 @@ export default function BoxPlotItem({ data, valueKey, width, height, yPos }) {
             cy={yPos}
             key={dataPoint.name}
             data-testid={dataPoint.name}
+            opacity={0.75}
+            transformBox="fill-box"
+            transformOrigin="center"
+            className="[transform-box:fill-box] hover:scale-150"
           />
         ))}
       </g>
