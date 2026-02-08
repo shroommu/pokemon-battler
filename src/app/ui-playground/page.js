@@ -52,7 +52,8 @@ export default async function UIPlayground({}) {
   );
 
   return (
-    <div className="flex flex-row">
+    <div className="flex flex-col items-center">
+      <h1 className="text-xl">Distribution of Max Stats Per Type</h1>
       <BoxPlot
         data={dataFilteredByType}
         fixedDomainMax={600}
