@@ -50,7 +50,7 @@ export default function Tooltip({ interactionData, position }) {
     case "top":
       coordinates = {
         left: xPos,
-        bottom: yPos,
+        top: yPos,
       };
       break;
     case "right":

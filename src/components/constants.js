@@ -5,6 +5,7 @@ export const TYPES = [
     strengths: ["Grass", "Psychic"],
     resistances: ["Grass", "Fighting", "Ground"],
     immunes: [],
+    displayColor: "#ab2",
   },
   {
     name: "Dragon",
@@ -12,6 +13,7 @@ export const TYPES = [
     strengths: ["Dragon"],
     resistances: ["Fire", "Water", "Electric", "Grass"],
     immunes: [],
+    displayColor: "#76e",
   },
   {
     name: "Electric",
@@ -19,6 +21,7 @@ export const TYPES = [
     strengths: ["Flying", "Water"],
     resistances: ["Electric", "Flying"],
     immunes: [],
+    displayColor: "#fc3",
   },
   {
     name: "Fighting",
@@ -26,6 +29,7 @@ export const TYPES = [
     strengths: ["Ice", "Normal", "Rock"],
     resistances: ["Bug", "Rock"],
     immunes: [],
+    displayColor: "#b54",
   },
   {
     name: "Fire",
@@ -33,6 +37,7 @@ export const TYPES = [
     strengths: ["Bug", "Grass", "Ice"],
     resistances: ["Fire", "Grass", "Bug"],
     immunes: [],
+    displayColor: "#f42",
   },
   {
     name: "Flying",
@@ -40,6 +45,7 @@ export const TYPES = [
     strengths: ["Bug", "Fighting", "Grass"],
     resistances: ["Grass", "Fighting", "Bug"],
     immunes: ["Ground"],
+    displayColor: "#89f",
   },
   {
     name: "Ghost",
@@ -47,6 +53,7 @@ export const TYPES = [
     strengths: ["Ghost"],
     resistances: ["Poison", "Bug"],
     immunes: ["Normal", "Fighting"],
+    displayColor: "#66b",
   },
   {
     name: "Grass",
@@ -54,6 +61,7 @@ export const TYPES = [
     strengths: ["Ground", "Rock", "Water"],
     resistances: ["Water", "Electric", "Grass", "Ground"],
     immunes: [],
+    displayColor: "#7c5",
   },
   {
     name: "Ground",
@@ -61,6 +69,7 @@ export const TYPES = [
     strengths: ["Electric", "Fire", "Poison", "Rock"],
     resistances: ["Poison", "Rock"],
     immunes: ["Electric"],
+    displayColor: "#db5",
   },
   {
     name: "Ice",
@@ -68,6 +77,7 @@ export const TYPES = [
     strengths: ["Flying", "Ground", "Grass", "Dragon"],
     resistances: ["Ice"],
     immunes: [],
+    displayColor: "#6cf",
   },
   {
     name: "Normal",
@@ -75,6 +85,7 @@ export const TYPES = [
     strengths: [],
     resistances: [],
     immunes: ["Ghost"],
+    displayColor: "#aa9",
   },
   {
     name: "Poison",
@@ -82,6 +93,7 @@ export const TYPES = [
     strengths: ["Grass", "Bug"],
     resistances: ["Grass", "Fighting", "Poison"],
     immunes: [],
+    displayColor: "#a59",
   },
   {
     name: "Psychic",
@@ -89,6 +101,7 @@ export const TYPES = [
     strengths: ["Fighting", "Poison"],
     resistances: ["Fighting", "Psychic"],
     immunes: [],
+    displayColor: "#f59",
   },
   {
     name: "Rock",
@@ -96,6 +109,7 @@ export const TYPES = [
     strengths: ["Bug", "Flying", "Fire", "Ice"],
     resistances: ["Normal", "Fire", "Flying", "Poison"],
     immunes: [],
+    displayColor: "#ba6",
   },
   {
     name: "Water",
@@ -103,6 +117,7 @@ export const TYPES = [
     strengths: ["Fire", "Ground", "Rock"],
     resistances: ["Fire", "Water", "Ice"],
     immunes: [],
+    displayColor: "#39f",
   },
 ];
 

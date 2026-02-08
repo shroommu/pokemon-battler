@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { scaleBand, scaleLinear } from "d3";
 
+import Tooltip from "../components/Tooltip";
 import BoxPlotItem from "./BoxPlotItem";
 import MultiBoxControl from "./MultiBoxControl";
 
@@ -18,6 +19,8 @@ export default function BoxPlot({
   const padding = 30;
   const boundsWidth = width - padding * 2;
   const boundsHeight = height - padding * 2;
+
+  const [interactionData, setInteractionData] = useState(null);
 
   const [activeFilters, setActiveFilters] = useState(() => {
     const activeFiltersObject = filterList.reduce(
@@ -78,11 +81,11 @@ export default function BoxPlot({
     <g data-testid="plot-label-group">
       {Object.entries(data)
         .filter(([key, _]) => activeFilters[key] == true)
-        .map(([key, data]) => {
-          return data.dataPoints.length ? (
+        .map(([key, value]) => {
+          return value.data.dataPoints.length ? (
             <text
               key={key}
-              x={xScale(data.min) - 8}
+              x={xScale(value.data.min) - 8}
               y={yScale(key)}
               textAnchor="end"
               alignmentBaseline="middle"
@@ -95,10 +98,12 @@ export default function BoxPlot({
   );
 
   return (
-    <div data-testid="boxplot-and-controls-container" className="flex flex-row">
+    <div
+      data-testid="boxplot-and-controls-container"
+      className="relative flex flex-row"
+    >
       <div data-testid="boxplot-container">
         <svg width={width} height={height}>
-          <rect width="100%" height="100%" fill="white" />
           <g
             width={boundsWidth}
             height={boundsHeight}
@@ -109,20 +114,35 @@ export default function BoxPlot({
             {plotLabels}
             {Object.entries(data)
               .filter(([key, _]) => activeFilters[key] == true)
-              .map(([key, data]) => {
-                return data.dataPoints.length ? (
+              .map(([key, value]) => {
+                return value.data.dataPoints.length ? (
                   <BoxPlotItem
                     key={key}
-                    data={data}
-                    width={xScale(data.max)}
+                    data={value.data}
+                    width={xScale(value.data.max)}
                     height={yScale.bandwidth()}
                     yPos={yScale(key)}
                     valueKey={valueKey}
+                    fillColor={value.displayColor}
+                    setInteractionData={setInteractionData}
+                    tooltipOffset={padding}
                   />
                 ) : null;
               })}
           </g>
         </svg>
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            pointerEvents: "none",
+          }}
+          data-testid="tooltip-layer"
+          className="w-full h-full"
+        >
+          <Tooltip interactionData={interactionData} position={"top"} />
+        </div>
       </div>
       <div className="h-full">
         {multi && (

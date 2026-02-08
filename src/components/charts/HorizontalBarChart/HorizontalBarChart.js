@@ -99,6 +99,18 @@ export default function HorizontalBarChart({
       return null;
     }
 
+    const showTooltip = () =>
+      setInteractionData({
+        xPos: MARGIN.left + xScale(d.referenceLine) + 4,
+        yPos: y + yScale.bandwidth() / 2 + BAR_PADDING * 100,
+        children: (
+          <div>
+            {d.referenceLineTooltipText}
+            {d.referenceLine}
+          </div>
+        ),
+      });
+
     return (
       <HorizontalBarReferenceLine
         key={index}
@@ -110,31 +122,9 @@ export default function HorizontalBarChart({
         color={referenceLineFillColor}
         valueOpacity={0.75}
         rx={1}
-        onMouseEnter={() =>
-          setInteractionData({
-            xPos: MARGIN.left + xScale(d.referenceLine) + 4,
-            yPos: y + yScale.bandwidth() / 2 + BAR_PADDING * 100,
-            children: (
-              <div>
-                {d.referenceLineTooltipText}
-                {d.referenceLine}
-              </div>
-            ),
-          })
-        }
+        onMouseEnter={() => showTooltip()}
         onMouseLeave={() => setInteractionData(null)}
-        onClick={() =>
-          setInteractionData({
-            xPos: MARGIN.left + xScale(d.referenceLine) + 4,
-            yPos: y + yScale.bandwidth() / 2 + BAR_PADDING * 100,
-            children: (
-              <div>
-                {d.referenceLineTooltipText}
-                {d.referenceLine}
-              </div>
-            ),
-          })
-        }
+        onClick={() => showTooltip()}
       />
     );
   });
