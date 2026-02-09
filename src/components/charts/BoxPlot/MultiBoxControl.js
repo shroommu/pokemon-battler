@@ -24,7 +24,7 @@ export default function MultiBoxControl({
   return (
     <div
       data-testid="boxplot-controls-container"
-      className="ml-2 p-4 bg-white h-full"
+      className="flex ml-2 p-4 bg-white h-full justify-center lg:justify-start"
     >
       <ul className="flex flex-row lg:flex-col">
         <li>
@@ -39,7 +39,11 @@ export default function MultiBoxControl({
         </li>
         {filterList.map((filterItem) => {
           return (
-            <li key={filterItem} data-testid={`${filterItem}-filter`}>
+            <li
+              key={filterItem}
+              data-testid={`${filterItem}-filter`}
+              className="flex flex-col items-center ml-2 lg:flex-row lg:ml-0"
+            >
               <input
                 type="checkbox"
                 name={filterItem}
@@ -51,7 +55,7 @@ export default function MultiBoxControl({
                   })
                 }
               />
-              <label className="ml-2">{filterItem}</label>
+              <label className="lg:ml-2">{filterItem}</label>
             </li>
           );
         })}
