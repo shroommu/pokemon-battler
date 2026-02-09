@@ -100,7 +100,7 @@ export default function BoxPlot({
   return (
     <div
       data-testid="boxplot-and-controls-container"
-      className="relative flex flex-row"
+      className="relative flex flex-col lg:flex-row"
     >
       <div data-testid="boxplot-container">
         <svg width={width} height={height}>

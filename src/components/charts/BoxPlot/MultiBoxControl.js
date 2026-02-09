@@ -26,15 +26,17 @@ export default function MultiBoxControl({
       data-testid="boxplot-controls-container"
       className="ml-2 p-4 bg-white h-full"
     >
-      <ul>
-        <input
-          type="checkbox"
-          name={"All"}
-          onChange={(event) =>
-            event.target.checked ? setAllActive() : setAllInactive()
-          }
-        />
-        <label className="ml-2">All</label>
+      <ul className="flex flex-row lg:flex-col">
+        <li>
+          <input
+            type="checkbox"
+            name={"All"}
+            onChange={(event) =>
+              event.target.checked ? setAllActive() : setAllInactive()
+            }
+          />
+          <label className="ml-2">All</label>
+        </li>
         {filterList.map((filterItem) => {
           return (
             <li key={filterItem} data-testid={`${filterItem}-filter`}>
