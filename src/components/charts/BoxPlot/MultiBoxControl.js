@@ -26,8 +26,8 @@ export default function MultiBoxControl({
       data-testid="boxplot-controls-container"
       className="flex ml-2 p-4 bg-white h-full justify-center lg:justify-start"
     >
-      <ul className="flex flex-row lg:flex-col">
-        <li>
+      <ul className="flex flex-row flex-wrap justify-center lg:flex-col">
+        <li className="flex flex-col items-center ml-2 lg:flex-row lg:ml-0">
           <input
             type="checkbox"
             name={"All"}

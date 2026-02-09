@@ -1,3 +1,8 @@
+"use client";
+
+import { useRef, useState, useEffect } from "react";
+import { useDimensions } from "@/hooks/useDimensions";
+
 import Image from "next/image";
 
 import { getAllPokemonWithMaxStats } from "@/services/getAllPokemonWithMaxStats";
@@ -8,10 +13,25 @@ import { TYPES } from "@/components/constants";
 
 import BoxPlot from "@/components/charts/BoxPlot/BoxPlot";
 
-export default async function UIPlayground({}) {
-  const { data } = await getAllPokemonWithMaxStats();
+export default function UIPlayground({}) {
+  const [pokemonData, setPokemonData] = useState([]);
 
-  const dataWithTooltips = data.map((d) => {
+  const getData = async () => {
+    const { data } = await getAllPokemonWithMaxStats();
+    setPokemonData(data);
+    console.log(data);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const boxPlotRef = useRef();
+  const boxPlotDimensions = useDimensions(boxPlotRef);
+
+  console.log(pokemonData);
+
+  const dataWithTooltips = pokemonData?.map((d) => {
     return {
       ...d,
       tooltip: (
@@ -52,14 +72,17 @@ export default async function UIPlayground({}) {
   );
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center h-[400]">
       <h1 className="text-xl">Distribution of Max Stats Per Type</h1>
       <BoxPlot
+        width={boxPlotDimensions.width}
+        height={boxPlotDimensions.height}
         data={dataFilteredByType}
         fixedDomainMax={600}
         filterList={Object.keys(dataFilteredByType)}
         valueKey={"max_stats"}
         multi
+        innerRef={boxPlotRef}
       />
     </div>
   );
