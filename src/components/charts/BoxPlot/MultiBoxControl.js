@@ -35,7 +35,7 @@ export default function MultiBoxControl({
               event.target.checked ? setAllActive() : setAllInactive()
             }
           />
-          <label className="ml-2">All</label>
+          <label className="lg:ml-2">All</label>
         </li>
         {filterList.map((filterItem) => {
           return (
