@@ -1,11 +1,12 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useRef } from "react";
 import { scaleBand, scaleLinear } from "d3";
 
 import Tooltip from "../components/Tooltip";
 import BoxPlotItem from "./BoxPlotItem";
 import MultiBoxControl from "./MultiBoxControl";
+import { useDimensions } from "@/hooks/useDimensions";
 
 export default function BoxPlot({
   width,
@@ -14,11 +15,18 @@ export default function BoxPlot({
   fixedDomainMax,
   multi = false,
   filterList = [],
+  xLabel = "test",
   valueKey,
   data,
 }) {
   const padding = 30;
-  const boundsWidth = width - padding * 2;
+
+  const controlsRef = useRef();
+  const controlsDimensions = useDimensions(controlsRef);
+
+  const boundsWidth = multi
+    ? width - padding * 2 - controlsDimensions.width
+    : width - padding * 2;
   const boundsHeight = height - padding * 2;
 
   const [interactionData, setInteractionData] = useState(null);
@@ -104,11 +112,11 @@ export default function BoxPlot({
       className="relative flex flex-col lg:flex-row h-full w-full"
       ref={innerRef}
     >
-      <div data-testid="boxplot-container">
-        <svg width={width} height={height}>
+      <div data-testid="boxplot-container" className="w-full">
+        <svg width={width} className="w-full h-full">
           <g
             width={boundsWidth}
-            height={boundsHeight}
+            height={xLabel ? boundsHeight - 24 : boundsHeight}
             transform={`translate(${[padding, padding].join(",")})`}
             data-testid="padding-group"
           >
@@ -132,6 +140,16 @@ export default function BoxPlot({
                 ) : null;
               })}
           </g>
+          {xLabel && (
+            <text
+              x={boundsWidth / 2 + padding}
+              y={height - 24}
+              textAnchor="middle"
+              alignmentBaseline="central"
+            >
+              {xLabel}
+            </text>
+          )}
         </svg>
         <div
           style={{
@@ -152,6 +170,7 @@ export default function BoxPlot({
             filterList={filterList}
             activeFilters={activeFilters}
             onChange={setActiveFilters}
+            innerRef={controlsRef}
           />
         )}
       </div>
