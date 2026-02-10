@@ -8,8 +8,9 @@ import BoxPlotItem from "./BoxPlotItem";
 import MultiBoxControl from "./MultiBoxControl";
 
 export default function BoxPlot({
-  width = 600,
-  height = 400,
+  width,
+  height,
+  innerRef,
   fixedDomainMax,
   multi = false,
   filterList = [],
@@ -100,7 +101,8 @@ export default function BoxPlot({
   return (
     <div
       data-testid="boxplot-and-controls-container"
-      className="relative flex flex-row"
+      className="relative flex flex-col lg:flex-row h-full w-full"
+      ref={innerRef}
     >
       <div data-testid="boxplot-container">
         <svg width={width} height={height}>
