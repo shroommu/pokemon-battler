@@ -63,6 +63,12 @@ export default function MobileNavMenu({}) {
                   >
                     <h1 className="text-lg">Pokedex</h1>
                   </Link>
+                  <Link
+                    href={locations.ANALYTICS}
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <h1 className="text-lg">Analyze</h1>
+                  </Link>
                 </li>
               </ul>
             </div>
