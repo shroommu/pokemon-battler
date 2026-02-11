@@ -15,7 +15,7 @@ export default function BoxPlot({
   fixedDomainMax,
   multi = false,
   filterList = [],
-  xLabel = "test",
+  xLabel,
   valueKey,
   data,
 }) {
@@ -27,7 +27,9 @@ export default function BoxPlot({
   const boundsWidth = multi
     ? width - padding * 2 - controlsDimensions.width
     : width - padding * 2;
-  const boundsHeight = height - padding * 2;
+  const boundsHeight = xLabel
+    ? height - padding * 2
+    : height - padding * 2 - 36;
 
   const [interactionData, setInteractionData] = useState(null);
 
@@ -109,14 +111,14 @@ export default function BoxPlot({
   return (
     <div
       data-testid="boxplot-and-controls-container"
-      className="relative flex flex-col lg:flex-row h-full w-full"
+      className="relative flex flex-row h-full w-full"
       ref={innerRef}
     >
       <div data-testid="boxplot-container" className="w-full">
         <svg width={width} className="w-full h-full">
           <g
             width={boundsWidth}
-            height={xLabel ? boundsHeight - 24 : boundsHeight}
+            height={boundsHeight}
             transform={`translate(${[padding, padding].join(",")})`}
             data-testid="padding-group"
           >
@@ -139,17 +141,17 @@ export default function BoxPlot({
                   />
                 ) : null;
               })}
+            {xLabel && (
+              <text
+                x={boundsWidth / 2}
+                y={boundsHeight + 36}
+                textAnchor="middle"
+                alignmentBaseline="central"
+              >
+                {xLabel}
+              </text>
+            )}
           </g>
-          {xLabel && (
-            <text
-              x={boundsWidth / 2 + padding}
-              y={height - 24}
-              textAnchor="middle"
-              alignmentBaseline="central"
-            >
-              {xLabel}
-            </text>
-          )}
         </svg>
         <div
           style={{

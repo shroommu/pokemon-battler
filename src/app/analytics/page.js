@@ -11,7 +11,8 @@ import { getBoxplotData } from "@/utils/getBoxplotData";
 
 import { TYPES } from "@/components/constants";
 
-import BoxPlot from "@/components/charts/BoxPlot/BoxPlot";
+import HorizontalBoxPlot from "@/components/charts/BoxPlot/HorizontalBoxPlot";
+import VerticalBoxPlot from "@/components/charts/BoxPlot/VerticalBoxPlot";
 
 export default function Analytics({}) {
   const [pokemonData, setPokemonData] = useState([]);
@@ -25,8 +26,10 @@ export default function Analytics({}) {
     getData();
   }, []);
 
-  const boxPlotRef = useRef();
-  const boxPlotDimensions = useDimensions(boxPlotRef);
+  const horizontalBoxPlotRef = useRef();
+  const horizontalBoxPlotDimensions = useDimensions(horizontalBoxPlotRef);
+  const verticalBoxPlotRef = useRef();
+  const verticalBoxPlotDimensions = useDimensions(verticalBoxPlotRef);
 
   const dataWithTooltips = pokemonData?.map((d) => {
     return {
@@ -69,18 +72,35 @@ export default function Analytics({}) {
   );
 
   return (
-    <div className="flex flex-col items-center h-2/3">
-      <h1 className="text-xl">Distribution of Max Stats Per Type</h1>
-      <BoxPlot
-        width={boxPlotDimensions.width}
-        height={boxPlotDimensions.height}
-        data={dataFilteredByType}
-        fixedDomainMax={600}
-        filterList={Object.keys(dataFilteredByType)}
-        valueKey={"max_stats"}
-        multi
-        innerRef={boxPlotRef}
-      />
+    <div className="flex flex-col h-full">
+      <div className="hidden lg:flex lg:flex-col items-center h-2/3">
+        <h1 className="text-xl">Distribution of Max Stats Per Type</h1>
+        <HorizontalBoxPlot
+          width={horizontalBoxPlotDimensions.width}
+          height={horizontalBoxPlotDimensions.height}
+          data={dataFilteredByType}
+          fixedDomainMax={600}
+          filterList={Object.keys(dataFilteredByType)}
+          valueKey={"max_stats"}
+          xLabel={"Max Stats"}
+          multi
+          innerRef={horizontalBoxPlotRef}
+        />
+      </div>
+      <div className="flex flex-col lg:hidden items-center h-2/3">
+        <h1 className="text-xl">Distribution of Max Stats Per Type</h1>
+        <VerticalBoxPlot
+          width={verticalBoxPlotDimensions.width}
+          height={verticalBoxPlotDimensions.height}
+          data={dataFilteredByType}
+          fixedDomainMax={600}
+          filterList={Object.keys(dataFilteredByType)}
+          valueKey={"max_stats"}
+          xLabel={"Max Stats"}
+          multi
+          innerRef={verticalBoxPlotRef}
+        />
+      </div>
     </div>
   );
 }
