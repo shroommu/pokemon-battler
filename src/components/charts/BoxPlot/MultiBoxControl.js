@@ -25,7 +25,7 @@ export default function MultiBoxControl({
   return (
     <div
       data-testid="boxplot-controls-container"
-      className="flex ml-2 p-4 bg-white h-full justify-center lg:justify-start"
+      className="flex lg:ml-2 p-4 bg-white justify-center lg:justify-start"
       ref={innerRef}
     >
       <ul className="flex flex-row flex-wrap justify-center lg:flex-col">

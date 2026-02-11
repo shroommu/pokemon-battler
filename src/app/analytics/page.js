@@ -72,7 +72,7 @@ export default function Analytics({}) {
   );
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col">
       <div className="hidden lg:flex lg:flex-col items-center h-2/3">
         <h1 className="text-xl">Distribution of Max Stats Per Type</h1>
         <HorizontalBoxPlot

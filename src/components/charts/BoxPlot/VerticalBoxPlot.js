@@ -21,12 +21,12 @@ export default function VerticalBoxPlot({
 }) {
   const padding = 30;
 
-  const controlsRef = useRef();
-  const controlsDimensions = useDimensions(controlsRef);
+  //const controlsRef = useRef();
+  //const controlsDimensions = useDimensions(controlsRef);
 
   const boundsWidth = width - padding * 2;
-  const boundsHeight = multi
-    ? height - padding * 2 - controlsDimensions.height
+  const boundsHeight = xLabel
+    ? height - padding * 2 - 36
     : height - padding * 2;
 
   const [interactionData, setInteractionData] = useState(null);
@@ -109,7 +109,7 @@ export default function VerticalBoxPlot({
   return (
     <div
       data-testid="boxplot-and-controls-container"
-      className="relative flex flex-col h-full w-full"
+      className="relative flex flex-col w-full"
       ref={innerRef}
     >
       <div data-testid="boxplot-container" className="h-full">
@@ -168,7 +168,7 @@ export default function VerticalBoxPlot({
             filterList={filterList}
             activeFilters={activeFilters}
             onChange={setActiveFilters}
-            innerRef={controlsRef}
+            //innerRef={controlsRef}
           />
         )}
       </div>
