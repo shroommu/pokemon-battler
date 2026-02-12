@@ -11,15 +11,16 @@ import { useDimensions } from "@/hooks/useDimensions";
 export default function BoxPlot({
   width,
   height,
+  padding = 30,
   innerRef,
   fixedDomainMax,
   multi = false,
   filterList = [],
-  xLabel,
+  xLabel = "X Axis",
   valueKey,
   data,
 }) {
-  const padding = 30;
+  const xLabelHeight = 24;
 
   const controlsRef = useRef();
   const controlsDimensions = useDimensions(controlsRef);
@@ -27,9 +28,7 @@ export default function BoxPlot({
   const boundsWidth = multi
     ? width - padding * 2 - controlsDimensions.width
     : width - padding * 2;
-  const boundsHeight = xLabel
-    ? height - padding * 2
-    : height - padding * 2 - 36;
+  const boundsHeight = height - padding * 2 - xLabelHeight;
 
   const [interactionData, setInteractionData] = useState(null);
 
@@ -63,7 +62,7 @@ export default function BoxPlot({
         boundsHeight,
       ])
       .padding(0.1);
-  }, [activeFilterList, boundsHeight]);
+  }, [activeFilterList, boundsHeight, padding]);
 
   const grid = xScale.ticks(13).map((value, i) => (
     <g key={i}>

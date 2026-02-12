@@ -11,23 +11,24 @@ import { useDimensions } from "@/hooks/useDimensions";
 export default function VerticalBoxPlot({
   width,
   height,
+  padding = 30,
   innerRef,
   fixedDomainMax,
   multi = false,
   filterList = [],
-  xLabel = "test",
+  xLabel = "X Axis",
   valueKey,
   data,
 }) {
-  const padding = 30;
+  const xLabelHeight = 24;
 
-  //const controlsRef = useRef();
-  //const controlsDimensions = useDimensions(controlsRef);
+  const controlsRef = useRef();
+  const controlsDimensions = useDimensions(controlsRef);
 
   const boundsWidth = width - padding * 2;
-  const boundsHeight = xLabel
-    ? height - padding * 2 - 36
-    : height - padding * 2;
+  const boundsHeight = multi
+    ? height - padding * 2 - xLabelHeight - controlsDimensions.height
+    : height - padding * 2 - xLabelHeight;
 
   const [interactionData, setInteractionData] = useState(null);
 
@@ -61,7 +62,7 @@ export default function VerticalBoxPlot({
         boundsHeight,
       ])
       .padding(0.1);
-  }, [activeFilterList, boundsHeight]);
+  }, [activeFilterList, boundsHeight, padding]);
 
   const grid = xScale.ticks(13).map((value, i) => (
     <g key={i}>
@@ -109,11 +110,14 @@ export default function VerticalBoxPlot({
   return (
     <div
       data-testid="boxplot-and-controls-container"
-      className="relative flex flex-col w-full"
+      className="flex flex-col h-full w-full"
       ref={innerRef}
     >
-      <div data-testid="boxplot-container" className="h-full">
-        <svg height={height} className="w-full h-full">
+      <div data-testid="boxplot-container">
+        <svg
+          height={height - controlsDimensions.height}
+          className="w-full h-full"
+        >
           <g
             transform={`translate(${[padding, padding].join(",")})`}
             data-testid="padding-group"
@@ -137,17 +141,17 @@ export default function VerticalBoxPlot({
                   />
                 ) : null;
               })}
+            {xLabel && (
+              <text
+                x={boundsWidth / 2}
+                y={boundsHeight + xLabelHeight}
+                textAnchor="middle"
+                alignmentBaseline="middle"
+              >
+                {xLabel}
+              </text>
+            )}
           </g>
-          {xLabel && (
-            <text
-              x={boundsWidth / 2 + padding}
-              y={height - 24}
-              textAnchor="middle"
-              alignmentBaseline="central"
-            >
-              {xLabel}
-            </text>
-          )}
         </svg>
         <div
           style={{
@@ -162,13 +166,13 @@ export default function VerticalBoxPlot({
           <Tooltip interactionData={interactionData} position={"top"} />
         </div>
       </div>
-      <div className="h-full">
+      <div>
         {multi && (
           <MultiBoxControl
             filterList={filterList}
             activeFilters={activeFilters}
             onChange={setActiveFilters}
-            //innerRef={controlsRef}
+            innerRef={controlsRef}
           />
         )}
       </div>

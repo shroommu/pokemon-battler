@@ -17,12 +17,11 @@ import VerticalBoxPlot from "@/components/charts/BoxPlot/VerticalBoxPlot";
 export default function Analytics({}) {
   const [pokemonData, setPokemonData] = useState([]);
 
-  const getData = async () => {
-    const { data } = await getAllPokemonWithMaxStats();
-    setPokemonData(data);
-  };
-
   useEffect(() => {
+    const getData = async () => {
+      const { data } = await getAllPokemonWithMaxStats();
+      setPokemonData(data);
+    };
     getData();
   }, []);
 
@@ -72,9 +71,11 @@ export default function Analytics({}) {
   );
 
   return (
-    <div className="flex flex-col">
-      <div className="hidden lg:flex lg:flex-col items-center h-2/3">
-        <h1 className="text-xl">Distribution of Max Stats Per Type</h1>
+    <div className="flex flex-col h-full">
+      <h1 className="flex w-full text-xl justify-center">
+        Distribution of Max Stats Per Type
+      </h1>
+      <div className="hidden lg:flex lg:flex-col h-2/3">
         <HorizontalBoxPlot
           width={horizontalBoxPlotDimensions.width}
           height={horizontalBoxPlotDimensions.height}
@@ -87,11 +88,11 @@ export default function Analytics({}) {
           innerRef={horizontalBoxPlotRef}
         />
       </div>
-      <div className="flex flex-col lg:hidden items-center h-2/3">
-        <h1 className="text-xl">Distribution of Max Stats Per Type</h1>
+      <div className="flex flex-col lg:hidden h-2/3">
         <VerticalBoxPlot
           width={verticalBoxPlotDimensions.width}
           height={verticalBoxPlotDimensions.height}
+          padding={15}
           data={dataFilteredByType}
           fixedDomainMax={600}
           filterList={Object.keys(dataFilteredByType)}
