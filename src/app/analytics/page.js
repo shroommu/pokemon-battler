@@ -17,6 +17,11 @@ import VerticalBoxPlot from "@/components/charts/BoxPlot/VerticalBoxPlot";
 export default function Analytics({}) {
   const [pokemonData, setPokemonData] = useState([]);
 
+  const horizontalBoxPlotRef = useRef();
+  const horizontalBoxPlotDimensions = useDimensions(horizontalBoxPlotRef);
+  const verticalBoxPlotRef = useRef();
+  const verticalBoxPlotDimensions = useDimensions(verticalBoxPlotRef);
+
   useEffect(() => {
     const getData = async () => {
       const { data } = await getAllPokemonWithMaxStats();
@@ -24,11 +29,6 @@ export default function Analytics({}) {
     };
     getData();
   }, []);
-
-  const horizontalBoxPlotRef = useRef();
-  const horizontalBoxPlotDimensions = useDimensions(horizontalBoxPlotRef);
-  const verticalBoxPlotRef = useRef();
-  const verticalBoxPlotDimensions = useDimensions(verticalBoxPlotRef);
 
   const dataWithTooltips = pokemonData?.map((d) => {
     return {

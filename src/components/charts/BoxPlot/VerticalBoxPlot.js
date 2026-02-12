@@ -118,40 +118,42 @@ export default function VerticalBoxPlot({
           height={height - controlsDimensions.height}
           className="w-full h-full"
         >
-          <g
-            transform={`translate(${[padding, padding].join(",")})`}
-            data-testid="padding-group"
-          >
-            {grid}
-            {plotLabels}
-            {Object.entries(data)
-              .filter(([key, _]) => activeFilters[key] == true)
-              .map(([key, value]) => {
-                return value.data.dataPoints.length ? (
-                  <BoxPlotItem
-                    key={key}
-                    data={value.data}
-                    width={xScale(value.data.max)}
-                    height={yScale.bandwidth()}
-                    yPos={yScale(key)}
-                    valueKey={valueKey}
-                    fillColor={value.displayColor}
-                    setInteractionData={setInteractionData}
-                    tooltipOffset={padding}
-                  />
-                ) : null;
-              })}
-            {xLabel && (
-              <text
-                x={boundsWidth / 2}
-                y={boundsHeight + xLabelHeight}
-                textAnchor="middle"
-                alignmentBaseline="middle"
-              >
-                {xLabel}
-              </text>
-            )}
-          </g>
+          {width > 0 && height > 0 && (
+            <g
+              transform={`translate(${[padding, padding].join(",")})`}
+              data-testid="padding-group"
+            >
+              {grid}
+              {plotLabels}
+              {Object.entries(data)
+                .filter(([key, _]) => activeFilters[key] == true)
+                .map(([key, value]) => {
+                  return value.data.dataPoints.length ? (
+                    <BoxPlotItem
+                      key={key}
+                      data={value.data}
+                      width={xScale(value.data.max)}
+                      height={yScale.bandwidth()}
+                      yPos={yScale(key)}
+                      valueKey={valueKey}
+                      fillColor={value.displayColor}
+                      setInteractionData={setInteractionData}
+                      tooltipOffset={padding}
+                    />
+                  ) : null;
+                })}
+              {xLabel && (
+                <text
+                  x={boundsWidth / 2}
+                  y={boundsHeight + xLabelHeight}
+                  textAnchor="middle"
+                  alignmentBaseline="middle"
+                >
+                  {xLabel}
+                </text>
+              )}
+            </g>
+          )}
         </svg>
         <div
           style={{

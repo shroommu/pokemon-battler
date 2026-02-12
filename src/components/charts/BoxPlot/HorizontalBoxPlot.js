@@ -115,42 +115,44 @@ export default function BoxPlot({
     >
       <div data-testid="boxplot-container" className="w-full">
         <svg width={width} className="w-full h-full">
-          <g
-            width={boundsWidth}
-            height={boundsHeight}
-            transform={`translate(${[padding, padding].join(",")})`}
-            data-testid="padding-group"
-          >
-            {grid}
-            {plotLabels}
-            {Object.entries(data)
-              .filter(([key, _]) => activeFilters[key] == true)
-              .map(([key, value]) => {
-                return value.data.dataPoints.length ? (
-                  <BoxPlotItem
-                    key={key}
-                    data={value.data}
-                    width={xScale(value.data.max)}
-                    height={yScale.bandwidth()}
-                    yPos={yScale(key)}
-                    valueKey={valueKey}
-                    fillColor={value.displayColor}
-                    setInteractionData={setInteractionData}
-                    tooltipOffset={padding}
-                  />
-                ) : null;
-              })}
-            {xLabel && (
-              <text
-                x={boundsWidth / 2}
-                y={boundsHeight + 36}
-                textAnchor="middle"
-                alignmentBaseline="central"
-              >
-                {xLabel}
-              </text>
-            )}
-          </g>
+          {width > 0 && height > 0 && (
+            <g
+              width={boundsWidth}
+              height={boundsHeight}
+              transform={`translate(${[padding, padding].join(",")})`}
+              data-testid="padding-group"
+            >
+              {grid}
+              {plotLabels}
+              {Object.entries(data)
+                .filter(([key, _]) => activeFilters[key] == true)
+                .map(([key, value]) => {
+                  return value.data.dataPoints.length ? (
+                    <BoxPlotItem
+                      key={key}
+                      data={value.data}
+                      width={xScale(value.data.max)}
+                      height={yScale.bandwidth()}
+                      yPos={yScale(key)}
+                      valueKey={valueKey}
+                      fillColor={value.displayColor}
+                      setInteractionData={setInteractionData}
+                      tooltipOffset={padding}
+                    />
+                  ) : null;
+                })}
+              {xLabel && (
+                <text
+                  x={boundsWidth / 2}
+                  y={boundsHeight + 36}
+                  textAnchor="middle"
+                  alignmentBaseline="central"
+                >
+                  {xLabel}
+                </text>
+              )}
+            </g>
+          )}
         </svg>
         <div
           style={{
