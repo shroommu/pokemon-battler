@@ -110,7 +110,7 @@ export default function VerticalBoxPlot({
   return (
     <div
       data-testid="boxplot-and-controls-container"
-      className="flex flex-col h-full w-full"
+      className="relative flex flex-col h-full w-full"
       ref={innerRef}
     >
       <div data-testid="boxplot-container">
