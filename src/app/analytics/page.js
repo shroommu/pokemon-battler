@@ -39,7 +39,8 @@ export default function Analytics({}) {
             src={d.sprite_party_filepath.toLowerCase()}
             width={50}
             height={50}
-            priority
+            preload
+            unoptimized
             alt={`${d.name} sprite`}
             className="aspect-square"
           />
@@ -73,7 +74,7 @@ export default function Analytics({}) {
   return (
     <div className="flex flex-col h-full">
       <h1 className="flex w-full text-xl justify-center">
-        Distribution of Max Stats Per Type
+        Distribution of Pokemon Max Stats Per Type
       </h1>
       <div className="hidden lg:flex lg:flex-col h-2/3">
         <HorizontalBoxPlot

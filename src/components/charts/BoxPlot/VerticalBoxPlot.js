@@ -142,7 +142,7 @@ export default function VerticalBoxPlot({
                     />
                   ) : null;
                 })}
-              {xLabel && (
+              {/* {xLabel && (
                 <text
                   x={boundsWidth / 2}
                   y={boundsHeight + xLabelHeight}
@@ -151,7 +151,7 @@ export default function VerticalBoxPlot({
                 >
                   {xLabel}
                 </text>
-              )}
+              )} */}
             </g>
           )}
         </svg>
@@ -168,6 +168,7 @@ export default function VerticalBoxPlot({
           <Tooltip interactionData={interactionData} position={"top"} />
         </div>
       </div>
+      <div className="w-full flex justify-center p-4 pt-0">{xLabel}</div>
       <div>
         {multi && (
           <MultiBoxControl
