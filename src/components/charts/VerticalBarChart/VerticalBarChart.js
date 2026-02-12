@@ -91,6 +91,18 @@ export default function VerticalBarChart({
       return null;
     }
 
+    const showTooltip = () =>
+      setInteractionData({
+        xPos: x + xScale.bandwidth() / 2 + BAR_PADDING * 100,
+        yPos: boundsHeight - yScale(d.referenceLine) + MARGIN.top,
+        children: (
+          <div>
+            {d.referenceLineTooltipText}
+            {d.referenceLine}
+          </div>
+        ),
+      });
+
     return (
       <VerticalBarReferenceLine
         key={index}
@@ -102,31 +114,9 @@ export default function VerticalBarChart({
         barHeight={8}
         color={referenceLineFillColor}
         rx={1}
-        onMouseEnter={() =>
-          setInteractionData({
-            xPos: x + xScale.bandwidth() / 2 + BAR_PADDING * 100,
-            yPos: MARGIN.bottom + yScale(d.referenceLine),
-            children: (
-              <div>
-                {d.referenceLineTooltipText}
-                {d.referenceLine}
-              </div>
-            ),
-          })
-        }
+        onMouseEnter={() => showTooltip()}
         onMouseLeave={() => setInteractionData(null)}
-        onClick={() =>
-          setInteractionData({
-            xPos: x + xScale.bandwidth() / 2 + BAR_PADDING * 100,
-            yPos: MARGIN.bottom + yScale(d.referenceLine),
-            children: (
-              <div>
-                {d.referenceLineTooltipText}
-                {d.referenceLine}
-              </div>
-            ),
-          })
-        }
+        onClick={() => showTooltip()}
       />
     );
   });
