@@ -27,8 +27,8 @@ export default function VerticalBarChart({
   const domainMaxWithReferenceLine = fixedDomainMax
     ? fixedDomainMax
     : showReferenceLine
-    ? d3.max(data.map((d) => d3.max([d.value, d.referenceLine])))
-    : domainMax;
+      ? d3.max(data.map((d) => d3.max([d.value, d.referenceLine])))
+      : domainMax;
 
   const groups = data.map((d) => d.name);
 
@@ -69,7 +69,7 @@ export default function VerticalBarChart({
         onMouseEnter={() =>
           setInteractionData({
             xPos: x + xScale.bandwidth() / 2 + BAR_PADDING * 100,
-            yPos: MARGIN.bottom + yScale(d.value),
+            yPos: boundsHeight - yScale(d.value) + MARGIN.top,
             children: (
               <div>
                 {d.tooltipText}
@@ -82,7 +82,7 @@ export default function VerticalBarChart({
         onClick={() =>
           setInteractionData({
             xPos: x + xScale.bandwidth() / 2 + BAR_PADDING * 100,
-            yPos: MARGIN.bottom + yScale(d.value),
+            yPos: boundsHeight - yScale(d.value),
             children: (
               <div>
                 {d.tooltipText}

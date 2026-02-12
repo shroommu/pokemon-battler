@@ -142,16 +142,6 @@ export default function VerticalBoxPlot({
                     />
                   ) : null;
                 })}
-              {/* {xLabel && (
-                <text
-                  x={boundsWidth / 2}
-                  y={boundsHeight + xLabelHeight}
-                  textAnchor="middle"
-                  alignmentBaseline="middle"
-                >
-                  {xLabel}
-                </text>
-              )} */}
             </g>
           )}
         </svg>
