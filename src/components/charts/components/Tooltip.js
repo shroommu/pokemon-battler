@@ -4,7 +4,7 @@ const tooltipContainerClass = tv({
   base: "absolute",
   variants: {
     position: {
-      top: "-translate-x-1/2",
+      top: "-translate-x-1/2 -translate-y-[calc(100%+4px)]",
       bottom: "-translate-x-1/2",
       left: "-translate-y-1/2",
       right: "-translate-y-1/2",

@@ -27,8 +27,8 @@ export default function VerticalBarChart({
   const domainMaxWithReferenceLine = fixedDomainMax
     ? fixedDomainMax
     : showReferenceLine
-    ? d3.max(data.map((d) => d3.max([d.value, d.referenceLine])))
-    : domainMax;
+      ? d3.max(data.map((d) => d3.max([d.value, d.referenceLine])))
+      : domainMax;
 
   const groups = data.map((d) => d.name);
 
@@ -53,6 +53,18 @@ export default function VerticalBarChart({
       return null;
     }
 
+    const showTooltip = () =>
+      setInteractionData({
+        xPos: x + xScale.bandwidth() / 2 + BAR_PADDING * 100,
+        yPos: boundsHeight - yScale(d.value) + MARGIN.top,
+        children: (
+          <div>
+            {d.tooltipText}
+            {d.value}
+          </div>
+        ),
+      });
+
     return (
       <VerticalBarItem
         key={index}
@@ -66,31 +78,9 @@ export default function VerticalBarChart({
         rx={1}
         name={d.name}
         value={d.value}
-        onMouseEnter={() =>
-          setInteractionData({
-            xPos: x + xScale.bandwidth() / 2 + BAR_PADDING * 100,
-            yPos: MARGIN.bottom + yScale(d.value),
-            children: (
-              <div>
-                {d.tooltipText}
-                {d.value}
-              </div>
-            ),
-          })
-        }
+        onMouseEnter={() => showTooltip()}
         onMouseLeave={() => setInteractionData(null)}
-        onClick={() =>
-          setInteractionData({
-            xPos: x + xScale.bandwidth() / 2 + BAR_PADDING * 100,
-            yPos: MARGIN.bottom + yScale(d.value),
-            children: (
-              <div>
-                {d.tooltipText}
-                {d.value}
-              </div>
-            ),
-          })
-        }
+        onClick={() => showTooltip()}
       />
     );
   });
@@ -100,6 +90,18 @@ export default function VerticalBarChart({
     if (x === undefined) {
       return null;
     }
+
+    const showTooltip = () =>
+      setInteractionData({
+        xPos: x + xScale.bandwidth() / 2 + BAR_PADDING * 100,
+        yPos: boundsHeight - yScale(d.referenceLine) + MARGIN.top,
+        children: (
+          <div>
+            {d.referenceLineTooltipText}
+            {d.referenceLine}
+          </div>
+        ),
+      });
 
     return (
       <VerticalBarReferenceLine
@@ -112,31 +114,9 @@ export default function VerticalBarChart({
         barHeight={8}
         color={referenceLineFillColor}
         rx={1}
-        onMouseEnter={() =>
-          setInteractionData({
-            xPos: x + xScale.bandwidth() / 2 + BAR_PADDING * 100,
-            yPos: MARGIN.bottom + yScale(d.referenceLine),
-            children: (
-              <div>
-                {d.referenceLineTooltipText}
-                {d.referenceLine}
-              </div>
-            ),
-          })
-        }
+        onMouseEnter={() => showTooltip()}
         onMouseLeave={() => setInteractionData(null)}
-        onClick={() =>
-          setInteractionData({
-            xPos: x + xScale.bandwidth() / 2 + BAR_PADDING * 100,
-            yPos: MARGIN.bottom + yScale(d.referenceLine),
-            children: (
-              <div>
-                {d.referenceLineTooltipText}
-                {d.referenceLine}
-              </div>
-            ),
-          })
-        }
+        onClick={() => showTooltip()}
       />
     );
   });

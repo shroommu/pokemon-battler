@@ -16,9 +16,9 @@ export default function Nav({}) {
         <li>
           <NavButton href={locations.POKEDEX} buttonText={"Pokedex"} />
         </li>
-        {/* <li>
+        <li>
           <NavButton href={locations.ANALYTICS} buttonText={"Analyze"} />
-        </li> */}
+        </li>
       </ul>
       {/* {session ? (
         <Button

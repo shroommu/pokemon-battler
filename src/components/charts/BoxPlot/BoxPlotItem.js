@@ -72,7 +72,7 @@ export default function BoxPlotItem({
           const showTooltip = () =>
             setInteractionData({
               xPos: (dataPoint[valueKey] * width) / data.max + tooltipOffset,
-              yPos: yPos - tooltipOffset - 24,
+              yPos: yPos + tooltipOffset,
               children: dataPoint.tooltip,
             });
           return (
