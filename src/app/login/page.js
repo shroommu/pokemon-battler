@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { login } from "@/actions/login";
 import { LoginSchema } from "@/schemas";
 import { useSearchParams } from "next/navigation";
@@ -9,7 +9,7 @@ import Input from "@/components/Input";
 import LabeledElement from "@/components/LabeledElement";
 import Button from "@/components/Button";
 
-export default function LogInPage() {
+function LogInForm() {
   const searchParams = useSearchParams();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -68,5 +68,13 @@ export default function LogInPage() {
         </div>
       )}
     </section>
+  );
+}
+
+export default function LogInPage() {
+  return (
+    <Suspense fallback={null}>
+      <LogInForm />
+    </Suspense>
   );
 }
