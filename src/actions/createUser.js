@@ -5,15 +5,33 @@ import { signIn } from "next-auth/next";
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import { SignUpSchema } from "@/schemas";
 
 import { hashSync } from "bcryptjs";
 
 export async function createUser(values) {
+  const validatedFields = SignUpSchema.safeParse(values);
+  if (!validatedFields.success) {
+    const fieldErrors = validatedFields.error.flatten().fieldErrors;
+    return {
+      message: "Invalid fields",
+      errors: {
+        usernameExists: false,
+        emailExists: false,
+        fieldErrors: {
+          username: fieldErrors.username ?? [],
+          email: fieldErrors.email ?? [],
+          password: fieldErrors.password ?? [],
+        },
+      },
+    };
+  }
+
   try {
-    const { username, password } = values;
+    const { username, email, password } = validatedFields.data;
 
     const user = await prisma.user.create({
-      data: { ...values, password: hashSync(values.password, 10) },
+      data: { username, email, password: hashSync(password, 10) },
     });
 
     if (user) {
@@ -28,15 +46,25 @@ export async function createUser(values) {
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === "P2002") {
+        const targets = Array.isArray(e.meta?.target)
+          ? e.meta.target
+          : typeof e.meta?.target === "string"
+            ? [e.meta.target]
+            : [];
+
         return {
           message: e.message,
           errors: {
-            usernameExists: e.message.includes(
-              "Unique constraint failed on the fields: (`username`)"
-            ),
-            emailExists: e.message.includes(
-              "Unique constraint failed on the fields: (`email`)"
-            ),
+            usernameExists:
+              targets.includes("username") ||
+              e.message.includes("`username`"),
+            emailExists:
+              targets.includes("email") || e.message.includes("`email`"),
+            fieldErrors: {
+              username: [],
+              email: [],
+              password: [],
+            },
           },
         };
       }
