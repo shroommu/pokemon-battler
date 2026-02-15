@@ -2,20 +2,34 @@
 
 import { cache } from "react";
 import prisma from "@/lib/prisma";
-import { mean, round } from "mathjs";
+
+const toRoundedAverage = (value) => {
+  return value == null ? 0 : Math.round(value);
+};
 
 export const getPokemonTypeAverageStats = cache(async (primaryTypeName) => {
-  const pokemons = await prisma.pokemon.findMany({
+  const aggregate = await prisma.pokemon.aggregate({
+    _avg: {
+      hp: true,
+      attack: true,
+      defense: true,
+      special: true,
+      speed: true,
+    },
     where: {
       OR: [
         {
           primary_type: {
-            name: primaryTypeName,
+            is: {
+              name: primaryTypeName,
+            },
           },
         },
         {
           secondary_type: {
-            name: primaryTypeName,
+            is: {
+              name: primaryTypeName,
+            },
           },
         },
       ],
@@ -23,11 +37,11 @@ export const getPokemonTypeAverageStats = cache(async (primaryTypeName) => {
   });
 
   const data = {
-    hp: round(mean(pokemons.map((d) => d.hp)), 0),
-    attack: round(mean(pokemons.map((d) => d.attack)), 0),
-    defense: round(mean(pokemons.map((d) => d.defense)), 0),
-    special: round(mean(pokemons.map((d) => d.special)), 0),
-    speed: round(mean(pokemons.map((d) => d.speed)), 0),
+    hp: toRoundedAverage(aggregate._avg.hp),
+    attack: toRoundedAverage(aggregate._avg.attack),
+    defense: toRoundedAverage(aggregate._avg.defense),
+    special: toRoundedAverage(aggregate._avg.special),
+    speed: toRoundedAverage(aggregate._avg.speed),
   };
 
   return { data };

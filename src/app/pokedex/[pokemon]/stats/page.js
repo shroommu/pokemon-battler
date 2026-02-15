@@ -1,6 +1,7 @@
 import { getUniquePokemonByName } from "@/services/getUniquePokemonByName";
 
 import { capitalizePokemonSlug } from "@/app/utils";
+import { notFound } from "next/navigation";
 
 import PokemonDataEntry from ".";
 
@@ -12,12 +13,15 @@ async function getPokemon(pokemonName) {
 }
 
 export default async function Stats({ params }) {
-  const pokemon = await getPokemon(params.pokemon);
+  const { data: pokemon } = await getPokemon(params.pokemon);
+  if (!pokemon) {
+    notFound();
+  }
 
   return (
     <PokemonDataEntry
-      key={pokemon.data?.id ?? pokemon.data?.name}
-      pokemon={pokemon.data}
+      key={pokemon.id ?? pokemon.name}
+      pokemon={pokemon}
     />
   );
 }

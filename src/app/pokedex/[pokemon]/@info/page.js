@@ -3,6 +3,7 @@ import { getUniquePokemonByName } from "@/services/getUniquePokemonByName";
 import { capitalizePokemonSlug, slugifyPokemonName } from "@/app/utils";
 
 import Image from "next/image";
+import { notFound } from "next/navigation";
 
 import TypePill from "@/components/TypePill";
 
@@ -17,6 +18,9 @@ export default async function Page({ params }) {
   const { pokemon: pokemonSlug } = params;
 
   const { data: pokemon } = await getPokemon(pokemonSlug);
+  if (!pokemon) {
+    notFound();
+  }
 
   const renderTypes = () => {
     return pokemon.secondary_type ? (
