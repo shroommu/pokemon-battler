@@ -5,19 +5,21 @@ export default function TypeTable() {
   return (
     <table className="table h-full min-h-1">
       <thead>
-        <td />
-        {TYPES.map((type) => (
-          <td key={`${type.name}-header`}>
-            <TypePill typeName={type.name} compact size="md" />
-          </td>
-        ))}
+        <tr>
+          <th scope="col" />
+          {TYPES.map((type) => (
+            <th key={`${type.name}-header`} scope="col">
+              <TypePill typeName={type.name} compact size="md" />
+            </th>
+          ))}
+        </tr>
       </thead>
       <tbody>
         {TYPES.map((attackingType) => (
           <tr key={`${attackingType.name}-row`} className="table-row h-1">
-            <td className="h-full">
+            <th scope="row" className="h-full">
               <TypePill typeName={attackingType.name} size="md" />
-            </td>
+            </th>
             {TYPES.map((defendingType) => {
               return (
                 <td
