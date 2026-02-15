@@ -16,9 +16,6 @@ export async function createUser(values) {
       data: { ...values, password: hashSync(values.password, 10) },
     });
 
-    console.log(user);
-    console.log(username);
-
     if (user) {
       await signIn("credentials", {
         username,
@@ -26,8 +23,9 @@ export async function createUser(values) {
         redirectTo: DEFAULT_LOGIN_REDIRECT,
       });
     }
+
+    return { success: true, errors: {} };
   } catch (e) {
-    console.log(e);
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.code === "P2002") {
         return {
@@ -44,5 +42,7 @@ export async function createUser(values) {
       }
       return { message: e.message, errors: null };
     }
+
+    return { message: "Unexpected error while creating user", errors: null };
   }
 }
