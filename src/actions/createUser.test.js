@@ -50,6 +50,31 @@ describe("createUser action", () => {
     expect(signIn).not.toHaveBeenCalled();
   });
 
+  it("fills missing validation field arrays with empty lists", async () => {
+    const result = await createUser({
+      username: "ab",
+      email: "misty@test.com",
+      password: "password123",
+    });
+
+    expect(result.message).toBe("Invalid fields");
+    expect(result.errors.fieldErrors.username.length).toBeGreaterThan(0);
+    expect(result.errors.fieldErrors.email).toEqual([]);
+    expect(result.errors.fieldErrors.password).toEqual([]);
+  });
+
+  it("fills username errors with empty list when only email is invalid", async () => {
+    const result = await createUser({
+      username: "misty",
+      email: "not-an-email",
+      password: "password123",
+    });
+
+    expect(result.message).toBe("Invalid fields");
+    expect(result.errors.fieldErrors.username).toEqual([]);
+    expect(result.errors.fieldErrors.email.length).toBeGreaterThan(0);
+  });
+
   it("creates a user, signs in, and returns success for valid input", async () => {
     prisma.user.create.mockResolvedValueOnce({ id: "user-id" });
     signIn.mockResolvedValueOnce(undefined);
@@ -74,11 +99,73 @@ describe("createUser action", () => {
     expect(result).toEqual({ success: true, errors: {} });
   });
 
+  it("returns success without signing in when create returns a falsey user", async () => {
+    prisma.user.create.mockResolvedValueOnce(null);
+
+    const result = await createUser({
+      username: "misty",
+      email: "misty@test.com",
+      password: "password123",
+    });
+
+    expect(signIn).not.toHaveBeenCalled();
+    expect(result).toEqual({ success: true, errors: {} });
+  });
+
   it("maps P2002 duplicate error targets to username/email exists flags", async () => {
     prisma.user.create.mockRejectedValueOnce(
       new Prisma.PrismaClientKnownRequestError("duplicate", "P2002", {
         target: ["username", "email"],
       })
+    );
+
+    const result = await createUser({
+      username: "misty",
+      email: "misty@test.com",
+      password: "password123",
+    });
+
+    expect(result.errors).toEqual({
+      usernameExists: true,
+      emailExists: true,
+      fieldErrors: {
+        username: [],
+        email: [],
+        password: [],
+      },
+    });
+  });
+
+  it("maps string meta.target for unique errors", async () => {
+    prisma.user.create.mockRejectedValueOnce(
+      new Prisma.PrismaClientKnownRequestError("duplicate", "P2002", {
+        target: "username",
+      })
+    );
+
+    const result = await createUser({
+      username: "misty",
+      email: "misty@test.com",
+      password: "password123",
+    });
+
+    expect(result.errors).toEqual({
+      usernameExists: true,
+      emailExists: false,
+      fieldErrors: {
+        username: [],
+        email: [],
+        password: [],
+      },
+    });
+  });
+
+  it("falls back to parsing duplicate fields from error message when meta target is missing", async () => {
+    prisma.user.create.mockRejectedValueOnce(
+      new Prisma.PrismaClientKnownRequestError(
+        "Unique constraint failed on the fields: (`username`, `email`)",
+        "P2002"
+      )
     );
 
     const result = await createUser({

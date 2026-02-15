@@ -53,6 +53,35 @@ describe("SignUpPage", () => {
     expect(screen.getByTestId("email-exists-text")).toBeInTheDocument();
   });
 
+  it("uses empty arrays for untouched client-side error fields", async () => {
+    const user = userEvent.setup();
+    render(<SignUpPage />);
+
+    await user.type(screen.getByTestId("signup-username-input"), "ab");
+    await user.type(screen.getByTestId("signup-email-input"), "valid@test.com");
+    await user.type(screen.getByTestId("signup-password-input"), "password123");
+    await user.click(screen.getByRole("button", { name: /create account/i }));
+
+    expect(screen.getByTestId("username-invalid-text")).toBeInTheDocument();
+    expect(screen.queryByTestId("email-invalid-text")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("password-invalid-text")).not.toBeInTheDocument();
+    expect(createUser).not.toHaveBeenCalled();
+  });
+
+  it("uses empty username errors when only email is invalid client-side", async () => {
+    const user = userEvent.setup();
+    render(<SignUpPage />);
+
+    await user.type(screen.getByTestId("signup-username-input"), "valid_user");
+    await user.type(screen.getByTestId("signup-email-input"), "not-an-email");
+    await user.type(screen.getByTestId("signup-password-input"), "password123");
+    await user.click(screen.getByRole("button", { name: /create account/i }));
+
+    expect(screen.getByTestId("email-invalid-text")).toBeInTheDocument();
+    expect(screen.queryByTestId("username-invalid-text")).not.toBeInTheDocument();
+    expect(createUser).not.toHaveBeenCalled();
+  });
+
   it("shows a success message when account creation succeeds", async () => {
     createUser.mockResolvedValue({ success: true, errors: {} });
 

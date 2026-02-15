@@ -1,5 +1,6 @@
 const nextMock = jest.fn(() => ({ type: "next" }));
 const redirectMock = jest.fn((url) => ({ type: "redirect", url: url.toString() }));
+var withAuthOptions;
 
 jest.mock("next/server", () => ({
   NextResponse: {
@@ -9,7 +10,10 @@ jest.mock("next/server", () => ({
 }));
 
 jest.mock("next-auth/middleware", () => ({
-  withAuth: (handler) => handler,
+  withAuth: (handler, options) => {
+    withAuthOptions = options;
+    return handler;
+  },
 }));
 
 import middleware, { config } from "./middleware";
@@ -78,5 +82,9 @@ describe("middleware", () => {
     expect(config).toEqual({
       matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
     });
+  });
+
+  it("always authorizes in withAuth callback config", () => {
+    expect(withAuthOptions.callbacks.authorized()).toBe(true);
   });
 });

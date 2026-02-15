@@ -73,4 +73,28 @@ describe("getPokemonTypeAverageStats", () => {
       },
     });
   });
+
+  it("maps null aggregate values to zero", async () => {
+    prisma.pokemon.aggregate.mockResolvedValueOnce({
+      _avg: {
+        hp: null,
+        attack: null,
+        defense: null,
+        special: null,
+        speed: null,
+      },
+    });
+
+    const result = await getPokemonTypeAverageStats("Ghost");
+
+    expect(result).toEqual({
+      data: {
+        hp: 0,
+        attack: 0,
+        defense: 0,
+        special: 0,
+        speed: 0,
+      },
+    });
+  });
 });

@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import { getUserByUsername } from "@/data/user";
-import { authOptions } from "./[...nextauth]";
+import { GET, POST, authOptions } from "./[...nextauth]";
 
 jest.mock("next-auth", () => ({
   __esModule: true,
@@ -81,5 +81,44 @@ describe("authOptions credentials authorize", () => {
     const result = await authorize({ username: "misty", password: "pw" });
 
     expect(result).toEqual(user);
+  });
+});
+
+describe("authOptions callbacks", () => {
+  it("adds token subject to session user id when available", async () => {
+    const session = { user: {} };
+    const token = { sub: "user-id" };
+
+    const result = await authOptions.callbacks.session({ token, session });
+
+    expect(result.user.id).toBe("user-id");
+  });
+
+  it("returns session unchanged when token sub or user is missing", async () => {
+    const session = {};
+    const token = {};
+
+    const result = await authOptions.callbacks.session({ token, session });
+
+    expect(result).toBe(session);
+  });
+
+  it("returns token unchanged from jwt callback for both sub states", async () => {
+    const withoutSub = { name: "misty" };
+    const withSub = { name: "misty", sub: "user-id" };
+
+    await expect(authOptions.callbacks.jwt({ token: withoutSub })).resolves.toBe(
+      withoutSub
+    );
+    await expect(authOptions.callbacks.jwt({ token: withSub })).resolves.toBe(
+      withSub
+    );
+  });
+});
+
+describe("next auth route exports", () => {
+  it("exports GET and POST handlers", () => {
+    expect(typeof GET).toBe("function");
+    expect(POST).toBe(GET);
   });
 });

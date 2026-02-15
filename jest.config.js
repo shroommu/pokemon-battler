@@ -6,6 +6,11 @@ const createJestConfig = nextJest({
 
 const customJestConfig = {
   collectCoverage: true,
+  collectCoverageFrom: [
+    "src/**/*.js",
+    "!src/**/*.test.js",
+    "!src/**/__tests__/**",
+  ],
   coverageDirectory: "coverage",
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",

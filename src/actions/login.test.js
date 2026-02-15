@@ -85,4 +85,12 @@ describe("login action", () => {
 
     expect(result).toEqual({ error: "Something went wrong" });
   });
+
+  it("rethrows non-auth errors", async () => {
+    signIn.mockRejectedValueOnce(new Error("boom"));
+
+    await expect(
+      login({ username: "misty", password: "password123" })
+    ).rejects.toThrow("boom");
+  });
 });
