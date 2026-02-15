@@ -17,6 +17,7 @@ export default function Button({
   type,
   disabled,
   extraClasses,
+  testId,
 }) {
   return (
     <button
@@ -26,6 +27,7 @@ export default function Button({
       })}
       onClick={onClick}
       disabled={disabled}
+      data-testid={testId}
     >
       {children}
     </button>
