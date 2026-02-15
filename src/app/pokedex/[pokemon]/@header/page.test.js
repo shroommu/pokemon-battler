@@ -8,6 +8,9 @@ jest.mock("next/navigation", () => ({
   }),
 }));
 
+jest.mock("./components/previousPokemonLink", () => () => null);
+jest.mock("./components/nextPokemonLink", () => () => null);
+
 import { getUniquePokemonByName } from "@/services/getUniquePokemonByName";
 import { notFound } from "next/navigation";
 import Page from "./page";

@@ -1,5 +1,9 @@
-jest.mock("react", () => ({
-  cache: (fn) => fn,
+jest.mock("next/cache", () => ({
+  unstable_cache: (fn) => fn,
+}));
+
+jest.mock("@/lib/queryTiming", () => ({
+  timedQuery: (_name, queryFn) => queryFn(),
 }));
 
 jest.mock("@/lib/prisma", () => ({
