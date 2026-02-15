@@ -9,6 +9,7 @@ jest.mock("d3", () => {
     let rangeVals = [0, 1];
     let pad = 0;
     const fn = (value) => {
+      if (value === "MISSING") return undefined;
       const idx = domainVals.indexOf(value);
       if (idx < 0) return undefined;
       const step = (rangeVals[1] - rangeVals[0]) / Math.max(domainVals.length, 1);
@@ -103,10 +104,49 @@ describe("VerticalBarChart", () => {
     expect(screen.getByTestId("Speed-bar-item")).toBeInTheDocument();
     expect(screen.getByTestId("Speed-reference-line")).toBeInTheDocument();
 
-    await user.click(screen.getByTestId("Speed-bar-item-hitbox"));
+    await user.hover(screen.getByTestId("Speed-bar-item-hitbox"));
     expect(screen.getByTestId("tooltip-mock")).toHaveTextContent("Speed: 60");
+    await user.unhover(screen.getByTestId("Speed-bar-item-hitbox"));
+    expect(screen.getByTestId("tooltip-mock")).toBeEmptyDOMElement();
 
     await user.click(screen.getByTestId("Speed-reference-line-hitbox"));
     expect(screen.getByTestId("tooltip-mock")).toHaveTextContent("AVG Speed: 55");
+    await user.unhover(screen.getByTestId("Speed-reference-line-hitbox"));
+    expect(screen.getByTestId("tooltip-mock")).toBeEmptyDOMElement();
+  });
+
+  it("covers computed domain branch paths and undefined scale values", () => {
+    const data = [
+      {
+        name: "Defense",
+        value: 55,
+        referenceLine: 65,
+        tooltipText: "Defense: ",
+        referenceLineTooltipText: "AVG Defense: ",
+      },
+      {
+        name: "MISSING",
+        value: 20,
+        referenceLine: 10,
+        tooltipText: "Missing: ",
+        referenceLineTooltipText: "AVG Missing: ",
+      },
+    ];
+
+    const { rerender } = render(
+      <VerticalBarChart width={300} height={200} showReferenceLine data={data} />
+    );
+
+    expect(screen.getByTestId("Defense-bar-item")).toBeInTheDocument();
+    expect(screen.queryByTestId("MISSING-bar-item")).not.toBeInTheDocument();
+    expect(screen.getByTestId("Defense-reference-line")).toBeInTheDocument();
+    expect(screen.queryByTestId("MISSING-reference-line")).not.toBeInTheDocument();
+
+    rerender(
+      <VerticalBarChart width={300} height={200} showReferenceLine={false} data={data} />
+    );
+
+    expect(screen.getByTestId("Defense-bar-item")).toBeInTheDocument();
+    expect(screen.queryByTestId("Defense-reference-line")).not.toBeInTheDocument();
   });
 });

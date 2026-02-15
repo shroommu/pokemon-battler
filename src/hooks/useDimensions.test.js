@@ -14,6 +14,13 @@ function Example() {
   );
 }
 
+function ExampleNoRef() {
+  const ref = useRef(null);
+  const { width, height } = useDimensions(ref);
+
+  return <output data-testid="dims-no-ref">{`${width}x${height}`}</output>;
+}
+
 describe("useDimensions", () => {
   it("reads ref dimensions and updates on resize", async () => {
     const widthGetter = jest
@@ -37,6 +44,14 @@ describe("useDimensions", () => {
 
     await waitFor(() => {
       expect(screen.getByTestId("dims")).toHaveTextContent("200x100");
+    });
+  });
+
+  it("returns zero dimensions when target ref is not attached", async () => {
+    render(<ExampleNoRef />);
+
+    await waitFor(() => {
+      expect(screen.getByTestId("dims-no-ref")).toHaveTextContent("0x0");
     });
   });
 });

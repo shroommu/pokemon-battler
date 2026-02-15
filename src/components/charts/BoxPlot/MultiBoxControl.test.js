@@ -10,19 +10,23 @@ describe("MultiBoxControl", () => {
     render(
       <MultiBoxControl
         filterList={["Fire", "Water"]}
-        activeFilters={{ Fire: true, Water: false }}
+        activeFilters={{ All: false, Fire: true, Water: false }}
         onChange={onChange}
       />
     );
 
     const checkboxes = screen.getAllByRole("checkbox");
+
     await user.click(checkboxes[0]);
-    expect(onChange).toHaveBeenLastCalledWith({ Fire: true, Water: true });
+    expect(onChange).toHaveBeenLastCalledWith({ All: true, Fire: true, Water: true });
 
     await user.click(checkboxes[2]);
-    expect(onChange).toHaveBeenLastCalledWith({ Fire: true, Water: true });
+    expect(onChange).toHaveBeenLastCalledWith({ All: false, Fire: true, Water: true });
 
     await user.click(checkboxes[1]);
-    expect(onChange).toHaveBeenLastCalledWith({ Fire: false, Water: false });
+    expect(onChange).toHaveBeenLastCalledWith({ All: false, Fire: false, Water: false });
+
+    await user.click(checkboxes[0]);
+    expect(onChange).toHaveBeenLastCalledWith({ All: false, Fire: false, Water: false });
   });
 });

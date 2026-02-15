@@ -3,19 +3,28 @@ import userEvent from "@testing-library/user-event";
 import MobileNavMenu from ".";
 
 jest.mock("next/link", () => {
-  return ({ children, href, ...props }) => (
-    <a href={href} {...props}>
+  return ({ children, href, onClick, ...props }) => (
+    <a
+      href={href}
+      onClick={(event) => {
+        event.preventDefault();
+        onClick?.(event);
+      }}
+      {...props}
+    >
       {children}
     </a>
   );
 });
 
 describe("MobileNavMenu", () => {
-  it("opens menu and shows nav links", async () => {
+  it("opens menu, shows nav links, and closes on each link click", async () => {
     const user = userEvent.setup();
     render(<MobileNavMenu />);
 
-    await user.click(screen.getByRole("button", { name: /menu/i }));
+    const menuButton = screen.getByRole("button", { name: /menu/i });
+
+    await user.click(menuButton);
     expect(screen.getByTestId("mobile-menu-container")).toBeInTheDocument();
     expect(screen.getByText("Home").closest("a")).toHaveAttribute("href", "/");
     expect(screen.getByText("Pokedex").closest("a")).toHaveAttribute(
@@ -28,6 +37,14 @@ describe("MobileNavMenu", () => {
     );
 
     await user.click(screen.getByText("Home"));
+    expect(screen.queryByTestId("mobile-menu-container")).not.toBeInTheDocument();
+
+    await user.click(menuButton);
+    await user.click(screen.getByText("Pokedex"));
+    expect(screen.queryByTestId("mobile-menu-container")).not.toBeInTheDocument();
+
+    await user.click(menuButton);
+    await user.click(screen.getByText("Analyze"));
     expect(screen.queryByTestId("mobile-menu-container")).not.toBeInTheDocument();
   });
 });

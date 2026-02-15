@@ -74,4 +74,35 @@ describe("Analytics", () => {
 
     expect(getBoxplotData).toHaveBeenCalled();
   });
+
+  it("handles empty and mixed secondary type data without crashing", async () => {
+    getAllPokemonWithMaxStats.mockResolvedValueOnce({
+      data: [
+        {
+          name: "Magnemite",
+          max_stats: 325,
+          sprite_party_filepath: "/images/pokemon/sprites/party/magnemite.png",
+          primary_type: { name: "Electric" },
+          secondary_type: { name: "Steel" },
+        },
+        {
+          name: "Ditto",
+          max_stats: 288,
+          sprite_party_filepath: "/images/pokemon/sprites/party/ditto.png",
+          primary_type: { name: "Normal" },
+          secondary_type: undefined,
+        },
+      ],
+    });
+
+    render(<Analytics />);
+
+    await waitFor(() => {
+      expect(getAllPokemonWithMaxStats).toHaveBeenCalledTimes(1);
+      expect(horizontalBoxPlotMock).toHaveBeenCalled();
+      expect(verticalBoxPlotMock).toHaveBeenCalled();
+    });
+
+    expect(getBoxplotData).toHaveBeenCalled();
+  });
 });

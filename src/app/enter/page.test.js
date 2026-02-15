@@ -1,8 +1,9 @@
-import { render } from "@testing-library/react";
+import { render, screen, act, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import EnterPage from "./page";
 
 const springApis = [];
+const springConfigs = [];
 const pushMock = jest.fn();
 
 jest.mock("next/navigation", () => ({
@@ -16,6 +17,7 @@ jest.mock("react-spring", () => {
       const config = initializer();
       const api = { start: jest.fn() };
       springApis.push(api);
+      springConfigs.push(config);
       return [config.from ?? {}, api];
     }),
     animated: {
@@ -32,6 +34,7 @@ jest.mock("react-spring", () => {
 describe("EnterPage", () => {
   beforeEach(() => {
     springApis.length = 0;
+    springConfigs.length = 0;
     pushMock.mockClear();
   });
 
@@ -49,5 +52,38 @@ describe("EnterPage", () => {
       to: { y: 100, height: 0 },
       delay: 300,
     });
+  });
+
+  it("executes spring onRest callbacks for color transition and navigation", async () => {
+    const { container } = render(<EnterPage />);
+
+    await act(async () => {
+      springConfigs[2].onRest();
+    });
+
+    expect(springApis[1].start).toHaveBeenCalledWith({
+      from: { color: "#9ca3af" },
+      to: { color: "#e4e4e7" },
+      config: { duration: 1000 },
+    });
+
+    await waitFor(() => {
+      expect(container.querySelector(".drop-shadow-sm")).not.toBeInTheDocument();
+    });
+
+    act(() => {
+      springConfigs[1].onRest();
+    });
+    expect(springApis[0].start).toHaveBeenCalledWith({
+      from: { opacity: 0.5 },
+      to: { opacity: 0 },
+      config: { duration: 1000 },
+      delay: 500,
+    });
+
+    act(() => {
+      springConfigs[0].onRest();
+    });
+    expect(pushMock).toHaveBeenCalledWith("/");
   });
 });
