@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import tinycolor from "tinycolor2";
 
 import HorizontalBarChart from "@/components/charts/HorizontalBarChart/HorizontalBarChart";
@@ -17,10 +17,6 @@ export default function PokemonDataEntry({ pokemon }) {
   const [referenceLineType, setReferenceLineType] = useState();
   const [referenceLineColor, setReferenceLineColor] = useState();
   const [showReferenceLine, setShowReferenceLine] = useState(false);
-
-  useEffect(() => {
-    setShowReferenceLine(false);
-  }, [pokemon]);
 
   async function getAllPokemonAverageStatData() {
     const avgData = await getAllPokemonAverageStats();

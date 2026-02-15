@@ -12,8 +12,12 @@ async function getPokemon(pokemonName) {
 }
 
 export default async function Stats({ params }) {
-  const pokemonSlug = await params;
-  const pokemon = await getPokemon(pokemonSlug.pokemon);
+  const pokemon = await getPokemon(params.pokemon);
 
-  return <PokemonDataEntry pokemon={pokemon.data} />;
+  return (
+    <PokemonDataEntry
+      key={pokemon.data?.id ?? pokemon.data?.name}
+      pokemon={pokemon.data}
+    />
+  );
 }

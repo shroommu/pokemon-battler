@@ -12,7 +12,7 @@ async function getPokemon(pokemonName) {
 }
 
 export default async function Page({ params }) {
-  const { pokemon: pokemonSlug } = await params;
+  const { pokemon: pokemonSlug } = params;
   const { data: pokemon } = await getPokemon(pokemonSlug);
 
   return <Details pokemon={pokemon} />;

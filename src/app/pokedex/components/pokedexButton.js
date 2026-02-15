@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { tv } from "tailwind-variants";
+import { slugifyPokemonName } from "@/app/utils";
 
 const pokemonListButtonStyle = tv({
   base: "group py-2 px-4 mb-1 bg-gray-400 rounded-md hover:bg-gray-300 active:bg-gray-500 w-full border-2 border-gray-400",
@@ -15,7 +16,7 @@ export default function PokedexButton({ pokemon, href, selected }) {
       prefetch={true}
       href={href}
       key={pokemon.name}
-      data-testid={`${pokemon.name.replace(" ", "-").toLowerCase()}-link`}
+      data-testid={`${slugifyPokemonName(pokemon.name)}-link`}
       className="group"
     >
       <li

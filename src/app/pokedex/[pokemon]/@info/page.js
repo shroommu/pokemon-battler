@@ -1,6 +1,6 @@
 import { getUniquePokemonByName } from "@/services/getUniquePokemonByName";
 
-import { capitalizePokemonSlug } from "@/app/utils";
+import { capitalizePokemonSlug, slugifyPokemonName } from "@/app/utils";
 
 import Image from "next/image";
 
@@ -14,7 +14,7 @@ async function getPokemon(pokemonName) {
 }
 
 export default async function Page({ params }) {
-  const { pokemon: pokemonSlug } = await params;
+  const { pokemon: pokemonSlug } = params;
 
   const { data: pokemon } = await getPokemon(pokemonSlug);
 
@@ -37,9 +37,7 @@ export default async function Page({ params }) {
     >
       <section
         className="flex flex-col items-center"
-        data-testid={`${pokemon.name
-          .replace(" ", "-")
-          .toLowerCase()}-pokemon-data`}
+        data-testid={`${slugifyPokemonName(pokemon.name)}-pokemon-data`}
       >
         <div className="mt-4 relative w-full h-auto max-w-64 aspect-square">
           <Image

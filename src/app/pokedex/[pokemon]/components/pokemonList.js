@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
-import { buildPath } from "@/app/utils";
+import { buildPath, slugifyPokemonName } from "@/app/utils";
 
 import LabeledElement from "@/components/LabeledElement";
 import Input from "@/components/Input";
@@ -78,9 +78,7 @@ export default function PokemonList({ pokemons }) {
                 key={pokemon.name}
                 pokemon={pokemon}
                 href={buildPath(pathname, pokemon.name)}
-                selected={pathname.includes(
-                  pokemon.name.replace(" ", "-").toLowerCase()
-                )}
+                selected={pathname.includes(slugifyPokemonName(pokemon.name))}
               />
             );
           })}

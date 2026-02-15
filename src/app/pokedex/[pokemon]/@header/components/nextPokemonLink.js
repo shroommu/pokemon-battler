@@ -1,7 +1,7 @@
 import { getUniquePokemonByName } from "@/services/getUniquePokemonByName";
 import { getUniquePokemonByNumber } from "@/services/getUniquePokemonByNumber";
 
-import { capitalizePokemonSlug } from "@/app/utils";
+import { capitalizePokemonSlug, slugifyPokemonName } from "@/app/utils";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -24,7 +24,7 @@ export default async function NextPokemonLink({ pokemonSlug }) {
       {nextPokemon ? (
         <Link
           prefetch={true}
-          href={`/pokedex/${nextPokemon.name.replace(" ", "-").toLowerCase()}`}
+          href={`/pokedex/${slugifyPokemonName(nextPokemon.name)}`}
           className="flex flex-row ml-auto items-center underline"
         >
           <div className="relative w-[50px] aspect-square">

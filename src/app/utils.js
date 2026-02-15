@@ -1,5 +1,9 @@
 import { create, all } from "mathjs";
 
+export function slugifyPokemonName(pokemonName) {
+  return pokemonName.toLowerCase().trim().replace(/\s+/g, "-");
+}
+
 export function capitalizePokemonSlug(slug) {
   const words = slug.split("-");
   const capitalizedWords = words.map(
@@ -10,7 +14,7 @@ export function capitalizePokemonSlug(slug) {
 
 export function buildPath(pathname, pokemonName) {
   const splitPathname = pathname.split("/");
-  const formattedName = pokemonName.replace(" ", "-").toLowerCase();
+  const formattedName = slugifyPokemonName(pokemonName);
 
   splitPathname.splice(2, 1, formattedName);
   const newPathname = splitPathname.join("/");
@@ -19,10 +23,11 @@ export function buildPath(pathname, pokemonName) {
 
 export function generateRandomPokedexNumberPerDay() {
   const date = new Date();
-  const today =
-    date.getFullYear().toString() +
-    date.getMonth().toString() +
-    date.getDay().toString();
+  const today = [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, "0"),
+    String(date.getDate()).padStart(2, "0"),
+  ].join("-");
 
   const config = { randomSeed: today };
   const math = create(all, config);

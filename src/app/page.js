@@ -1,5 +1,5 @@
 import { getUniquePokemonByNumber } from "@/services/getUniquePokemonByNumber";
-import { generateRandomPokedexNumberPerDay } from "./utils";
+import { generateRandomPokedexNumberPerDay, slugifyPokemonName } from "./utils";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -40,9 +40,7 @@ export default async function Home() {
               Let&apos;s start by learning about today&apos;s Pokemon,{" "}
               <Link
                 prefetch={true}
-                href={`/pokedex/${pokemon.data.name
-                  .replace(" ", "-")
-                  .toLowerCase()}`}
+                href={`/pokedex/${slugifyPokemonName(pokemon.data.name)}`}
                 className="underline"
                 data-testid="pokemon-of-the-day-link"
               >
@@ -58,9 +56,7 @@ export default async function Home() {
         <div className="grid grid-cols-2 justify-center">
           <Link
             prefetch={true}
-            href={`/pokedex/${pokemon.data.name
-              .replace(" ", "-")
-              .toLowerCase()}`}
+            href={`/pokedex/${slugifyPokemonName(pokemon.data.name)}`}
             className="relative mt-auto ml-auto w-full max-w-64 max-h-64 aspect-square"
             data-testid="pokemon-of-the-day-image-link"
           >

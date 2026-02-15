@@ -1,7 +1,7 @@
 import { getUniquePokemonByName } from "@/services/getUniquePokemonByName";
 import { getUniquePokemonByNumber } from "@/services/getUniquePokemonByNumber";
 
-import { capitalizePokemonSlug } from "@/app/utils";
+import { capitalizePokemonSlug, slugifyPokemonName } from "@/app/utils";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -24,9 +24,7 @@ export default async function PreviousPokemonLink({ pokemonSlug }) {
       {previousPokemon ? (
         <Link
           prefetch={true}
-          href={`/pokedex/${previousPokemon.name
-            .replace(" ", "-")
-            .toLowerCase()}`}
+          href={`/pokedex/${slugifyPokemonName(previousPokemon.name)}`}
           className="flex flex-row mr-auto items-center underline"
         >
           {`← #${String(previousPokemon.pokedex_number).padStart(3, "0")}`}

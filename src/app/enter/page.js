@@ -9,20 +9,9 @@ export default function EnterPage({}) {
   const [visible, setVisible] = useState(true);
   const router = useRouter();
 
-  const [coverSpring, coverApi] = useSpring(() => ({
-    from: {
-      y: 0,
-      height: 100,
-    },
-    onRest: () => {
-      setVisible(false);
-      screenColorApi.start({
-        from: { color: "#9ca3af" },
-        to: { color: "#e4e4e7" },
-        config: { duration: 1000 },
-      });
-    },
-    config: { duration: 1500, easing: easings.easeOutQuad },
+  const [logoColorSpring, logoColorApi] = useSpring(() => ({
+    from: { opacity: 0.5 },
+    onRest: () => router.push(locations.INDEX),
   }));
 
   const [screenColorSpring, screenColorApi] = useSpring(() => ({
@@ -37,9 +26,20 @@ export default function EnterPage({}) {
       }),
   }));
 
-  const [logoColorSpring, logoColorApi] = useSpring(() => ({
-    from: { opacity: 0.5 },
-    onRest: () => router.push(locations.INDEX),
+  const [coverSpring, coverApi] = useSpring(() => ({
+    from: {
+      y: 0,
+      height: 100,
+    },
+    onRest: () => {
+      setVisible(false);
+      screenColorApi.start({
+        from: { color: "#9ca3af" },
+        to: { color: "#e4e4e7" },
+        config: { duration: 1000 },
+      });
+    },
+    config: { duration: 1500, easing: easings.easeOutQuad },
   }));
 
   const handleClick = () => {
