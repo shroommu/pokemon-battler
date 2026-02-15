@@ -40,6 +40,36 @@ describe("login action", () => {
     });
   });
 
+  it("uses callbackUrl redirect when callback is an internal path", async () => {
+    signIn.mockResolvedValueOnce(undefined);
+
+    await login(
+      { username: "misty", password: "password123" },
+      "/pokedex/pikachu"
+    );
+
+    expect(signIn).toHaveBeenCalledWith("credentials", {
+      username: "misty",
+      password: "password123",
+      redirectTo: "/pokedex/pikachu",
+    });
+  });
+
+  it("falls back to default redirect when callback is unsafe", async () => {
+    signIn.mockResolvedValueOnce(undefined);
+
+    await login(
+      { username: "misty", password: "password123" },
+      "https://evil.example"
+    );
+
+    expect(signIn).toHaveBeenCalledWith("credentials", {
+      username: "misty",
+      password: "password123",
+      redirectTo: "/settings",
+    });
+  });
+
   it("maps CredentialsSignin auth error to invalid credentials message", async () => {
     signIn.mockRejectedValueOnce(new AuthError("CredentialsSignin"));
 

@@ -3,12 +3,14 @@
 import { useState } from "react";
 import { login } from "@/actions/login";
 import { LoginSchema } from "@/schemas";
+import { useSearchParams } from "next/navigation";
 
 import Input from "@/components/Input";
 import LabeledElement from "@/components/LabeledElement";
 import Button from "@/components/Button";
 
 export default function LogInPage() {
+  const searchParams = useSearchParams();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -24,7 +26,8 @@ export default function LogInPage() {
       return;
     }
 
-    const signInResult = await login({ username, password });
+    const callbackUrl = searchParams.get("callbackUrl");
+    const signInResult = await login({ username, password }, callbackUrl);
 
     if (signInResult?.error) {
       setError(signInResult.error);

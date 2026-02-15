@@ -8,6 +8,12 @@ jest.mock("@/actions/login", () => ({
   login: jest.fn(),
 }));
 
+jest.mock("next/navigation", () => ({
+  useSearchParams: () => ({
+    get: () => null,
+  }),
+}));
+
 describe("LogInPage", () => {
   beforeEach(() => {
     jest.clearAllMocks();
