@@ -17,11 +17,11 @@ import { getBoxplotData } from ".././getBoxplotData";
 describe("getBoxplotData", () => {
   it("returns quartile structure and outliers", () => {
     const points = [
-      { value: 1, max_stats: 1 },
-      { value: 2, max_stats: 2 },
-      { value: 3, max_stats: 3 },
-      { value: 4, max_stats: 4 },
-      { value: 100, max_stats: 100 },
+      { value: 999, max_stats: 1 },
+      { value: 999, max_stats: 2 },
+      { value: 999, max_stats: 3 },
+      { value: 999, max_stats: 4 },
+      { value: 999, max_stats: 100 },
     ];
 
     const result = getBoxplotData(points, "max_stats");
@@ -29,6 +29,6 @@ describe("getBoxplotData", () => {
     expect(result.dataPoints).toEqual(points);
     expect(result.min).toBeLessThanOrEqual(result.q1);
     expect(result.max).toBeGreaterThanOrEqual(result.q3);
-    expect(result.outliers).toEqual([{ value: 100, max_stats: 100 }]);
+    expect(result.outliers).toEqual([{ value: 999, max_stats: 100 }]);
   });
 });
