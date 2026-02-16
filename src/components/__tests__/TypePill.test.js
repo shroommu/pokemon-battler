@@ -9,4 +9,10 @@ describe("TypePill", () => {
 
     expect(container).not.toBeEmptyDOMElement();
   });
+
+  it("renders compact label when compact is true", () => {
+    const { getByText } = render(<TypePill typeName={typeName} compact />);
+
+    expect(getByText("Nor")).toBeInTheDocument();
+  });
 });

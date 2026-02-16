@@ -1,22 +1,19 @@
-import { getUniquePokemonByName } from "@/services/getUniquePokemonByName";
-
-import { capitalizePokemonSlug } from "@/app/utils";
+import { slugifyPokemonName } from "@/app/utils";
 
 import Image from "next/image";
+import { notFound } from "next/navigation";
 
 import TypePill from "@/components/TypePill";
 
-async function getPokemon(pokemonName) {
-  const pokemon = await getUniquePokemonByName(
-    capitalizePokemonSlug(pokemonName)
-  );
-  return pokemon;
-}
+import { getPokemonBySlug } from "../getPokemonBySlug";
 
 export default async function Page({ params }) {
   const { pokemon: pokemonSlug } = await params;
+  const pokemon = await getPokemonBySlug(pokemonSlug);
 
-  const { data: pokemon } = await getPokemon(pokemonSlug);
+  if (!pokemon) {
+    notFound();
+  }
 
   const renderTypes = () => {
     return pokemon.secondary_type ? (
@@ -37,9 +34,7 @@ export default async function Page({ params }) {
     >
       <section
         className="flex flex-col items-center"
-        data-testid={`${pokemon.name
-          .replace(" ", "-")
-          .toLowerCase()}-pokemon-data`}
+        data-testid={`${slugifyPokemonName(pokemon.name)}-pokemon-data`}
       >
         <div className="mt-4 relative w-full h-auto max-w-64 aspect-square">
           <Image

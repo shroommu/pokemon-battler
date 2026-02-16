@@ -1,20 +1,42 @@
 "use server";
 
-import { cache } from "react";
+import { unstable_cache } from "next/cache";
 
 import prisma from "@/lib/prisma";
-import { mean, round } from "mathjs";
+import { timedQuery } from "@/lib/queryTiming";
 
-export const getAllPokemonAverageStats = cache(async () => {
-  const pokemons = await prisma.pokemon.findMany();
+const toRoundedAverage = (value) => {
+  return value == null ? 0 : Math.round(value);
+};
 
-  const data = {
-    hp: round(mean(pokemons.map((d) => d.hp)), 0),
-    attack: round(mean(pokemons.map((d) => d.attack)), 0),
-    defense: round(mean(pokemons.map((d) => d.defense)), 0),
-    special: round(mean(pokemons.map((d) => d.special)), 0),
-    speed: round(mean(pokemons.map((d) => d.speed)), 0),
-  };
+const getAllPokemonAverageStatsCached = unstable_cache(
+  async () => {
+    const aggregate = await timedQuery("getAllPokemonAverageStats", () =>
+      prisma.pokemon.aggregate({
+        _avg: {
+          hp: true,
+          attack: true,
+          defense: true,
+          special: true,
+          speed: true,
+        },
+      })
+    );
 
-  return { data };
-});
+    const data = {
+      hp: toRoundedAverage(aggregate._avg.hp),
+      attack: toRoundedAverage(aggregate._avg.attack),
+      defense: toRoundedAverage(aggregate._avg.defense),
+      special: toRoundedAverage(aggregate._avg.special),
+      speed: toRoundedAverage(aggregate._avg.speed),
+    };
+
+    return { data };
+  },
+  ["pokemon:stats:average:all"],
+  { revalidate: 900 }
+);
+
+export async function getAllPokemonAverageStats() {
+  return getAllPokemonAverageStatsCached();
+}

@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
-import { buildPath } from "@/app/utils";
+import { buildPath, slugifyPokemonName } from "@/app/utils";
 
 import LabeledElement from "@/components/LabeledElement";
 import Input from "@/components/Input";
@@ -56,7 +56,7 @@ export default function PokemonList({ pokemons }) {
       >
         {pokemons
           ?.filter((pokemon) =>
-            pokemon.name.toLowerCase().includes(nameFilter.toLowerCase())
+            pokemon.name.toLowerCase().includes(nameFilter.toLowerCase()),
           )
           .sort((pokemon1, pokemon2) => {
             switch (sort) {
@@ -78,9 +78,7 @@ export default function PokemonList({ pokemons }) {
                 key={pokemon.name}
                 pokemon={pokemon}
                 href={buildPath(pathname, pokemon.name)}
-                selected={pathname.includes(
-                  pokemon.name.replace(" ", "-").toLowerCase()
-                )}
+                selected={pathname.includes(slugifyPokemonName(pokemon.name))}
               />
             );
           })}

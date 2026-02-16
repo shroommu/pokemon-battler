@@ -14,8 +14,8 @@ export const getBoxplotData = (dataPoints, valueKey) => {
 
   const outliers = dataPoints.filter(
     (dataPoint) =>
-      dataPoint.value < lowerOutlierBounds ||
-      dataPoint.value > upperOutlierBounds,
+      dataPoint[valueKey] < lowerOutlierBounds ||
+      dataPoint[valueKey] > upperOutlierBounds
   );
 
   const data = {

@@ -55,7 +55,7 @@ export default function VerticalBarReferenceLine({
         writingMode={"vertical-lr"}
         fontSize={10}
         textAnchor={"middle"}
-        dominant-baseline={"central"}
+        dominantBaseline={"central"}
         alignmentBaseline={"central"}
         pointerEvents={"none"}
         className="-translate-x-[4px] sm:-translate-x-[8px] rotate-180"

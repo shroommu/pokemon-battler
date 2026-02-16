@@ -1,5 +1,6 @@
 import { getAllPokemon } from "@/services/getAllPokemon";
 import PokedexButton from "./components/pokedexButton";
+import { slugifyPokemonName } from "@/app/utils";
 
 export default async function PokedexHome() {
   const pokemons = await getAllPokemon();
@@ -20,7 +21,7 @@ export default async function PokedexHome() {
             <PokedexButton
               key={pokemon.name}
               pokemon={pokemon}
-              href={`/pokedex/${pokemon.name.replace(" ", "-").toLowerCase()}`}
+              href={`/pokedex/${slugifyPokemonName(pokemon.name)}`}
             />
           ))}
         </ul>

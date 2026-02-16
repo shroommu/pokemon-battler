@@ -3,7 +3,6 @@ const nextConfig = {
     serverActions: {
       allowedOrigins: ["localhost:3000", "*.alexakruckenberg.com"],
     },
-    viewTransition: true,
   },
 };
 

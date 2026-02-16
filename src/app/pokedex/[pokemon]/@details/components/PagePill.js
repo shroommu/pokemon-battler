@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { tv } from "tailwind-variants";
 
 const pillStyle = tv({
@@ -9,10 +10,10 @@ const pillStyle = tv({
   },
 });
 
-export default function PagePill({ text, onClick, selected }) {
+export default function PagePill({ text, href, selected }) {
   return (
-    <div onClick={onClick} className={pillStyle({ selected: selected })}>
+    <Link href={href} className={pillStyle({ selected })}>
       {text}
-    </div>
+    </Link>
   );
 }

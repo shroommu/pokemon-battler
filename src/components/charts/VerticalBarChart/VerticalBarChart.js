@@ -38,14 +38,14 @@ export default function VerticalBarChart({
       .domain(groups)
       .range([0, boundsWidth])
       .padding(BAR_PADDING);
-  }, [data, width]);
+  }, [groups, boundsWidth]);
 
   const yScale = useMemo(() => {
     return d3
       .scaleLinear()
       .domain([0, domainMaxWithReferenceLine])
       .range([0, boundsHeight]);
-  }, [data, height]);
+  }, [domainMaxWithReferenceLine, boundsHeight]);
 
   const allShapes = data.map((d, index) => {
     const x = xScale(d.name);

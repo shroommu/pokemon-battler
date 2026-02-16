@@ -1,4 +1,5 @@
 import TypePill from "@/components/TypePill";
+import { slugifyPokemonName } from "@/app/utils";
 
 const MOVE_TABLE_LABELS = ["Name", "Type", "Power", "Accuracy", "PP", "Effect"];
 
@@ -6,9 +7,7 @@ export default function Moves({ pokemon }) {
   return (
     <section
       className="flex flex-col items-center"
-      data-testid={`${pokemon.name
-        .replace(" ", "-")
-        .toLowerCase()}-pokemon-moves`}
+      data-testid={`${slugifyPokemonName(pokemon.name)}-pokemon-moves`}
     >
       <h2 className="text-2xl md:text-3xl mt-4 xl:mt-0">Moves</h2>
       <table className="border-2 border-gray-400 mt-2" data-testid="move-table">

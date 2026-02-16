@@ -37,7 +37,7 @@ export default function BoxPlot({
       (acc, curr) => ((acc[curr] = false), acc),
       {},
     );
-    if (Object.keys(activeFiltersObject)) {
+    if (Object.keys(activeFiltersObject).length > 0) {
       activeFiltersObject["All"] = false;
       activeFiltersObject[filterList[0]] = true;
     }
@@ -46,7 +46,7 @@ export default function BoxPlot({
 
   const activeFilterList = Object.entries(activeFilters)
     .filter(([_, value]) => {
-      return value == true;
+      return value === true;
     })
     .map(([key, _]) => key);
 
@@ -90,7 +90,7 @@ export default function BoxPlot({
   const plotLabels = (
     <g data-testid="plot-label-group">
       {Object.entries(data)
-        .filter(([key, _]) => activeFilters[key] == true)
+        .filter(([key, _]) => activeFilters[key] === true)
         .map(([key, value]) => {
           return value.data.dataPoints.length ? (
             <text
@@ -125,7 +125,7 @@ export default function BoxPlot({
               {grid}
               {plotLabels}
               {Object.entries(data)
-                .filter(([key, _]) => activeFilters[key] == true)
+                .filter(([key, _]) => activeFilters[key] === true)
                 .map(([key, value]) => {
                   return value.data.dataPoints.length ? (
                     <BoxPlotItem
