@@ -36,10 +36,12 @@ export default function Analytics({}) {
       tooltip: (
         <div key={`${d.name}-tooltip`} className="flex flex-row items-center">
           <Image
-            src={d.sprite_party_filepath.toLowerCase()}
+            src={
+              d.sprite_party_filepath?.toLowerCase() ??
+              "/images/pokemon/sprites/party/bulbasaur.png"
+            }
             width={50}
             height={50}
-            preload
             unoptimized
             alt={`${d.name} sprite`}
             className="aspect-square"
@@ -59,8 +61,8 @@ export default function Analytics({}) {
         data: getBoxplotData(
           dataWithTooltips.filter(
             (d) =>
-              d.primary_type.name == curr.name ||
-              d.secondary_type?.name == curr.name,
+              d.primary_type?.name === curr.name ||
+              d.secondary_type?.name === curr.name
           ),
           "max_stats",
         ),

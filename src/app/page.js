@@ -8,6 +8,12 @@ export default async function Home() {
   const pokemon = await getUniquePokemonByNumber(
     generateRandomPokedexNumberPerDay()
   );
+  const pokemonData = pokemon?.data;
+  const pokemonName = pokemonData?.name ?? "Bulbasaur";
+  const pokemonSlug = slugifyPokemonName(pokemonName);
+  const pokemonSpritePath =
+    pokemonData?.sprite_front_filepath?.toLowerCase() ??
+    "/images/pokemon/sprites/front/bulbasaur.png";
 
   return (
     <div className="flex flex-col w-full items-center">
@@ -40,11 +46,11 @@ export default async function Home() {
               Let&apos;s start by learning about today&apos;s Pokemon,{" "}
               <Link
                 prefetch={true}
-                href={`/pokedex/${slugifyPokemonName(pokemon.data.name)}`}
+                href={`/pokedex/${pokemonSlug}`}
                 className="underline"
                 data-testid="pokemon-of-the-day-link"
               >
-                {pokemon.data.name}!
+                {pokemonName}!
               </Link>
             </p>
           </div>
@@ -56,17 +62,17 @@ export default async function Home() {
         <div className="grid grid-cols-2 justify-center">
           <Link
             prefetch={true}
-            href={`/pokedex/${slugifyPokemonName(pokemon.data.name)}`}
+            href={`/pokedex/${pokemonSlug}`}
             className="relative mt-auto ml-auto w-full max-w-64 max-h-64 aspect-square"
             data-testid="pokemon-of-the-day-image-link"
           >
             <Image
-              src={pokemon.data.sprite_front_filepath.toLowerCase()}
+              src={pokemonSpritePath}
               fill
               className="[image-rendering:pixelated]"
               priority
               unoptimized
-              alt={`${pokemon.data.name} front sprite`}
+              alt={`${pokemonName} front sprite`}
               data-testid="pokemon-image"
             />
           </Link>

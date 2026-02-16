@@ -19,18 +19,18 @@ export default function Details({ pokemon }) {
           <PagePill
             text="Moves"
             onClick={() => setSelectedTab("Moves")}
-            selected={selectedTab == "Moves"}
+            selected={selectedTab === "Moves"}
           />
           <PagePill
             text="Stats"
             onClick={() => setSelectedTab("Stats")}
-            selected={selectedTab == "Stats"}
+            selected={selectedTab === "Stats"}
           />
         </div>
       </div>
       <div className="w-full xl:h-full">
-        {selectedTab == "Moves" && <Moves pokemon={pokemon} />}
-        {selectedTab == "Stats" && <Stats pokemon={pokemon} />}
+        {selectedTab === "Moves" && <Moves pokemon={pokemon} />}
+        {selectedTab === "Stats" && <Stats pokemon={pokemon} />}
       </div>
     </div>
   );

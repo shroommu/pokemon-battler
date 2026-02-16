@@ -9,4 +9,11 @@ export default defineConfig([globalIgnores([
     "**/build/**",
 ]), {
     extends: [...nextCoreWebVitals],
+}, {
+    files: ["**/__tests__/**/*.{js,jsx}", "**/*.test.{js,jsx}"],
+    rules: {
+      "react/display-name": "off",
+      "@next/next/no-img-element": "off",
+      "jsx-a11y/alt-text": "off",
+    },
 }]);

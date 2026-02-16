@@ -15,6 +15,7 @@ export default function Button({
   children,
   onClick,
   type,
+  buttonType = "button",
   disabled,
   extraClasses,
   testId,
@@ -25,6 +26,7 @@ export default function Button({
         class: extraClasses ?? "",
         type: type,
       })}
+      type={buttonType}
       onClick={onClick}
       disabled={disabled}
       data-testid={testId}

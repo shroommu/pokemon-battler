@@ -6,7 +6,11 @@ import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
 
 const getSafeRedirect = (callbackUrl) => {
-  if (typeof callbackUrl === "string" && callbackUrl.startsWith("/")) {
+  if (
+    typeof callbackUrl === "string" &&
+    callbackUrl.startsWith("/") &&
+    !callbackUrl.startsWith("//")
+  ) {
     return callbackUrl;
   }
 
