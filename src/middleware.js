@@ -19,7 +19,9 @@ export default withAuth(
     const { nextUrl } = req;
     const isLoggedIn = Boolean(req.nextauth.token);
 
-    const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
+    const isApiAuthRoute =
+      nextUrl.pathname === apiAuthPrefix ||
+      nextUrl.pathname.startsWith(`${apiAuthPrefix}/`);
     const isAuthRoute = matchesRoute(nextUrl.pathname, authRoutes);
     const isPublicRoute = matchesRoute(nextUrl.pathname, publicRoutes);
 

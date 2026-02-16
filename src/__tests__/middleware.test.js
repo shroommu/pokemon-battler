@@ -41,6 +41,15 @@ describe("middleware", () => {
     expect(redirectMock).not.toHaveBeenCalled();
   });
 
+  it("allows nested public routes for unauthenticated users", () => {
+    const req = createRequest("/pokedex/pikachu/stats");
+    const res = middleware(req);
+
+    expect(res).toEqual({ type: "next" });
+    expect(nextMock).toHaveBeenCalledTimes(1);
+    expect(redirectMock).not.toHaveBeenCalled();
+  });
+
   it("redirects unauthenticated users from protected routes to login with callbackUrl", () => {
     const req = createRequest("/settings?tab=profile");
     const res = middleware(req);
@@ -50,6 +59,16 @@ describe("middleware", () => {
       url: "https://example.com/login?callbackUrl=%2Fsettings%3Ftab%3Dprofile",
     });
     expect(redirectMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("redirects nested protected routes with full callback query preserved", () => {
+    const req = createRequest("/settings/notifications?tab=email&from=home");
+    const res = middleware(req);
+
+    expect(res).toEqual({
+      type: "redirect",
+      url: "https://example.com/login?callbackUrl=%2Fsettings%2Fnotifications%3Ftab%3Demail%26from%3Dhome",
+    });
   });
 
   it("redirects authenticated users away from auth routes", () => {
@@ -78,9 +97,19 @@ describe("middleware", () => {
     expect(nextMock).toHaveBeenCalledTimes(1);
   });
 
+  it("does not treat non-auth api prefixes as api auth routes", () => {
+    const req = createRequest("/api/authentication");
+    const res = middleware(req);
+
+    expect(res).toEqual({
+      type: "redirect",
+      url: "https://example.com/login?callbackUrl=%2Fapi%2Fauthentication",
+    });
+  });
+
   it("exposes middleware matcher config", () => {
     expect(config).toEqual({
-      matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+      matcher: ["/((?!api|_next/static|_next/image|favicon.ico|images|.*\\..*).*)"],
     });
   });
 
