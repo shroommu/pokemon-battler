@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default async function Home() {
   const pokemon = await getUniquePokemonByNumber(
-    generateRandomPokedexNumberPerDay()
+    generateRandomPokedexNumberPerDay(),
   );
   const pokemonData = pokemon?.data;
   const pokemonName = pokemonData?.name ?? "Bulbasaur";
@@ -71,7 +71,6 @@ export default async function Home() {
               fill
               className="[image-rendering:pixelated]"
               priority
-              unoptimized
               alt={`${pokemonName} front sprite`}
               data-testid="pokemon-image"
             />
@@ -82,7 +81,6 @@ export default async function Home() {
               fill
               className="[image-rendering:pixelated]"
               priority
-              unoptimized
               alt={"Professor Oak Sprite"}
               data-testid="professor-oak-image"
             />
