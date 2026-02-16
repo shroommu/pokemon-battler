@@ -1,22 +1,9 @@
-"use client";
-
-import { usePathname } from "next/navigation";
-
 import Moves from "./components/moves";
 import Stats from "./components/stats";
 import PagePill from "./components/PagePill";
 
-function getSelectedTabFromPath(pathname, fallbackTab) {
-  if (!pathname) {
-    return fallbackTab;
-  }
-
-  return pathname.endsWith("/stats") ? "Stats" : "Moves";
-}
-
 export default function Details({ pokemon, pokemonSlug, selectedTab }) {
-  const pathname = usePathname();
-  const activeTab = getSelectedTabFromPath(pathname, selectedTab);
+  const isMovesSelected = selectedTab === "Moves";
 
   return (
     <div
@@ -28,17 +15,17 @@ export default function Details({ pokemon, pokemonSlug, selectedTab }) {
           <PagePill
             text="Moves"
             href={`/pokedex/${pokemonSlug}/moves`}
-            selected={activeTab === "Moves"}
+            selected={isMovesSelected}
           />
           <PagePill
             text="Stats"
             href={`/pokedex/${pokemonSlug}/stats`}
-            selected={activeTab === "Stats"}
+            selected={!isMovesSelected}
           />
         </div>
       </div>
       <div className="w-full xl:h-full">
-        {activeTab === "Stats" ? <Stats pokemon={pokemon} /> : <Moves pokemon={pokemon} />}
+        {isMovesSelected ? <Moves pokemon={pokemon} /> : <Stats pokemon={pokemon} />}
       </div>
     </div>
   );

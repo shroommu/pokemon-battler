@@ -1,26 +1,18 @@
 import { Suspense } from "react";
 
-import { getUniquePokemonByName } from "@/services/getUniquePokemonByName";
-
-import { capitalizePokemonSlug } from "@/app/utils";
 import { notFound } from "next/navigation";
 
 import { Skeleton } from "@/components/LoadingIndicators";
 
+import { getPokemonBySlug } from "../getPokemonBySlug";
+
 import PreviousPokemonLink from "./components/previousPokemonLink";
 import NextPokemonLink from "./components/nextPokemonLink";
 
-async function getPokemon(pokemonName) {
-  const pokemon = await getUniquePokemonByName(
-    capitalizePokemonSlug(pokemonName),
-  );
-  return pokemon;
-}
-
 export default async function Page({ params, tabSegment = "moves" }) {
   const { pokemon: pokemonSlug } = await params;
+  const pokemon = await getPokemonBySlug(pokemonSlug);
 
-  const { data: pokemon } = await getPokemon(pokemonSlug);
   if (!pokemon) {
     notFound();
   }
