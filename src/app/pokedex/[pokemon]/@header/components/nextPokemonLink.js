@@ -15,7 +15,7 @@ async function getNextPokemon(pokemonName) {
   return getUniquePokemonByNumber(pokemon.data.pokedex_number + 1);
 }
 
-export default async function NextPokemonLink({ pokemonSlug }) {
+export default async function NextPokemonLink({ pokemonSlug, tabSegment = "moves" }) {
   const { data: nextPokemon } = await getNextPokemon(pokemonSlug);
 
   return (
@@ -23,7 +23,7 @@ export default async function NextPokemonLink({ pokemonSlug }) {
       {nextPokemon ? (
         <Link
           prefetch={true}
-          href={`/pokedex/${slugifyPokemonName(nextPokemon.name)}`}
+          href={`/pokedex/${slugifyPokemonName(nextPokemon.name)}/${tabSegment}`}
           className="flex flex-row ml-auto items-center underline"
         >
           <div className="relative w-[50px] aspect-square">

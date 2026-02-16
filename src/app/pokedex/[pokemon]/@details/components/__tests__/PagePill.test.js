@@ -1,18 +1,12 @@
 import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import PagePill from ".././PagePill";
 
 describe("PagePill", () => {
-  it("renders text, selected style, and click handler", async () => {
-    const user = userEvent.setup();
-    const onClick = jest.fn();
+  it("renders text, selected style, and href", () => {
+    render(<PagePill text="Moves" href="/pokedex/pikachu/moves" selected />);
 
-    render(<PagePill text="Moves" selected onClick={onClick} />);
-
-    const pill = screen.getByText("Moves");
+    const pill = screen.getByRole("link", { name: "Moves" });
     expect(pill).toHaveClass("bg-gray-400");
-
-    await user.click(pill);
-    expect(onClick).toHaveBeenCalledTimes(1);
+    expect(pill).toHaveAttribute("href", "/pokedex/pikachu/moves");
   });
 });

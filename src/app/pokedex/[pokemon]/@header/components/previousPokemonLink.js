@@ -15,7 +15,7 @@ async function getPreviousPokemon(pokemonName) {
   return getUniquePokemonByNumber(pokemon.data.pokedex_number - 1);
 }
 
-export default async function PreviousPokemonLink({ pokemonSlug }) {
+export default async function PreviousPokemonLink({ pokemonSlug, tabSegment = "moves" }) {
   const { data: previousPokemon } = await getPreviousPokemon(pokemonSlug);
 
   return (
@@ -23,7 +23,7 @@ export default async function PreviousPokemonLink({ pokemonSlug }) {
       {previousPokemon ? (
         <Link
           prefetch={true}
-          href={`/pokedex/${slugifyPokemonName(previousPokemon.name)}`}
+          href={`/pokedex/${slugifyPokemonName(previousPokemon.name)}/${tabSegment}`}
           className="flex flex-row mr-auto items-center underline"
         >
           {`← #${String(previousPokemon.pokedex_number).padStart(3, "0")}`}

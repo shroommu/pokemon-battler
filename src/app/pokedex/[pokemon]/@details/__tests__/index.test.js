@@ -1,31 +1,56 @@
 import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import Details from ".././index";
 
 jest.mock(".././components/moves", () => () => <div data-testid="moves-content" />);
 jest.mock(".././components/stats", () => () => <div data-testid="stats-content" />);
 jest.mock(".././components/PagePill", () => {
-  return ({ text, onClick }) => (
-    <button onClick={onClick} type="button">
+  return ({ text, href, selected }) => (
+    <a href={href} data-selected={selected ? "true" : "false"}>
       {text}
-    </button>
+    </a>
   );
 });
 
 describe("Details tabs", () => {
-  it("shows moves by default and toggles between tabs", async () => {
-    const user = userEvent.setup();
-    render(<Details pokemon={{ name: "Pikachu" }} />);
+  it("renders moves tab content and link selection", () => {
+    render(
+      <Details
+        pokemon={{ name: "Pikachu" }}
+        pokemonSlug="pikachu"
+        selectedTab="Moves"
+      />,
+    );
 
     expect(screen.getByTestId("moves-content")).toBeInTheDocument();
     expect(screen.queryByTestId("stats-content")).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Moves" })).toHaveAttribute(
+      "href",
+      "/pokedex/pikachu/moves",
+    );
+    expect(screen.getByRole("link", { name: "Moves" })).toHaveAttribute(
+      "data-selected",
+      "true",
+    );
+  });
 
-    await user.click(screen.getByRole("button", { name: "Stats" }));
+  it("renders stats tab content and link selection", () => {
+    render(
+      <Details
+        pokemon={{ name: "Pikachu" }}
+        pokemonSlug="pikachu"
+        selectedTab="Stats"
+      />,
+    );
+
     expect(screen.getByTestId("stats-content")).toBeInTheDocument();
     expect(screen.queryByTestId("moves-content")).not.toBeInTheDocument();
-
-    await user.click(screen.getByRole("button", { name: "Moves" }));
-    expect(screen.getByTestId("moves-content")).toBeInTheDocument();
-    expect(screen.queryByTestId("stats-content")).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Stats" })).toHaveAttribute(
+      "href",
+      "/pokedex/pikachu/stats",
+    );
+    expect(screen.getByRole("link", { name: "Stats" })).toHaveAttribute(
+      "data-selected",
+      "true",
+    );
   });
 });

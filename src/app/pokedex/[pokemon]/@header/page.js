@@ -17,7 +17,7 @@ async function getPokemon(pokemonName) {
   return pokemon;
 }
 
-export default async function Page({ params }) {
+export default async function Page({ params, tabSegment = "moves" }) {
   const { pokemon: pokemonSlug } = await params;
 
   const { data: pokemon } = await getPokemon(pokemonSlug);
@@ -29,7 +29,7 @@ export default async function Page({ params }) {
     <div className="flex flex-col w-full">
       <div className="flex justify-center items-center mb-2">
         <Suspense fallback={<Skeleton className="w-24 h-[50px] mr-auto" />}>
-          <PreviousPokemonLink pokemonSlug={pokemonSlug} />
+          <PreviousPokemonLink pokemonSlug={pokemonSlug} tabSegment={tabSegment} />
         </Suspense>
         <h1
           className="text-2xl md:text-4xl"
@@ -38,7 +38,7 @@ export default async function Page({ params }) {
           pokemon.name
         }`}</h1>
         <Suspense fallback={<Skeleton className="w-24 h-[50px] ml-auto" />}>
-          <NextPokemonLink pokemonSlug={pokemonSlug} />
+          <NextPokemonLink pokemonSlug={pokemonSlug} tabSegment={tabSegment} />
         </Suspense>
       </div>
     </div>

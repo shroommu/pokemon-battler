@@ -1,13 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 import Moves from "./components/moves";
 import Stats from "./components/stats";
 import PagePill from "./components/PagePill";
 
-export default function Details({ pokemon }) {
-  const [selectedTab, setSelectedTab] = useState("Moves");
+function getSelectedTabFromPath(pathname, fallbackTab) {
+  if (!pathname) {
+    return fallbackTab;
+  }
+
+  return pathname.endsWith("/stats") ? "Stats" : "Moves";
+}
+
+export default function Details({ pokemon, pokemonSlug, selectedTab }) {
+  const pathname = usePathname();
+  const activeTab = getSelectedTabFromPath(pathname, selectedTab);
 
   return (
     <div
@@ -18,19 +27,18 @@ export default function Details({ pokemon }) {
         <div className="flex flex-row gap-2">
           <PagePill
             text="Moves"
-            onClick={() => setSelectedTab("Moves")}
-            selected={selectedTab === "Moves"}
+            href={`/pokedex/${pokemonSlug}/moves`}
+            selected={activeTab === "Moves"}
           />
           <PagePill
             text="Stats"
-            onClick={() => setSelectedTab("Stats")}
-            selected={selectedTab === "Stats"}
+            href={`/pokedex/${pokemonSlug}/stats`}
+            selected={activeTab === "Stats"}
           />
         </div>
       </div>
       <div className="w-full xl:h-full">
-        {selectedTab === "Moves" && <Moves pokemon={pokemon} />}
-        {selectedTab === "Stats" && <Stats pokemon={pokemon} />}
+        {activeTab === "Stats" ? <Stats pokemon={pokemon} /> : <Moves pokemon={pokemon} />}
       </div>
     </div>
   );

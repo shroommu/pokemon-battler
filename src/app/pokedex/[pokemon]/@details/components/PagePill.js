@@ -1,18 +1,34 @@
-import { tv } from "tailwind-variants";
+const pillStyle = ({ selected }) =>
+  `flex justify-center items-center p-2 rounded-md bg-gray-300 cursor-pointer${
+    selected ? " bg-gray-400" : ""
+  }`;
 
-const pillStyle = tv({
-  base: "flex justify-center items-center p-2 rounded-md bg-gray-300 cursor-pointer",
-  variants: {
-    selected: {
-      true: "bg-gray-400",
-    },
-  },
-});
-
-export default function PagePill({ text, onClick, selected }) {
+function shouldBypassClientNavigation(event) {
   return (
-    <div onClick={onClick} className={pillStyle({ selected: selected })}>
+    event.defaultPrevented ||
+    event.button !== 0 ||
+    event.metaKey ||
+    event.ctrlKey ||
+    event.shiftKey ||
+    event.altKey
+  );
+}
+
+export default function PagePill({ text, href, selected }) {
+  return (
+    <a
+      href={href}
+      className={pillStyle({ selected })}
+      onClick={(event) => {
+        if (shouldBypassClientNavigation(event)) {
+          return;
+        }
+
+        event.preventDefault();
+        window.history.pushState(null, "", href);
+      }}
+    >
       {text}
-    </div>
+    </a>
   );
 }

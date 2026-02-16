@@ -42,7 +42,23 @@ describe("NextPokemonLink", () => {
     });
 
     render(await NextPokemonLink({ pokemonSlug: "pikachu" }));
-    expect(screen.getByRole("link")).toHaveAttribute("href", "/pokedex/raichu");
+    expect(screen.getByRole("link")).toHaveAttribute("href", "/pokedex/raichu/moves");
+  });
+
+  it("keeps stats segment when provided", async () => {
+    getPokemonByNameBasic.mockResolvedValueOnce({
+      data: { pokedex_number: 25 },
+    });
+    getUniquePokemonByNumber.mockResolvedValueOnce({
+      data: {
+        name: "Raichu",
+        pokedex_number: 26,
+        sprite_party_filepath: "/images/pokemon/sprites/party/raichu.png",
+      },
+    });
+
+    render(await NextPokemonLink({ pokemonSlug: "pikachu", tabSegment: "stats" }));
+    expect(screen.getByRole("link")).toHaveAttribute("href", "/pokedex/raichu/stats");
   });
 
   it("renders spacer when next pokemon is unavailable", async () => {
