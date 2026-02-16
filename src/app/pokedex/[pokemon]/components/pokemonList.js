@@ -56,7 +56,7 @@ export default function PokemonList({ pokemons }) {
       >
         {pokemons
           ?.filter((pokemon) =>
-            pokemon.name.toLowerCase().includes(nameFilter.toLowerCase())
+            pokemon.name.toLowerCase().includes(nameFilter.toLowerCase()),
           )
           .sort((pokemon1, pokemon2) => {
             switch (sort) {

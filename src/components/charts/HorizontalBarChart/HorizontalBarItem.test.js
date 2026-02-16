@@ -64,4 +64,29 @@ describe("HorizontalBarItem", () => {
     expect(onMouseLeave).toHaveBeenCalled();
     expect(onClick).toHaveBeenCalled();
   });
+
+  it("uses default bar color and low-width opacity branch", () => {
+    const { container } = render(
+      <svg>
+        <HorizontalBarItem
+          testId="item-low"
+          name="ATK"
+          value={10}
+          barHeight={8}
+          barWidth={50}
+          x={0}
+          y={0}
+          onMouseEnter={() => {}}
+          onMouseLeave={() => {}}
+          onClick={() => {}}
+        />
+      </svg>
+    );
+
+    const rect = container.querySelector("rect");
+    const texts = container.querySelectorAll("text");
+
+    expect(rect).toHaveAttribute("fill", "#ffffffff");
+    expect(texts[0]).toHaveAttribute("opacity", "0");
+  });
 });

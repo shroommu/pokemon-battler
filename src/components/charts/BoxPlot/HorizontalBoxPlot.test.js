@@ -102,6 +102,22 @@ describe("HorizontalBoxPlot", () => {
     expect(screen.queryByTestId("boxplot-item-#39f")).not.toBeInTheDocument();
   });
 
+  it("does not activate any default filter when filterList is empty", () => {
+    render(
+      <HorizontalBoxPlot
+        width={500}
+        height={300}
+        fixedDomainMax={100}
+        valueKey="max_stats"
+        filterList={[]}
+        data={data}
+      />
+    );
+
+    expect(screen.getByTestId("padding-group")).toBeInTheDocument();
+    expect(screen.queryByTestId("boxplot-item-#f42")).not.toBeInTheDocument();
+  });
+
   it("does not render inner svg group when width is zero", () => {
     render(
       <HorizontalBoxPlot

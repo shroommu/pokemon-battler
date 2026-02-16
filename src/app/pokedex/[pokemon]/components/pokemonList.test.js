@@ -52,4 +52,9 @@ describe("PokemonList", () => {
     items = screen.getAllByTestId("pokemon-button").map((el) => el.textContent);
     expect(items).toEqual(["Charizard|/pokedex/charizard|not-selected"]);
   });
+
+  it("renders safely when pokemons is undefined", () => {
+    render(<PokemonList />);
+    expect(screen.queryByTestId("pokemon-button")).not.toBeInTheDocument();
+  });
 });

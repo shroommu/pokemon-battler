@@ -95,6 +95,7 @@ describe("details Stats component", () => {
       />
     );
 
+    expect(screen.getByRole("button", { name: "All Electric Types" })).toBeInTheDocument();
     expect(
       screen.queryByRole("button", { name: /All .* Types/i })
     ).toBeInTheDocument();
@@ -106,6 +107,34 @@ describe("details Stats component", () => {
 
     await waitFor(() => {
       expect(getPokemonTypeAverageStats).toHaveBeenCalledWith("Electric");
+    });
+  });
+
+  it("uses fallback stat values and supports secondary type compare", async () => {
+    getPokemonTypeAverageStats.mockResolvedValueOnce({
+      data: { hp: 2, attack: 2, defense: 2, special: 2, speed: 2 },
+    });
+
+    const user = userEvent.setup();
+    render(
+      <Stats
+        pokemon={{
+          name: "Testmon",
+          primary_type: { name: "Normal", display_color: "#aaa" },
+          secondary_type: { name: "Ghost", display_color: "#777" },
+        }}
+      />
+    );
+
+    const firstStarProps = starChartMock.mock.calls[starChartMock.mock.calls.length - 1][0];
+    expect(firstStarProps.data.map((d) => d.value)).toEqual([0, 0, 0, 0, 0]);
+
+    await user.click(screen.getByRole("button", { name: "All Ghost Types" }));
+
+    await waitFor(() => {
+      expect(getPokemonTypeAverageStats).toHaveBeenCalledWith("Ghost");
+      const latestStarProps = starChartMock.mock.calls[starChartMock.mock.calls.length - 1][0];
+      expect(latestStarProps.showReferenceStar).toBe(true);
     });
   });
 });

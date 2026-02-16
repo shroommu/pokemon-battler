@@ -109,6 +109,9 @@ describe("VerticalBarChart", () => {
     await user.unhover(screen.getByTestId("Speed-bar-item-hitbox"));
     expect(screen.getByTestId("tooltip-mock")).toBeEmptyDOMElement();
 
+    await user.click(screen.getByTestId("Speed-bar-item-hitbox"));
+    expect(screen.getByTestId("tooltip-mock")).toHaveTextContent("Speed: 60");
+
     await user.click(screen.getByTestId("Speed-reference-line-hitbox"));
     expect(screen.getByTestId("tooltip-mock")).toHaveTextContent("AVG Speed: 55");
     await user.unhover(screen.getByTestId("Speed-reference-line-hitbox"));

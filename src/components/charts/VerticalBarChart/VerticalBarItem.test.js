@@ -63,4 +63,30 @@ describe("VerticalBarItem", () => {
     expect(onMouseLeave).toHaveBeenCalled();
     expect(onClick).toHaveBeenCalled();
   });
+
+  it("uses default bar color and low-height opacity branch", () => {
+    const { container } = render(
+      <svg>
+        <VerticalBarItem
+          testId="item-low"
+          name="DEF"
+          value={8}
+          barOrigin={100}
+          barHeight={20}
+          barWidth={20}
+          x={0}
+          y={80}
+          onMouseEnter={() => {}}
+          onMouseLeave={() => {}}
+          onClick={() => {}}
+        />
+      </svg>
+    );
+
+    const rect = container.querySelector("rect");
+    const texts = container.querySelectorAll("text");
+
+    expect(rect).toHaveAttribute("fill", "#ffffffff");
+    expect(texts[0]).toHaveAttribute("opacity", "0");
+  });
 });

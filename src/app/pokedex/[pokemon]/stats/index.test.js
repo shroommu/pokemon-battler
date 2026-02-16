@@ -86,4 +86,25 @@ describe("PokemonDataEntry", () => {
       expect(getPokemonTypeAverageStats).toHaveBeenNthCalledWith(2, "Flying");
     });
   });
+
+  it("uses fallback stat values and hides secondary button when absent", () => {
+    render(
+      <PokemonDataEntry
+        pokemon={{
+          name: "Fallbackmon",
+          primary_type: { name: "Normal", display_color: "#aaa" },
+          secondary_type: null,
+        }}
+      />
+    );
+
+    const latestHorizontalProps =
+      horizontalChartMock.mock.calls[horizontalChartMock.mock.calls.length - 1][0];
+
+    expect(latestHorizontalProps.data.map((d) => d.value)).toEqual([0, 0, 0, 0, 0]);
+    expect(screen.queryByRole("button", { name: /All .* Types/i })).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: /All null Types/i })
+    ).not.toBeInTheDocument();
+  });
 });

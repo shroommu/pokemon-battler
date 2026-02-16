@@ -37,7 +37,7 @@ export default function VerticalBoxPlot({
       (acc, curr) => ((acc[curr] = false), acc),
       {},
     );
-    if (Object.keys(activeFiltersObject)) {
+    if (Object.keys(activeFiltersObject).length > 0) {
       activeFiltersObject["All"] = false;
       activeFiltersObject[filterList[0]] = true;
     }

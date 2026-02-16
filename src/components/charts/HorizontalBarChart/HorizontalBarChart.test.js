@@ -109,6 +109,9 @@ describe("HorizontalBarChart", () => {
     await user.unhover(screen.getByTestId("HP-bar-item-hitbox"));
     expect(screen.getByTestId("tooltip-mock")).toBeEmptyDOMElement();
 
+    await user.click(screen.getByTestId("HP-bar-item-hitbox"));
+    expect(screen.getByTestId("tooltip-mock")).toHaveTextContent("HP: 50");
+
     await user.click(screen.getByTestId("HP-reference-line-hitbox"));
     expect(screen.getByTestId("tooltip-mock")).toHaveTextContent("AVG HP: 40");
     await user.unhover(screen.getByTestId("HP-reference-line-hitbox"));

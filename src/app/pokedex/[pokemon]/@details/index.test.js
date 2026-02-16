@@ -13,7 +13,7 @@ jest.mock("./components/PagePill", () => {
 });
 
 describe("Details tabs", () => {
-  it("shows moves by default and switches to stats", async () => {
+  it("shows moves by default and toggles between tabs", async () => {
     const user = userEvent.setup();
     render(<Details pokemon={{ name: "Pikachu" }} />);
 
@@ -22,5 +22,10 @@ describe("Details tabs", () => {
 
     await user.click(screen.getByRole("button", { name: "Stats" }));
     expect(screen.getByTestId("stats-content")).toBeInTheDocument();
+    expect(screen.queryByTestId("moves-content")).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Moves" }));
+    expect(screen.getByTestId("moves-content")).toBeInTheDocument();
+    expect(screen.queryByTestId("stats-content")).not.toBeInTheDocument();
   });
 });
