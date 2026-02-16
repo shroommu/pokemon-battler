@@ -137,4 +137,33 @@ describe("details Stats component", () => {
       expect(latestStarProps.showReferenceStar).toBe(true);
     });
   });
+
+  it("reuses cached all-pokemon averages on repeated compare", async () => {
+    getAllPokemonAverageStats.mockResolvedValueOnce({
+      data: { hp: 60, attack: 62, defense: 63, special: 80, speed: 70 },
+    });
+
+    const user = userEvent.setup();
+    render(
+      <Stats
+        pokemon={{
+          name: "Charizard",
+          hp: 78,
+          attack: 84,
+          defense: 78,
+          special: 85,
+          speed: 100,
+          primary_type: { name: "Fire", display_color: "#f42" },
+          secondary_type: { name: "Flying", display_color: "#89f" },
+        }}
+      />
+    );
+
+    await user.click(screen.getByRole("button", { name: "All Pokemon" }));
+    await user.click(screen.getByRole("button", { name: "All Pokemon" }));
+
+    await waitFor(() => {
+      expect(getAllPokemonAverageStats).toHaveBeenCalledTimes(1);
+    });
+  });
 });

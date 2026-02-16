@@ -107,4 +107,21 @@ describe("PokemonDataEntry", () => {
       screen.queryByRole("button", { name: /All null Types/i })
     ).not.toBeInTheDocument();
   });
+
+  it("reuses cached type averages on repeated compare", async () => {
+    getPokemonTypeAverageStats.mockResolvedValue({
+      data: { hp: 1, attack: 1, defense: 1, special: 1, speed: 1 },
+    });
+
+    const user = userEvent.setup();
+    render(<PokemonDataEntry pokemon={pokemon} />);
+
+    await user.click(screen.getByRole("button", { name: "All Fire Types" }));
+    await user.click(screen.getByRole("button", { name: "All Fire Types" }));
+
+    await waitFor(() => {
+      expect(getPokemonTypeAverageStats).toHaveBeenCalledTimes(1);
+      expect(getPokemonTypeAverageStats).toHaveBeenCalledWith("Fire");
+    });
+  });
 });
