@@ -7,13 +7,13 @@ import Details from ".";
 
 async function getPokemon(pokemonName) {
   const pokemon = await getUniquePokemonByName(
-    capitalizePokemonSlug(pokemonName)
+    capitalizePokemonSlug(pokemonName),
   );
   return pokemon;
 }
 
 export default async function Page({ params }) {
-  const { pokemon: pokemonSlug } = params;
+  const { pokemon: pokemonSlug } = await params;
   const { data: pokemon } = await getPokemon(pokemonSlug);
   if (!pokemon) {
     notFound();
