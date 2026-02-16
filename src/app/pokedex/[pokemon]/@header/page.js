@@ -1,31 +1,27 @@
 import { Suspense } from "react";
 
-import { getUniquePokemonByName } from "@/services/getUniquePokemonByName";
-
-import { capitalizePokemonSlug } from "@/app/utils";
+import { notFound } from "next/navigation";
 
 import { Skeleton } from "@/components/LoadingIndicators";
+
+import { getPokemonBySlug } from "../getPokemonBySlug";
 
 import PreviousPokemonLink from "./components/previousPokemonLink";
 import NextPokemonLink from "./components/nextPokemonLink";
 
-async function getPokemon(pokemonName) {
-  const pokemon = await getUniquePokemonByName(
-    capitalizePokemonSlug(pokemonName)
-  );
-  return pokemon;
-}
-
-export default async function Page({ params }) {
+export default async function Page({ params, tabSegment = "moves" }) {
   const { pokemon: pokemonSlug } = await params;
+  const pokemon = await getPokemonBySlug(pokemonSlug);
 
-  const { data: pokemon } = await getPokemon(pokemonSlug);
+  if (!pokemon) {
+    notFound();
+  }
 
   return (
     <div className="flex flex-col w-full">
       <div className="flex justify-center items-center mb-2">
         <Suspense fallback={<Skeleton className="w-24 h-[50px] mr-auto" />}>
-          <PreviousPokemonLink pokemonSlug={pokemonSlug} />
+          <PreviousPokemonLink pokemonSlug={pokemonSlug} tabSegment={tabSegment} />
         </Suspense>
         <h1
           className="text-2xl md:text-4xl"
@@ -34,7 +30,7 @@ export default async function Page({ params }) {
           pokemon.name
         }`}</h1>
         <Suspense fallback={<Skeleton className="w-24 h-[50px] ml-auto" />}>
-          <NextPokemonLink pokemonSlug={pokemonSlug} />
+          <NextPokemonLink pokemonSlug={pokemonSlug} tabSegment={tabSegment} />
         </Suspense>
       </div>
     </div>

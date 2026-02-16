@@ -1,13 +1,9 @@
-"use client";
-
-import { useState } from "react";
-
 import Moves from "./components/moves";
 import Stats from "./components/stats";
 import PagePill from "./components/PagePill";
 
-export default function Details({ pokemon }) {
-  const [selectedTab, setSelectedTab] = useState("Moves");
+export default function Details({ pokemon, pokemonSlug, selectedTab }) {
+  const isMovesSelected = selectedTab === "Moves";
 
   return (
     <div
@@ -18,19 +14,18 @@ export default function Details({ pokemon }) {
         <div className="flex flex-row gap-2">
           <PagePill
             text="Moves"
-            onClick={() => setSelectedTab("Moves")}
-            selected={selectedTab == "Moves"}
+            href={`/pokedex/${pokemonSlug}/moves`}
+            selected={isMovesSelected}
           />
           <PagePill
             text="Stats"
-            onClick={() => setSelectedTab("Stats")}
-            selected={selectedTab == "Stats"}
+            href={`/pokedex/${pokemonSlug}/stats`}
+            selected={!isMovesSelected}
           />
         </div>
       </div>
       <div className="w-full xl:h-full">
-        {selectedTab == "Moves" && <Moves pokemon={pokemon} />}
-        {selectedTab == "Stats" && <Stats pokemon={pokemon} />}
+        {isMovesSelected ? <Moves pokemon={pokemon} /> : <Stats pokemon={pokemon} />}
       </div>
     </div>
   );

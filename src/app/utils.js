@@ -1,4 +1,6 @@
-import { create, all } from "mathjs";
+export function slugifyPokemonName(pokemonName) {
+  return pokemonName.toLowerCase().trim().replace(/\s+/g, "-");
+}
 
 export function capitalizePokemonSlug(slug) {
   const words = slug.split("-");
@@ -10,31 +12,34 @@ export function capitalizePokemonSlug(slug) {
 
 export function buildPath(pathname, pokemonName) {
   const splitPathname = pathname.split("/");
-  const formattedName = pokemonName.replace(" ", "-").toLowerCase();
+  const formattedName = slugifyPokemonName(pokemonName);
 
   splitPathname.splice(2, 1, formattedName);
   const newPathname = splitPathname.join("/");
   return newPathname;
 }
 
-export function generateRandomPokedexNumberPerDay() {
-  const date = new Date();
-  const today =
-    date.getFullYear().toString() +
-    date.getMonth().toString() +
-    date.getDay().toString();
+function formatDateToKey(date) {
+  return [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, "0"),
+    String(date.getDate()).padStart(2, "0"),
+  ].join("-");
+}
 
-  const config = { randomSeed: today };
-  const math = create(all, config);
+function hashString(value) {
+  let hash = 0;
 
-  const pokedexNumberLow = 1;
-  const pokedexNumberHigh = 151;
+  for (let i = 0; i < value.length; i++) {
+    hash = (hash * 31 + value.charCodeAt(i)) >>> 0;
+  }
 
-  const getRandomSeededInt = (min, max) => {
-    min = math.ceil(min);
-    max = math.floor(max);
-    return math.floor(math.random() * (max - min + 1)) + min;
-  };
+  return hash;
+}
 
-  return getRandomSeededInt(pokedexNumberLow, pokedexNumberHigh);
+export function generateRandomPokedexNumberPerDay(date = new Date()) {
+  const today = formatDateToKey(date);
+  const hash = hashString(today);
+  const pokedexCount = 151;
+  return (hash % pokedexCount) + 1;
 }

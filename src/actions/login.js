@@ -5,7 +5,19 @@ import { LoginSchema } from "@/schemas";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
 
-export const login = async (values) => {
+const getSafeRedirect = (callbackUrl) => {
+  if (
+    typeof callbackUrl === "string" &&
+    callbackUrl.startsWith("/") &&
+    !callbackUrl.startsWith("//")
+  ) {
+    return callbackUrl;
+  }
+
+  return DEFAULT_LOGIN_REDIRECT;
+};
+
+export const login = async (values, callbackUrl) => {
   const validatedFields = LoginSchema.safeParse(values);
 
   if (!validatedFields.success) {
@@ -18,7 +30,7 @@ export const login = async (values) => {
     await signIn("credentials", {
       username,
       password,
-      redirectTo: DEFAULT_LOGIN_REDIRECT,
+      redirectTo: getSafeRedirect(callbackUrl),
     });
   } catch (error) {
     if (error instanceof AuthError) {

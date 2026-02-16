@@ -38,6 +38,10 @@ model pokemon {
   primary_type          type?          @relation("pokemon_primary_type", fields: [primary_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_primary_type")
   secondary_type        type?          @relation("pokemon_secondary_type", fields: [secondary_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_secondary_type")
   pokemon_moves         pokemon_move[]
+
+  @@index([pokedex_number], map: "idx_pokemon_pokedex_number")
+  @@index([primary_type_id], map: "idx_pokemon_primary_type_id")
+  @@index([secondary_type_id], map: "idx_pokemon_secondary_type_id")
 }
 
 model pokemon_move {
@@ -57,6 +61,8 @@ model type {
   moves_with_type             move[]
   pokemon_with_primary_type   pokemon[] @relation("pokemon_primary_type")
   pokemon_with_secondary_type pokemon[] @relation("pokemon_secondary_type")
+
+  @@index([name], map: "idx_type_name")
 }
 
 model Account {

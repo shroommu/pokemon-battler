@@ -7,13 +7,13 @@ import prisma from "@/lib/prisma";
 import { LoginSchema } from "@/schemas";
 import { getUserByUsername } from "@/data/user";
 
-const authOptions = {
+export const authOptions = {
   providers: [
     Credentials({
       async authorize(credentials) {
         const validatedFields = LoginSchema.safeParse(credentials);
 
-        if (validatedFields) {
+        if (validatedFields.success) {
           const { username, password } = validatedFields.data;
 
           const user = await getUserByUsername(username);
@@ -42,4 +42,5 @@ const authOptions = {
   session: { strategy: "jwt" },
 };
 
-export default (req, res) => NextAuth(req, res, authOptions);
+const handler = NextAuth(authOptions);
+export { handler as GET, handler as POST };

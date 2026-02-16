@@ -2,51 +2,66 @@
 
 import { useState } from "react";
 
-import * as z from "zod";
-
 import Input from "@/components/Input";
 import LabeledElement from "@/components/LabeledElement";
 import Button from "@/components/Button";
 import { createUser } from "@/actions/createUser";
+import { SignUpSchema } from "@/schemas";
 
 export default function SignUpPage() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [emailValid, setEmailValid] = useState(true);
-
   const [userCreated, setUserCreated] = useState(false);
 
   const [usernameExists, setUsernameExists] = useState(false);
   const [emailExists, setEmailExists] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState({
+    username: [],
+    email: [],
+    password: [],
+  });
 
-  const validateEmail = async () => {
-    const emailSchema = z.object({ email: z.string().email() });
-    setEmailValid(emailSchema.safeParse({ email }).success);
-  };
-
-  const validatePassword = async () => {
-    return;
-  };
+  const hasFieldErrors =
+    fieldErrors.username.length > 0 ||
+    fieldErrors.email.length > 0 ||
+    fieldErrors.password.length > 0;
 
   async function handleSubmit(e) {
     e.preventDefault();
 
-    const lowerUsername = username.toLowerCase();
-    const lowerEmail = email.toLowerCase();
+    setUserCreated(false);
+    setUsernameExists(false);
+    setEmailExists(false);
 
-    let userData = {
-      username: lowerUsername,
-      email: lowerEmail,
-      password: password,
+    const userData = {
+      username,
+      email,
+      password,
     };
+
+    const validatedFields = SignUpSchema.safeParse(userData);
+    if (!validatedFields.success) {
+      const clientFieldErrors = validatedFields.error.flatten().fieldErrors;
+      setFieldErrors({
+        username: clientFieldErrors.username ?? [],
+        email: clientFieldErrors.email ?? [],
+        password: clientFieldErrors.password ?? [],
+      });
+      return;
+    }
+
+    setFieldErrors({ username: [], email: [], password: [] });
 
     const res = await createUser(userData);
 
     setEmailExists(res?.errors?.emailExists);
     setUsernameExists(res?.errors?.usernameExists);
-    // setUserCreated(Object.keys(res?.errors).length === 0);
+    setFieldErrors(
+      res?.errors?.fieldErrors ?? { username: [], email: [], password: [] }
+    );
+    setUserCreated(Boolean(res?.success));
   }
 
   return (
@@ -60,11 +75,17 @@ export default function SignUpPage() {
           testId="signup-username"
           value={username}
           onChange={(event) => {
+            setFieldErrors((curr) => ({ ...curr, username: [] }));
             setUsernameExists(false);
             setUsername(event.target.value);
           }}
         />
       </LabeledElement>
+      {fieldErrors.username.length > 0 && (
+        <div className="text-red-500" data-testid="username-invalid-text">
+          {fieldErrors.username[0]}
+        </div>
+      )}
       {usernameExists && (
         <div className="text-red-500" data-testid="username-exists-text">
           This username already exists
@@ -76,15 +97,15 @@ export default function SignUpPage() {
           testId="signup-email"
           value={email}
           onChange={(event) => {
+            setFieldErrors((curr) => ({ ...curr, email: [] }));
             setEmailExists(false);
             setEmail(event.target.value);
-            validateEmail();
           }}
         />
       </LabeledElement>
-      {!emailValid && (
+      {fieldErrors.email.length > 0 && (
         <div className="text-red-500" data-testid="email-invalid-text">
-          Please enter a valid email address
+          {fieldErrors.email[0]}
         </div>
       )}
       {emailExists && (
@@ -98,18 +119,23 @@ export default function SignUpPage() {
           testId="signup-password"
           value={password}
           onChange={(event) => {
+            setFieldErrors((curr) => ({ ...curr, password: [] }));
             setPassword(event.target.value);
-            validatePassword();
           }}
         />
       </LabeledElement>
+      {fieldErrors.password.length > 0 && (
+        <div className="text-red-500" data-testid="password-invalid-text">
+          {fieldErrors.password[0]}
+        </div>
+      )}
       <Button
         onClick={handleSubmit}
         disabled={
           !username ||
           !email ||
           !password ||
-          !emailValid ||
+          hasFieldErrors ||
           emailExists ||
           usernameExists
         }

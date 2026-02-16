@@ -1,18 +1,44 @@
 "use server";
 
-import { cache } from "react";
+import { unstable_cache } from "next/cache";
 
 import prisma from "@/lib/prisma";
+import { timedQuery } from "@/lib/queryTiming";
 
-export const getAllPokemon = cache(async () => {
-  const data = await prisma.pokemon.findMany({
-    include: {
-      primary_type: true,
-      secondary_type: true,
-    },
+const getAllPokemonCached = unstable_cache(
+  async () => {
+    const data = await timedQuery("getAllPokemon", () =>
+      prisma.pokemon.findMany({
+        select: {
+          id: true,
+          name: true,
+          pokedex_number: true,
+          sprite_party_filepath: true,
+          primary_type: {
+            select: {
+              id: true,
+              name: true,
+              display_color: true,
+            },
+          },
+          secondary_type: {
+            select: {
+              id: true,
+              name: true,
+              display_color: true,
+            },
+          },
+        },
+        orderBy: [{ pokedex_number: "asc" }],
+      })
+    );
 
-    orderBy: [{ pokedex_number: "asc" }],
-  });
+    return { data };
+  },
+  ["pokemon:list"],
+  { revalidate: 900 }
+);
 
-  return { data };
-});
+export async function getAllPokemon() {
+  return getAllPokemonCached();
+}

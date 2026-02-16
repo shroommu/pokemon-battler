@@ -19,20 +19,38 @@ export default function Stats({ pokemon }) {
   const [referenceLineType, setReferenceLineType] = useState();
   const [referenceLineColor, setReferenceLineColor] = useState();
   const [showReferenceLine, setShowReferenceLine] = useState(false);
+  const [allPokemonAverageStats, setAllPokemonAverageStats] = useState(null);
+  const [typeAverageStats, setTypeAverageStats] = useState({});
 
   async function getAllPokemonAverageStatData() {
-    const avgData = await getAllPokemonAverageStats();
+    const data =
+      allPokemonAverageStats ??
+      (await getAllPokemonAverageStats()).data;
 
-    setReferenceLineData(avgData.data);
+    if (!allPokemonAverageStats) {
+      setAllPokemonAverageStats(data);
+    }
+
+    setReferenceLineData(data);
     setReferenceLineType("All");
     setReferenceLineColor("#616161ff");
     setShowReferenceLine(true);
   }
 
   async function getPokemonTypeAverageStatData(pokemonType) {
-    const avgData = await getPokemonTypeAverageStats(pokemonType.name);
+    const cachedTypeAverage = typeAverageStats[pokemonType.name];
+    const data =
+      cachedTypeAverage ??
+      (await getPokemonTypeAverageStats(pokemonType.name)).data;
 
-    setReferenceLineData(avgData.data);
+    if (!cachedTypeAverage) {
+      setTypeAverageStats((curr) => ({
+        ...curr,
+        [pokemonType.name]: data,
+      }));
+    }
+
+    setReferenceLineData(data);
     setReferenceLineType(`${pokemonType.name} Type`);
     setReferenceLineColor(pokemonType.display_color);
     setShowReferenceLine(true);

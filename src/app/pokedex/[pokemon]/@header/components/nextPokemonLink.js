@@ -1,22 +1,21 @@
-import { getUniquePokemonByName } from "@/services/getUniquePokemonByName";
+import { getPokemonByNameBasic } from "@/services/getPokemonByNameBasic";
 import { getUniquePokemonByNumber } from "@/services/getUniquePokemonByNumber";
 
-import { capitalizePokemonSlug } from "@/app/utils";
+import { capitalizePokemonSlug, slugifyPokemonName } from "@/app/utils";
 
 import Image from "next/image";
 import Link from "next/link";
 
 async function getNextPokemon(pokemonName) {
-  const pokemon = await getUniquePokemonByName(
-    capitalizePokemonSlug(pokemonName)
-  ).then(
-    async (pokemon) =>
-      await getUniquePokemonByNumber(pokemon.data.pokedex_number + 1)
-  );
-  return pokemon;
+  const pokemon = await getPokemonByNameBasic(capitalizePokemonSlug(pokemonName));
+  if (!pokemon.data?.pokedex_number) {
+    return { data: null };
+  }
+
+  return getUniquePokemonByNumber(pokemon.data.pokedex_number + 1);
 }
 
-export default async function NextPokemonLink({ pokemonSlug }) {
+export default async function NextPokemonLink({ pokemonSlug, tabSegment = "moves" }) {
   const { data: nextPokemon } = await getNextPokemon(pokemonSlug);
 
   return (
@@ -24,7 +23,7 @@ export default async function NextPokemonLink({ pokemonSlug }) {
       {nextPokemon ? (
         <Link
           prefetch={true}
-          href={`/pokedex/${nextPokemon.name.replace(" ", "-").toLowerCase()}`}
+          href={`/pokedex/${slugifyPokemonName(nextPokemon.name)}/${tabSegment}`}
           className="flex flex-row ml-auto items-center underline"
         >
           <div className="relative w-[50px] aspect-square">
