@@ -1,28 +1,20 @@
-import { scaleBand, scaleLinear } from "d3";
+import { scaleLinear, max } from "d3";
 
-const DATA = {
-  bins: [
-    { value: 1, count: 5 },
-    { value: 2, count: 7 },
-    { value: 3, count: 2 },
-  ],
-};
+export default function Histogram({ width = 600, height = 400, bins, barPadding = 2, }) {
 
-export default function Histogram({ width = 600, height = 400, data = DATA }) {
-  const xScale = scaleBand()
-    .domain(data.bins.map((d) => d.value))
-    .range([0, width])
-    .padding(0.05);
+  const xScale = scaleLinear()
+    .domain([bins[0].x0, bins[bins.length - 1].x1])
+    .range([0, width]);
 
-  const yScale = scaleLinear().domain([0, 10]).range([0, height]);
+  const yScale = scaleLinear().domain([0, max(bins, (d) => d.length)]).range([0, height]);
 
-  const bars = data.bins.map((bin) => {
+  const bars = bins.map((bin) => {
     return (
       <rect
-        x={xScale(bin.value)}
-        y={height - yScale(bin.count)}
-        width={xScale.bandwidth()}
-        height={yScale(bin.count)}
+        x={xScale(bin.x0)}
+        y={height - yScale(bin.length)}
+        width={xScale(bin.x1) - xScale(bin.x0) - barPadding}
+        height={yScale(bin.length)}
         fill="blue"
       />
     );
