@@ -60,6 +60,35 @@ describe("Histogram", () => {
     expect(screen.getByTestId("tooltip-mock")).toHaveTextContent("10 - 20: 6");
   });
 
+  it("renders the x-axis line and ticks", () => {
+    render(
+      <Histogram
+        width={300}
+        height={200}
+        bins={[
+          { x0: 0, x1: 10, length: 3 },
+          { x0: 10, x1: 20, length: 6 },
+        ]}
+      />
+    );
+
+    // Check for the x-axis line
+    const svg = screen.getByTestId("histogram-container").querySelector("svg");
+    const axisLine = Array.from(svg.querySelectorAll("line")).find(
+      (line) =>
+        line.getAttribute("x1") === "0" &&
+        line.getAttribute("y1") === line.getAttribute("y2") &&
+        line.getAttribute("stroke") === "#808080"
+    );
+    expect(axisLine).toBeInTheDocument();
+
+    // Check for at least one x-axis tick label
+    const tickLabels = Array.from(svg.querySelectorAll("text")).filter(
+      (text) => text.getAttribute("y") > 180 // y > boundsHeight, rough check
+    );
+    expect(tickLabels.length).toBeGreaterThan(0);
+  });
+
   it("handles empty bins gracefully", () => {
     render(<Histogram width={300} height={200} bins={[]} />);
 

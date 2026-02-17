@@ -106,6 +106,42 @@ export default function Histogram({
     </g>
   ));
 
+  // X-axis
+  const xAxisTicks = xScale.ticks(bins.length);
+  const xAxis = (
+    <g key="x-axis">
+      {/* Axis line */}
+      <line
+        x1={0}
+        x2={boundsWidth}
+        y1={boundsHeight}
+        y2={boundsHeight}
+        stroke="#808080"
+        strokeWidth={1}
+      />
+      {/* Tick marks and labels */}
+      {xAxisTicks.map((tick, idx) => (
+        <g key={`x-axis-tick-${tick}-${idx}`}> 
+          <line
+            x1={xScale(tick)}
+            x2={xScale(tick)}
+            y1={boundsHeight}
+            y2={boundsHeight + 6}
+            stroke="#808080"
+          />
+          <text
+            x={xScale(tick)}
+            y={boundsHeight + 20}
+            textAnchor="middle"
+            fontSize={12}
+            fill="#808080"
+          >
+            {tick}
+          </text>
+        </g>
+      ))}
+    </g>
+  );
   return (
     <div
       className="h-full w-full relative"
@@ -121,6 +157,7 @@ export default function Histogram({
           >
             {grid}
             {bars}
+            {xAxis}
           </g>
         )}
       </svg>
