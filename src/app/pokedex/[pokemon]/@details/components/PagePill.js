@@ -12,7 +12,11 @@ const pillStyle = tv({
 
 export default function PagePill({ text, href, selected }) {
   return (
-    <Link href={href} className={pillStyle({ selected })}>
+    <Link
+      href={href}
+      className={pillStyle({ selected })}
+      data-testid={`page-pill-${text.toLowerCase()}`}
+    >
       {text}
     </Link>
   );
