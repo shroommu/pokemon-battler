@@ -10,7 +10,7 @@ const getPathString = (starPoints) => {
   return pathString;
 };
 
-export default function AnimatedStar({ fill, starPoints }) {
+export default function AnimatedStar({ fill, starPoints, testId = "animated-star" }) {
   const springProps = useSpring({
     from: { d: "M 5 5 L 5 5 L 5 5 L 5 5 L 5 5 Z" },
     to: { d: getPathString(starPoints) },
@@ -19,5 +19,5 @@ export default function AnimatedStar({ fill, starPoints }) {
     },
   });
 
-  return <animated.path d={springProps.d} fill={fill} />;
+  return <animated.path d={springProps.d} fill={fill} data-testid={testId} />;
 }

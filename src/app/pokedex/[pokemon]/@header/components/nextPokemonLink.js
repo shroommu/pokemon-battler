@@ -25,6 +25,7 @@ export default async function NextPokemonLink({ pokemonSlug, tabSegment = "moves
           prefetch={true}
           href={`/pokedex/${slugifyPokemonName(nextPokemon.name)}/${tabSegment}`}
           className="flex flex-row ml-auto items-center underline"
+          data-testid={"next-pokemon-link"}
         >
           <div className="relative w-[50px] aspect-square">
             <Image
@@ -39,7 +40,7 @@ export default async function NextPokemonLink({ pokemonSlug, tabSegment = "moves
           {`#${String(nextPokemon.pokedex_number).padStart(3, "0")} →`}
         </Link>
       ) : (
-        <div className="w-24 ml-auto" />
+        <div className="w-24 ml-auto" data-testid="next-pokemon-link-empty" />
       )}
     </>
   );

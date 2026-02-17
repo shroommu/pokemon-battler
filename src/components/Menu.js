@@ -1,3 +1,7 @@
-export default function Menu({ children }) {
-  return <div className="p-4 border-2">{children}</div>;
+export default function Menu({ children, testId = "menu" }) {
+  return (
+    <div className="p-4 border-2" data-testid={testId}>
+      {children}
+    </div>
+  );
 }

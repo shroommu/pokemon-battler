@@ -25,6 +25,7 @@ export default async function PreviousPokemonLink({ pokemonSlug, tabSegment = "m
           prefetch={true}
           href={`/pokedex/${slugifyPokemonName(previousPokemon.name)}/${tabSegment}`}
           className="flex flex-row mr-auto items-center underline"
+          data-testid={"previous-pokemon-link"}
         >
           {`← #${String(previousPokemon.pokedex_number).padStart(3, "0")}`}
           <div className="relative w-[50px] aspect-square">
@@ -38,7 +39,7 @@ export default async function PreviousPokemonLink({ pokemonSlug, tabSegment = "m
           </div>
         </Link>
       ) : (
-        <div className="w-24 mr-auto" />
+        <div className="w-24 mr-auto" data-testid="previous-pokemon-link-empty" />
       )}
     </>
   );

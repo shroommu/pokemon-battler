@@ -7,8 +7,8 @@ import { locations } from "@/app/constants";
 
 export default function Nav({}) {
   return (
-    <nav className="hidden w-full md:flex">
-      <ul className="flex flex-row items-center">
+    <nav className="hidden w-full md:flex" data-testid="main-nav">
+      <ul className="flex flex-row items-center" data-testid="main-nav-list">
         <li>
           <NavButton href={locations.INDEX} buttonText={"Home"} />
         </li>
@@ -19,24 +19,6 @@ export default function Nav({}) {
           <NavButton href={locations.ANALYTICS} buttonText={"Analyze"} />
         </li>
       </ul>
-      {/* {session ? (
-        <Button
-          extraClasses={"ml-auto text-2xl hover:bg-red-500 active:bg-red-700"}
-        >
-          Account
-        </Button>
-      ) : (
-        <Button
-          extraClasses={"ml-auto text-2xl hover:bg-red-500 active:bg-red-700"}
-        >
-          Sign In
-        </Button>
-      )} */}
-      {/* <Button
-        extraClasses={"ml-auto text-2xl hover:bg-red-500 active:bg-red-700"}
-      >
-        Sign In
-      </Button> */}
     </nav>
   );
 }
