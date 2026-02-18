@@ -3,7 +3,9 @@
 import * as d3 from "d3";
 import { useMemo, useState } from "react";
 
+
 import Tooltip from "../components/Tooltip";
+import HistogramBar from "./HistogramBar";
 
 const MARGIN = { top: 30, right: 30, bottom: 30, left: 30 };
 
@@ -68,17 +70,17 @@ export default function Histogram({
       });
 
     return (
-      <rect
+      <HistogramBar
         key={`${bin.x0}-${bin.x1}-${index}`}
-        data-testid={`histogram-bin-${index}`}
+        bin={bin}
+        index={index}
         x={x}
         y={y}
-        width={barWidth}
-        height={barHeight}
-        fill={barFillColor || "blue"}
-        onMouseEnter={() => showTooltip()}
-        onMouseLeave={() => setInteractionData(null)}
-        onClick={() => showTooltip()}
+        barWidth={barWidth}
+        barHeight={barHeight}
+        barFillColor={barFillColor}
+        showTooltip={showTooltip}
+        setInteractionData={setInteractionData}
       />
     );
   });
