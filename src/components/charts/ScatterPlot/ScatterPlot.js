@@ -5,7 +5,7 @@ import Tooltip from "../components/Tooltip";
 import AxisSelectorControl from "./AxisSelectorControl";
 import ScatterPoint from "./ScatterPoint";
 
-const MARGIN = { top: 30, right: 30, bottom: 40, left: 40 };
+const MARGIN = { top: 30, right: 30, bottom: 52, left: 52 };
 
 const getAxisKeysFromData = (data) => {
   if (!data.length) {
@@ -130,15 +130,6 @@ export default function ScatterPlot({
       className="h-full w-full relative flex flex-col"
       data-testid="scatter-plot-container"
     >
-      <div className="px-2 pb-2">
-        <AxisSelectorControl
-          axisOptions={availableAxisOptions}
-          xAxisKey={currentXAxisKey}
-          yAxisKey={currentYAxisKey}
-          onXAxisChange={setXAxisKey}
-          onYAxisChange={setYAxisKey}
-        />
-      </div>
       <svg width={width} height={height}>
         {width > 0 && height > 0 && (
           <g transform={`translate(${[MARGIN.left, MARGIN.top].join(",")})`}>
@@ -169,6 +160,18 @@ export default function ScatterPlot({
                   </text>
                 </g>
               ))}
+              {currentXAxisKey && (
+                <text
+                  x={boundsWidth / 2}
+                  y={boundsHeight + 36}
+                  textAnchor="middle"
+                  fontSize={12}
+                  opacity={0.9}
+                  data-testid="scatter-plot-x-axis-label"
+                >
+                  {currentXAxisKey}
+                </text>
+              )}
             </g>
 
             <g data-testid="scatter-plot-y-axis">
@@ -181,6 +184,17 @@ export default function ScatterPlot({
                   </text>
                 </g>
               ))}
+              {currentYAxisKey && (
+                <text
+                  transform={`translate(-36, ${boundsHeight / 2}) rotate(-90)`}
+                  textAnchor="middle"
+                  fontSize={12}
+                  opacity={0.9}
+                  data-testid="scatter-plot-y-axis-label"
+                >
+                  {currentYAxisKey}
+                </text>
+              )}
             </g>
 
             <g data-testid="scatter-plot-points-layer">
@@ -235,6 +249,15 @@ export default function ScatterPlot({
         data-testid="tooltip-layer"
       >
         <Tooltip interactionData={interactionData} position="top" />
+      </div>
+      <div className="absolute bottom-1 sm:bottom-2 left-1/2 -translate-x-1/2 px-2 z-10">
+        <AxisSelectorControl
+          axisOptions={availableAxisOptions}
+          xAxisKey={currentXAxisKey}
+          yAxisKey={currentYAxisKey}
+          onXAxisChange={setXAxisKey}
+          onYAxisChange={setYAxisKey}
+        />
       </div>
     </div>
   );

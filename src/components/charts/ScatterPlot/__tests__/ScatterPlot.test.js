@@ -104,6 +104,8 @@ describe("ScatterPlot", () => {
     expect(screen.getByTestId("tooltip-mock")).toHaveTextContent("Point 1");
     expect(screen.getByTestId("tooltip-mock")).toHaveTextContent("hp: 10");
     expect(screen.getByTestId("tooltip-mock")).toHaveTextContent("attack: 20");
+    expect(screen.getByTestId("scatter-plot-x-axis-label")).toHaveTextContent("hp");
+    expect(screen.getByTestId("scatter-plot-y-axis-label")).toHaveTextContent("attack");
 
     await user.unhover(screen.getByTestId("scatter-point-0"));
     expect(screen.getByTestId("tooltip-mock")).toBeEmptyDOMElement();
@@ -112,6 +114,8 @@ describe("ScatterPlot", () => {
       screen.getByTestId("scatter-plot-y-axis-control").querySelector("select"),
       "speed"
     );
+
+    expect(screen.getByTestId("scatter-plot-y-axis-label")).toHaveTextContent("speed");
 
     await user.click(screen.getByTestId("scatter-point-1"));
     expect(screen.getByTestId("tooltip-mock")).toHaveTextContent("Fallback Label");
