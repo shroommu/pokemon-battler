@@ -12,7 +12,7 @@ import { TYPES } from "@/components/constants";
 import HorizontalBoxPlot from "@/components/charts/BoxPlot/HorizontalBoxPlot";
 import VerticalBoxPlot from "@/components/charts/BoxPlot/VerticalBoxPlot";
 
-export default function AnalyticsClient({ pokemonData = [] }) {
+export default function AnalyticsClient({ pokemonData = [], testId = "analytics-client" }) {
   const horizontalBoxPlotRef = useRef();
   const horizontalBoxPlotDimensions = useDimensions(horizontalBoxPlotRef);
   const verticalBoxPlotRef = useRef();
@@ -22,7 +22,11 @@ export default function AnalyticsClient({ pokemonData = [] }) {
     return pokemonData.map((d) => ({
       ...d,
       tooltip: (
-        <div key={`${d.name}-tooltip`} className="flex flex-row items-center">
+        <div
+          key={`${d.name}-tooltip`}
+          className="flex flex-row items-center"
+          data-testid={`${d.name}-tooltip`}
+        >
           <Image
             src={
               d.sprite_party_filepath?.toLowerCase() ??
@@ -85,11 +89,11 @@ export default function AnalyticsClient({ pokemonData = [] }) {
   }, [pointsByType]);
 
   return (
-    <div className="flex flex-col h-full">
-      <h1 className="flex w-full text-xl justify-center">
+    <div className="flex flex-col h-full" data-testid={testId}>
+      <h1 className="flex w-full text-xl justify-center" data-testid="analytics-heading">
         Distribution of Pokemon Max Stats Per Type
       </h1>
-      <div className="hidden lg:flex lg:flex-col h-2/3">
+      <div className="hidden lg:flex lg:flex-col h-2/3" data-testid="analytics-horizontal-chart">
         <HorizontalBoxPlot
           width={horizontalBoxPlotDimensions.width}
           height={horizontalBoxPlotDimensions.height}
@@ -102,7 +106,7 @@ export default function AnalyticsClient({ pokemonData = [] }) {
           innerRef={horizontalBoxPlotRef}
         />
       </div>
-      <div className="flex flex-col lg:hidden h-2/3">
+      <div className="flex flex-col lg:hidden h-2/3" data-testid="analytics-vertical-chart">
         <VerticalBoxPlot
           width={verticalBoxPlotDimensions.width}
           height={verticalBoxPlotDimensions.height}

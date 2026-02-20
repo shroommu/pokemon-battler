@@ -11,5 +11,5 @@ export default async function Page({ params }) {
     notFound();
   }
 
-  return <Details pokemon={pokemon} pokemonSlug={pokemonSlug} selectedTab="Moves" />;
+  return <Details pokemon={pokemon} pokemonSlug={pokemonSlug} selectedTab="Moves" data-testid="details-page-moves" />;
 }

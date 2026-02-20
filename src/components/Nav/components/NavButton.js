@@ -4,9 +4,14 @@ import Link from "next/link";
 import Button from "@/components/Button";
 
 export default function NavButton({ href, buttonText }) {
+  const navButtonTestId = `nav-button-${buttonText.toLowerCase()}`;
+
   return (
     <Link href={href}>
-      <Button extraClasses={"relative flex p-0 h-12 w-24 mr-2"}>
+      <Button
+        extraClasses={"relative flex p-0 h-12 w-24 mr-2"}
+        testId={navButtonTestId}
+      >
         <svg
           viewBox="0 0 10 10"
           className="absolute h-full w-full group peer"

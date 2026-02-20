@@ -5,5 +5,5 @@ import AnalyticsClient from "./AnalyticsClient";
 export default async function Analytics() {
   const { data } = await getAllPokemonWithMaxStats();
 
-  return <AnalyticsClient pokemonData={data ?? []} />;
+  return <AnalyticsClient pokemonData={data ?? []} testId="analytics-page" />;
 }

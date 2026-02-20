@@ -11,4 +11,14 @@ describe("Menu", () => {
 
     expect(screen.getByText("Inner")).toBeInTheDocument();
   });
+
+  it("renders default test id", () => {
+    render(
+      <Menu>
+        <span>Inner</span>
+      </Menu>
+    );
+
+    expect(screen.getByTestId("menu")).toBeInTheDocument();
+  });
 });

@@ -1,6 +1,13 @@
 import { animated, useSpring } from "react-spring";
 
-export default function AnimatedValueLabel({ centerX, centerY, x, y, value }) {
+export default function AnimatedValueLabel({
+  centerX,
+  centerY,
+  x,
+  y,
+  value,
+  testId = "animated-value-label",
+}) {
   const springProps = useSpring({
     from: { x: centerX, y: centerY, value: 0 },
     to: { x, y, value },
@@ -15,6 +22,7 @@ export default function AnimatedValueLabel({ centerX, centerY, x, y, value }) {
       y={springProps.y}
       textAnchor="middle"
       alignmentBaseline="central"
+      data-testid={testId}
     >
       {springProps.value?.to((value) => value.toFixed(0))}
     </animated.text>
