@@ -65,7 +65,7 @@ export default function UIPlayground({}) {
 
   return (
     <div className="space-y-8 p-4">
-      <div className="h-[340px]">
+      <div className="h-2/3">
         <ScatterPlot
           width={scatterPlotDimensions.width}
           height={scatterPlotDimensions.height}
