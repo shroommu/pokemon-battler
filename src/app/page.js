@@ -71,6 +71,7 @@ export default async function Home() {
               fill
               className="[image-rendering:pixelated]"
               priority
+              unoptimized
               alt={`${pokemonName} front sprite`}
               data-testid="pokemon-image"
             />
@@ -79,6 +80,7 @@ export default async function Home() {
             <Image
               src={"/images/professorOak.png"}
               fill
+              unoptimized
               className="[image-rendering:pixelated]"
               priority
               alt={"Professor Oak Sprite"}

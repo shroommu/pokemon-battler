@@ -50,11 +50,14 @@ const getDomainFromValues = (values) => {
     return [0, 1];
   }
 
-  if (min === max) {
-    return [min - 1, max + 1];
+  const domainMin = 0;
+  const domainMax = Math.max(0, max);
+
+  if (domainMin === domainMax) {
+    return [0, 1];
   }
 
-  return [min, max];
+  return [domainMin, domainMax];
 };
 
 export default function ScatterPlot({
