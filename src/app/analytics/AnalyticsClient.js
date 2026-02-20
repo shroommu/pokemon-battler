@@ -5,7 +5,7 @@ import { useDimensions } from "@/hooks/useDimensions";
 
 import Image from "next/image";
 
-import { getBoxplotData } from "@/utils/getBoxplotData";
+import { getBoxplotData } from "@/utils";
 
 import { TYPES } from "@/components/constants";
 

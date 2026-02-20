@@ -28,19 +28,37 @@ const getAxisKeysFromData = (data) => {
 };
 
 const getAxisValue = (datum, axisKey) => {
-  if (datum.values && typeof datum.values[axisKey] === "number") {
-    return datum.values[axisKey];
+  if (!axisKey || typeof axisKey !== "string") {
+    return 0;
   }
 
-  if (datum.stats && typeof datum.stats[axisKey] === "number") {
-    return datum.stats[axisKey];
-  }
+  const getNumericValue = (container) => {
+    if (!container || typeof container !== "object") {
+      return undefined;
+    }
 
-  if (typeof datum[axisKey] === "number") {
-    return datum[axisKey];
-  }
+    if (typeof container[axisKey] === "number") {
+      return container[axisKey];
+    }
 
-  return 0;
+    const normalizedAxisKey = axisKey.toLowerCase();
+    const matchingKey = Object.keys(container).find(
+      (key) => key.toLowerCase() === normalizedAxisKey,
+    );
+
+    if (matchingKey && typeof container[matchingKey] === "number") {
+      return container[matchingKey];
+    }
+
+    return undefined;
+  };
+
+  return (
+    getNumericValue(datum.values) ??
+    getNumericValue(datum.stats) ??
+    getNumericValue(datum) ??
+    0
+  );
 };
 
 const getDomainFromValues = (values) => {

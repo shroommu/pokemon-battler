@@ -12,7 +12,7 @@ jest.mock("@/hooks/useDimensions", () => ({
   useDimensions: () => ({ width: 500, height: 300 }),
 }));
 
-jest.mock("@/utils/getBoxplotData", () => ({
+jest.mock("@/utils", () => ({
   getBoxplotData: jest.fn((points) => ({ dataPoints: points })),
 }));
 
@@ -24,7 +24,7 @@ jest.mock("@/components/charts/BoxPlot/VerticalBoxPlot", () => {
   return (props) => verticalBoxPlotMock(props);
 });
 
-import { getBoxplotData } from "@/utils/getBoxplotData";
+import { getBoxplotData } from "@/utils";
 
 describe("Analytics", () => {
   beforeEach(() => {

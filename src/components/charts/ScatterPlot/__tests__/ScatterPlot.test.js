@@ -122,6 +122,30 @@ describe("ScatterPlot", () => {
     expect(screen.getByTestId("tooltip-mock")).toHaveTextContent("speed: 30");
   });
 
+  it("matches axis keys case-insensitively when resolving point values", async () => {
+    const user = userEvent.setup();
+
+    render(
+      <ScatterPlot
+        width={320}
+        height={240}
+        data={[
+          { name: "Bulbasaur", hp: 45, attack: 49 },
+          { name: "Charmander", hp: 39, attack: 52 },
+        ]}
+        axisOptions={["HP", "Attack"]}
+        initialXAxisKey="HP"
+        initialYAxisKey="Attack"
+      />
+    );
+
+    await user.hover(screen.getByTestId("scatter-point-0"));
+
+    expect(screen.getByTestId("tooltip-mock")).toHaveTextContent("Bulbasaur");
+    expect(screen.getByTestId("tooltip-mock")).toHaveTextContent("HP: 45");
+    expect(screen.getByTestId("tooltip-mock")).toHaveTextContent("Attack: 49");
+  });
+
   it("falls back to derived axis keys from stats when initial keys are invalid", () => {
     render(
       <ScatterPlot
