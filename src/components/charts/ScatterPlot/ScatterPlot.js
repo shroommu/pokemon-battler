@@ -127,130 +127,131 @@ export default function ScatterPlot({
   return (
     <div
       ref={innerRef}
-      className="h-full w-full relative flex flex-col"
+      className="relative flex flex-col h-full w-full"
       data-testid="scatter-plot-container"
     >
-      <svg width={width} height={height}>
-        {width > 0 && height > 0 && (
-          <g transform={`translate(${[MARGIN.left, MARGIN.top].join(",")})`}>
-            <g data-testid="scatter-plot-x-axis">
-              <line
-                x1={0}
-                x2={boundsWidth}
-                y1={boundsHeight}
-                y2={boundsHeight}
-                stroke="#808080"
-                opacity={0.6}
-              />
-              {xTicks.map((tick) => (
-                <g key={`x-${tick}`} transform={`translate(${xScale(tick)}, 0)`}>
-                  <line
-                    y1={boundsHeight}
-                    y2={boundsHeight + 6}
-                    stroke="#808080"
-                    opacity={0.6}
-                  />
+      <div data-testid="scatter-plot-inner-container">
+        <svg width={width} height={height} className="w-full h-full">
+          {width > 0 && height > 0 && (
+            <g transform={`translate(${[MARGIN.left, MARGIN.top].join(",")})`}>
+              <g data-testid="scatter-plot-x-axis">
+                <line
+                  x1={0}
+                  x2={boundsWidth}
+                  y1={boundsHeight}
+                  y2={boundsHeight}
+                  stroke="#808080"
+                  opacity={0.6}
+                />
+                {xTicks.map((tick) => (
+                  <g key={`x-${tick}`} transform={`translate(${xScale(tick)}, 0)`}>
+                    <line
+                      y1={boundsHeight}
+                      y2={boundsHeight + 6}
+                      stroke="#808080"
+                      opacity={0.6}
+                    />
+                    <text
+                      y={boundsHeight + 18}
+                      textAnchor="middle"
+                      fontSize={10}
+                      opacity={0.8}
+                    >
+                      {tick}
+                    </text>
+                  </g>
+                ))}
+                {currentXAxisKey && (
                   <text
-                    y={boundsHeight + 18}
+                    x={boundsWidth / 2}
+                    y={boundsHeight + 36}
                     textAnchor="middle"
-                    fontSize={10}
-                    opacity={0.8}
+                    fontSize={12}
+                    opacity={0.9}
+                    data-testid="scatter-plot-x-axis-label"
                   >
-                    {tick}
+                    {currentXAxisKey}
                   </text>
-                </g>
-              ))}
-              {currentXAxisKey && (
-                <text
-                  x={boundsWidth / 2}
-                  y={boundsHeight + 36}
-                  textAnchor="middle"
-                  fontSize={12}
-                  opacity={0.9}
-                  data-testid="scatter-plot-x-axis-label"
-                >
-                  {currentXAxisKey}
-                </text>
-              )}
-            </g>
+                )}
+              </g>
 
-            <g data-testid="scatter-plot-y-axis">
-              <line x1={0} x2={0} y1={0} y2={boundsHeight} stroke="#808080" opacity={0.6} />
-              {yTicks.map((tick) => (
-                <g key={`y-${tick}`} transform={`translate(0, ${yScale(tick)})`}>
-                  <line x1={-6} x2={0} y1={0} y2={0} stroke="#808080" opacity={0.6} />
-                  <text x={-10} y={0} textAnchor="end" alignmentBaseline="middle" fontSize={10} opacity={0.8}>
-                    {tick}
+              <g data-testid="scatter-plot-y-axis">
+                <line x1={0} x2={0} y1={0} y2={boundsHeight} stroke="#808080" opacity={0.6} />
+                {yTicks.map((tick) => (
+                  <g key={`y-${tick}`} transform={`translate(0, ${yScale(tick)})`}>
+                    <line x1={-6} x2={0} y1={0} y2={0} stroke="#808080" opacity={0.6} />
+                    <text x={-10} y={0} textAnchor="end" alignmentBaseline="middle" fontSize={10} opacity={0.8}>
+                      {tick}
+                    </text>
+                  </g>
+                ))}
+                {currentYAxisKey && (
+                  <text
+                    transform={`translate(-36, ${boundsHeight / 2}) rotate(-90)`}
+                    textAnchor="middle"
+                    fontSize={12}
+                    opacity={0.9}
+                    data-testid="scatter-plot-y-axis-label"
+                  >
+                    {currentYAxisKey}
                   </text>
-                </g>
-              ))}
-              {currentYAxisKey && (
-                <text
-                  transform={`translate(-36, ${boundsHeight / 2}) rotate(-90)`}
-                  textAnchor="middle"
-                  fontSize={12}
-                  opacity={0.9}
-                  data-testid="scatter-plot-y-axis-label"
-                >
-                  {currentYAxisKey}
-                </text>
-              )}
-            </g>
+                )}
+              </g>
 
-            <g data-testid="scatter-plot-points-layer">
-              {plottedData.map((datum, index) => {
-                const cx = xScale(datum.xValue);
-                const cy = yScale(datum.yValue);
+              <g data-testid="scatter-plot-points-layer">
+                {plottedData.map((datum, index) => {
+                  const cx = xScale(datum.xValue);
+                  const cy = yScale(datum.yValue);
 
-                const showTooltip = () => {
-                  setInteractionData({
-                    xPos: cx + MARGIN.left,
-                    yPos: cy + MARGIN.top,
-                    children: (
-                      <div>
-                        <div>{datum.name || datum.label || `Point ${index + 1}`}</div>
+                  const showTooltip = () => {
+                    setInteractionData({
+                      xPos: cx + MARGIN.left,
+                      yPos: cy + MARGIN.top,
+                      children: (
                         <div>
-                          {currentXAxisKey}: {datum.xValue}
+                          <div>{datum.name || datum.label || `Point ${index + 1}`}</div>
+                          <div>
+                            {currentXAxisKey}: {datum.xValue}
+                          </div>
+                          <div>
+                            {currentYAxisKey}: {datum.yValue}
+                          </div>
                         </div>
-                        <div>
-                          {currentYAxisKey}: {datum.yValue}
-                        </div>
-                      </div>
-                    ),
-                  });
-                };
+                      ),
+                    });
+                  };
 
-                return (
-                  <ScatterPoint
-                    key={datum.id || `${datum.name || "point"}-${index}`}
-                    testId={`scatter-point-${index}`}
-                    cx={cx}
-                    cy={cy}
-                    onMouseEnter={showTooltip}
-                    onMouseLeave={() => setInteractionData(null)}
-                    onClick={showTooltip}
-                  />
-                );
-              })}
+                  return (
+                    <ScatterPoint
+                      key={datum.id || `${datum.name || "point"}-${index}`}
+                      testId={`scatter-point-${index}`}
+                      cx={cx}
+                      cy={cy}
+                      onMouseEnter={showTooltip}
+                      onMouseLeave={() => setInteractionData(null)}
+                      onClick={showTooltip}
+                    />
+                  );
+                })}
+              </g>
             </g>
-          </g>
-        )}
-      </svg>
+          )}
+        </svg>
 
-      <div
-        style={{
-          position: "absolute",
-          width,
-          height,
-          top: 0,
-          left: 0,
-          pointerEvents: "none",
-        }}
-        data-testid="tooltip-layer"
-      >
-        <Tooltip interactionData={interactionData} position="top" />
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            pointerEvents: "none",
+          }}
+          data-testid="tooltip-layer"
+          className="w-full h-full"
+        >
+          <Tooltip interactionData={interactionData} position="top" />
+        </div>
       </div>
-      <div className="absolute bottom-1 sm:bottom-2 left-1/2 -translate-x-1/2 px-2 z-10">
+      <div>
         <AxisSelectorControl
           axisOptions={availableAxisOptions}
           xAxisKey={currentXAxisKey}
