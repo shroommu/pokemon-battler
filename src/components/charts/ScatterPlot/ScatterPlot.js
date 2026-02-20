@@ -245,6 +245,7 @@ export default function ScatterPlot({
                       testId={`scatter-point-${index}`}
                       cx={cx}
                       cy={cy}
+                      fill={datum.pointColor}
                       onMouseEnter={showTooltip}
                       onMouseLeave={() => setInteractionData(null)}
                       onClick={showTooltip}

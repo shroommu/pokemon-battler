@@ -11,6 +11,10 @@ describe("getScatterPlotData", () => {
         defense: 40,
         speed: 90,
         max_stats: 90,
+        primary_type: {
+          name: "Electric",
+          display_color: "#f7d02c",
+        },
       },
       {
         id: 133,
@@ -19,6 +23,9 @@ describe("getScatterPlotData", () => {
         attack: undefined,
         defense: 50,
         speed: null,
+        primary_type: {
+          name: "Normal",
+        },
       },
     ];
 
@@ -32,6 +39,7 @@ describe("getScatterPlotData", () => {
         special: 0,
         speed: 90,
         max_stats: 90,
+        pointColor: "#f7d02c",
       },
       {
         id: 133,
@@ -42,6 +50,7 @@ describe("getScatterPlotData", () => {
         special: 0,
         speed: 0,
         max_stats: 0,
+        pointColor: "#aa9",
       },
     ]);
   });

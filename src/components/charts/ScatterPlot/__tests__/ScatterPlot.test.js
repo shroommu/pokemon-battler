@@ -187,6 +187,25 @@ describe("ScatterPlot", () => {
     expect(screen.getByTestId("scatter-point-1")).toBeInTheDocument();
   });
 
+  it("uses pointColor for each plotted point", () => {
+    render(
+      <ScatterPlot
+        width={320}
+        height={240}
+        data={[
+          { values: { hp: 10, attack: 20 }, pointColor: "#f42" },
+          { values: { hp: 20, attack: 30 }, pointColor: "#39f" },
+        ]}
+        axisOptions={["hp", "attack"]}
+        initialXAxisKey="hp"
+        initialYAxisKey="attack"
+      />
+    );
+
+    expect(screen.getByTestId("scatter-point-0")).toHaveAttribute("fill", "#f42");
+    expect(screen.getByTestId("scatter-point-1")).toHaveAttribute("fill", "#39f");
+  });
+
   it("handles empty data and non-positive dimensions without plotting", () => {
     render(<ScatterPlot width={0} height={240} data={[]} />);
 
