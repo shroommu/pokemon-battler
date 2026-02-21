@@ -21,7 +21,10 @@ export default async function Page({ params, tabSegment = "moves" }) {
     <div className="flex flex-col w-full">
       <div className="flex justify-center items-center mb-2">
         <Suspense fallback={<Skeleton className="w-24 h-[50px] mr-auto" />}>
-          <PreviousPokemonLink pokemonSlug={pokemonSlug} tabSegment={tabSegment} />
+          <PreviousPokemonLink
+            currentPokedexNumber={pokemon.pokedex_number}
+            tabSegment={tabSegment}
+          />
         </Suspense>
         <h1
           className="text-2xl md:text-4xl"
@@ -30,7 +33,10 @@ export default async function Page({ params, tabSegment = "moves" }) {
           pokemon.name
         }`}</h1>
         <Suspense fallback={<Skeleton className="w-24 h-[50px] ml-auto" />}>
-          <NextPokemonLink pokemonSlug={pokemonSlug} tabSegment={tabSegment} />
+          <NextPokemonLink
+            currentPokedexNumber={pokemon.pokedex_number}
+            tabSegment={tabSegment}
+          />
         </Suspense>
       </div>
     </div>

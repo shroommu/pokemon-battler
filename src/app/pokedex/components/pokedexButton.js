@@ -12,35 +12,33 @@ const pokemonListButtonStyle = tv({
 
 export default function PokedexButton({ pokemon, href, selected }) {
   return (
-    <Link
-      prefetch={true}
-      href={href}
-      key={pokemon.name}
-      data-testid={`${slugifyPokemonName(pokemon.name)}-link`}
-      className="group"
+    <li
+      className={pokemonListButtonStyle({
+        selected: selected,
+      })}
     >
-      <li
-        className={pokemonListButtonStyle({
-          selected: selected,
-        })}
+      <Link
+        prefetch={true}
+        href={href}
+        key={pokemon.name}
+        data-testid={`${slugifyPokemonName(pokemon.name)}-link`}
+        className="group flex flex-row items-center w-full"
       >
-        <button className="flex flex-row items-center w-full">
-          <div className="mr-2">{`#${String(pokemon.pokedex_number).padStart(
-            3,
-            "0"
-          )}`}</div>
-          <div className="relative w-[50px] h-[50px] md:w-[75px] md:h-[75px] aspect-square group-hover:animate-party_bounce">
-            <Image
-              src={pokemon.sprite_party_filepath.toLowerCase()}
-              fill
-              alt={`${pokemon.name} party sprite`}
-              unoptimized
-              priority
-            />
-          </div>
-          <div className="ml-auto">{pokemon.name}</div>
-        </button>
-      </li>
-    </Link>
+        <div className="mr-2">{`#${String(pokemon.pokedex_number).padStart(
+          3,
+          "0"
+        )}`}</div>
+        <div className="relative w-[50px] h-[50px] md:w-[75px] md:h-[75px] aspect-square group-hover:animate-party_bounce">
+          <Image
+            src={pokemon.sprite_party_filepath.toLowerCase()}
+            fill
+            alt={`${pokemon.name} party sprite`}
+            unoptimized
+            priority
+          />
+        </div>
+        <div className="ml-auto">{pokemon.name}</div>
+      </Link>
+    </li>
   );
 }

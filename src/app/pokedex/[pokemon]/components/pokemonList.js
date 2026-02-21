@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import { buildPath, slugifyPokemonName } from "@/app/utils";
 
@@ -14,9 +14,33 @@ export const SORTING_METHODS = { alphabetical: "ALPHA", numerical: "NUM" };
 
 export default function PokemonList({ pokemons }) {
   const pathname = usePathname();
+  const selectedPokemonSlug = pathname.split("/")[2] ?? "";
 
   const [nameFilter, setNameFilter] = useState("");
   const [sort, setSort] = useState(SORTING_METHODS.numerical);
+
+  const filteredAndSortedPokemons = useMemo(() => {
+    if (!pokemons) {
+      return [];
+    }
+
+    const filtered = pokemons.filter((pokemon) =>
+      pokemon.name.toLowerCase().includes(nameFilter.toLowerCase()),
+    );
+
+    return [...filtered].sort((pokemon1, pokemon2) => {
+      switch (sort) {
+        case SORTING_METHODS.alphabetical:
+          return (pokemon1.name > pokemon2.name) - (pokemon1.name < pokemon2.name);
+        case SORTING_METHODS.numerical:
+        default:
+          return (
+            (pokemon1.pokedex_number > pokemon2.pokedex_number) -
+            (pokemon1.pokedex_number < pokemon2.pokedex_number)
+          );
+      }
+    });
+  }, [pokemons, nameFilter, sort]);
 
   return (
     <div
@@ -26,10 +50,12 @@ export default function PokemonList({ pokemons }) {
       <h1 className="text-2xl">Pokemon</h1>
       <LabeledElement
         label="Search"
+        childId="pokemon-list-search-field"
         testId="pokemon-list-search-input"
         containerTwExtraClasses="w-full"
       >
         <Input
+          id="pokemon-list-search-field"
           testId="pokemon-list-search"
           value={nameFilter}
           onChange={(event) => setNameFilter(event.target.value)}
@@ -37,10 +63,12 @@ export default function PokemonList({ pokemons }) {
       </LabeledElement>
       <LabeledElement
         label="Sort"
+        childId="pokemon-list-sort-field"
         testId="pokemon-list-sort-dropdown"
         containerTwExtraClasses="w-full"
       >
         <select
+          id="pokemon-list-sort-field"
           className="w-full rounded-md border-2 border-gray-400 bg-white p-2"
           data-testid="pokemon-list-sort-dropdown"
           value={sort}
@@ -54,34 +82,14 @@ export default function PokemonList({ pokemons }) {
         className="min-w-[250px] mt-4 overflow-y-scroll"
         data-testid="pokemon-list"
       >
-        {pokemons
-          ?.filter((pokemon) =>
-            pokemon.name.toLowerCase().includes(nameFilter.toLowerCase()),
-          )
-          .sort((pokemon1, pokemon2) => {
-            switch (sort) {
-              case SORTING_METHODS.alphabetical:
-                return (
-                  (pokemon1.name > pokemon2.name) -
-                  (pokemon1.name < pokemon2.name)
-                );
-              case SORTING_METHODS.numerical:
-                return (
-                  (pokemon1.pokedex_number > pokemon2.pokedex_number) -
-                  (pokemon1.pokedex_number < pokemon2.pokedex_number)
-                );
-            }
-          })
-          .map((pokemon) => {
-            return (
-              <PokedexButton
-                key={pokemon.name}
-                pokemon={pokemon}
-                href={buildPath(pathname, pokemon.name)}
-                selected={pathname.includes(slugifyPokemonName(pokemon.name))}
-              />
-            );
-          })}
+        {filteredAndSortedPokemons.map((pokemon) => (
+          <PokedexButton
+            key={pokemon.name}
+            pokemon={pokemon}
+            href={buildPath(pathname, pokemon.name)}
+            selected={selectedPokemonSlug === slugifyPokemonName(pokemon.name)}
+          />
+        ))}
       </ul>
     </div>
   );

@@ -1,6 +1,35 @@
 import { getAllPokemon } from "@/services/getAllPokemon";
+import { slugifyPokemonName } from "@/app/utils";
+import { getPokemonBySlug } from "./getPokemonBySlug";
 
 import PokemonList from "./components/pokemonList";
+
+export async function generateStaticParams() {
+  const { data: pokemons } = await getAllPokemon();
+
+  return (pokemons ?? []).map((pokemon) => ({
+    pokemon: slugifyPokemonName(pokemon.name),
+  }));
+}
+
+export async function generateMetadata({ params }) {
+  const { pokemon: pokemonSlug } = await params;
+  const pokemon = await getPokemonBySlug(pokemonSlug);
+
+  if (!pokemon) {
+    return {
+      title: "Pokemon Not Found | Pokedex",
+      description: "This Pokemon entry could not be found in the Gen 1 Pokedex.",
+    };
+  }
+
+  const pokemonNumber = String(pokemon.pokedex_number).padStart(3, "0");
+
+  return {
+    title: `#${pokemonNumber} ${pokemon.name} | Pokedex`,
+    description: pokemon.pokedex_entry ?? `View details for ${pokemon.name} in the Gen 1 Pokedex.`,
+  };
+}
 
 export default async function Layout({ info, details, header }) {
   const { data: pokemons } = await getAllPokemon();

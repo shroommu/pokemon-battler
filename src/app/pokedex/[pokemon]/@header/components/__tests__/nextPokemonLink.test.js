@@ -13,15 +13,10 @@ jest.mock("next/link", () => {
   );
 });
 
-jest.mock("@/services/getPokemonByNameBasic", () => ({
-  getPokemonByNameBasic: jest.fn(),
-}));
-
 jest.mock("@/services/getUniquePokemonByNumber", () => ({
   getUniquePokemonByNumber: jest.fn(),
 }));
 
-import { getPokemonByNameBasic } from "@/services/getPokemonByNameBasic";
 import { getUniquePokemonByNumber } from "@/services/getUniquePokemonByNumber";
 
 describe("NextPokemonLink", () => {
@@ -30,9 +25,6 @@ describe("NextPokemonLink", () => {
   });
 
   it("renders next pokemon link when one exists", async () => {
-    getPokemonByNameBasic.mockResolvedValueOnce({
-      data: { pokedex_number: 25 },
-    });
     getUniquePokemonByNumber.mockResolvedValueOnce({
       data: {
         name: "Raichu",
@@ -41,14 +33,11 @@ describe("NextPokemonLink", () => {
       },
     });
 
-    render(await NextPokemonLink({ pokemonSlug: "pikachu" }));
+    render(await NextPokemonLink({ currentPokedexNumber: 25 }));
     expect(screen.getByRole("link")).toHaveAttribute("href", "/pokedex/raichu/moves");
   });
 
   it("keeps stats segment when provided", async () => {
-    getPokemonByNameBasic.mockResolvedValueOnce({
-      data: { pokedex_number: 25 },
-    });
     getUniquePokemonByNumber.mockResolvedValueOnce({
       data: {
         name: "Raichu",
@@ -57,15 +46,13 @@ describe("NextPokemonLink", () => {
       },
     });
 
-    render(await NextPokemonLink({ pokemonSlug: "pikachu", tabSegment: "stats" }));
+    render(await NextPokemonLink({ currentPokedexNumber: 25, tabSegment: "stats" }));
     expect(screen.getByRole("link")).toHaveAttribute("href", "/pokedex/raichu/stats");
   });
 
   it("renders spacer when next pokemon is unavailable", async () => {
-    getPokemonByNameBasic.mockResolvedValueOnce({ data: null });
-
     const { container } = render(
-      await NextPokemonLink({ pokemonSlug: "missingno" })
+      await NextPokemonLink({ currentPokedexNumber: null })
     );
     expect(container.querySelector(".w-24")).toBeInTheDocument();
   });
