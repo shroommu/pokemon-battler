@@ -17,7 +17,7 @@ export default function AxisSelectorControl({
   return (
     <div
       data-testid="scatter-plot-axis-selector-control"
-      className="flex flex-wrap gap-3 items-center lg:ml-2 p-4 justify-center lg:justify-start"
+      className="flex flex-wrap gap-3 items-center p-4 justify-center"
     >
       <label className="flex items-center gap-2" data-testid="scatter-plot-x-axis-control">
         <span className="text-sm">X Axis</span>
