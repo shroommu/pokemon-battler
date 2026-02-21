@@ -4,7 +4,16 @@ export default function AxisSelectorControl({
   yAxisKey,
   onXAxisChange,
   onYAxisChange,
+  axisLabelFormatter,
 }) {
+  const getAxisOptionLabel = (axisKey, axis) => {
+    if (typeof axisLabelFormatter !== "function") {
+      return axisKey;
+    }
+
+    return axisLabelFormatter(axisKey, axis) || axisKey;
+  };
+
   return (
     <div
       data-testid="scatter-plot-axis-selector-control"
@@ -19,7 +28,7 @@ export default function AxisSelectorControl({
         >
           {axisOptions.map((axisKey) => (
             <option key={axisKey} value={axisKey}>
-              {axisKey}
+              {getAxisOptionLabel(axisKey, "x")}
             </option>
           ))}
         </select>
@@ -34,7 +43,7 @@ export default function AxisSelectorControl({
         >
           {axisOptions.map((axisKey) => (
             <option key={axisKey} value={axisKey}>
-              {axisKey}
+              {getAxisOptionLabel(axisKey, "y")}
             </option>
           ))}
         </select>

@@ -155,4 +155,28 @@ describe("Analytics", () => {
     expect(verticalCall.width).toBeGreaterThan(0);
     expect(verticalCall.height).toBeGreaterThan(0);
   });
+
+  it("passes analytics axis label formatting to the relationships scatterplot", async () => {
+    render(<AnalyticsClient pokemonData={[]} selectedSection="relationships" />);
+
+    await waitFor(() => {
+      expect(scatterPlotMock).toHaveBeenCalled();
+    });
+
+    const scatterProps = scatterPlotMock.mock.calls[scatterPlotMock.mock.calls.length - 1][0];
+
+    expect(typeof scatterProps.axisLabelFormatter).toBe("function");
+    expect(scatterProps.axisLabelFormatter("hp", "x")).toBe("HP");
+    expect(scatterProps.axisLabelFormatter("attack", "x")).toBe("Attack");
+    expect(scatterProps.axisLabelFormatter("defense", "x")).toBe("Defense");
+    expect(scatterProps.axisLabelFormatter("special", "x")).toBe("Special");
+    expect(scatterProps.axisLabelFormatter("speed", "x")).toBe("Speed");
+    expect(scatterProps.axisOptions).toEqual([
+      "hp",
+      "attack",
+      "defense",
+      "special",
+      "speed",
+    ]);
+  });
 });

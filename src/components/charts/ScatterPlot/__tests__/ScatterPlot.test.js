@@ -124,6 +124,36 @@ describe("ScatterPlot", () => {
     expect(screen.getByTestId("tooltip-mock")).toHaveTextContent("speed: 30");
   });
 
+  it("formats axis labels through axisLabelFormatter", async () => {
+    const user = userEvent.setup();
+
+    render(
+      <ScatterPlot
+        width={320}
+        height={240}
+        data={[
+          { name: "Bulbasaur", values: { hp: 45, attack: 49 } },
+          { name: "Charmander", values: { hp: 39, attack: 52 } },
+        ]}
+        axisOptions={["hp", "attack"]}
+        initialXAxisKey="hp"
+        initialYAxisKey="attack"
+        axisLabelFormatter={(axisKey, axis) =>
+          `${axis.toUpperCase()} axis: ${String(axisKey).toUpperCase()}`
+        }
+      />
+    );
+
+    expect(screen.getByTestId("scatter-plot-x-axis-label")).toHaveTextContent("X axis: HP");
+    expect(screen.getByTestId("scatter-plot-y-axis-label")).toHaveTextContent("Y axis: ATTACK");
+
+    await user.hover(screen.getByTestId("scatter-point-0"));
+    await waitFor(() => {
+      expect(screen.getByTestId("tooltip-mock")).toHaveTextContent("X axis: HP: 45");
+    });
+    expect(screen.getByTestId("tooltip-mock")).toHaveTextContent("Y axis: ATTACK: 49");
+  });
+
   it("matches axis keys case-insensitively when resolving point values", async () => {
     const user = userEvent.setup();
 

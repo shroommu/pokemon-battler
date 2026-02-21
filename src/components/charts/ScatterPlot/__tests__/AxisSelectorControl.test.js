@@ -36,4 +36,36 @@ describe("AxisSelectorControl", () => {
     expect(onXAxisChange).toHaveBeenCalledWith("speed");
     expect(onYAxisChange).toHaveBeenCalledWith("hp");
   });
+
+  it("formats axis option labels with axisLabelFormatter", () => {
+    render(
+      <AxisSelectorControl
+        axisOptions={["hp", "attack", "speed"]}
+        xAxisKey="hp"
+        yAxisKey="attack"
+        onXAxisChange={jest.fn()}
+        onYAxisChange={jest.fn()}
+        axisLabelFormatter={(axisKey) =>
+          ({ hp: "HP", attack: "Attack", speed: "Speed" }[axisKey] || axisKey)
+        }
+      />
+    );
+
+    const xSelect = screen
+      .getByTestId("scatter-plot-x-axis-control")
+      .querySelector("select");
+    const ySelect = screen
+      .getByTestId("scatter-plot-y-axis-control")
+      .querySelector("select");
+
+    const xOptionLabels = Array.from(xSelect.querySelectorAll("option")).map(
+      (option) => option.textContent
+    );
+    const yOptionLabels = Array.from(ySelect.querySelectorAll("option")).map(
+      (option) => option.textContent
+    );
+
+    expect(xOptionLabels).toEqual(["HP", "Attack", "Speed"]);
+    expect(yOptionLabels).toEqual(["HP", "Attack", "Speed"]);
+  });
 });

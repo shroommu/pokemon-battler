@@ -90,6 +90,7 @@ export default function ScatterPlot({
   axisOptions,
   initialXAxisKey,
   initialYAxisKey,
+  axisLabelFormatter,
 }) {
   const [interactionData, setInteractionData] = useState(null);
   const containerRef = useRef(null);
@@ -127,6 +128,14 @@ export default function ScatterPlot({
   const currentYAxisKey = availableAxisOptions.includes(yAxisKey)
     ? yAxisKey
     : availableAxisOptions[1] || availableAxisOptions[0];
+  const xAxisLabel =
+    (typeof axisLabelFormatter === "function"
+      ? axisLabelFormatter(currentXAxisKey, "x")
+      : currentXAxisKey) || currentXAxisKey;
+  const yAxisLabel =
+    (typeof axisLabelFormatter === "function"
+      ? axisLabelFormatter(currentYAxisKey, "y")
+      : currentYAxisKey) || currentYAxisKey;
 
   const boundsWidth = width - MARGIN.left - MARGIN.right;
   const boundsHeight = height - MARGIN.top - MARGIN.bottom;
@@ -300,7 +309,7 @@ export default function ScatterPlot({
                     </text>
                   </g>
                 ))}
-                {currentXAxisKey && (
+                {xAxisLabel && (
                   <text
                     x={boundsWidth / 2}
                     y={boundsHeight + 36}
@@ -309,7 +318,7 @@ export default function ScatterPlot({
                     opacity={0.9}
                     data-testid="scatter-plot-x-axis-label"
                   >
-                    {currentXAxisKey}
+                    {xAxisLabel}
                   </text>
                 )}
               </g>
@@ -324,7 +333,7 @@ export default function ScatterPlot({
                     </text>
                   </g>
                 ))}
-                {currentYAxisKey && (
+                {yAxisLabel && (
                   <text
                     transform={`translate(-36, ${boundsHeight / 2}) rotate(-90)`}
                     textAnchor="middle"
@@ -332,7 +341,7 @@ export default function ScatterPlot({
                     opacity={0.9}
                     data-testid="scatter-plot-y-axis-label"
                   >
-                    {currentYAxisKey}
+                    {yAxisLabel}
                   </text>
                 )}
               </g>
@@ -352,17 +361,17 @@ export default function ScatterPlot({
                   const tooltipChildren = datum.tooltip ? (
                     <div className="flex flex-col gap-1">
                       {datum.tooltip}
-                      <div>{`${currentXAxisKey}: ${datum.xValue}`}</div>
-                      <div>{`${currentYAxisKey}: ${datum.yValue}`}</div>
+                      <div>{`${xAxisLabel}: ${datum.xValue}`}</div>
+                      <div>{`${yAxisLabel}: ${datum.yValue}`}</div>
                     </div>
                   ) : (
                     <div>
                       <div>{datum.name || datum.label || `Point ${index + 1}`}</div>
                       <div>
-                        {currentXAxisKey}: {datum.xValue}
+                        {xAxisLabel}: {datum.xValue}
                       </div>
                       <div>
-                        {currentYAxisKey}: {datum.yValue}
+                        {yAxisLabel}: {datum.yValue}
                       </div>
                     </div>
                   );
@@ -465,6 +474,7 @@ export default function ScatterPlot({
           yAxisKey={currentYAxisKey}
           onXAxisChange={setXAxisKey}
           onYAxisChange={setYAxisKey}
+          axisLabelFormatter={axisLabelFormatter}
         />
       </div>
     </div>
