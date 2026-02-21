@@ -115,6 +115,20 @@ export default function Stats({ pokemon }) {
         ],
       }
     : undefined;
+  const starFillGradient = pokemon.secondary_type
+    ? {
+        type: "radial",
+        cx: "50%",
+        cy: "50%",
+        r: "60%",
+        stops: [
+          { offset: "0%", color: pokemon.secondary_type.display_color },
+          { offset: "44%", color: pokemon.secondary_type.display_color },
+          { offset: "56%", color: pokemon.primary_type.display_color },
+          { offset: "100%", color: pokemon.primary_type.display_color },
+        ],
+      }
+    : undefined;
 
   return (
     <div className="flex flex-col items-center">
@@ -170,6 +184,7 @@ export default function Stats({ pokemon }) {
             height={starChartDimensions.height}
             data={statsChartData}
             fillColor={pokemon.primary_type.display_color}
+            fillGradient={starFillGradient}
             innerRef={starChartRef}
             showReferenceStar={showReferenceLine}
             referenceStarFillColor={tinycolor(referenceLineColor).lighten(20)}

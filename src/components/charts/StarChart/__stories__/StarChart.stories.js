@@ -31,3 +31,20 @@ export const NoReferenceStar = {
     showReferenceStar: false,
   },
 };
+
+export const GradientFill = {
+  args: {
+    fillGradient: {
+      type: "radial",
+      cx: "50%",
+      cy: "50%",
+      r: "60%",
+      stops: [
+        { offset: "0%", color: "#3b82f6" },
+        { offset: "47%", color: "#3b82f6" },
+        { offset: "53%", color: "#22c55e" },
+        { offset: "100%", color: "#22c55e" },
+      ],
+    },
+  },
+};

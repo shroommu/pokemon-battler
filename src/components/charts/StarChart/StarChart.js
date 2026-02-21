@@ -1,4 +1,5 @@
 import { interpolateNumber } from "d3";
+import { useId } from "react";
 
 import { HIGHEST_STAT } from "@/components/constants";
 
@@ -47,10 +48,15 @@ export default function StarChart({
   width,
   data,
   fillColor,
+  fillGradient,
   innerRef,
   showReferenceStar,
   referenceStarFillColor,
 }) {
+  const chartGradientId = useId().replace(/[:]/g, "");
+  const fillGradientId = fillGradient?.id || `${chartGradientId}-star-fill-gradient`;
+  const fill = fillGradient ? `url(#${fillGradientId})` : fillColor;
+
   const grid = (
     <g opacity={0.25} data-testid="grid-group">
       <g>
@@ -120,7 +126,7 @@ export default function StarChart({
 
   const statsStar = AnimatedStar({
     starPoints: statsInterpolatedStarPoints,
-    fill: fillColor,
+    fill,
   });
 
   return (
@@ -130,6 +136,46 @@ export default function StarChart({
       data-testid="star-chart-container"
     >
       <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
+        {fillGradient && (
+          <defs>
+            {fillGradient.type === "radial" ? (
+              <radialGradient
+                id={fillGradientId}
+                cx={fillGradient.cx || "50%"}
+                cy={fillGradient.cy || "50%"}
+                r={fillGradient.r || "50%"}
+                fx={fillGradient.fx}
+                fy={fillGradient.fy}
+              >
+                {(fillGradient.stops || []).map((stop, index) => (
+                  <stop
+                    key={index}
+                    offset={stop.offset}
+                    stopColor={stop.color}
+                    stopOpacity={stop.opacity}
+                  />
+                ))}
+              </radialGradient>
+            ) : (
+              <linearGradient
+                id={fillGradientId}
+                x1={fillGradient.x1 || "0%"}
+                y1={fillGradient.y1 || "0%"}
+                x2={fillGradient.x2 || "100%"}
+                y2={fillGradient.y2 || "100%"}
+              >
+                {(fillGradient.stops || []).map((stop, index) => (
+                  <stop
+                    key={index}
+                    offset={stop.offset}
+                    stopColor={stop.color}
+                    stopOpacity={stop.opacity}
+                  />
+                ))}
+              </linearGradient>
+            )}
+          </defs>
+        )}
         {width > 0 && height > 0 && (
           <g data-testid="star-chart-with-labels-group">
             <g
