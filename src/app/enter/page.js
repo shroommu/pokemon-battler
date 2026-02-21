@@ -5,8 +5,14 @@ import { useSpring, animated, to, easings } from "react-spring";
 import { locations } from "../constants";
 import { useRouter } from "next/navigation";
 
+const ENTER_VIEWPORT_VAR_STYLE = { "--enter-viewport-height": "100dvh" };
+const ENTER_CONTENT_HEIGHT_CLASS =
+  "h-[calc(var(--enter-viewport-height)-80px)] md:h-[calc(var(--enter-viewport-height)-120px)]";
+const ENTER_COVER_TOP_CLASS = "top-[80px] md:top-[120px]";
+
 export default function EnterPage({}) {
   const [visible, setVisible] = useState(true);
+  const [isAnimating, setIsAnimating] = useState(false);
   const router = useRouter();
 
   const [logoColorSpring, logoColorApi] = useSpring(() => ({
@@ -43,6 +49,9 @@ export default function EnterPage({}) {
   }));
 
   const handleClick = () => {
+    if (isAnimating) return;
+
+    setIsAnimating(true);
     coverApi.start({
       from: {
         y: 0,
@@ -57,9 +66,12 @@ export default function EnterPage({}) {
   };
 
   return (
-    <div className="flex h-full w-full items-center justify-center">
+    <div
+      className="flex h-full w-full items-center justify-center"
+      style={ENTER_VIEWPORT_VAR_STYLE}
+    >
       <div
-        className="absolute left-0 flex flex-none h-[calc(100svh-80px)] md:h-[calc(100svh-120px)] lg:h-auto lg:min-h-[calc(100svh-120px)] w-full bg-red-500"
+        className={`absolute left-0 flex flex-none ${ENTER_CONTENT_HEIGHT_CLASS} lg:h-auto lg:min-h-[calc(var(--enter-viewport-height)-120px)] w-full bg-red-500`}
         data-testid="enter-content-body-container"
       >
         <div
@@ -113,11 +125,13 @@ export default function EnterPage({}) {
       </div>
       {visible && (
         <animated.div
-          className="absolute flex justify-center top-[80px] md:top-[120px] left-0 h-[calc(100dvh-80px)] md:h-[calc(100dvh-120px)] w-full bg-red-700 drop-shadow-sm"
+          className={`absolute flex justify-center ${ENTER_COVER_TOP_CLASS} left-0 ${ENTER_CONTENT_HEIGHT_CLASS} w-full bg-red-700 drop-shadow-sm ${
+            isAnimating ? "pointer-events-none" : "pointer-events-auto"
+          }`}
           onClick={() => handleClick()}
           style={{
-            y: to(coverSpring.y, (value) => `${value}dvh`),
-            height: to(coverSpring.height, (value) => `${value}dvh`),
+            y: to(coverSpring.y, (value) => `${value}%`),
+            height: to(coverSpring.height, (value) => `${value}%`),
           }}
         >
           <svg
