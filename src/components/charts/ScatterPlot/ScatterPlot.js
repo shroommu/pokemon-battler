@@ -1,11 +1,15 @@
 import * as d3 from "d3";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import Tooltip from "../components/Tooltip";
 import AxisSelectorControl from "./AxisSelectorControl";
 import ScatterPoint from "./ScatterPoint";
 
 const MARGIN = { top: 30, right: 30, bottom: 52, left: 52 };
+const PASS_THROUGH_PULSE_DISTANCE = 20;
+const TOOLTIP_REST_DELAY_MS = 35;
+
+const getPointKey = (datum, index) => datum.id || `${datum.name || "point"}-${index}`;
 
 const getAxisKeysFromData = (data) => {
   if (!data.length) {
@@ -88,6 +92,28 @@ export default function ScatterPlot({
   initialYAxisKey,
 }) {
   const [interactionData, setInteractionData] = useState(null);
+  const containerRef = useRef(null);
+  const tooltipAnchorRef = useRef(null);
+  const animationFrameRef = useRef(null);
+  const tooltipRestTimerRef = useRef(null);
+  const pendingTooltipDataRef = useRef(null);
+  const activeTooltipPointRef = useRef(null);
+  const tooltipPinnedRef = useRef(false);
+  const pointsInPassThroughZoneRef = useRef(new Set());
+  const pulseNonceRef = useRef(0);
+  const [passThroughPulseByKey, setPassThroughPulseByKey] = useState({});
+
+  useEffect(() => {
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+
+      if (tooltipRestTimerRef.current) {
+        clearTimeout(tooltipRestTimerRef.current);
+      }
+    };
+  }, []);
 
   const availableAxisOptions = useMemo(
     () => axisOptions || getAxisKeysFromData(data),
@@ -142,9 +168,127 @@ export default function ScatterPlot({
   const xTicks = xScale.ticks(5);
   const yTicks = yScale.ticks(5);
 
+  const updateTooltipPosition = (pointX, pointY) => {
+    if (!containerRef.current || !tooltipAnchorRef.current) {
+      return;
+    }
+
+    const xPos = pointX + MARGIN.left;
+    const yPos = pointY + MARGIN.top;
+
+    if (animationFrameRef.current) {
+      cancelAnimationFrame(animationFrameRef.current);
+    }
+
+    animationFrameRef.current = requestAnimationFrame(() => {
+      tooltipAnchorRef.current.style.transform = `translate(${xPos}px, ${yPos}px)`;
+    });
+  };
+
+  const setContainerNode = (node) => {
+    containerRef.current = node;
+
+    if (typeof innerRef === "function") {
+      innerRef(node);
+      return;
+    }
+
+    if (innerRef && typeof innerRef === "object") {
+      innerRef.current = node;
+    }
+  };
+
+  const clearTooltipRestTimer = () => {
+    if (tooltipRestTimerRef.current) {
+      clearTimeout(tooltipRestTimerRef.current);
+      tooltipRestTimerRef.current = null;
+    }
+  };
+
+  const scheduleTooltipAfterRest = (tooltipData) => {
+    pendingTooltipDataRef.current = tooltipData;
+    clearTooltipRestTimer();
+
+    tooltipRestTimerRef.current = setTimeout(() => {
+      if (pendingTooltipDataRef.current) {
+        setInteractionData(pendingTooltipDataRef.current);
+      }
+    }, TOOLTIP_REST_DELAY_MS);
+  };
+
+  const handlePointsLayerPointerMove = (event) => {
+    if (!containerRef.current || !plottedData.length) {
+      return;
+    }
+
+    const bounds = containerRef.current.getBoundingClientRect();
+    const pointerX = event.clientX - bounds.left - MARGIN.left;
+    const pointerY = event.clientY - bounds.top - MARGIN.top;
+    const maxDistanceSquared = PASS_THROUGH_PULSE_DISTANCE ** 2;
+
+    const pointsInRange = new Set();
+
+    plottedData.forEach((datum, index) => {
+      const cx = xScale(datum.xValue);
+      const cy = yScale(datum.yValue);
+      const dx = cx - pointerX;
+      const dy = cy - pointerY;
+      const distanceSquared = dx * dx + dy * dy;
+
+      if (distanceSquared <= maxDistanceSquared) {
+        pointsInRange.add(getPointKey(datum, index));
+      }
+    });
+
+    if (!pointsInRange.size) {
+      pointsInPassThroughZoneRef.current = new Set();
+      return;
+    }
+
+    const newlyEnteredPointKeys = [];
+    pointsInRange.forEach((pointKey) => {
+      if (!pointsInPassThroughZoneRef.current.has(pointKey)) {
+        newlyEnteredPointKeys.push(pointKey);
+      }
+    });
+
+    pointsInPassThroughZoneRef.current = pointsInRange;
+
+    if (!newlyEnteredPointKeys.length) {
+      return;
+    }
+
+    setPassThroughPulseByKey((previous) => {
+      const next = { ...previous };
+
+      newlyEnteredPointKeys.forEach((pointKey) => {
+        pulseNonceRef.current += 1;
+        next[pointKey] = pulseNonceRef.current;
+      });
+
+      return next;
+    });
+  };
+
+  const handlePointsLayerPointerLeave = () => {
+    pointsInPassThroughZoneRef.current = new Set();
+  };
+
+  const handlePointsLayerPointerCancel = () => {
+    pointsInPassThroughZoneRef.current = new Set();
+  };
+
+  const handlePointsLayerPointerOut = (event) => {
+    if (event.currentTarget.contains(event.relatedTarget)) {
+      return;
+    }
+
+    pointsInPassThroughZoneRef.current = new Set();
+  };
+
   return (
     <div
-      ref={innerRef}
+      ref={setContainerNode}
       className="relative flex flex-col h-full w-full"
       data-testid="scatter-plot-container"
     >
@@ -216,38 +360,102 @@ export default function ScatterPlot({
                 )}
               </g>
 
-              <g data-testid="scatter-plot-points-layer">
+              <g
+                data-testid="scatter-plot-points-layer"
+                onPointerMove={handlePointsLayerPointerMove}
+                onPointerLeave={handlePointsLayerPointerLeave}
+                onPointerCancel={handlePointsLayerPointerCancel}
+                onPointerOut={handlePointsLayerPointerOut}
+              >
                 {plottedData.map((datum, index) => {
+                  const pointKey = getPointKey(datum, index);
                   const cx = xScale(datum.xValue);
                   const cy = yScale(datum.yValue);
 
-                  const showTooltip = () => {
-                    setInteractionData({
-                      xPos: cx + MARGIN.left,
-                      yPos: cy + MARGIN.top,
-                      children: (
-                        <div>
-                          <div>{datum.name || datum.label || `Point ${index + 1}`}</div>
-                          <div>
-                            {currentXAxisKey}: {datum.xValue}
-                          </div>
-                          <div>
-                            {currentYAxisKey}: {datum.yValue}
-                          </div>
-                        </div>
-                      ),
-                    });
+                  const tooltipChildren = (
+                    <div>
+                      <div>{datum.name || datum.label || `Point ${index + 1}`}</div>
+                      <div>
+                        {currentXAxisKey}: {datum.xValue}
+                      </div>
+                      <div>
+                        {currentYAxisKey}: {datum.yValue}
+                      </div>
+                    </div>
+                  );
+
+                  const showTooltip = (event) => {
+                    const isImmediate = event?.type === "click";
+
+                    updateTooltipPosition(cx, cy);
+                    activeTooltipPointRef.current = pointKey;
+                    const tooltipData = {
+                      xPos: 0,
+                      yPos: 0,
+                      children: tooltipChildren,
+                    };
+
+                    if (isImmediate) {
+                      tooltipPinnedRef.current = true;
+                      clearTooltipRestTimer();
+                      pendingTooltipDataRef.current = null;
+                      setInteractionData(tooltipData);
+                      return;
+                    }
+
+                    tooltipPinnedRef.current = false;
+                    setInteractionData(null);
+                    scheduleTooltipAfterRest(tooltipData);
+                  };
+
+                  const moveTooltip = (event) => {
+                    updateTooltipPosition(cx, cy);
+
+                    const tooltipData = {
+                      xPos: 0,
+                      yPos: 0,
+                      children: tooltipChildren,
+                    };
+
+                    if (
+                      tooltipPinnedRef.current &&
+                      activeTooltipPointRef.current === pointKey
+                    ) {
+                      return;
+                    }
+
+                    if (tooltipPinnedRef.current) {
+                      tooltipPinnedRef.current = false;
+                    }
+
+                    setInteractionData(null);
+                    scheduleTooltipAfterRest(tooltipData);
+
+                    if (activeTooltipPointRef.current !== pointKey) {
+                      activeTooltipPointRef.current = pointKey;
+                    }
+                  };
+
+                  const hideTooltip = () => {
+                    activeTooltipPointRef.current = null;
+                    tooltipPinnedRef.current = false;
+                    pendingTooltipDataRef.current = null;
+                    clearTooltipRestTimer();
+                    setInteractionData(null);
                   };
 
                   return (
                     <ScatterPoint
-                      key={datum.id || `${datum.name || "point"}-${index}`}
+                      key={pointKey}
                       testId={`scatter-point-${index}`}
                       cx={cx}
                       cy={cy}
+                      delay={index * 10}
+                      pulseTrigger={passThroughPulseByKey[pointKey] || 0}
                       fill={datum.pointColor}
                       onMouseEnter={showTooltip}
-                      onMouseLeave={() => setInteractionData(null)}
+                      onMouseMove={moveTooltip}
+                      onMouseLeave={hideTooltip}
                       onClick={showTooltip}
                     />
                   );
@@ -267,7 +475,16 @@ export default function ScatterPlot({
           data-testid="tooltip-layer"
           className="w-full h-full"
         >
-          <Tooltip interactionData={interactionData} position="top" />
+          <div
+            ref={tooltipAnchorRef}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+            }}
+          >
+            <Tooltip interactionData={interactionData} position="top" />
+          </div>
         </div>
       </div>
       <div>

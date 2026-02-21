@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import ScatterPlot from "../ScatterPlot";
 
@@ -101,7 +101,9 @@ describe("ScatterPlot", () => {
     );
 
     await user.hover(screen.getByTestId("scatter-point-0"));
-    expect(screen.getByTestId("tooltip-mock")).toHaveTextContent("Point 1");
+    await waitFor(() => {
+      expect(screen.getByTestId("tooltip-mock")).toHaveTextContent("Point 1");
+    });
     expect(screen.getByTestId("tooltip-mock")).toHaveTextContent("hp: 10");
     expect(screen.getByTestId("tooltip-mock")).toHaveTextContent("attack: 20");
     expect(screen.getByTestId("scatter-plot-x-axis-label")).toHaveTextContent("hp");
@@ -141,7 +143,10 @@ describe("ScatterPlot", () => {
 
     await user.hover(screen.getByTestId("scatter-point-0"));
 
-    expect(screen.getByTestId("tooltip-mock")).toHaveTextContent("Bulbasaur");
+    await waitFor(() => {
+      expect(screen.getByTestId("tooltip-mock")).toHaveTextContent("Bulbasaur");
+    });
+
     expect(screen.getByTestId("tooltip-mock")).toHaveTextContent("HP: 45");
     expect(screen.getByTestId("tooltip-mock")).toHaveTextContent("Attack: 49");
   });
