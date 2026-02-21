@@ -152,4 +152,39 @@ describe("HorizontalBarChart", () => {
     expect(screen.getByTestId("Attack-bar-item")).toBeInTheDocument();
     expect(screen.queryByTestId("Attack-reference-line")).not.toBeInTheDocument();
   });
+
+  it("renders bar gradient definition when barFillGradient is provided", () => {
+    const { container } = render(
+      <HorizontalBarChart
+        width={300}
+        height={200}
+        showReferenceLine={false}
+        barFillGradient={{
+          x1: "0%",
+          y1: "0%",
+          x2: "100%",
+          y2: "0%",
+          stops: [
+            { offset: "0%", color: "#86efac" },
+            { offset: "100%", color: "#166534" },
+          ],
+        }}
+        data={[
+          {
+            name: "Sp. Def",
+            value: 80,
+            tooltipText: "Sp. Def: ",
+          },
+        ]}
+      />
+    );
+
+    const gradient = container.querySelector("linearGradient");
+    const stops = container.querySelectorAll("stop");
+
+    expect(gradient).toBeInTheDocument();
+    expect(stops).toHaveLength(2);
+    expect(stops[0]).toHaveAttribute("offset", "0%");
+    expect(stops[1]).toHaveAttribute("offset", "100%");
+  });
 });

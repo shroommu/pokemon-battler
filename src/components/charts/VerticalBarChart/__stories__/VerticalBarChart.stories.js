@@ -54,3 +54,18 @@ export const NoReferenceLine = {
     showReferenceLine: false,
   },
 };
+
+export const GradientBars = {
+  args: {
+    barFillGradient: {
+      x1: "0%",
+      y1: "0%",
+      x2: "0%",
+      y2: "100%",
+      stops: [
+        { offset: "0%", color: "#93c5fd" },
+        { offset: "100%", color: "#1d4ed8" },
+      ],
+    },
+  },
+};

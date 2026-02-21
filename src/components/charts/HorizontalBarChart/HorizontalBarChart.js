@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import { useMemo, useState } from "react";
+import { useId, useMemo, useState } from "react";
 
 import Tooltip from "../components/Tooltip";
 import { roundUpToNearestTen } from "../axisUtils";
@@ -15,11 +15,13 @@ export default function HorizontalBarChart({
   data,
   showReferenceLine,
   barFillColor,
+  barFillGradient,
   referenceLineFillColor,
   fixedDomainMax,
   innerRef,
 }) {
   const [interactionData, setInteractionData] = useState(null);
+  const chartGradientId = useId().replace(/[:]/g, "");
 
   const boundsWidth = width - MARGIN.right - MARGIN.left;
   const boundsHeight = height - MARGIN.top - MARGIN.bottom;
@@ -49,6 +51,9 @@ export default function HorizontalBarChart({
       .range([0, boundsWidth]);
   }, [roundedDomainMax, boundsWidth]);
 
+  const barGradientId = barFillGradient?.id || `${chartGradientId}-bar-fill-gradient`;
+  const barFill = barFillGradient ? `url(#${barGradientId})` : barFillColor;
+
   const allShapes = data.map((d, index) => {
     const y = yScale(d.name);
     if (y === undefined) {
@@ -63,6 +68,7 @@ export default function HorizontalBarChart({
         y={y}
         barWidth={xScale(d.value)}
         barHeight={yScale.bandwidth()}
+        barFill={barFill}
         barColor={barFillColor || "#ffffffff"}
         name={d.name}
         value={d.value}
@@ -161,6 +167,26 @@ export default function HorizontalBarChart({
       data-testid="horizontal-bar-chart-container"
     >
       <svg width={width} height={height}>
+        {barFillGradient && (
+          <defs>
+            <linearGradient
+              id={barGradientId}
+              x1={barFillGradient.x1 || "0%"}
+              y1={barFillGradient.y1 || "0%"}
+              x2={barFillGradient.x2 || "100%"}
+              y2={barFillGradient.y2 || "0%"}
+            >
+              {(barFillGradient.stops || []).map((stop, index) => (
+                <stop
+                  key={index}
+                  offset={stop.offset}
+                  stopColor={stop.color}
+                  stopOpacity={stop.opacity}
+                />
+              ))}
+            </linearGradient>
+          </defs>
+        )}
         {width > 0 && height > 0 && (
           <g
             width={boundsWidth}

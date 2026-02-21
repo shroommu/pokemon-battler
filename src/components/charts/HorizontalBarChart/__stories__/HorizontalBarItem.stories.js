@@ -27,3 +27,20 @@ const meta = {
 export default meta;
 
 export const Default = {};
+
+export const GradientFill = {
+  args: {
+    barFill: "url(#horizontal-item-gradient)",
+  },
+  render: (args) => (
+    <svg width={240} height={120} className="border">
+      <defs>
+        <linearGradient id="horizontal-item-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#86efac" />
+          <stop offset="100%" stopColor="#15803d" />
+        </linearGradient>
+      </defs>
+      <HorizontalBarItem {...args} />
+    </svg>
+  ),
+};

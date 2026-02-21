@@ -61,6 +61,35 @@ describe("details Stats component", () => {
       />
     );
 
+    const lastHorizontalProps =
+      horizontalChartMock.mock.calls[horizontalChartMock.mock.calls.length - 1][0];
+    const lastVerticalProps =
+      verticalChartMock.mock.calls[verticalChartMock.mock.calls.length - 1][0];
+    expect(lastHorizontalProps.barFillGradient).toEqual({
+      x1: "0%",
+      y1: "0%",
+      x2: "100%",
+      y2: "100%",
+      stops: [
+        { offset: "0%", color: "#f42" },
+        { offset: "47%", color: "#f42" },
+        { offset: "53%", color: "#89f" },
+        { offset: "100%", color: "#89f" },
+      ],
+    });
+    expect(lastVerticalProps.barFillGradient).toEqual({
+      x1: "0%",
+      y1: "0%",
+      x2: "100%",
+      y2: "100%",
+      stops: [
+        { offset: "0%", color: "#f42" },
+        { offset: "47%", color: "#f42" },
+        { offset: "53%", color: "#89f" },
+        { offset: "100%", color: "#89f" },
+      ],
+    });
+
     expect(screen.getByTestId("stats-chart-title")).toHaveTextContent("Max Stats");
     expect(screen.getByTestId("star-chart")).toBeInTheDocument();
 
@@ -94,6 +123,13 @@ describe("details Stats component", () => {
         }}
       />
     );
+
+    const lastHorizontalProps =
+      horizontalChartMock.mock.calls[horizontalChartMock.mock.calls.length - 1][0];
+    const lastVerticalProps =
+      verticalChartMock.mock.calls[verticalChartMock.mock.calls.length - 1][0];
+    expect(lastHorizontalProps.barFillGradient).toBeUndefined();
+    expect(lastVerticalProps.barFillGradient).toBeUndefined();
 
     expect(screen.getByRole("button", { name: "All Electric Types" })).toBeInTheDocument();
     expect(

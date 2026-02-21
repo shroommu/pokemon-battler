@@ -54,3 +54,18 @@ export const FixedDomain = {
     fixedDomainMax: 120,
   },
 };
+
+export const GradientBars = {
+  args: {
+    barFillGradient: {
+      x1: "0%",
+      y1: "0%",
+      x2: "100%",
+      y2: "0%",
+      stops: [
+        { offset: "0%", color: "#86efac" },
+        { offset: "100%", color: "#166534" },
+      ],
+    },
+  },
+};

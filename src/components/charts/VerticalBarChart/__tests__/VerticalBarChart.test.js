@@ -152,4 +152,39 @@ describe("VerticalBarChart", () => {
     expect(screen.getByTestId("Defense-bar-item")).toBeInTheDocument();
     expect(screen.queryByTestId("Defense-reference-line")).not.toBeInTheDocument();
   });
+
+  it("renders bar gradient definition when barFillGradient is provided", () => {
+    const { container } = render(
+      <VerticalBarChart
+        width={300}
+        height={200}
+        showReferenceLine={false}
+        barFillGradient={{
+          x1: "0%",
+          y1: "0%",
+          x2: "0%",
+          y2: "100%",
+          stops: [
+            { offset: "0%", color: "#60a5fa" },
+            { offset: "100%", color: "#1d4ed8" },
+          ],
+        }}
+        data={[
+          {
+            name: "Sp. Atk",
+            value: 95,
+            tooltipText: "Sp. Atk: ",
+          },
+        ]}
+      />
+    );
+
+    const gradient = container.querySelector("linearGradient");
+    const stops = container.querySelectorAll("stop");
+
+    expect(gradient).toBeInTheDocument();
+    expect(stops).toHaveLength(2);
+    expect(stops[0]).toHaveAttribute("offset", "0%");
+    expect(stops[1]).toHaveAttribute("offset", "100%");
+  });
 });
