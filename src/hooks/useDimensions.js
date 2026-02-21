@@ -10,7 +10,19 @@ export const useDimensions = (targetRef) => {
         height: targetRef.current ? targetRef.current.offsetHeight : 0,
       };
     };
-    setDimensions(getDimensions());
+
+    const nextDimensions = getDimensions();
+
+    setDimensions((currentDimensions) => {
+      if (
+        currentDimensions.width === nextDimensions.width &&
+        currentDimensions.height === nextDimensions.height
+      ) {
+        return currentDimensions;
+      }
+
+      return nextDimensions;
+    });
   }, [setDimensions, targetRef]);
 
   useEffect(() => {
@@ -18,9 +30,25 @@ export const useDimensions = (targetRef) => {
     return () => window.removeEventListener("resize", handleResize);
   }, [handleResize]);
 
+  useEffect(() => {
+    if (!targetRef.current || typeof ResizeObserver === "undefined") {
+      return;
+    }
+
+    const observer = new ResizeObserver(() => {
+      handleResize();
+    });
+
+    observer.observe(targetRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [handleResize, targetRef]);
+
   useLayoutEffect(() => {
     handleResize();
-  }, [handleResize]);
+  });
 
   return dimensions;
 };
