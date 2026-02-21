@@ -1,3 +1,5 @@
+import { useSpring, useSprings, animated } from "react-spring";
+
 export default function BoxPlotItem({
   data,
   valueKey,
@@ -9,40 +11,84 @@ export default function BoxPlotItem({
   tooltipOffset,
 }) {
   const strokeColor = "#4a4a4a";
+  const minX = (width * data.min) / data.max;
+  const q1X = (width * data.q1) / data.max;
+  const meanX = (width * data.mean) / data.max;
+  const q3X = (width * data.q3) / data.max;
+  const maxX = width;
+
+  const springProps = useSpring({
+    from: {
+      minX,
+      q1X: minX,
+      meanX: minX,
+      q3X: minX,
+      maxX: minX,
+      boxWidth: 0,
+    },
+    to: {
+      minX,
+      q1X,
+      meanX,
+      q3X,
+      maxX,
+      boxWidth: q3X - q1X,
+    },
+    config: {
+      friction: 80,
+    },
+  });
+
+  const pointSprings = useSprings(
+    data.dataPoints.length,
+    data.dataPoints.map((dataPoint) => ({
+      from: {
+        cx: minX,
+        opacity: 0,
+      },
+      to: {
+        cx: (dataPoint[valueKey] * width) / data.max,
+        opacity: 0.75,
+      },
+      config: {
+        friction: 80,
+      },
+    })),
+  );
 
   return (
     <g data-testid="box-plot-item-group">
       <g data-testid="box-plot-left-whisker-group">
-        <line
-          x1={(width * data.min) / data.max}
-          x2={(width * data.min) / data.max}
+        <animated.line
+          x1={springProps.minX}
+          x2={springProps.minX}
           y1={yPos - height / 2}
           y2={yPos + height / 2}
           stroke={strokeColor}
           strokeWidth={2}
         />
-        <line
-          x1={(width * data.min) / data.max}
-          x2={(width * data.q1) / data.max}
+        <animated.line
+          x1={springProps.minX}
+          x2={springProps.q1X}
           y1={yPos}
           y2={yPos}
           stroke={strokeColor}
           strokeWidth={2}
         />
       </g>
-      <rect
-        width={(width * data.q3) / data.max - (width * data.q1) / data.max}
+      <animated.rect
+        width={springProps.boxWidth}
         height={height}
-        x={(width * data.q1) / data.max}
+        x={springProps.q1X}
         y={yPos - height / 2}
         fill={fillColor}
         stroke={strokeColor}
         strokeWidth={2}
         data-testid="quantile-box"
       />
-      <line
-        x1={(width * data.mean) / data.max}
-        x2={(width * data.mean) / data.max}
+      <animated.line
+        x1={springProps.meanX}
+        x2={springProps.meanX}
         y1={yPos - height / 2}
         y2={yPos + height / 2}
         stroke={strokeColor}
@@ -50,17 +96,17 @@ export default function BoxPlotItem({
         data-testid="mean-line"
       />
       <g data-testid="box-plot-right-whisker-group">
-        <line
-          x1={(width * data.max) / data.max}
-          x2={(width * data.max) / data.max}
+        <animated.line
+          x1={springProps.maxX}
+          x2={springProps.maxX}
           y1={yPos - height / 2}
           y2={yPos + height / 2}
           stroke={strokeColor}
           strokeWidth={2}
         />
-        <line
-          x1={(width * data.q3) / data.max}
-          x2={(width * data.max) / data.max}
+        <animated.line
+          x1={springProps.q3X}
+          x2={springProps.maxX}
           y1={yPos}
           y2={yPos}
           stroke={strokeColor}
@@ -68,7 +114,7 @@ export default function BoxPlotItem({
         />
       </g>
       <g data-testid="data-points-group">
-        {data.dataPoints.map((dataPoint) => {
+        {data.dataPoints.map((dataPoint, index) => {
           const showTooltip = () =>
             setInteractionData({
               xPos: (dataPoint[valueKey] * width) / data.max + tooltipOffset,
@@ -76,13 +122,13 @@ export default function BoxPlotItem({
               children: dataPoint.tooltip,
             });
           return (
-            <circle
+            <animated.circle
               r={4}
-              cx={(dataPoint[valueKey] * width) / data.max}
+              cx={pointSprings[index].cx}
               cy={yPos}
               key={dataPoint.name}
               data-testid={dataPoint.name}
-              opacity={0.75}
+              opacity={pointSprings[index].opacity}
               className="[transform-box:fill-box] [transform-origin:center] hover:scale-150"
               onMouseEnter={() => showTooltip()}
               onMouseLeave={() => setInteractionData(null)}
