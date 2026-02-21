@@ -6,7 +6,7 @@ import Image from "next/image";
 import { getBoxplotData, getHistogramData, getScatterPlotData } from "@/utils";
 import { TYPES } from "@/components/constants";
 
-const getTooltip = (pokemon) => {
+const getTooltip = (pokemon, { showMaxStats = true } = {}) => {
   return (
     <div
       key={`${pokemon.name}-tooltip`}
@@ -26,7 +26,7 @@ const getTooltip = (pokemon) => {
       />
       <div className="flex flex-col">
         <div>{pokemon.name}</div>
-        <div>{`Max Stats: ${pokemon.max_stats}`}</div>
+        {showMaxStats ? <div>{`Max Stats: ${pokemon.max_stats}`}</div> : null}
       </div>
     </div>
   );
@@ -96,6 +96,7 @@ export const useAnalyticsData = (pokemonData = []) => {
     return pokemonData.map((pokemon) => ({
       ...pokemon,
       tooltip: getTooltip(pokemon),
+      scatterTooltip: getTooltip(pokemon, { showMaxStats: false }),
     }));
   }, [pokemonData]);
 
@@ -123,8 +124,8 @@ export const useAnalyticsData = (pokemonData = []) => {
   }, [dataWithTooltips]);
 
   const scatterData = useMemo(() => {
-    return getScatterPlotData(pokemonData);
-  }, [pokemonData]);
+    return getScatterPlotData(dataWithTooltips);
+  }, [dataWithTooltips]);
 
   const overviewStats = useMemo(() => {
     return getOverviewStats(pokemonData, pointsByType);

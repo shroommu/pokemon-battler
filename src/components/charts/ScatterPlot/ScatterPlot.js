@@ -93,8 +93,6 @@ export default function ScatterPlot({
 }) {
   const [interactionData, setInteractionData] = useState(null);
   const containerRef = useRef(null);
-  const tooltipAnchorRef = useRef(null);
-  const animationFrameRef = useRef(null);
   const tooltipRestTimerRef = useRef(null);
   const pendingTooltipDataRef = useRef(null);
   const activeTooltipPointRef = useRef(null);
@@ -105,10 +103,6 @@ export default function ScatterPlot({
 
   useEffect(() => {
     return () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-
       if (tooltipRestTimerRef.current) {
         clearTimeout(tooltipRestTimerRef.current);
       }
@@ -167,23 +161,6 @@ export default function ScatterPlot({
 
   const xTicks = xScale.ticks(5);
   const yTicks = yScale.ticks(5);
-
-  const updateTooltipPosition = (pointX, pointY) => {
-    if (!containerRef.current || !tooltipAnchorRef.current) {
-      return;
-    }
-
-    const xPos = pointX + MARGIN.left;
-    const yPos = pointY + MARGIN.top;
-
-    if (animationFrameRef.current) {
-      cancelAnimationFrame(animationFrameRef.current);
-    }
-
-    animationFrameRef.current = requestAnimationFrame(() => {
-      tooltipAnchorRef.current.style.transform = `translate(${xPos}px, ${yPos}px)`;
-    });
-  };
 
   const setContainerNode = (node) => {
     containerRef.current = node;
@@ -292,7 +269,7 @@ export default function ScatterPlot({
       className="relative flex flex-col h-full w-full"
       data-testid="scatter-plot-container"
     >
-      <div data-testid="scatter-plot-inner-container">
+      <div data-testid="scatter-plot-inner-container" className="relative">
         <svg width={width} height={height} className="w-full h-full">
           {width > 0 && height > 0 && (
             <g transform={`translate(${[MARGIN.left, MARGIN.top].join(",")})`}>
@@ -372,7 +349,13 @@ export default function ScatterPlot({
                   const cx = xScale(datum.xValue);
                   const cy = yScale(datum.yValue);
 
-                  const tooltipChildren = (
+                  const tooltipChildren = datum.tooltip ? (
+                    <div className="flex flex-col gap-1">
+                      {datum.tooltip}
+                      <div>{`${currentXAxisKey}: ${datum.xValue}`}</div>
+                      <div>{`${currentYAxisKey}: ${datum.yValue}`}</div>
+                    </div>
+                  ) : (
                     <div>
                       <div>{datum.name || datum.label || `Point ${index + 1}`}</div>
                       <div>
@@ -387,11 +370,10 @@ export default function ScatterPlot({
                   const showTooltip = (event) => {
                     const isImmediate = event?.type === "click";
 
-                    updateTooltipPosition(cx, cy);
                     activeTooltipPointRef.current = pointKey;
                     const tooltipData = {
-                      xPos: 0,
-                      yPos: 0,
+                      xPos: cx + MARGIN.left,
+                      yPos: cy + MARGIN.top,
                       children: tooltipChildren,
                     };
 
@@ -409,11 +391,9 @@ export default function ScatterPlot({
                   };
 
                   const moveTooltip = (event) => {
-                    updateTooltipPosition(cx, cy);
-
                     const tooltipData = {
-                      xPos: 0,
-                      yPos: 0,
+                      xPos: cx + MARGIN.left,
+                      yPos: cy + MARGIN.top,
                       children: tooltipChildren,
                     };
 
@@ -473,18 +453,9 @@ export default function ScatterPlot({
             pointerEvents: "none",
           }}
           data-testid="tooltip-layer"
-          className="w-full h-full"
+          className="w-full h-full z-10"
         >
-          <div
-            ref={tooltipAnchorRef}
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-            }}
-          >
-            <Tooltip interactionData={interactionData} position="top" />
-          </div>
+          <Tooltip interactionData={interactionData} position="top" />
         </div>
       </div>
       <div>

@@ -38,5 +38,6 @@ export const getScatterPlotData = (pokemonData = []) => {
     speed: pokemon.speed ?? 0,
     max_stats: pokemon.max_stats ?? 0,
     pointColor: getPrimaryTypeColor(pokemon),
+    tooltip: pokemon.scatterTooltip ?? pokemon.tooltip,
   }));
 };
