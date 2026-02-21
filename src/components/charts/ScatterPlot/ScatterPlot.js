@@ -251,12 +251,28 @@ export default function ScatterPlot({
                   const cx = xScale(datum.xValue);
                   const cy = yScale(datum.yValue);
 
-                  const tooltipChildren = datum.tooltip ? (
-                    <div className="flex flex-col gap-1">
-                      {datum.tooltip}
-                      <div>{`${xAxisLabel}: ${datum.xValue}`}</div>
-                      <div>{`${yAxisLabel}: ${datum.yValue}`}</div>
-                    </div>
+                  const tooltipContent =
+                    typeof datum.tooltip === "function"
+                      ? datum.tooltip({
+                          xAxisLabel,
+                          yAxisLabel,
+                          xValue: datum.xValue,
+                          yValue: datum.yValue,
+                          datum,
+                          index,
+                        })
+                      : datum.tooltip;
+
+                  const tooltipChildren = tooltipContent ? (
+                    typeof datum.tooltip === "function" ? (
+                      tooltipContent
+                    ) : (
+                      <div className="flex flex-col">
+                        {tooltipContent}
+                        <div className="text-xs">{`${xAxisLabel}: ${datum.xValue}`}</div>
+                        <div className="text-xs">{`${yAxisLabel}: ${datum.yValue}`}</div>
+                      </div>
+                    )
                   ) : (
                     <div>
                       <div>{datum.name || datum.label || `Point ${index + 1}`}</div>
