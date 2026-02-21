@@ -236,6 +236,9 @@ export default function AnalyticsClient({
       {resolvedSection === "distribution" && (
         <div className="flex flex-col gap-2 h-full" data-testid="analytics-distribution-section">
           <h2 className="text-base sm:text-lg text-center">Distribution of Pokemon Max Stats Per Type</h2>
+          <p className="text-xs sm:text-sm text-center mb-2">
+            Compare max stat ranges and outliers across Pokemon types.
+          </p>
           <div className="hidden lg:flex lg:flex-col h-[30rem]" data-testid="analytics-horizontal-chart">
             <HorizontalBoxPlot
               width={horizontalBoxPlotDimensions.width}
@@ -269,6 +272,9 @@ export default function AnalyticsClient({
       {resolvedSection === "relationships" && (
         <div className="flex flex-col gap-2 h-full" data-testid="analytics-relationships-section">
           <h2 className="text-base sm:text-lg text-center">Stat Relationships</h2>
+          <p className="text-xs sm:text-sm text-center mb-2">
+            Inspect how one stat changes relative to another across Pokemon.
+          </p>
           <section className="h-[30rem] sm:h-[34rem]" data-testid="analytics-relationships-scatter-panel">
             <ScatterPlot
               width={scatterPlotDimensions.width}
