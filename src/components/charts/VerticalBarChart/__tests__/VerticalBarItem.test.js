@@ -89,4 +89,29 @@ describe("VerticalBarItem", () => {
     expect(rect).toHaveAttribute("fill", "#ffffffff");
     expect(texts[0]).toHaveAttribute("opacity", "0");
   });
+
+  it("uses barFill when provided", () => {
+    const { container } = render(
+      <svg>
+        <VerticalBarItem
+          testId="item-gradient"
+          name="SPA"
+          value={35}
+          barOrigin={100}
+          barHeight={40}
+          barWidth={20}
+          barFill="url(#bar-gradient)"
+          barColor="#fff"
+          x={0}
+          y={60}
+          onMouseEnter={() => {}}
+          onMouseLeave={() => {}}
+          onClick={() => {}}
+        />
+      </svg>
+    );
+
+    const rect = container.querySelector("rect");
+    expect(rect).toHaveAttribute("fill", "url(#bar-gradient)");
+  });
 });

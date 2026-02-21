@@ -13,15 +13,10 @@ jest.mock("next/link", () => {
   );
 });
 
-jest.mock("@/services/getPokemonByNameBasic", () => ({
-  getPokemonByNameBasic: jest.fn(),
-}));
-
 jest.mock("@/services/getUniquePokemonByNumber", () => ({
   getUniquePokemonByNumber: jest.fn(),
 }));
 
-import { getPokemonByNameBasic } from "@/services/getPokemonByNameBasic";
 import { getUniquePokemonByNumber } from "@/services/getUniquePokemonByNumber";
 
 describe("PreviousPokemonLink", () => {
@@ -30,9 +25,6 @@ describe("PreviousPokemonLink", () => {
   });
 
   it("renders previous pokemon link when one exists", async () => {
-    getPokemonByNameBasic.mockResolvedValueOnce({
-      data: { pokedex_number: 26 },
-    });
     getUniquePokemonByNumber.mockResolvedValueOnce({
       data: {
         name: "Pikachu",
@@ -41,14 +33,11 @@ describe("PreviousPokemonLink", () => {
       },
     });
 
-    render(await PreviousPokemonLink({ pokemonSlug: "raichu" }));
+    render(await PreviousPokemonLink({ currentPokedexNumber: 26 }));
     expect(screen.getByRole("link")).toHaveAttribute("href", "/pokedex/pikachu/moves");
   });
 
   it("keeps stats segment when provided", async () => {
-    getPokemonByNameBasic.mockResolvedValueOnce({
-      data: { pokedex_number: 26 },
-    });
     getUniquePokemonByNumber.mockResolvedValueOnce({
       data: {
         name: "Pikachu",
@@ -57,15 +46,13 @@ describe("PreviousPokemonLink", () => {
       },
     });
 
-    render(await PreviousPokemonLink({ pokemonSlug: "raichu", tabSegment: "stats" }));
+    render(await PreviousPokemonLink({ currentPokedexNumber: 26, tabSegment: "stats" }));
     expect(screen.getByRole("link")).toHaveAttribute("href", "/pokedex/pikachu/stats");
   });
 
   it("renders spacer when previous pokemon is unavailable", async () => {
-    getPokemonByNameBasic.mockResolvedValueOnce({ data: null });
-
     const { container } = render(
-      await PreviousPokemonLink({ pokemonSlug: "missingno" })
+      await PreviousPokemonLink({ currentPokedexNumber: null })
     );
     expect(container.querySelector(".w-24")).toBeInTheDocument();
   });

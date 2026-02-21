@@ -1,22 +1,22 @@
-import { getPokemonByNameBasic } from "@/services/getPokemonByNameBasic";
 import { getUniquePokemonByNumber } from "@/services/getUniquePokemonByNumber";
-
-import { capitalizePokemonSlug, slugifyPokemonName } from "@/app/utils";
+import { slugifyPokemonName } from "@/app/utils";
 
 import Image from "next/image";
 import Link from "next/link";
 
-async function getPreviousPokemon(pokemonName) {
-  const pokemon = await getPokemonByNameBasic(capitalizePokemonSlug(pokemonName));
-  if (!pokemon.data?.pokedex_number) {
+async function getPreviousPokemon(currentPokedexNumber) {
+  if (!currentPokedexNumber) {
     return { data: null };
   }
 
-  return getUniquePokemonByNumber(pokemon.data.pokedex_number - 1);
+  return getUniquePokemonByNumber(currentPokedexNumber - 1);
 }
 
-export default async function PreviousPokemonLink({ pokemonSlug, tabSegment = "moves" }) {
-  const { data: previousPokemon } = await getPreviousPokemon(pokemonSlug);
+export default async function PreviousPokemonLink({
+  currentPokedexNumber,
+  tabSegment = "moves",
+}) {
+  const { data: previousPokemon } = await getPreviousPokemon(currentPokedexNumber);
 
   return (
     <>
@@ -25,6 +25,7 @@ export default async function PreviousPokemonLink({ pokemonSlug, tabSegment = "m
           prefetch={true}
           href={`/pokedex/${slugifyPokemonName(previousPokemon.name)}/${tabSegment}`}
           className="flex flex-row mr-auto items-center underline"
+          data-testid={"previous-pokemon-link"}
         >
           {`← #${String(previousPokemon.pokedex_number).padStart(3, "0")}`}
           <div className="relative w-[50px] aspect-square">
@@ -38,7 +39,7 @@ export default async function PreviousPokemonLink({ pokemonSlug, tabSegment = "m
           </div>
         </Link>
       ) : (
-        <div className="w-24 mr-auto" />
+        <div className="w-24 mr-auto" data-testid="previous-pokemon-link-empty" />
       )}
     </>
   );

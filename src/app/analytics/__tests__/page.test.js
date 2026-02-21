@@ -3,6 +3,8 @@ import AnalyticsClient from "../AnalyticsClient";
 
 const horizontalBoxPlotMock = jest.fn(() => <div data-testid="horizontal-boxplot" />);
 const verticalBoxPlotMock = jest.fn(() => <div data-testid="vertical-boxplot" />);
+const histogramMock = jest.fn(() => <div data-testid="histogram" />);
+const scatterPlotMock = jest.fn(() => <div data-testid="scatter-plot" />);
 
 jest.mock("next/image", () => {
   return ({ fill, priority, unoptimized, preload, ...props }) => <img {...props} />;
@@ -12,8 +14,10 @@ jest.mock("@/hooks/useDimensions", () => ({
   useDimensions: () => ({ width: 500, height: 300 }),
 }));
 
-jest.mock("@/utils/getBoxplotData", () => ({
+jest.mock("@/utils", () => ({
   getBoxplotData: jest.fn((points) => ({ dataPoints: points })),
+  getHistogramData: jest.fn(() => []),
+  getScatterPlotData: jest.fn(() => []),
 }));
 
 jest.mock("@/components/charts/BoxPlot/HorizontalBoxPlot", () => {
@@ -24,14 +28,22 @@ jest.mock("@/components/charts/BoxPlot/VerticalBoxPlot", () => {
   return (props) => verticalBoxPlotMock(props);
 });
 
-import { getBoxplotData } from "@/utils/getBoxplotData";
+jest.mock("@/components/charts/Histogram/Histogram", () => {
+  return (props) => histogramMock(props);
+});
+
+jest.mock("@/components/charts/ScatterPlot/ScatterPlot", () => {
+  return (props) => scatterPlotMock(props);
+});
+
+import { getBoxplotData } from "@/utils";
 
 describe("Analytics", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it("passes grouped boxplot data to charts", async () => {
+  it("passes grouped boxplot data to distribution charts", async () => {
     const pokemonData = [
       {
         name: "Charizard",
@@ -49,7 +61,7 @@ describe("Analytics", () => {
       },
     ];
 
-    render(<AnalyticsClient pokemonData={pokemonData} />);
+    render(<AnalyticsClient pokemonData={pokemonData} selectedSection="distribution" />);
 
     await waitFor(() => {
       expect(horizontalBoxPlotMock).toHaveBeenCalled();
@@ -85,7 +97,7 @@ describe("Analytics", () => {
       },
     ];
 
-    render(<AnalyticsClient pokemonData={pokemonData} />);
+    render(<AnalyticsClient pokemonData={pokemonData} selectedSection="distribution" />);
 
     await waitFor(() => {
       expect(horizontalBoxPlotMock).toHaveBeenCalled();
@@ -93,5 +105,78 @@ describe("Analytics", () => {
     });
 
     expect(getBoxplotData).toHaveBeenCalled();
+  });
+
+  it("renders overview charts by default", async () => {
+    render(<AnalyticsClient pokemonData={[]} />);
+
+    await waitFor(() => {
+      expect(histogramMock).toHaveBeenCalled();
+    });
+
+    expect(scatterPlotMock).not.toHaveBeenCalled();
+  });
+
+  it("renders distribution chart with non-zero dimensions after section switch", async () => {
+    const pokemonData = [
+      {
+        name: "Charizard",
+        max_stats: 525,
+        sprite_party_filepath: "/images/pokemon/sprites/party/charizard.png",
+        primary_type: { name: "Fire" },
+        secondary_type: { name: "Flying" },
+      },
+    ];
+
+    const { rerender } = render(
+      <AnalyticsClient pokemonData={pokemonData} selectedSection="overview" />,
+    );
+
+    await waitFor(() => {
+      expect(histogramMock).toHaveBeenCalled();
+    });
+
+    rerender(
+      <AnalyticsClient pokemonData={pokemonData} selectedSection="distribution" />,
+    );
+
+    await waitFor(() => {
+      expect(horizontalBoxPlotMock).toHaveBeenCalled();
+      expect(verticalBoxPlotMock).toHaveBeenCalled();
+    });
+
+    const horizontalCall =
+      horizontalBoxPlotMock.mock.calls[horizontalBoxPlotMock.mock.calls.length - 1][0];
+    const verticalCall =
+      verticalBoxPlotMock.mock.calls[verticalBoxPlotMock.mock.calls.length - 1][0];
+
+    expect(horizontalCall.width).toBeGreaterThan(0);
+    expect(horizontalCall.height).toBeGreaterThan(0);
+    expect(verticalCall.width).toBeGreaterThan(0);
+    expect(verticalCall.height).toBeGreaterThan(0);
+  });
+
+  it("passes analytics axis label formatting to the relationships scatterplot", async () => {
+    render(<AnalyticsClient pokemonData={[]} selectedSection="relationships" />);
+
+    await waitFor(() => {
+      expect(scatterPlotMock).toHaveBeenCalled();
+    });
+
+    const scatterProps = scatterPlotMock.mock.calls[scatterPlotMock.mock.calls.length - 1][0];
+
+    expect(typeof scatterProps.axisLabelFormatter).toBe("function");
+    expect(scatterProps.axisLabelFormatter("hp", "x")).toBe("HP");
+    expect(scatterProps.axisLabelFormatter("attack", "x")).toBe("Attack");
+    expect(scatterProps.axisLabelFormatter("defense", "x")).toBe("Defense");
+    expect(scatterProps.axisLabelFormatter("special", "x")).toBe("Special");
+    expect(scatterProps.axisLabelFormatter("speed", "x")).toBe("Speed");
+    expect(scatterProps.axisOptions).toEqual([
+      "hp",
+      "attack",
+      "defense",
+      "special",
+      "speed",
+    ]);
   });
 });

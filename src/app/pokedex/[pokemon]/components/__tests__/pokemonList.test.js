@@ -2,8 +2,10 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import PokemonList from ".././pokemonList";
 
+const mockedUsePathname = jest.fn(() => "/pokedex/pikachu");
+
 jest.mock("next/navigation", () => ({
-  usePathname: () => "/pokedex/pikachu",
+  usePathname: () => mockedUsePathname(),
 }));
 
 jest.mock("../../../components/pokedexButton", () => {
@@ -22,6 +24,7 @@ describe("PokemonList", () => {
   ];
 
   it("sorts numerically by default and marks selected pokemon", () => {
+    mockedUsePathname.mockReturnValue("/pokedex/pikachu");
     render(<PokemonList pokemons={pokemons} />);
 
     const items = screen.getAllByTestId("pokemon-button").map((el) => el.textContent);
@@ -33,6 +36,7 @@ describe("PokemonList", () => {
   });
 
   it("filters by name and supports alphabetical sort", async () => {
+    mockedUsePathname.mockReturnValue("/pokedex/pikachu");
     const user = userEvent.setup();
     render(<PokemonList pokemons={pokemons} />);
 
@@ -54,7 +58,26 @@ describe("PokemonList", () => {
   });
 
   it("renders safely when pokemons is undefined", () => {
+    mockedUsePathname.mockReturnValue("/pokedex/pikachu");
     render(<PokemonList />);
     expect(screen.queryByTestId("pokemon-button")).not.toBeInTheDocument();
+  });
+
+  it("matches selected pokemon by exact slug segment", () => {
+    mockedUsePathname.mockReturnValue("/pokedex/mewtwo");
+    render(
+      <PokemonList
+        pokemons={[
+          { name: "Mew", pokedex_number: 151 },
+          { name: "Mewtwo", pokedex_number: 150 },
+        ]}
+      />
+    );
+
+    const items = screen.getAllByTestId("pokemon-button").map((el) => el.textContent);
+    expect(items).toEqual([
+      "Mewtwo|/pokedex/mewtwo|selected",
+      "Mew|/pokedex/mew|not-selected",
+    ]);
   });
 });

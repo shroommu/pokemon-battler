@@ -89,4 +89,28 @@ describe("HorizontalBarItem", () => {
     expect(rect).toHaveAttribute("fill", "#ffffffff");
     expect(texts[0]).toHaveAttribute("opacity", "0");
   });
+
+  it("uses barFill when provided", () => {
+    const { container } = render(
+      <svg>
+        <HorizontalBarItem
+          testId="item-gradient"
+          name="SPD"
+          value={70}
+          barHeight={8}
+          barWidth={50}
+          barFill="url(#bar-gradient)"
+          barColor="#fff"
+          x={0}
+          y={0}
+          onMouseEnter={() => {}}
+          onMouseLeave={() => {}}
+          onClick={() => {}}
+        />
+      </svg>
+    );
+
+    const rect = container.querySelector("rect");
+    expect(rect).toHaveAttribute("fill", "url(#bar-gradient)");
+  });
 });

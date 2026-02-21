@@ -1,3 +1,3 @@
 export default function Dashboard() {
-  return <div>You are signed in!</div>;
+  return <div data-testid="dashboard-page">You are signed in!</div>;
 }

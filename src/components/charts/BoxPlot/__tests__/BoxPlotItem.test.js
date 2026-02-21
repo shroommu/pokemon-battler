@@ -2,6 +2,48 @@ import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import BoxPlotItem from ".././BoxPlotItem";
 
+jest.mock("react-spring", () => {
+  const React = require("react");
+  const unwrap = (value) =>
+    value && typeof value === "object" && typeof value.to === "function"
+      ? value.to((v) => v)
+      : value;
+  const sanitize = (props) =>
+    Object.fromEntries(Object.entries(props).map(([k, v]) => [k, unwrap(v)]));
+  const mk = (tag) =>
+    React.forwardRef((props, ref) =>
+      React.createElement(tag, { ...sanitize(props), ref }, props.children)
+    );
+  return {
+    animated: {
+      line: mk("line"),
+      rect: mk("rect"),
+      g: mk("g"),
+      circle: mk("circle"),
+    },
+    useSpring: (config) => {
+      const to = config.to || {};
+      return {
+        minX: to.minX ?? 0,
+        q1X: to.q1X ?? 0,
+        meanX: to.meanX ?? 0,
+        q3X: to.q3X ?? 0,
+        maxX: to.maxX ?? 0,
+        boxWidth: to.boxWidth ?? 0,
+      };
+    },
+    useSprings: (length, configs) =>
+      Array.from({ length }, (_, index) => {
+        const config = Array.isArray(configs) ? configs[index] : configs(index);
+        const to = config?.to || {};
+        return {
+          cx: to.cx ?? 0,
+          opacity: to.opacity ?? 0,
+        };
+      }),
+  };
+});
+
 describe("BoxPlotItem", () => {
   it("renders box plot geometry and point interaction callbacks", async () => {
     const setInteractionData = jest.fn();

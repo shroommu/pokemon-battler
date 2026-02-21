@@ -1,15 +1,5 @@
-import { notFound } from "next/navigation";
-
-import Details from "..";
-import { getPokemonBySlug } from "../../getPokemonBySlug";
+import { renderDetailsPage } from "../renderDetailsPage";
 
 export default async function Page({ params }) {
-  const { pokemon: pokemonSlug } = await params;
-  const pokemon = await getPokemonBySlug(pokemonSlug);
-
-  if (!pokemon) {
-    notFound();
-  }
-
-  return <Details pokemon={pokemon} pokemonSlug={pokemonSlug} selectedTab="Moves" />;
+  return renderDetailsPage(params, "Moves");
 }

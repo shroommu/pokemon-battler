@@ -8,6 +8,8 @@
     "start": "next start",
     "lint": "eslint .",
     "test": "jest",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
     "lint-staged": "lint-staged"
   },
   "lint-staged": {
@@ -38,6 +40,10 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@storybook/addon-docs": "10.2.10",
+    "@storybook/addon-onboarding": "10.2.10",
+    "@storybook/addon-vitest": "10.2.10",
+    "@storybook/nextjs-vite": "10.2.10",
     "@babel/preset-env": "^7.24.0",
     "@babel/preset-react": "^7.23.3",
     "@tailwindcss/postcss": "^4.1.16",
@@ -52,6 +58,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "postcss": "^8",
     "react-dom": "19.2.0",
+    "storybook": "10.2.10",
     "supabase": "^2.72.8",
     "tailwindcss": "^4.1.16"
   }

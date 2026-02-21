@@ -4,6 +4,10 @@ import { slugifyPokemonName } from "@/app/utils";
 const MOVE_TABLE_LABELS = ["Name", "Type", "Power", "Accuracy", "PP", "Effect"];
 
 export default function Moves({ pokemon }) {
+  const sortedMoves = [...pokemon.pokemon_moves].sort(
+    (a, b) => (a.move.name > b.move.name) - (a.move.name < b.move.name)
+  );
+
   return (
     <section
       className="flex flex-col items-center"
@@ -14,46 +18,45 @@ export default function Moves({ pokemon }) {
         <thead className="bg-gray-300">
           <tr>
             {MOVE_TABLE_LABELS.map((moveTableLabel) => (
-              <td key={moveTableLabel} className="p-2 border-2 border-gray-500">
+              <th
+                key={moveTableLabel}
+                scope="col"
+                className="p-2 border-2 border-gray-500"
+              >
                 {moveTableLabel}
-              </td>
+              </th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {pokemon.pokemon_moves
-            .sort(
-              (a, b) =>
-                (a.move.name > b.move.name) - (a.move.name < b.move.name)
-            )
-            .map((moveData, index) => {
-              return (
-                <tr
-                  key={`move-row-${index + 1}`}
-                  data-testid={`move-row-${index + 1}`}
-                  className="bg-white"
-                >
-                  <td className="p-2 border-2 border-gray-400">
-                    {moveData.move.name}
-                  </td>
-                  <td className="p-2 border-2 border-gray-400">
-                    <TypePill typeName={moveData.move.type.name} size={"lg"} />
-                  </td>
-                  <td className="p-2 border-2 border-gray-400 text-center">
-                    {moveData.move.power ?? "--"}
-                  </td>
-                  <td className="p-2 border-2 border-gray-400 text-center">
-                    {moveData.move.accuracy ?? "--"}
-                  </td>
-                  <td className="p-2 border-2 border-gray-400 text-center">
-                    {moveData.move.pp ?? "--"}
-                  </td>
-                  <td className="p-2 border-2 border-gray-400">
-                    {moveData.move.effect}
-                  </td>
-                </tr>
-              );
-            })}
+          {sortedMoves.map((moveData, index) => {
+            return (
+              <tr
+                key={`move-row-${index + 1}`}
+                data-testid={`move-row-${index + 1}`}
+                className="bg-white"
+              >
+                <td className="p-2 border-2 border-gray-400">
+                  {moveData.move.name}
+                </td>
+                <td className="p-2 border-2 border-gray-400">
+                  <TypePill typeName={moveData.move.type.name} size={"lg"} />
+                </td>
+                <td className="p-2 border-2 border-gray-400 text-center">
+                  {moveData.move.power ?? "--"}
+                </td>
+                <td className="p-2 border-2 border-gray-400 text-center">
+                  {moveData.move.accuracy ?? "--"}
+                </td>
+                <td className="p-2 border-2 border-gray-400 text-center">
+                  {moveData.move.pp ?? "--"}
+                </td>
+                <td className="p-2 border-2 border-gray-400">
+                  {moveData.move.effect}
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </section>

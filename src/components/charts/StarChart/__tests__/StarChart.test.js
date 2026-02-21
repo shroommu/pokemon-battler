@@ -46,4 +46,39 @@ describe("StarChart", () => {
     expect(screen.getAllByTestId("value-label-mock")).toHaveLength(5);
     expect(animatedStarMock).toHaveBeenCalledTimes(2);
   });
+
+  it("renders a radial gradient definition and applies url fill when fillGradient is provided", () => {
+    const { container } = render(
+      <StarChart
+        width={300}
+        height={300}
+        data={[
+          { name: "HP", value: 100, referenceLine: 80 },
+          { name: "Attack", value: 90, referenceLine: 70 },
+          { name: "Defense", value: 80, referenceLine: 60 },
+          { name: "Special", value: 95, referenceLine: 75 },
+          { name: "Speed", value: 85, referenceLine: 65 },
+        ]}
+        fillColor="#f42"
+        fillGradient={{
+          type: "radial",
+          cx: "50%",
+          cy: "50%",
+          r: "60%",
+          stops: [
+            { offset: "0%", color: "#f42" },
+            { offset: "100%", color: "#89f" },
+          ],
+        }}
+      />
+    );
+
+    const gradient = container.querySelector("radialGradient");
+    const stops = container.querySelectorAll("stop");
+    const statsStarCall = animatedStarMock.mock.calls[0][0];
+
+    expect(gradient).toBeInTheDocument();
+    expect(stops).toHaveLength(2);
+    expect(statsStarCall.fill).toMatch(/^url\(#.+\)$/);
+  });
 });

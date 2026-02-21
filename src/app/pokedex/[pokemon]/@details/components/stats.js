@@ -101,6 +101,35 @@ export default function Stats({ pokemon }) {
     },
   ];
 
+  const barFillGradient = pokemon.secondary_type
+    ? {
+        x1: "0%",
+        y1: "0%",
+        x2: "100%",
+        y2: "100%",
+        stops: [
+          { offset: "0%", color: pokemon.primary_type.display_color },
+          { offset: "47%", color: pokemon.primary_type.display_color },
+          { offset: "53%", color: pokemon.secondary_type.display_color },
+          { offset: "100%", color: pokemon.secondary_type.display_color },
+        ],
+      }
+    : undefined;
+  const starFillGradient = pokemon.secondary_type
+    ? {
+        type: "radial",
+        cx: "50%",
+        cy: "50%",
+        r: "60%",
+        stops: [
+          { offset: "0%", color: pokemon.secondary_type.display_color },
+          { offset: "44%", color: pokemon.secondary_type.display_color },
+          { offset: "56%", color: pokemon.primary_type.display_color },
+          { offset: "100%", color: pokemon.primary_type.display_color },
+        ],
+      }
+    : undefined;
+
   return (
     <div className="flex flex-col items-center">
       <h2
@@ -125,6 +154,7 @@ export default function Stats({ pokemon }) {
               height={horizontalStatsChartDimensions.height}
               fixedDomainMax={HIGHEST_STAT}
               barFillColor={pokemon.primary_type.display_color}
+              barFillGradient={barFillGradient}
               referenceLineFillColor={tinycolor(referenceLineColor).lighten(20)}
               innerRef={horizontalStatsChartRef}
             />
@@ -139,6 +169,7 @@ export default function Stats({ pokemon }) {
               width={verticalStatsChartDimensions.width}
               height={verticalStatsChartDimensions.height}
               barFillColor={pokemon.primary_type.display_color}
+              barFillGradient={barFillGradient}
               referenceLineFillColor={tinycolor(referenceLineColor).lighten(20)}
               innerRef={verticalStatsChartRef}
             />
@@ -153,6 +184,7 @@ export default function Stats({ pokemon }) {
             height={starChartDimensions.height}
             data={statsChartData}
             fillColor={pokemon.primary_type.display_color}
+            fillGradient={starFillGradient}
             innerRef={starChartRef}
             showReferenceStar={showReferenceLine}
             referenceStarFillColor={tinycolor(referenceLineColor).lighten(20)}

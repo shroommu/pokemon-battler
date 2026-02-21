@@ -41,6 +41,15 @@ describe("middleware", () => {
     expect(redirectMock).not.toHaveBeenCalled();
   });
 
+
+  it("allows ui-playground route for unauthenticated users", () => {
+    const req = createRequest("/ui-playground");
+    const res = middleware(req);
+
+    expect(res).toEqual({ type: "next" });
+    expect(nextMock).toHaveBeenCalledTimes(1);
+    expect(redirectMock).not.toHaveBeenCalled();
+  });
   it("allows nested public routes for unauthenticated users", () => {
     const req = createRequest("/pokedex/pikachu/stats");
     const res = middleware(req);

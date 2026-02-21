@@ -1,9 +1,9 @@
-import Histogram from "@/components/charts/Histogram/Histogram";
+import { getAllPokemonWithMaxStats } from "@/services/getAllPokemonWithMaxStats";
 
-export default function UIPlayground({}) {
-  return (
-    <div>
-      <Histogram />
-    </div>
-  );
+import UIPlaygroundClient from "./UIPlaygroundClient";
+
+export default async function UIPlayground() {
+  const { data } = await getAllPokemonWithMaxStats();
+
+  return <UIPlaygroundClient pokemonData={data ?? []} />;
 }

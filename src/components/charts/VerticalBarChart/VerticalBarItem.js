@@ -7,6 +7,7 @@ export default function VerticalBarItem({
   barOrigin,
   barHeight,
   barWidth,
+  barFill,
   barColor,
   x,
   y,
@@ -39,7 +40,7 @@ export default function VerticalBarItem({
         y={springProps.y}
         width={barWidth}
         height={springProps.barHeight}
-        fill={barColor || "#ffffffff"}
+        fill={barFill || barColor || "#ffffffff"}
         rx={1}
         onMouseEnter={() => onMouseEnter()}
         onMouseLeave={() => onMouseLeave()}
