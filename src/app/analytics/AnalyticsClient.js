@@ -21,6 +21,9 @@ const ANALYTICS_SECTIONS = [
   { value: "relationships", label: "Relationships" },
 ];
 
+const CHART_TITLE_CLASS = "text-base sm:text-lg text-center";
+const CHART_SUBTITLE_CLASS = "text-xs sm:text-sm text-center mb-2";
+
 const getSectionHref = (section) => {
   if (section === "overview") {
     return "/analytics";
@@ -217,8 +220,8 @@ export default function AnalyticsClient({
               className="h-[21rem] sm:h-[24rem]"
               data-testid="analytics-overview-histogram-panel"
             >
-              <h2 className="text-base sm:text-lg">Max Stats Histogram</h2>
-              <p className="text-xs sm:text-sm mb-2">
+              <h2 className={CHART_TITLE_CLASS}>Max Stats Histogram</h2>
+              <p className={CHART_SUBTITLE_CLASS}>
                 How max stats are distributed across all Pokemon.
               </p>
               <Histogram
@@ -235,7 +238,10 @@ export default function AnalyticsClient({
 
       {resolvedSection === "distribution" && (
         <div className="flex flex-col gap-2 h-full" data-testid="analytics-distribution-section">
-          <h2 className="text-base sm:text-lg text-center">Distribution of Pokemon Max Stats Per Type</h2>
+          <h2 className={CHART_TITLE_CLASS}>Distribution of Pokemon Max Stats Per Type</h2>
+          <p className={CHART_SUBTITLE_CLASS}>
+            Compare max stat ranges and outliers across Pokemon types.
+          </p>
           <div className="hidden lg:flex lg:flex-col h-[30rem]" data-testid="analytics-horizontal-chart">
             <HorizontalBoxPlot
               width={horizontalBoxPlotDimensions.width}
@@ -268,7 +274,10 @@ export default function AnalyticsClient({
 
       {resolvedSection === "relationships" && (
         <div className="flex flex-col gap-2 h-full" data-testid="analytics-relationships-section">
-          <h2 className="text-base sm:text-lg text-center">Stat Relationships</h2>
+          <h2 className={CHART_TITLE_CLASS}>Stat Relationships</h2>
+          <p className={CHART_SUBTITLE_CLASS}>
+            Inspect how one stat changes relative to another across Pokemon.
+          </p>
           <section className="h-[30rem] sm:h-[34rem]" data-testid="analytics-relationships-scatter-panel">
             <ScatterPlot
               width={scatterPlotDimensions.width}
