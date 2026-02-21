@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 
 import { roundUpToNearestTen } from "../axisUtils";
 import Tooltip from "../components/Tooltip";
@@ -81,6 +81,41 @@ const getDomainFromValues = (values) => {
   return [domainMin, domainMax];
 };
 
+const buildTooltipChildren = ({
+  datum,
+  index,
+  tooltipContent,
+  usesTooltipRenderer,
+  xAxisLabel,
+  yAxisLabel,
+}) => {
+  if (tooltipContent) {
+    if (usesTooltipRenderer) {
+      return tooltipContent;
+    }
+
+    return (
+      <div className="flex flex-col">
+        {tooltipContent}
+        <div className="text-xs">{`${xAxisLabel}: ${datum.xValue}`}</div>
+        <div className="text-xs">{`${yAxisLabel}: ${datum.yValue}`}</div>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div>{datum.name || datum.label || `Point ${index + 1}`}</div>
+      <div>
+        {xAxisLabel}: {datum.xValue}
+      </div>
+      <div>
+        {yAxisLabel}: {datum.yValue}
+      </div>
+    </div>
+  );
+};
+
 export default function ScatterPlot({
   width,
   height,
@@ -92,9 +127,6 @@ export default function ScatterPlot({
   axisLabelFormatter,
 }) {
   const [interactionData, setInteractionData] = useState(null);
-  const containerRef = useRef(null);
-  const activeTooltipPointRef = useRef(null);
-  const tooltipPinnedRef = useRef(false);
 
   const availableAxisOptions = useMemo(
     () => axisOptions || getAxisKeysFromData(data),
@@ -157,22 +189,9 @@ export default function ScatterPlot({
   const xTicks = xScale.ticks(5);
   const yTicks = yScale.ticks(5);
 
-  const setContainerNode = (node) => {
-    containerRef.current = node;
-
-    if (typeof innerRef === "function") {
-      innerRef(node);
-      return;
-    }
-
-    if (innerRef && typeof innerRef === "object") {
-      innerRef.current = node;
-    }
-  };
-
   return (
     <div
-      ref={setContainerNode}
+      ref={innerRef}
       className="relative flex flex-col h-full w-full"
       data-testid="scatter-plot-container"
     >
@@ -248,105 +267,50 @@ export default function ScatterPlot({
                 data-testid="scatter-plot-points-layer"
               >
                 {plottedData.map((datum, index) => {
-                  const pointKey = getPointKey(datum, index);
                   const cx = xScale(datum.xValue);
                   const cy = yScale(datum.yValue);
+                  const usesTooltipRenderer = typeof datum.tooltip === "function";
 
-                  const tooltipContent =
-                    typeof datum.tooltip === "function"
-                      ? datum.tooltip({
-                          xAxisLabel,
-                          yAxisLabel,
-                          xValue: datum.xValue,
-                          yValue: datum.yValue,
-                          datum,
-                          index,
-                        })
-                      : datum.tooltip;
+                  const tooltipContent = usesTooltipRenderer
+                    ? datum.tooltip({
+                        xAxisLabel,
+                        yAxisLabel,
+                        xValue: datum.xValue,
+                        yValue: datum.yValue,
+                        datum,
+                        index,
+                      })
+                    : datum.tooltip;
+                  const tooltipChildren = buildTooltipChildren({
+                    datum,
+                    index,
+                    tooltipContent,
+                    usesTooltipRenderer,
+                    xAxisLabel,
+                    yAxisLabel,
+                  });
 
-                  const tooltipChildren = tooltipContent ? (
-                    typeof datum.tooltip === "function" ? (
-                      tooltipContent
-                    ) : (
-                      <div className="flex flex-col">
-                        {tooltipContent}
-                        <div className="text-xs">{`${xAxisLabel}: ${datum.xValue}`}</div>
-                        <div className="text-xs">{`${yAxisLabel}: ${datum.yValue}`}</div>
-                      </div>
-                    )
-                  ) : (
-                    <div>
-                      <div>{datum.name || datum.label || `Point ${index + 1}`}</div>
-                      <div>
-                        {xAxisLabel}: {datum.xValue}
-                      </div>
-                      <div>
-                        {yAxisLabel}: {datum.yValue}
-                      </div>
-                    </div>
-                  );
-
-                  const showTooltip = (event) => {
-                    const isImmediate = event?.type === "click";
-
-                    activeTooltipPointRef.current = pointKey;
-                    const tooltipData = {
+                  const showTooltip = () => {
+                    setInteractionData({
                       xPos: cx + MARGIN.left,
                       yPos: cy + MARGIN.top,
                       children: tooltipChildren,
-                    };
-
-                    if (isImmediate) {
-                      tooltipPinnedRef.current = true;
-                      setInteractionData(tooltipData);
-                      return;
-                    }
-
-                    tooltipPinnedRef.current = false;
-                    setInteractionData(tooltipData);
-                  };
-
-                  const moveTooltip = (event) => {
-                    const tooltipData = {
-                      xPos: cx + MARGIN.left,
-                      yPos: cy + MARGIN.top,
-                      children: tooltipChildren,
-                    };
-
-                    if (
-                      tooltipPinnedRef.current &&
-                      activeTooltipPointRef.current === pointKey
-                    ) {
-                      return;
-                    }
-
-                    if (tooltipPinnedRef.current) {
-                      tooltipPinnedRef.current = false;
-                    }
-
-                    setInteractionData(tooltipData);
-
-                    if (activeTooltipPointRef.current !== pointKey) {
-                      activeTooltipPointRef.current = pointKey;
-                    }
+                    });
                   };
 
                   const hideTooltip = () => {
-                    activeTooltipPointRef.current = null;
-                    tooltipPinnedRef.current = false;
                     setInteractionData(null);
                   };
 
                   return (
                     <ScatterPoint
-                      key={pointKey}
+                      key={getPointKey(datum, index)}
                       testId={`scatter-point-${index}`}
                       cx={cx}
                       cy={cy}
                       delay={index * 10}
                       fill={datum.pointColor}
                       onMouseEnter={showTooltip}
-                      onMouseMove={moveTooltip}
                       onMouseLeave={hideTooltip}
                       onClick={showTooltip}
                     />
