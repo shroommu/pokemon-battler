@@ -1,29 +1,29 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSpring, animated, to, easings } from "react-spring";
 import { locations } from "../constants";
 import { useRouter } from "next/navigation";
 
 export default function EnterPage({}) {
   const [visible, setVisible] = useState(true);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const isUnmountedRef = useRef(false);
   const router = useRouter();
+
+  useEffect(() => {
+    return () => {
+      isUnmountedRef.current = true;
+    };
+  }, []);
 
   const [logoColorSpring, logoColorApi] = useSpring(() => ({
     from: { opacity: 0.5 },
-    onRest: () => router.push(locations.INDEX),
   }));
 
   const [screenColorSpring, screenColorApi] = useSpring(() => ({
     from: { color: "#9ca3af" },
     config: { duration: 1000 },
-    onRest: () =>
-      logoColorApi.start({
-        from: { opacity: 0.5 },
-        to: { opacity: 0 },
-        config: { duration: 1000 },
-        delay: 500,
-      }),
   }));
 
   const [coverSpring, coverApi] = useSpring(() => ({
@@ -31,19 +31,17 @@ export default function EnterPage({}) {
       y: 0,
       height: 100,
     },
-    onRest: () => {
-      setVisible(false);
-      screenColorApi.start({
-        from: { color: "#9ca3af" },
-        to: { color: "#e4e4e7" },
-        config: { duration: 1000 },
-      });
-    },
     config: { duration: 1500, easing: easings.easeOutQuad },
   }));
 
-  const handleClick = () => {
-    coverApi.start({
+  const handleClick = async () => {
+    if (isAnimating) {
+      return;
+    }
+
+    setIsAnimating(true);
+
+    await coverApi.start({
       from: {
         y: 0,
         height: 100,
@@ -54,6 +52,34 @@ export default function EnterPage({}) {
       },
       delay: 300,
     });
+
+    if (isUnmountedRef.current) {
+      return;
+    }
+    setVisible(false);
+
+    await screenColorApi.start({
+      from: { color: "#9ca3af" },
+      to: { color: "#e4e4e7" },
+      config: { duration: 1000 },
+    });
+
+    if (isUnmountedRef.current) {
+      return;
+    }
+
+    await logoColorApi.start({
+      from: { opacity: 0.5 },
+      to: { opacity: 0 },
+      config: { duration: 1000 },
+      delay: 500,
+    });
+
+    if (isUnmountedRef.current) {
+      return;
+    }
+
+    router.push(locations.INDEX);
   };
 
   return (
