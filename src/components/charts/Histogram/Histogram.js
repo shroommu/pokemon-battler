@@ -24,21 +24,20 @@ export default function Histogram({
 
   const xDomain = useMemo(() => {
     if (!bins.length) {
-      return [0, 1];
+      return [0, 0];
     }
 
-    return [
-      d3.min(bins.map((bin) => bin.x0)),
-      d3.max(bins.map((bin) => bin.x1)),
-    ];
+    const maxX = d3.max(bins.map((bin) => bin.x1));
+
+    return [0, Math.max(0, maxX ?? 0)];
   }, [bins]);
 
   const yDomainMax = useMemo(() => {
     if (!bins.length) {
-      return 1;
+      return 0;
     }
 
-    return d3.max(bins.map((bin) => bin.length)) || 1;
+    return d3.max(bins.map((bin) => bin.length)) ?? 0;
   }, [bins]);
 
   const xScale = useMemo(() => {
