@@ -1,13 +1,11 @@
 import * as d3 from "d3";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
 import Tooltip from "../components/Tooltip";
 import AxisSelectorControl from "./AxisSelectorControl";
 import ScatterPoint from "./ScatterPoint";
 
 const MARGIN = { top: 30, right: 30, bottom: 52, left: 52 };
-const PASS_THROUGH_PULSE_DISTANCE = 20;
-const TOOLTIP_REST_DELAY_MS = 35;
 
 const getPointKey = (datum, index) => datum.id || `${datum.name || "point"}-${index}`;
 
@@ -94,21 +92,8 @@ export default function ScatterPlot({
 }) {
   const [interactionData, setInteractionData] = useState(null);
   const containerRef = useRef(null);
-  const tooltipRestTimerRef = useRef(null);
-  const pendingTooltipDataRef = useRef(null);
   const activeTooltipPointRef = useRef(null);
   const tooltipPinnedRef = useRef(false);
-  const pointsInPassThroughZoneRef = useRef(new Set());
-  const pulseNonceRef = useRef(0);
-  const [passThroughPulseByKey, setPassThroughPulseByKey] = useState({});
-
-  useEffect(() => {
-    return () => {
-      if (tooltipRestTimerRef.current) {
-        clearTimeout(tooltipRestTimerRef.current);
-      }
-    };
-  }, []);
 
   const availableAxisOptions = useMemo(
     () => axisOptions || getAxisKeysFromData(data),
@@ -182,94 +167,6 @@ export default function ScatterPlot({
     if (innerRef && typeof innerRef === "object") {
       innerRef.current = node;
     }
-  };
-
-  const clearTooltipRestTimer = () => {
-    if (tooltipRestTimerRef.current) {
-      clearTimeout(tooltipRestTimerRef.current);
-      tooltipRestTimerRef.current = null;
-    }
-  };
-
-  const scheduleTooltipAfterRest = (tooltipData) => {
-    pendingTooltipDataRef.current = tooltipData;
-    clearTooltipRestTimer();
-
-    tooltipRestTimerRef.current = setTimeout(() => {
-      if (pendingTooltipDataRef.current) {
-        setInteractionData(pendingTooltipDataRef.current);
-      }
-    }, TOOLTIP_REST_DELAY_MS);
-  };
-
-  const handlePointsLayerPointerMove = (event) => {
-    if (!containerRef.current || !plottedData.length) {
-      return;
-    }
-
-    const bounds = containerRef.current.getBoundingClientRect();
-    const pointerX = event.clientX - bounds.left - MARGIN.left;
-    const pointerY = event.clientY - bounds.top - MARGIN.top;
-    const maxDistanceSquared = PASS_THROUGH_PULSE_DISTANCE ** 2;
-
-    const pointsInRange = new Set();
-
-    plottedData.forEach((datum, index) => {
-      const cx = xScale(datum.xValue);
-      const cy = yScale(datum.yValue);
-      const dx = cx - pointerX;
-      const dy = cy - pointerY;
-      const distanceSquared = dx * dx + dy * dy;
-
-      if (distanceSquared <= maxDistanceSquared) {
-        pointsInRange.add(getPointKey(datum, index));
-      }
-    });
-
-    if (!pointsInRange.size) {
-      pointsInPassThroughZoneRef.current = new Set();
-      return;
-    }
-
-    const newlyEnteredPointKeys = [];
-    pointsInRange.forEach((pointKey) => {
-      if (!pointsInPassThroughZoneRef.current.has(pointKey)) {
-        newlyEnteredPointKeys.push(pointKey);
-      }
-    });
-
-    pointsInPassThroughZoneRef.current = pointsInRange;
-
-    if (!newlyEnteredPointKeys.length) {
-      return;
-    }
-
-    setPassThroughPulseByKey((previous) => {
-      const next = { ...previous };
-
-      newlyEnteredPointKeys.forEach((pointKey) => {
-        pulseNonceRef.current += 1;
-        next[pointKey] = pulseNonceRef.current;
-      });
-
-      return next;
-    });
-  };
-
-  const handlePointsLayerPointerLeave = () => {
-    pointsInPassThroughZoneRef.current = new Set();
-  };
-
-  const handlePointsLayerPointerCancel = () => {
-    pointsInPassThroughZoneRef.current = new Set();
-  };
-
-  const handlePointsLayerPointerOut = (event) => {
-    if (event.currentTarget.contains(event.relatedTarget)) {
-      return;
-    }
-
-    pointsInPassThroughZoneRef.current = new Set();
   };
 
   return (
@@ -348,10 +245,6 @@ export default function ScatterPlot({
 
               <g
                 data-testid="scatter-plot-points-layer"
-                onPointerMove={handlePointsLayerPointerMove}
-                onPointerLeave={handlePointsLayerPointerLeave}
-                onPointerCancel={handlePointsLayerPointerCancel}
-                onPointerOut={handlePointsLayerPointerOut}
               >
                 {plottedData.map((datum, index) => {
                   const pointKey = getPointKey(datum, index);
@@ -388,15 +281,12 @@ export default function ScatterPlot({
 
                     if (isImmediate) {
                       tooltipPinnedRef.current = true;
-                      clearTooltipRestTimer();
-                      pendingTooltipDataRef.current = null;
                       setInteractionData(tooltipData);
                       return;
                     }
 
                     tooltipPinnedRef.current = false;
-                    setInteractionData(null);
-                    scheduleTooltipAfterRest(tooltipData);
+                    setInteractionData(tooltipData);
                   };
 
                   const moveTooltip = (event) => {
@@ -417,8 +307,7 @@ export default function ScatterPlot({
                       tooltipPinnedRef.current = false;
                     }
 
-                    setInteractionData(null);
-                    scheduleTooltipAfterRest(tooltipData);
+                    setInteractionData(tooltipData);
 
                     if (activeTooltipPointRef.current !== pointKey) {
                       activeTooltipPointRef.current = pointKey;
@@ -428,8 +317,6 @@ export default function ScatterPlot({
                   const hideTooltip = () => {
                     activeTooltipPointRef.current = null;
                     tooltipPinnedRef.current = false;
-                    pendingTooltipDataRef.current = null;
-                    clearTooltipRestTimer();
                     setInteractionData(null);
                   };
 
@@ -440,7 +327,6 @@ export default function ScatterPlot({
                       cx={cx}
                       cy={cy}
                       delay={index * 10}
-                      pulseTrigger={passThroughPulseByKey[pointKey] || 0}
                       fill={datum.pointColor}
                       onMouseEnter={showTooltip}
                       onMouseMove={moveTooltip}
