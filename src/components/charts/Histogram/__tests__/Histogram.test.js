@@ -51,12 +51,12 @@ describe("Histogram", () => {
     expect(screen.getByTestId("histogram-bin-0")).toBeInTheDocument();
     expect(screen.getByTestId("histogram-bin-1")).toBeInTheDocument();
 
-    await user.hover(screen.getByTestId("histogram-bin-0"));
+    await user.hover(screen.getByTestId("histogram-bin-0").querySelector("rect"));
     expect(screen.getByTestId("tooltip-mock")).toHaveTextContent("0 - 10: 3");
-    await user.unhover(screen.getByTestId("histogram-bin-0"));
+    await user.unhover(screen.getByTestId("histogram-bin-0").querySelector("rect"));
     expect(screen.getByTestId("tooltip-mock")).toBeEmptyDOMElement();
 
-    await user.click(screen.getByTestId("histogram-bin-1"));
+    await user.click(screen.getByTestId("histogram-bin-1").querySelector("rect"));
     expect(screen.getByTestId("tooltip-mock")).toHaveTextContent("10 - 20: 6");
   });
 
@@ -84,7 +84,7 @@ describe("Histogram", () => {
 
     // Check for at least one x-axis tick label
     const tickLabels = Array.from(svg.querySelectorAll("text")).filter(
-      (text) => text.getAttribute("y") > 180 // y > boundsHeight, rough check
+      (text) => text.getAttribute("fill") === "#808080"
     );
     expect(tickLabels.length).toBeGreaterThan(0);
   });

@@ -4,6 +4,7 @@ import * as d3 from "d3";
 import { useMemo, useState } from "react";
 
 
+import { roundUpToNearestTen } from "../axisUtils";
 import Tooltip from "../components/Tooltip";
 import HistogramBar from "./HistogramBar";
 
@@ -24,20 +25,20 @@ export default function Histogram({
 
   const xDomain = useMemo(() => {
     if (!bins.length) {
-      return [0, 0];
+      return [0, 10];
     }
 
     const maxX = d3.max(bins.map((bin) => bin.x1));
 
-    return [0, Math.max(0, maxX ?? 0)];
+    return [0, roundUpToNearestTen(maxX)];
   }, [bins]);
 
   const yDomainMax = useMemo(() => {
     if (!bins.length) {
-      return 0;
+      return 10;
     }
 
-    return d3.max(bins.map((bin) => bin.length)) ?? 0;
+    return roundUpToNearestTen(d3.max(bins.map((bin) => bin.length)));
   }, [bins]);
 
   const xScale = useMemo(() => {

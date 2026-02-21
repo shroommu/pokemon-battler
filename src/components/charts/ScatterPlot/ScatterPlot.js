@@ -1,6 +1,7 @@
 import * as d3 from "d3";
 import { useMemo, useRef, useState } from "react";
 
+import { roundUpToNearestTen } from "../axisUtils";
 import Tooltip from "../components/Tooltip";
 import AxisSelectorControl from "./AxisSelectorControl";
 import ScatterPoint from "./ScatterPoint";
@@ -67,14 +68,14 @@ const getDomainFromValues = (values) => {
   const [min, max] = d3.extent(values);
 
   if (min === undefined || max === undefined) {
-    return [0, 1];
+    return [0, 10];
   }
 
   const domainMin = 0;
-  const domainMax = Math.max(0, max);
+  const domainMax = roundUpToNearestTen(max);
 
   if (domainMin === domainMax) {
-    return [0, 1];
+    return [0, 10];
   }
 
   return [domainMin, domainMax];

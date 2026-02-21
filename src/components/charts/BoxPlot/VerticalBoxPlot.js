@@ -3,6 +3,7 @@
 import { useMemo, useState, useRef } from "react";
 import { scaleBand, scaleLinear } from "d3";
 
+import { roundUpToNearestTen } from "../axisUtils";
 import Tooltip from "../components/Tooltip";
 import BoxPlotItem from "./BoxPlotItem";
 import MultiBoxControl from "./MultiBoxControl";
@@ -49,10 +50,11 @@ export default function VerticalBoxPlot({
       return value === true;
     })
     .map(([key, _]) => key);
+  const domainMax = roundUpToNearestTen(fixedDomainMax);
 
   const xScale = useMemo(() => {
-    return scaleLinear().domain([0, fixedDomainMax]).range([0, boundsWidth]);
-  }, [fixedDomainMax, boundsWidth]);
+    return scaleLinear().domain([0, domainMax]).range([0, boundsWidth]);
+  }, [domainMax, boundsWidth]);
 
   const yScale = useMemo(() => {
     return scaleBand()

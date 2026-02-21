@@ -2,6 +2,7 @@ import * as d3 from "d3";
 import { useMemo, useState } from "react";
 
 import Tooltip from "../components/Tooltip";
+import { roundUpToNearestTen } from "../axisUtils";
 import HorizontalBarItem from "./HorizontalBarItem";
 import HorizontalBarReferenceLine from "./HorizontalBarReferenceLine";
 
@@ -29,6 +30,7 @@ export default function HorizontalBarChart({
     : showReferenceLine
       ? d3.max(data.map((d) => d3.max([d.value, d.referenceLine])))
       : domainMax;
+  const roundedDomainMax = roundUpToNearestTen(domainMaxWithReferenceLine);
 
   const groups = data.map((d) => d.name);
 
@@ -43,9 +45,9 @@ export default function HorizontalBarChart({
   const xScale = useMemo(() => {
     return d3
       .scaleLinear()
-      .domain([0, domainMaxWithReferenceLine])
+      .domain([0, roundedDomainMax])
       .range([0, boundsWidth]);
-  }, [domainMaxWithReferenceLine, boundsWidth]);
+  }, [roundedDomainMax, boundsWidth]);
 
   const allShapes = data.map((d, index) => {
     const y = yScale(d.name);

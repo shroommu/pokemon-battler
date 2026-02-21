@@ -2,6 +2,7 @@ import * as d3 from "d3";
 import { useMemo, useState } from "react";
 
 import Tooltip from "../components/Tooltip";
+import { roundUpToNearestTen } from "../axisUtils";
 import VerticalBarItem from "./VerticalBarItem";
 import VerticalBarReferenceLine from "./VerticalBarReferenceLine";
 
@@ -29,6 +30,7 @@ export default function VerticalBarChart({
     : showReferenceLine
       ? d3.max(data.map((d) => d3.max([d.value, d.referenceLine])))
       : domainMax;
+  const roundedDomainMax = roundUpToNearestTen(domainMaxWithReferenceLine);
 
   const groups = data.map((d) => d.name);
 
@@ -43,9 +45,9 @@ export default function VerticalBarChart({
   const yScale = useMemo(() => {
     return d3
       .scaleLinear()
-      .domain([0, domainMaxWithReferenceLine])
+      .domain([0, roundedDomainMax])
       .range([0, boundsHeight]);
-  }, [domainMaxWithReferenceLine, boundsHeight]);
+  }, [roundedDomainMax, boundsHeight]);
 
   const allShapes = data.map((d, index) => {
     const x = xScale(d.name);
