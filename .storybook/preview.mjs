@@ -1,6 +1,17 @@
+import { createElement } from "react";
 import "../src/app/globals.css";
 
 const preview = {
+  decorators: [
+    (Story, context) => {
+      const isChartStory = context.title?.includes("06 Charts");
+      const style = isChartStory
+        ? { minHeight: "560px", padding: "16px" }
+        : { padding: "16px" };
+
+      return createElement("div", { style }, createElement(Story));
+    },
+  ],
   parameters: {
     controls: {
       matchers: {

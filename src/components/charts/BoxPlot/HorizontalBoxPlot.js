@@ -113,7 +113,7 @@ export default function BoxPlot({
       ref={innerRef}
     >
       <div data-testid="boxplot-container" className="w-full">
-        <svg width={svgWidth} className="w-full h-full">
+        <svg width={svgWidth} height={height} className="w-full">
           {width > 0 && height > 0 && (
             <g
               width={boundsWidth}
@@ -159,12 +159,17 @@ export default function BoxPlot({
             position: "absolute",
             top: 0,
             left: 0,
+            width: svgWidth,
+            height,
             pointerEvents: "none",
           }}
           data-testid="tooltip-layer"
-          className="w-full h-full"
+          className="w-full"
         >
-          <Tooltip interactionData={interactionData} position="horizontal-auto" />
+          <Tooltip
+            interactionData={interactionData}
+            position="horizontal-auto"
+          />
         </div>
       </div>
       <div className="h-full">
