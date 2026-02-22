@@ -4,6 +4,7 @@ import { useMemo, useRef } from "react";
 
 import ScatterPlot from "@/components/charts/ScatterPlot/ScatterPlot";
 import Histogram from "@/components/charts/Histogram/Histogram";
+import ChartFrame from "@/components/charts/components/ChartFrame";
 import { useDimensions } from "@/hooks/useDimensions";
 import { getHistogramData, getScatterPlotData } from "@/utils";
 
@@ -24,18 +25,28 @@ export default function UIPlaygroundClient({ pokemonData = [] }) {
   return (
     <div className="space-y-8 p-4">
       <div className="h-2/3">
-        <ScatterPlot
-          width={scatterPlotDimensions.width}
-          height={scatterPlotDimensions.height}
-          innerRef={scatterPlotRef}
-          data={scatterPlotData}
-          axisOptions={SCATTER_PLOT_AXIS_OPTIONS}
-          initialXAxisKey="attack"
-          initialYAxisKey="speed"
-        />
+        <ChartFrame
+          title="Pokemon Stat Distribution"
+          subtitle="Compare two selected stats across Pokemon"
+        >
+          <ScatterPlot
+            width={scatterPlotDimensions.width}
+            height={scatterPlotDimensions.height}
+            innerRef={scatterPlotRef}
+            data={scatterPlotData}
+            axisOptions={SCATTER_PLOT_AXIS_OPTIONS}
+            initialXAxisKey="attack"
+            initialYAxisKey="speed"
+          />
+        </ChartFrame>
       </div>
       <div>
-        <Histogram bins={histogramBins} />
+        <ChartFrame
+          title="Max Stats Histogram"
+          subtitle="Distribution of max stat totals in the current dataset"
+        >
+          <Histogram bins={histogramBins} />
+        </ChartFrame>
       </div>
     </div>
   );

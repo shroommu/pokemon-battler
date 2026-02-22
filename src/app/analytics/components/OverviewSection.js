@@ -1,4 +1,5 @@
 import Histogram from "@/components/charts/Histogram/Histogram";
+import ChartFrame from "@/components/charts/components/ChartFrame";
 
 export default function OverviewSection({
   overviewStats,
@@ -55,17 +56,18 @@ export default function OverviewSection({
           className="h-[21rem] sm:h-[24rem]"
           data-testid="analytics-overview-histogram-panel"
         >
-          <h2 className="text-base sm:text-lg">Max Stats Histogram</h2>
-          <p className="text-xs sm:text-sm mb-2">
-            How max stats are distributed across all Pokemon.
-          </p>
-          <Histogram
-            width={histogramDimensions.width}
-            height={histogramDimensions.height}
-            bins={histogramData}
-            barFillColor="#616161ff"
-            innerRef={histogramRef}
-          />
+          <ChartFrame
+            title="Max Stats Histogram"
+            subtitle="How max stats are distributed across all Pokemon."
+          >
+            <Histogram
+              width={histogramDimensions.width}
+              height={histogramDimensions.height}
+              bins={histogramData}
+              barFillColor="#616161ff"
+              innerRef={histogramRef}
+            />
+          </ChartFrame>
         </section>
       </div>
     </div>

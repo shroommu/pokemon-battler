@@ -263,9 +263,7 @@ export default function ScatterPlot({
                 )}
               </g>
 
-              <g
-                data-testid="scatter-plot-points-layer"
-              >
+              <g data-testid="scatter-plot-points-layer">
                 {plottedData.map((datum, index) => {
                   const cx = xScale(datum.xValue);
                   const cy = yScale(datum.yValue);

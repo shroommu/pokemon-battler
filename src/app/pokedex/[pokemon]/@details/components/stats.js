@@ -6,6 +6,7 @@ import tinycolor from "tinycolor2";
 import HorizontalBarChart from "@/components/charts/HorizontalBarChart/HorizontalBarChart";
 import VerticalBarChart from "@/components/charts/VerticalBarChart/VerticalBarChart";
 import StarChart from "@/components/charts/StarChart/StarChart";
+import ChartFrame from "@/components/charts/components/ChartFrame";
 import Button from "@/components/Button";
 
 import { useDimensions } from "@/hooks/useDimensions";
@@ -24,8 +25,7 @@ export default function Stats({ pokemon }) {
 
   async function getAllPokemonAverageStatData() {
     const data =
-      allPokemonAverageStats ??
-      (await getAllPokemonAverageStats()).data;
+      allPokemonAverageStats ?? (await getAllPokemonAverageStats()).data;
 
     if (!allPokemonAverageStats) {
       setAllPokemonAverageStats(data);
@@ -140,55 +140,70 @@ export default function Stats({ pokemon }) {
       </h2>
       <div className="flex flex-col lg:flex-row xl:flex-col h-full w-full">
         <section
-          className="flex flex-col w-full lg:flex-3 xl:flex-auto h-64"
+          className="flex flex-col w-full lg:flex-3 xl:flex-auto"
           data-testid="stats-bar-charts-container"
         >
-          <div
-            className="hidden xl:flex xl:h-64 h-full w-full"
-            data-testid="horizontal-stats-bar-chart-container"
+          <ChartFrame
+            title="Bar Comparison"
+            subtitle="Per-stat values with optional comparison reference lines"
           >
-            <HorizontalBarChart
-              data={statsChartData}
-              showReferenceLine={showReferenceLine}
-              width={horizontalStatsChartDimensions.width}
-              height={horizontalStatsChartDimensions.height}
-              fixedDomainMax={HIGHEST_STAT}
-              barFillColor={pokemon.primary_type.display_color}
-              barFillGradient={barFillGradient}
-              referenceLineFillColor={tinycolor(referenceLineColor).lighten(20)}
-              innerRef={horizontalStatsChartRef}
-            />
-          </div>
-          <div
-            className="flex xl:hidden h-64 w-full"
-            data-testid="vertical-stats-bar-chart-container"
-          >
-            <VerticalBarChart
-              data={statsChartData}
-              showReferenceLine={showReferenceLine}
-              width={verticalStatsChartDimensions.width}
-              height={verticalStatsChartDimensions.height}
-              barFillColor={pokemon.primary_type.display_color}
-              barFillGradient={barFillGradient}
-              referenceLineFillColor={tinycolor(referenceLineColor).lighten(20)}
-              innerRef={verticalStatsChartRef}
-            />
-          </div>
+            <div
+              className="hidden xl:flex xl:h-64 h-full w-full"
+              data-testid="horizontal-stats-bar-chart-container"
+            >
+              <HorizontalBarChart
+                data={statsChartData}
+                showReferenceLine={showReferenceLine}
+                width={horizontalStatsChartDimensions.width}
+                height={horizontalStatsChartDimensions.height}
+                fixedDomainMax={HIGHEST_STAT}
+                barFillColor={pokemon.primary_type.display_color}
+                barFillGradient={barFillGradient}
+                referenceLineFillColor={tinycolor(referenceLineColor).lighten(
+                  20,
+                )}
+                innerRef={horizontalStatsChartRef}
+              />
+            </div>
+            <div
+              className="flex xl:hidden h-64 w-full"
+              data-testid="vertical-stats-bar-chart-container"
+            >
+              <VerticalBarChart
+                data={statsChartData}
+                showReferenceLine={showReferenceLine}
+                width={verticalStatsChartDimensions.width}
+                height={verticalStatsChartDimensions.height}
+                barFillColor={pokemon.primary_type.display_color}
+                barFillGradient={barFillGradient}
+                referenceLineFillColor={tinycolor(referenceLineColor).lighten(
+                  20,
+                )}
+                innerRef={verticalStatsChartRef}
+              />
+            </div>
+          </ChartFrame>
         </section>
-        <section
-          data-testid="star-chart-container"
-          className="h-64 lg:flex-2 xl:flex-auto w-full"
-        >
-          <StarChart
-            width={starChartDimensions.width}
-            height={starChartDimensions.height}
-            data={statsChartData}
-            fillColor={pokemon.primary_type.display_color}
-            fillGradient={starFillGradient}
-            innerRef={starChartRef}
-            showReferenceStar={showReferenceLine}
-            referenceStarFillColor={tinycolor(referenceLineColor).lighten(20)}
-          />
+        <section data-testid="star-chart-title-container" className="w-full">
+          <ChartFrame
+            title="Radar View"
+            subtitle="Shape-based comparison across all core stats"
+          >
+            <div className="h-64 w-full" data-testid="star-chart-container">
+              <StarChart
+                width={starChartDimensions.width}
+                height={starChartDimensions.height}
+                data={statsChartData}
+                fillColor={pokemon.primary_type.display_color}
+                fillGradient={starFillGradient}
+                innerRef={starChartRef}
+                showReferenceStar={showReferenceLine}
+                referenceStarFillColor={tinycolor(referenceLineColor).lighten(
+                  20,
+                )}
+              />
+            </div>
+          </ChartFrame>
         </section>
       </div>
       <div
