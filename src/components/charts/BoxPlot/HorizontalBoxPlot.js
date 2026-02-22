@@ -18,6 +18,7 @@ export default function BoxPlot({
   multi = false,
   filterList = [],
   xLabel = "X Axis",
+  ariaLabel = "Horizontal box plot",
   valueKey,
   data,
 }) {
@@ -113,7 +114,13 @@ export default function BoxPlot({
       ref={innerRef}
     >
       <div data-testid="boxplot-container" className="w-full">
-        <svg width={svgWidth} height={height} className="w-full">
+        <svg
+          width={svgWidth}
+          height={height}
+          className="w-full"
+          role="img"
+          aria-label={ariaLabel}
+        >
           {width > 0 && height > 0 && (
             <g
               width={boundsWidth}

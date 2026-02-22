@@ -18,6 +18,7 @@ export default function VerticalBoxPlot({
   multi = false,
   filterList = [],
   xLabel = "X Axis",
+  ariaLabel = "Vertical box plot",
   valueKey,
   data,
 }) {
@@ -116,6 +117,8 @@ export default function VerticalBoxPlot({
         <svg
           height={svgHeight}
           className="w-full h-full"
+          role="img"
+          aria-label={ariaLabel}
         >
           {width > 0 && height > 0 && (
             <g

@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import BoxPlotItem from ".././BoxPlotItem";
 
@@ -84,5 +84,11 @@ describe("BoxPlotItem", () => {
     expect(setInteractionData).toHaveBeenLastCalledWith(null);
     await user.click(point);
     expect(setInteractionData).toHaveBeenCalled();
+
+    point.focus();
+    await user.keyboard("{Enter}");
+    expect(setInteractionData).toHaveBeenCalled();
+
+    expect(screen.getByRole("button", { name: "A: 25" })).toBeInTheDocument();
   });
 });

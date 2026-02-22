@@ -88,6 +88,7 @@ describe("HorizontalBoxPlot", () => {
     );
 
     expect(screen.getByTestId("boxplot-and-controls-container")).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "Horizontal box plot" })).toBeInTheDocument();
     expect(screen.getByTestId("padding-group")).toBeInTheDocument();
     expect(screen.getByTestId("plot-label-group")).toBeInTheDocument();
     expect(screen.getByTestId("multi-control-mock")).toBeInTheDocument();

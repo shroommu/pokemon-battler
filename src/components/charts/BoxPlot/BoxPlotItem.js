@@ -123,6 +123,22 @@ export default function BoxPlotItem({
               chartWidth,
               children: dataPoint.tooltip,
             });
+
+          const hideTooltip = () => setInteractionData(null);
+          const pointName = dataPoint.name || `Point ${index + 1}`;
+          const pointValue = dataPoint[valueKey];
+          const pointAriaLabel =
+            typeof pointValue === "number"
+              ? `${pointName}: ${pointValue}`
+              : pointName;
+
+          const onPointKeyDown = (event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              showTooltip();
+            }
+          };
+
           return (
             <animated.circle
               r={4}
@@ -130,10 +146,17 @@ export default function BoxPlotItem({
               cy={yPos}
               key={dataPoint.name}
               data-testid={dataPoint.name}
+              role="button"
+              tabIndex={0}
+              focusable="true"
+              aria-label={pointAriaLabel}
               opacity={pointSprings[index].opacity}
               className="[transform-box:fill-box] [transform-origin:center] hover:scale-150"
               onMouseEnter={() => showTooltip()}
-              onMouseLeave={() => setInteractionData(null)}
+              onMouseLeave={hideTooltip}
+              onFocus={() => showTooltip()}
+              onBlur={hideTooltip}
+              onKeyDown={onPointKeyDown}
               onClick={() => showTooltip()}
             />
           );
