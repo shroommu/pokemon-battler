@@ -1,4 +1,4 @@
-import HorizontalBarItem from "./HorizontalBarItem";
+import HorizontalBarItem from "../HorizontalBarItem";
 
 const meta = {
   title: "UI/03 Interactive/Chart Primitives/HorizontalBarItem",

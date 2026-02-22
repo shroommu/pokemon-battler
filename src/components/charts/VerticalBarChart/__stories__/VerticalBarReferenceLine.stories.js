@@ -1,4 +1,4 @@
-import VerticalBarReferenceLine from "./VerticalBarReferenceLine";
+import VerticalBarReferenceLine from "../VerticalBarReferenceLine";
 
 const meta = {
   title: "UI/03 Interactive/Chart Primitives/VerticalBarReferenceLine",

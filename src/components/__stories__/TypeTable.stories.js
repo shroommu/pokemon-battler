@@ -1,4 +1,4 @@
-import TypeTable from "./TypeTable";
+import TypeTable from "../TypeTable";
 
 const meta = {
   title: "UI/05 Data Display/TypeTable",

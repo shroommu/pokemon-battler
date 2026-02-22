@@ -1,4 +1,4 @@
-import HorizontalBarReferenceLine from "./HorizontalBarReferenceLine";
+import HorizontalBarReferenceLine from "../HorizontalBarReferenceLine";
 
 const meta = {
   title: "UI/03 Interactive/Chart Primitives/HorizontalBarReferenceLine",

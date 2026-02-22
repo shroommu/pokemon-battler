@@ -1,4 +1,4 @@
-import { Skeleton, SVGSkeleton } from "./LoadingIndicators";
+import { Skeleton, SVGSkeleton } from "../LoadingIndicators";
 
 const meta = {
   title: "UI/02 Composed/LoadingIndicators",

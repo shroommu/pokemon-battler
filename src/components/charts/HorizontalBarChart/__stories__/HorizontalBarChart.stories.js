@@ -1,4 +1,4 @@
-import HorizontalBarChart from "./HorizontalBarChart";
+import HorizontalBarChart from "../HorizontalBarChart";
 
 const sampleData = [
   {

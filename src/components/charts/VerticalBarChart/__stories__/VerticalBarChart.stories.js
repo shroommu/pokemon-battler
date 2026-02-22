@@ -1,4 +1,4 @@
-import VerticalBarChart from "./VerticalBarChart";
+import VerticalBarChart from "../VerticalBarChart";
 
 const sampleData = [
   {

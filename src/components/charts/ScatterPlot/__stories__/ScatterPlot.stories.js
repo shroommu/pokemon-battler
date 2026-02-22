@@ -1,4 +1,5 @@
-import ScatterPlot from "./ScatterPlot";
+import ScatterPlot from "../ScatterPlot";
+import ChartFrame from "../../components/ChartFrame";
 
 const sampleData = [
   {
@@ -39,6 +40,14 @@ const meta = {
     initialXAxisKey: "attack",
     initialYAxisKey: "speed",
   },
+  render: (args) => (
+    <ChartFrame
+      title="Pokemon Stat Distribution"
+      subtitle="Compare stat pairs across starter Pokemon"
+    >
+      <ScatterPlot {...args} />
+    </ChartFrame>
+  ),
 };
 
 export default meta;

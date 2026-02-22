@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import ScatterPoint from "./ScatterPoint";
+import ScatterPoint from "../ScatterPoint";
 
 const meta = {
   title: "UI/03 Interactive/Chart Primitives/ScatterPoint",

@@ -1,4 +1,4 @@
-import Dropdown from "./Dropdown";
+import Dropdown from "../Dropdown";
 
 const menuItems = (
   <div className="w-56">

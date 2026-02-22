@@ -1,4 +1,4 @@
-import StarChart from "./StarChart";
+import StarChart from "../StarChart";
 
 const statsData = [
   { name: "HP", value: 65, referenceLine: 60 },

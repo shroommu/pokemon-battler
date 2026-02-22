@@ -1,4 +1,4 @@
-import Menu from "./Menu";
+import Menu from "../Menu";
 
 const meta = {
   title: "UI/02 Composed/Menu",

@@ -1,4 +1,4 @@
-import AnimatedValueLabel from "./AnimatedValueLabel";
+import AnimatedValueLabel from "../AnimatedValueLabel";
 
 const meta = {
   title: "UI/03 Interactive/Chart Primitives/AnimatedValueLabel",

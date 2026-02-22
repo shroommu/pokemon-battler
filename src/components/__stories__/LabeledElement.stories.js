@@ -1,5 +1,5 @@
-import Input from "./Input";
-import LabeledElement from "./LabeledElement";
+import Input from "../Input";
+import LabeledElement from "../LabeledElement";
 
 const meta = {
   title: "UI/02 Composed/LabeledElement",

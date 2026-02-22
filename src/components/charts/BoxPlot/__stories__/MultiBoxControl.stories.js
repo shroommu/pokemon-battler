@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import MultiBoxControl from "./MultiBoxControl";
+import MultiBoxControl from "../MultiBoxControl";
 
 const filterList = ["Fire", "Water", "Grass"];
 

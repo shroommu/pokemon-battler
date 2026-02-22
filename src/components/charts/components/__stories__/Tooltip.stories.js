@@ -1,4 +1,4 @@
-import Tooltip from "./Tooltip";
+import Tooltip from "../Tooltip";
 
 const meta = {
   title: "UI/03 Interactive/Chart Primitives/Tooltip",

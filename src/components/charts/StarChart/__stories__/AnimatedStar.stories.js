@@ -1,4 +1,4 @@
-import AnimatedStar from "./AnimatedStar";
+import AnimatedStar from "../AnimatedStar";
 
 const starPoints = [
   { x: 5, y: 1 },

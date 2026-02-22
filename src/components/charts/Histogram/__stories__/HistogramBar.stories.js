@@ -1,4 +1,4 @@
-import HistogramBar from "./HistogramBar";
+import HistogramBar from "../HistogramBar";
 
 const meta = {
   title: "UI/03 Interactive/Chart Primitives/HistogramBar",

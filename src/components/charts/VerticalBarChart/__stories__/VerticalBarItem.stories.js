@@ -1,4 +1,4 @@
-import VerticalBarItem from "./VerticalBarItem";
+import VerticalBarItem from "../VerticalBarItem";
 
 const meta = {
   title: "UI/03 Interactive/Chart Primitives/VerticalBarItem",

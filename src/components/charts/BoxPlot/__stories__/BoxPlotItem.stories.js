@@ -1,4 +1,4 @@
-import BoxPlotItem from "./BoxPlotItem";
+import BoxPlotItem from "../BoxPlotItem";
 import { getBoxplotData } from "@/utils/getBoxplotData";
 
 const dataPoints = [

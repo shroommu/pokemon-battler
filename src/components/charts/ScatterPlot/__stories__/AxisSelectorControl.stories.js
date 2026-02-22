@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import AxisSelectorControl from "./AxisSelectorControl";
+import AxisSelectorControl from "../AxisSelectorControl";
 
 const axisOptions = ["hp", "attack", "defense", "speed"];
 

@@ -1,4 +1,4 @@
-import Histogram from "./Histogram";
+import Histogram from "../Histogram";
 
 const sampleBins = [
   { x0: 0, x1: 10, length: 4 },

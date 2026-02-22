@@ -1,4 +1,4 @@
-import BoxPlot from "./HorizontalBoxPlot";
+import BoxPlot from "../HorizontalBoxPlot";
 import { getBoxplotData } from "@/utils/getBoxplotData";
 
 const hpDataPoints = [

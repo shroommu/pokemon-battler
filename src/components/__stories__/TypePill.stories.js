@@ -1,4 +1,4 @@
-import TypePill from "./TypePill";
+import TypePill from "../TypePill";
 
 const meta = {
   title: "UI/01 Primitives/TypePill",
