@@ -11,10 +11,19 @@ describe("Dropdown", () => {
       </Dropdown>
     );
 
-    expect(screen.queryByTestId("sample-list")).not.toBeInTheDocument();
-    await user.click(screen.getByRole("button", { name: "Open" }));
-    expect(screen.getByTestId("sample-list")).toBeInTheDocument();
-    await user.click(screen.getByTestId("sample-list"));
-    expect(screen.queryByTestId("sample-list")).not.toBeInTheDocument();
+    const trigger = screen.getByRole("button", { name: "Open" });
+
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+    expect(screen.queryByRole("menu", { name: "Open menu" })).not.toBeInTheDocument();
+
+    await user.click(trigger);
+
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
+    expect(screen.getByRole("menu", { name: "Open menu" })).toBeInTheDocument();
+
+    await user.click(screen.getByRole("menu", { name: "Open menu" }));
+
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+    expect(screen.queryByRole("menu", { name: "Open menu" })).not.toBeInTheDocument();
   });
 });

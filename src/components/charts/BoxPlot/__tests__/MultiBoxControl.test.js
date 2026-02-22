@@ -15,18 +15,21 @@ describe("MultiBoxControl", () => {
       />
     );
 
-    const checkboxes = screen.getAllByRole("checkbox");
+    const allCheckbox = screen.getByRole("checkbox", { name: "All" });
+    const fireCheckbox = screen.getByRole("checkbox", { name: "Fire" });
+    const waterCheckbox = screen.getByRole("checkbox", { name: "Water" });
+    expect(screen.getByRole("group", { name: "Filter categories" })).toBeInTheDocument();
 
-    await user.click(checkboxes[0]);
+    await user.click(allCheckbox);
     expect(onChange).toHaveBeenLastCalledWith({ All: true, Fire: true, Water: true });
 
-    await user.click(checkboxes[2]);
+    await user.click(waterCheckbox);
     expect(onChange).toHaveBeenLastCalledWith({ All: false, Fire: true, Water: true });
 
-    await user.click(checkboxes[1]);
+    await user.click(fireCheckbox);
     expect(onChange).toHaveBeenLastCalledWith({ All: false, Fire: false, Water: false });
 
-    await user.click(checkboxes[0]);
-    expect(onChange).toHaveBeenLastCalledWith({ All: false, Fire: false, Water: false });
+    await user.click(allCheckbox);
+    expect(onChange).toHaveBeenLastCalledWith({ All: true, Fire: true, Water: true });
   });
 });

@@ -1,17 +1,15 @@
 import React from "react";
 import Link from "next/link";
 
-import Button from "@/components/Button";
-
 export default function NavButton({ href, buttonText }) {
   const navButtonTestId = `nav-button-${buttonText.toLowerCase()}`;
 
   return (
-    <Link href={href}>
-      <Button
-        extraClasses={"relative flex p-0 h-10 w-20 mr-2"}
-        testId={navButtonTestId}
-      >
+    <Link
+      href={href}
+      className="relative flex h-10 w-20 mr-2"
+      data-testid={navButtonTestId}
+    >
         <svg
           viewBox="0 0 10 10"
           className="absolute h-full w-full group peer"
@@ -36,7 +34,6 @@ export default function NavButton({ href, buttonText }) {
         <div className="absolute flex h-full w-full justify-center items-center text-base text-gray-300 text-shadow-lg pointer-events-none -translate-y-[5%] peer-hover:translate-y-0 peer-active:translate-y-[5%]">
           {buttonText}
         </div>
-      </Button>
     </Link>
   );
 }

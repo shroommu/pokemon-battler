@@ -8,12 +8,12 @@ describe("pokedexEntry", () => {
     expect(container).not.toBeEmptyDOMElement();
   });
 
-  it("renders nav buttons with stable test ids", () => {
+  it("renders nav links with accessible names", () => {
     render(<Nav />);
 
-    expect(screen.getByTestId("nav-button-home")).toBeInTheDocument();
-    expect(screen.getByTestId("nav-button-pokedex")).toBeInTheDocument();
-    expect(screen.getByTestId("nav-button-analyze")).toBeInTheDocument();
-    expect(screen.getByTestId("nav-button-compare")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Home" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Pokedex" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Analyze" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Compare" })).toBeInTheDocument();
   });
 });

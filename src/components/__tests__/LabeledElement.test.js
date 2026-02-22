@@ -9,9 +9,13 @@ describe("pokedexEntry", () => {
   });
 
   it("adds a star if required", () => {
-    render(<LabeledElement label="Search" childId={"text-input"} required />);
+    render(
+      <LabeledElement label="Search" childId="text-input" required>
+        <input id="text-input" />
+      </LabeledElement>
+    );
 
-    expect(screen.getByText(/Search/)).toBeInTheDocument();
+    expect(screen.getByLabelText(/search/i)).toBeInTheDocument();
     expect(screen.getByText(/\*/)).toBeInTheDocument();
   });
 });
