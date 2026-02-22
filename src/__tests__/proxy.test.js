@@ -16,7 +16,7 @@ jest.mock("next-auth/middleware", () => ({
   },
 }));
 
-import middleware, { config } from ".././middleware";
+import middleware, { config } from "../proxy";
 
 const createRequest = (path, { token = null } = {}) => {
   const nextUrl = new URL(`https://example.com${path}`);
