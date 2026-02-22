@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import VerticalBarReferenceLine from ".././VerticalBarReferenceLine";
 
@@ -57,5 +57,15 @@ describe("VerticalBarReferenceLine", () => {
     expect(onMouseEnter).toHaveBeenCalled();
     expect(onMouseLeave).toHaveBeenCalled();
     expect(onClick).toHaveBeenCalled();
+
+    group.focus();
+    await user.keyboard("{Enter}");
+    await user.keyboard(" ");
+
+    expect(onClick).toHaveBeenCalledTimes(3);
+    expect(
+      screen.getByRole("button", { name: "Average reference line" })
+    ).toBeInTheDocument();
+    expect(group).toHaveAttribute("tabindex", "0");
   });
 });

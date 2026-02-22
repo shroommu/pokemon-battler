@@ -12,6 +12,14 @@ export default function HistogramBar({
   showTooltip,
   setInteractionData,
 }) {
+  const hideTooltip = () => setInteractionData(null);
+  const handleActivateByKeyboard = (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      showTooltip();
+    }
+  };
+
   const springProps = useSpring({
     from: {
       barHeight: 0,
@@ -37,8 +45,14 @@ export default function HistogramBar({
         height={springProps.barHeight}
         fill={barFillColor || "blue"}
         rx={1}
+        role="button"
+        tabIndex={0}
+        aria-label={`${bin.x0} to ${bin.x1}: ${bin.length}`}
         onMouseEnter={showTooltip}
-        onMouseLeave={() => setInteractionData(null)}
+        onMouseLeave={hideTooltip}
+        onFocus={showTooltip}
+        onBlur={hideTooltip}
+        onKeyDown={handleActivateByKeyboard}
         onClick={showTooltip}
       />
       <animated.text

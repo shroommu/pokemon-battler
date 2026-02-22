@@ -14,6 +14,13 @@ export default function HorizontalBarItem({
   onMouseLeave,
   onClick,
 }) {
+  const handleActivateByKeyboard = (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      onClick();
+    }
+  };
+
   const springProps = useSpring({
     from: {
       value: 0,
@@ -39,8 +46,14 @@ export default function HorizontalBarItem({
         width={springProps.barWidth}
         height={barHeight}
         fill={barFill || barColor || "#ffffffff"}
+        role="button"
+        tabIndex={0}
+        aria-label={`${name}: ${value}`}
         onMouseEnter={() => onMouseEnter()}
         onMouseLeave={() => onMouseLeave()}
+        onFocus={() => onMouseEnter()}
+        onBlur={() => onMouseLeave()}
+        onKeyDown={handleActivateByKeyboard}
         onClick={() => onClick()}
       />
       <animated.text

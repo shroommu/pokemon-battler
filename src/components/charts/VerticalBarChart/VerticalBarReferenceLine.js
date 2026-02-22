@@ -11,6 +11,13 @@ export default function VerticalBarReferenceLine({
   onMouseLeave,
   onClick,
 }) {
+  const handleActivateByKeyboard = (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      onClick();
+    }
+  };
+
   const springProps = useSpring({
     from: {
       y: barHeight,
@@ -29,8 +36,14 @@ export default function VerticalBarReferenceLine({
     <animated.g
       data-testid={testId}
       opacity={springProps.opacity}
+      role="button"
+      tabIndex={0}
+      aria-label="Average reference line"
       onMouseEnter={() => onMouseEnter()}
       onMouseLeave={() => onMouseLeave()}
+      onFocus={() => onMouseEnter()}
+      onBlur={() => onMouseLeave()}
+      onKeyDown={handleActivateByKeyboard}
       onClick={() => onClick()}
     >
       <animated.rect

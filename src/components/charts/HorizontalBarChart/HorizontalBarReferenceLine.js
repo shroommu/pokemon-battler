@@ -12,6 +12,13 @@ export default function HorizontalBarReferenceLine({
   onMouseLeave,
   onClick,
 }) {
+  const handleActivateByKeyboard = (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      onClick();
+    }
+  };
+
   const springProps = useSpring({
     from: {
       value: 0,
@@ -33,8 +40,18 @@ export default function HorizontalBarReferenceLine({
     <animated.g
       data-testid={testId}
       opacity={springProps.opacity}
+      role="button"
+      tabIndex={0}
+      aria-label={
+        typeof value === "number"
+          ? `Average reference line: ${value}`
+          : "Average reference line"
+      }
       onMouseEnter={() => onMouseEnter()}
       onMouseLeave={() => onMouseLeave()}
+      onFocus={() => onMouseEnter()}
+      onBlur={() => onMouseLeave()}
+      onKeyDown={handleActivateByKeyboard}
       onClick={() => onClick()}
     >
       <animated.rect

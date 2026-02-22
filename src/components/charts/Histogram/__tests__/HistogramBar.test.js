@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import HistogramBar from ".././HistogramBar";
 
@@ -36,7 +36,7 @@ describe("HistogramBar", () => {
     const { container, getByTestId } = render(
       <svg>
         <HistogramBar
-          bin={{ length: 5 }}
+          bin={{ x0: 0, x1: 10, length: 5 }}
           index={2}
           x={10}
           y={20}
@@ -72,6 +72,16 @@ describe("HistogramBar", () => {
 
     await user.click(rect);
     expect(showTooltip).toHaveBeenCalled();
+
+    rect.focus();
+    await user.keyboard("{Enter}");
+    await user.keyboard(" ");
+
+    expect(showTooltip.mock.calls.length).toBeGreaterThanOrEqual(4);
+    expect(
+      screen.getByRole("button", { name: "0 to 10: 5" })
+    ).toBeInTheDocument();
+    expect(rect).toHaveAttribute("tabindex", "0");
   });
 
   it("falls back to default color and hides value for short bars", () => {

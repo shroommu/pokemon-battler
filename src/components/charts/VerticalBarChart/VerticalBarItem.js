@@ -15,6 +15,13 @@ export default function VerticalBarItem({
   onMouseLeave,
   onClick,
 }) {
+  const handleActivateByKeyboard = (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      onClick();
+    }
+  };
+
   const springProps = useSpring({
     from: {
       value: 0,
@@ -42,8 +49,14 @@ export default function VerticalBarItem({
         height={springProps.barHeight}
         fill={barFill || barColor || "#ffffffff"}
         rx={1}
+        role="button"
+        tabIndex={0}
+        aria-label={`${name}: ${value}`}
         onMouseEnter={() => onMouseEnter()}
         onMouseLeave={() => onMouseLeave()}
+        onFocus={() => onMouseEnter()}
+        onBlur={() => onMouseLeave()}
+        onKeyDown={handleActivateByKeyboard}
         onClick={() => onClick()}
       />
       <animated.text

@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import HorizontalBarItem from ".././HorizontalBarItem";
 
@@ -63,6 +63,14 @@ describe("HorizontalBarItem", () => {
     expect(onMouseEnter).toHaveBeenCalled();
     expect(onMouseLeave).toHaveBeenCalled();
     expect(onClick).toHaveBeenCalled();
+
+    rect.focus();
+    await user.keyboard("{Enter}");
+    await user.keyboard(" ");
+
+    expect(onClick).toHaveBeenCalledTimes(3);
+    expect(screen.getByRole("button", { name: "HP: 42" })).toBeInTheDocument();
+    expect(rect).toHaveAttribute("tabindex", "0");
   });
 
   it("uses default bar color and low-width opacity branch", () => {
