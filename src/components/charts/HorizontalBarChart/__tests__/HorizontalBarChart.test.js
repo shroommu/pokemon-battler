@@ -101,6 +101,7 @@ describe("HorizontalBarChart", () => {
     );
 
     expect(screen.getByTestId("horizontal-bar-chart-container")).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "Horizontal bar chart" })).toBeInTheDocument();
     expect(screen.getByTestId("HP-bar-item")).toBeInTheDocument();
     expect(screen.getByTestId("HP-reference-line")).toBeInTheDocument();
 

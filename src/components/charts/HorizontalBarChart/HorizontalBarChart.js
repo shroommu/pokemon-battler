@@ -19,6 +19,7 @@ export default function HorizontalBarChart({
   referenceLineFillColor,
   fixedDomainMax,
   innerRef,
+  ariaLabel = "Horizontal bar chart",
 }) {
   const [interactionData, setInteractionData] = useState(null);
   const chartGradientId = useId().replace(/[:]/g, "");
@@ -166,7 +167,7 @@ export default function HorizontalBarChart({
       ref={innerRef}
       data-testid="horizontal-bar-chart-container"
     >
-      <svg width={width} height={height}>
+      <svg width={width} height={height} role="img" aria-label={ariaLabel}>
         {barFillGradient && (
           <defs>
             <linearGradient

@@ -101,6 +101,7 @@ describe("VerticalBarChart", () => {
     );
 
     expect(screen.getByTestId("vertical-bar-chart-container")).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "Vertical bar chart" })).toBeInTheDocument();
     expect(screen.getByTestId("Speed-bar-item")).toBeInTheDocument();
     expect(screen.getByTestId("Speed-reference-line")).toBeInTheDocument();
 

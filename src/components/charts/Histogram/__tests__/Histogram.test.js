@@ -48,6 +48,7 @@ describe("Histogram", () => {
     );
 
     expect(screen.getByTestId("histogram-container")).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "Histogram" })).toBeInTheDocument();
     expect(screen.getByTestId("histogram-bin-0")).toBeInTheDocument();
     expect(screen.getByTestId("histogram-bin-1")).toBeInTheDocument();
 

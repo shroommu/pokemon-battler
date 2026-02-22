@@ -17,6 +17,7 @@ export default function Histogram({
   barPadding = 2,
   barFillColor,
   innerRef,
+  ariaLabel = "Histogram",
 }) {
   const [interactionData, setInteractionData] = useState(null);
 
@@ -150,7 +151,7 @@ export default function Histogram({
       ref={innerRef}
       data-testid="histogram-container"
     >
-      <svg height={height} width={width}>
+      <svg height={height} width={width} role="img" aria-label={ariaLabel}>
         {width > 0 && height > 0 && (
           <g
             width={boundsWidth}

@@ -19,6 +19,7 @@ export default function VerticalBarChart({
   referenceLineFillColor,
   fixedDomainMax,
   innerRef,
+  ariaLabel = "Vertical bar chart",
 }) {
   const [interactionData, setInteractionData] = useState(null);
   const chartGradientId = useId().replace(/[:]/g, "");
@@ -158,7 +159,7 @@ export default function VerticalBarChart({
       ref={innerRef}
       data-testid="vertical-bar-chart-container"
     >
-      <svg width={width} height={height}>
+      <svg width={width} height={height} role="img" aria-label={ariaLabel}>
         {barFillGradient && (
           <defs>
             <linearGradient
