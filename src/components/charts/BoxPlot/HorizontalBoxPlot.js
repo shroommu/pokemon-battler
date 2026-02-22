@@ -1,18 +1,18 @@
 "use client";
 
-import { useMemo, useState, useRef } from "react";
+import { useMemo, useState } from "react";
 import { scaleBand, scaleLinear } from "d3";
 
 import { roundUpToNearestTen } from "../axisUtils";
 import Tooltip from "../components/Tooltip";
 import BoxPlotItem from "./BoxPlotItem";
 import MultiBoxControl from "./MultiBoxControl";
-import { useDimensions } from "@/hooks/useDimensions";
 
 export default function BoxPlot({
   width,
   height,
   padding = 30,
+  controlsWidth = 160,
   innerRef,
   fixedDomainMax,
   multi = false,
@@ -22,14 +22,11 @@ export default function BoxPlot({
   data,
 }) {
   const xLabelHeight = 24;
+  const reservedControlsWidth = multi ? controlsWidth : 0;
+  const svgWidth = Math.max(0, width - reservedControlsWidth);
 
-  const controlsRef = useRef();
-  const controlsDimensions = useDimensions(controlsRef);
-
-  const boundsWidth = multi
-    ? width - padding * 2 - controlsDimensions.width
-    : width - padding * 2;
-  const boundsHeight = height - padding * 2 - xLabelHeight;
+  const boundsWidth = Math.max(0, svgWidth - padding * 2);
+  const boundsHeight = Math.max(0, height - padding * 2 - xLabelHeight);
 
   const [interactionData, setInteractionData] = useState(null);
 
@@ -116,7 +113,7 @@ export default function BoxPlot({
       ref={innerRef}
     >
       <div data-testid="boxplot-container" className="w-full">
-        <svg width={width} className="w-full h-full">
+        <svg width={svgWidth} className="w-full h-full">
           {width > 0 && height > 0 && (
             <g
               width={boundsWidth}
@@ -176,7 +173,6 @@ export default function BoxPlot({
             filterList={filterList}
             activeFilters={activeFilters}
             onChange={setActiveFilters}
-            innerRef={controlsRef}
           />
         )}
       </div>

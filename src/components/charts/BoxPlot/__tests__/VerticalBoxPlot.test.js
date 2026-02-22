@@ -37,10 +37,6 @@ jest.mock("d3", () => {
   return { scaleLinear, scaleBand };
 });
 
-jest.mock("@/hooks/useDimensions", () => ({
-  useDimensions: () => ({ width: 80, height: 40 }),
-}));
-
 jest.mock("../../components/Tooltip", () => {
   return ({ interactionData }) => (
     <div data-testid="tooltip-mock">{interactionData ? "has-tooltip" : "no-tooltip"}</div>

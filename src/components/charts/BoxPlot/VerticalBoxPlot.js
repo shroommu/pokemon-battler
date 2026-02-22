@@ -1,18 +1,18 @@
 "use client";
 
-import { useMemo, useState, useRef } from "react";
+import { useMemo, useState } from "react";
 import { scaleBand, scaleLinear } from "d3";
 
 import { roundUpToNearestTen } from "../axisUtils";
 import Tooltip from "../components/Tooltip";
 import BoxPlotItem from "./BoxPlotItem";
 import MultiBoxControl from "./MultiBoxControl";
-import { useDimensions } from "@/hooks/useDimensions";
 
 export default function VerticalBoxPlot({
   width,
   height,
   padding = 30,
+  controlsHeight = 96,
   innerRef,
   fixedDomainMax,
   multi = false,
@@ -22,14 +22,11 @@ export default function VerticalBoxPlot({
   data,
 }) {
   const xLabelHeight = 24;
+  const reservedControlsHeight = multi ? controlsHeight : 0;
+  const svgHeight = Math.max(0, height - reservedControlsHeight);
 
-  const controlsRef = useRef();
-  const controlsDimensions = useDimensions(controlsRef);
-
-  const boundsWidth = width - padding * 2;
-  const boundsHeight = multi
-    ? height - padding * 2 - xLabelHeight - controlsDimensions.height
-    : height - padding * 2 - xLabelHeight;
+  const boundsWidth = Math.max(0, width - padding * 2);
+  const boundsHeight = Math.max(0, svgHeight - padding * 2 - xLabelHeight);
 
   const [interactionData, setInteractionData] = useState(null);
 
@@ -117,7 +114,7 @@ export default function VerticalBoxPlot({
     >
       <div data-testid="boxplot-container">
         <svg
-          height={height - controlsDimensions.height}
+          height={svgHeight}
           className="w-full h-full"
         >
           {width > 0 && height > 0 && (
@@ -168,7 +165,6 @@ export default function VerticalBoxPlot({
             filterList={filterList}
             activeFilters={activeFilters}
             onChange={setActiveFilters}
-            innerRef={controlsRef}
           />
         )}
       </div>
