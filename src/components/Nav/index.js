@@ -18,6 +18,9 @@ export default function Nav({}) {
         <li>
           <NavButton href={locations.ANALYTICS} buttonText={"Analyze"} />
         </li>
+        <li>
+          <NavButton href={locations.COMPARE} buttonText={"Compare"} />
+        </li>
       </ul>
     </nav>
   );

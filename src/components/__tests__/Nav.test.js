@@ -14,5 +14,6 @@ describe("pokedexEntry", () => {
     expect(screen.getByTestId("nav-button-home")).toBeInTheDocument();
     expect(screen.getByTestId("nav-button-pokedex")).toBeInTheDocument();
     expect(screen.getByTestId("nav-button-analyze")).toBeInTheDocument();
+    expect(screen.getByTestId("nav-button-compare")).toBeInTheDocument();
   });
 });

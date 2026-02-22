@@ -25,7 +25,9 @@ describe("MobileNavMenu", () => {
     const menuButton = screen.getByRole("button", { name: /menu/i });
 
     await user.click(menuButton);
-    expect(screen.getByTestId("mobile-menu-container")).toBeInTheDocument();
+    expect(screen.getByTestId("mobile-menu-container")).toHaveClass(
+      "pointer-events-auto"
+    );
     expect(screen.getByText("Home").closest("a")).toHaveAttribute("href", "/");
     expect(screen.getByText("Pokedex").closest("a")).toHaveAttribute(
       "href",
@@ -35,16 +37,32 @@ describe("MobileNavMenu", () => {
       "href",
       "/analytics/"
     );
+    expect(screen.getByText("Compare").closest("a")).toHaveAttribute(
+      "href",
+      "/compare/"
+    );
 
     await user.click(screen.getByText("Home"));
-    expect(screen.queryByTestId("mobile-menu-container")).not.toBeInTheDocument();
+    expect(screen.getByTestId("mobile-menu-container")).toHaveClass(
+      "pointer-events-none"
+    );
 
     await user.click(menuButton);
     await user.click(screen.getByText("Pokedex"));
-    expect(screen.queryByTestId("mobile-menu-container")).not.toBeInTheDocument();
+    expect(screen.getByTestId("mobile-menu-container")).toHaveClass(
+      "pointer-events-none"
+    );
 
     await user.click(menuButton);
     await user.click(screen.getByText("Analyze"));
-    expect(screen.queryByTestId("mobile-menu-container")).not.toBeInTheDocument();
+    expect(screen.getByTestId("mobile-menu-container")).toHaveClass(
+      "pointer-events-none"
+    );
+
+    await user.click(menuButton);
+    await user.click(screen.getByText("Compare"));
+    expect(screen.getByTestId("mobile-menu-container")).toHaveClass(
+      "pointer-events-none"
+    );
   });
 });

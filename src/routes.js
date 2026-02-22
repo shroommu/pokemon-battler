@@ -2,6 +2,7 @@ export const publicRoutes = [
   "/",
   "/pokedex",
   "/analytics",
+  "/compare",
   "/about",
   "/enter",
   "/ui-playground",
