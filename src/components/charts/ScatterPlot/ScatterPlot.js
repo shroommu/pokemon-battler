@@ -294,6 +294,7 @@ export default function ScatterPlot({
                     setInteractionData({
                       xPos: cx + MARGIN.left,
                       yPos: cy + MARGIN.top,
+                      chartWidth: width,
                       children: tooltipChildren,
                     });
                   };
@@ -331,7 +332,7 @@ export default function ScatterPlot({
           data-testid="tooltip-layer"
           className="w-full h-full z-10"
         >
-          <Tooltip interactionData={interactionData} position="top" />
+          <Tooltip interactionData={interactionData} position="horizontal-auto" />
         </div>
       </div>
       <div>

@@ -134,6 +134,7 @@ export default function BoxPlot({
                       key={key}
                       data={value.data}
                       width={xScale(value.data.max)}
+                      chartWidth={width}
                       height={yScale.bandwidth()}
                       yPos={yScale(key)}
                       valueKey={valueKey}
@@ -166,7 +167,7 @@ export default function BoxPlot({
           data-testid="tooltip-layer"
           className="w-full h-full"
         >
-          <Tooltip interactionData={interactionData} position={"top"} />
+          <Tooltip interactionData={interactionData} position="horizontal-auto" />
         </div>
       </div>
       <div className="h-full">

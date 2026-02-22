@@ -1,13 +1,13 @@
 import { tv } from "tailwind-variants";
 
 const tooltipContainerClass = tv({
-  base: "absolute",
+  base: "absolute w-max",
   variants: {
     position: {
       top: "-translate-x-1/2 -translate-y-[calc(100%+4px)]",
       bottom: "-translate-x-1/2",
-      left: "-translate-y-1/2",
-      right: "-translate-y-1/2",
+      left: "-translate-x-[calc(100%+4px)] -translate-y-1/2",
+      right: "translate-x-[4px] -translate-y-1/2",
     },
   },
 });
@@ -43,10 +43,16 @@ export default function Tooltip({ interactionData, position }) {
     return null;
   }
 
-  const { xPos, yPos, children } = interactionData;
+  const { xPos, yPos, children, chartWidth } = interactionData;
+  const resolvedPosition =
+    position === "horizontal-auto" && typeof chartWidth === "number"
+      ? xPos > chartWidth / 2
+        ? "left"
+        : "right"
+      : position;
 
   let coordinates;
-  switch (position) {
+  switch (resolvedPosition) {
     case "top":
       coordinates = {
         left: xPos,
@@ -82,20 +88,20 @@ export default function Tooltip({ interactionData, position }) {
     <div
       style={coordinates}
       className={tooltipContainerClass({
-        position: position,
+        position: resolvedPosition,
       })}
       data-testid="tooltip-container"
     >
       <div
         className={tooltipBodyClass({
-          position: position,
+          position: resolvedPosition,
         })}
         data-testid="tooltip-body"
       >
         {children}
         <div
           className={tooltipArrowClass({
-            position: position,
+            position: resolvedPosition,
           })}
           data-testid="tooltip-arrow"
         />

@@ -4,6 +4,7 @@ export default function BoxPlotItem({
   data,
   valueKey,
   width,
+  chartWidth,
   height,
   yPos,
   fillColor,
@@ -119,6 +120,7 @@ export default function BoxPlotItem({
             setInteractionData({
               xPos: (dataPoint[valueKey] * width) / data.max + tooltipOffset,
               yPos: yPos + tooltipOffset,
+              chartWidth,
               children: dataPoint.tooltip,
             });
           return (

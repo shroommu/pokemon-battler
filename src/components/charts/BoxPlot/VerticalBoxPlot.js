@@ -135,6 +135,7 @@ export default function VerticalBoxPlot({
                       key={key}
                       data={value.data}
                       width={xScale(value.data.max)}
+                      chartWidth={width}
                       height={yScale.bandwidth()}
                       yPos={yScale(key)}
                       valueKey={valueKey}
@@ -157,7 +158,7 @@ export default function VerticalBoxPlot({
           data-testid="tooltip-layer"
           className="w-full h-full"
         >
-          <Tooltip interactionData={interactionData} position={"top"} />
+          <Tooltip interactionData={interactionData} position="horizontal-auto" />
         </div>
       </div>
       <div className="w-full flex justify-center p-4 pt-0">{xLabel}</div>
