@@ -8,6 +8,11 @@ import HorizontalBarReferenceLine from "./HorizontalBarReferenceLine";
 
 const MARGIN = { top: 30, right: 30, bottom: 30, left: 30 };
 const BAR_PADDING = 0.3;
+const toTestIdSegment = (value) =>
+  String(value || "")
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/[^a-zA-Z0-9-_]/g, "");
 
 export default function HorizontalBarChart({
   width,
@@ -60,11 +65,12 @@ export default function HorizontalBarChart({
     if (y === undefined) {
       return null;
     }
+    const itemId = toTestIdSegment(d.name);
 
     return (
       <HorizontalBarItem
         key={index}
-        testId={`${d.name}-bar-item`}
+        testId={`${itemId}-bar-item`}
         x={xScale(0)}
         y={y}
         barWidth={xScale(d.value)}
@@ -107,6 +113,7 @@ export default function HorizontalBarChart({
     if (y === undefined) {
       return null;
     }
+    const itemId = toTestIdSegment(d.name);
 
     const showTooltip = () =>
       setInteractionData({
@@ -123,7 +130,7 @@ export default function HorizontalBarChart({
     return (
       <HorizontalBarReferenceLine
         key={index}
-        testId={`${d.name}-reference-line`}
+        testId={`${itemId}-reference-line`}
         x={xScale(d.referenceLine) - 4}
         y={yScale(d.name) - 4}
         barWidth={8}

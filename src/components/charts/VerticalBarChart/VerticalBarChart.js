@@ -8,6 +8,11 @@ import VerticalBarReferenceLine from "./VerticalBarReferenceLine";
 
 const MARGIN = { top: 30, right: 30, bottom: 30, left: 30 };
 const BAR_PADDING = 0.3;
+const toTestIdSegment = (value) =>
+  String(value || "")
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/[^a-zA-Z0-9-_]/g, "");
 
 export default function VerticalBarChart({
   width,
@@ -60,6 +65,7 @@ export default function VerticalBarChart({
     if (x === undefined) {
       return null;
     }
+    const itemId = toTestIdSegment(d.name);
 
     const showTooltip = () =>
       setInteractionData({
@@ -76,7 +82,7 @@ export default function VerticalBarChart({
     return (
       <VerticalBarItem
         key={index}
-        testId={`${d.name}-bar-item`}
+        testId={`${itemId}-bar-item`}
         x={xScale(d.name)}
         y={boundsHeight - yScale(d.value)}
         barOrigin={boundsHeight}
@@ -99,6 +105,7 @@ export default function VerticalBarChart({
     if (x === undefined) {
       return null;
     }
+    const itemId = toTestIdSegment(d.name);
 
     const showTooltip = () =>
       setInteractionData({
@@ -115,7 +122,7 @@ export default function VerticalBarChart({
     return (
       <VerticalBarReferenceLine
         key={index}
-        testId={`${d.name}-reference-line`}
+        testId={`${itemId}-reference-line`}
         x={xScale(d.name) - 4}
         y={boundsHeight - yScale(d.referenceLine) - 4}
         barOrigin={boundsHeight}

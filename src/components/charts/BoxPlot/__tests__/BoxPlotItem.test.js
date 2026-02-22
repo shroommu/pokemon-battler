@@ -77,7 +77,7 @@ describe("BoxPlotItem", () => {
     expect(getByTestId("quantile-box")).toBeInTheDocument();
     expect(getByTestId("mean-line")).toBeInTheDocument();
 
-    const point = container.querySelector("circle[data-testid='A']");
+    const point = container.querySelector("circle[data-testid='boxplot-point-A']");
     await user.hover(point);
     expect(setInteractionData).toHaveBeenCalled();
     await user.unhover(point);

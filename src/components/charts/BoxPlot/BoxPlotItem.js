@@ -1,5 +1,14 @@
 import { useSpring, useSprings, animated } from "react-spring";
 
+const toTestIdSegment = (value, index) => {
+  const cleanedValue = String(value || "")
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/[^a-zA-Z0-9-_]/g, "");
+
+  return cleanedValue || `point-${index}`;
+};
+
 export default function BoxPlotItem({
   data,
   valueKey,
@@ -145,7 +154,7 @@ export default function BoxPlotItem({
               cx={pointSprings[index].cx}
               cy={yPos}
               key={dataPoint.name}
-              data-testid={dataPoint.name}
+              data-testid={`boxplot-point-${toTestIdSegment(dataPoint.name, index)}`}
               role="button"
               tabIndex={0}
               focusable="true"
