@@ -9,9 +9,15 @@ jest.mock("react-spring", () => {
 
   return {
     animated: { circle: mk("circle") },
-    useSpring: (config) => ({
-      opacity: config?.to?.opacity ?? 1,
-    }),
+    useSpring: (config) => {
+      const opacityValue = config?.to?.opacity ?? 1;
+      const pulseScaleValue = config?.to?.pulseScale ?? 1;
+
+      return {
+        opacity: opacityValue,
+        pulseScale: { to: (fn) => fn(pulseScaleValue) },
+      };
+    },
   };
 });
 

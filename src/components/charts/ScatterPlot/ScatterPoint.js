@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { animated, useSpring } from "react-spring";
 
 const MIN_HIT_RADIUS = 12;
@@ -6,7 +6,6 @@ const HIT_RADIUS_MULTIPLIER = 2;
 const DIRECT_HOVER_SCALE = 1.5;
 const PASS_THROUGH_PULSE_SCALE = 1.35;
 const HOVER_TRANSITION_DURATION_MS = 70;
-const PULSE_TRANSITION_DURATION_MS = 35;
 const PASS_THROUGH_PULSE_DURATION_MS = HOVER_TRANSITION_DURATION_MS;
 
 export default function ScatterPoint({
@@ -25,8 +24,6 @@ export default function ScatterPoint({
   onClick,
 }) {
   const [isHovered, setIsHovered] = useState(false);
-  const [isPulseActive, setIsPulseActive] = useState(false);
-  const pulseTimeoutRef = useRef(null);
 
   const opacitySpring = useSpring({
     from: { opacity: 0 },
@@ -37,31 +34,20 @@ export default function ScatterPoint({
     },
   });
 
+  const pulseSpring = useSpring({
+    from: {
+      pulseScale: pulseTrigger ? PASS_THROUGH_PULSE_SCALE : 1,
+    },
+    to: {
+      pulseScale: 1,
+    },
+    reset: Boolean(pulseTrigger),
+    config: {
+      duration: PASS_THROUGH_PULSE_DURATION_MS,
+    },
+  });
+
   const hitRadius = Math.max(MIN_HIT_RADIUS, radius * HIT_RADIUS_MULTIPLIER);
-
-  useLayoutEffect(() => {
-    if (!pulseTrigger) {
-      return;
-    }
-
-    setIsPulseActive(true);
-
-    if (pulseTimeoutRef.current) {
-      clearTimeout(pulseTimeoutRef.current);
-    }
-
-    pulseTimeoutRef.current = setTimeout(() => {
-      setIsPulseActive(false);
-    }, PASS_THROUGH_PULSE_DURATION_MS);
-  }, [pulseTrigger]);
-
-  useEffect(() => {
-    return () => {
-      if (pulseTimeoutRef.current) {
-        clearTimeout(pulseTimeoutRef.current);
-      }
-    };
-  }, []);
 
   const handleMouseEnter = (event) => {
     setIsHovered(true);
@@ -109,16 +95,12 @@ export default function ScatterPoint({
         onMouseLeave={(event) => handleMouseLeave(event)}
         onClick={(event) => onClick?.(event)}
         style={{
-          transition: isPulseActive && !isHovered
-            ? `transform ${PULSE_TRANSITION_DURATION_MS}ms ease-out`
-            : `transform ${HOVER_TRANSITION_DURATION_MS}ms ease-in-out`,
+          transition: `transform ${HOVER_TRANSITION_DURATION_MS}ms ease-in-out`,
           transformOrigin: "center",
           transformBox: "fill-box",
           transform: isHovered
             ? `scale(${DIRECT_HOVER_SCALE})`
-            : isPulseActive
-              ? `scale(${PASS_THROUGH_PULSE_SCALE})`
-              : "scale(1)",
+            : pulseSpring.pulseScale.to((value) => `scale(${value})`),
         }}
       />
     </g>

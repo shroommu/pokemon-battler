@@ -2,6 +2,31 @@ import { useState } from "react";
 
 import ScatterPoint from "../ScatterPoint";
 
+function InteractiveScatterPoint({ args }) {
+  const [pulseTrigger, setPulseTrigger] = useState(0);
+
+  return (
+    <div className="flex flex-col gap-4">
+      <button
+        className="w-fit rounded border px-3 py-1"
+        onClick={() => setPulseTrigger((previous) => previous + 1)}
+      >
+        Trigger pass-through pulse
+      </button>
+      <svg width={180} height={160} className="border">
+        <ScatterPoint
+          {...args}
+          pulseTrigger={pulseTrigger}
+          onMouseEnter={() => {}}
+          onMouseMove={() => {}}
+          onMouseLeave={() => {}}
+          onClick={() => {}}
+        />
+      </svg>
+    </div>
+  );
+}
+
 const meta = {
   title: "UI/03 Interactive/Chart Primitives/ScatterPoint",
   component: ScatterPoint,
@@ -14,30 +39,7 @@ const meta = {
     stroke: "#ffffff",
     strokeWidth: 2,
   },
-  render: (args) => {
-    const [pulseTrigger, setPulseTrigger] = useState(0);
-
-    return (
-      <div className="flex flex-col gap-4">
-        <button
-          className="w-fit rounded border px-3 py-1"
-          onClick={() => setPulseTrigger((previous) => previous + 1)}
-        >
-          Trigger pass-through pulse
-        </button>
-        <svg width={180} height={160} className="border">
-          <ScatterPoint
-            {...args}
-            pulseTrigger={pulseTrigger}
-            onMouseEnter={() => {}}
-            onMouseMove={() => {}}
-            onMouseLeave={() => {}}
-            onClick={() => {}}
-          />
-        </svg>
-      </div>
-    );
-  },
+  render: (args) => <InteractiveScatterPoint args={args} />,
 };
 
 export default meta;
