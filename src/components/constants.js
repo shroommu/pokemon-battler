@@ -121,4 +121,4 @@ export const TYPES = [
   },
 ];
 
-export const HIGHEST_STAT = 155;
+export const HIGHEST_STAT = 255;
