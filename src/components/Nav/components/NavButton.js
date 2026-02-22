@@ -9,7 +9,7 @@ export default function NavButton({ href, buttonText }) {
   return (
     <Link href={href}>
       <Button
-        extraClasses={"relative flex p-0 h-12 w-24 mr-2"}
+        extraClasses={"relative flex p-0 h-10 w-20 mr-2"}
         testId={navButtonTestId}
       >
         <svg
@@ -33,7 +33,7 @@ export default function NavButton({ href, buttonText }) {
             className="fill-gray-500 y-[0] group-hover:translate-y-[0.5px] group-active:translate-y-[1px]"
           />
         </svg>
-        <div className="absolute flex h-full w-full justify-center items-center text-xl text-gray-300 text-shadow-lg pointer-events-none -translate-y-[5%] peer-hover:translate-y-0 peer-active:translate-y-[5%]">
+        <div className="absolute flex h-full w-full justify-center items-center text-base text-gray-300 text-shadow-lg pointer-events-none -translate-y-[5%] peer-hover:translate-y-0 peer-active:translate-y-[5%]">
           {buttonText}
         </div>
       </Button>

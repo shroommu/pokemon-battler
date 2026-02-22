@@ -46,13 +46,13 @@ export default function MobileNavMenu({}) {
     <div className="block pt-2 md:hidden">
       <Button
         onClick={() => setIsOpen(!isOpen)}
-        extraClasses="relative z-30 flex h-9 w-20 p-0 mr-2"
+        extraClasses="relative z-30 flex h-8 w-18 p-0 mr-2"
         testId="mobile-menu-toggle"
         aria-expanded={isOpen}
         aria-controls="mobile-navigation-panel"
       >
         {renderButtonChrome()}
-        <div className="absolute flex h-full w-full items-center justify-center gap-1 text-xs font-semibold uppercase tracking-wide text-gray-200 text-shadow-lg pointer-events-none -translate-y-[4%] peer-hover:translate-y-0 peer-active:translate-y-[4%]">
+        <div className="absolute flex h-full w-full items-center justify-center gap-1 text-[10px] font-semibold uppercase tracking-wide text-gray-200 text-shadow-lg pointer-events-none -translate-y-[4%] peer-hover:translate-y-0 peer-active:translate-y-[4%]">
           <span aria-hidden="true">{isOpen ? "X" : "|||"}</span>
           <span>Menu</span>
         </div>
@@ -96,10 +96,10 @@ export default function MobileNavMenu({}) {
                     <Link
                       href={item.href}
                       onClick={() => setIsOpen(false)}
-                      className="relative block h-11 w-full"
+                      className="relative block h-10 w-full"
                     >
                       {renderButtonChrome()}
-                      <div className="absolute flex h-full w-full items-center justify-center text-lg text-gray-200 text-shadow-lg pointer-events-none -translate-y-[4%] peer-hover:translate-y-0 peer-active:translate-y-[4%]">
+                      <div className="absolute flex h-full w-full items-center justify-center text-base text-gray-200 text-shadow-lg pointer-events-none -translate-y-[4%] peer-hover:translate-y-0 peer-active:translate-y-[4%]">
                         {item.label}
                       </div>
                     </Link>

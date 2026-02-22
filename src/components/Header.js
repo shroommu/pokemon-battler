@@ -5,7 +5,7 @@ export default function Header() {
   return (
     <header className="relative bg-red-500 min-h-[80px] md:min-h-[120px]">
       <svg
-        className="absolute h-full w-full"
+        className="absolute h-full w-full md:hidden"
         viewBox="0 0 13 2.1"
         preserveAspectRatio="none"
       >
@@ -18,6 +18,8 @@ export default function Header() {
           className="fill-red-700"
         />
       </svg>
+
+      <div className="absolute inset-0 hidden md:block bg-red-700 border-b-4 border-red-900" />
 
       <div className="absolute flex flex-row w-full h-full pl-4">
         <svg className="h-full" viewBox="0 0 6 6">
