@@ -10,6 +10,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
   "pandas>=2.0",
+  "beautifulsoup4>=4.12",
   "html-table-parser-python3>=0.3.1",
   "selenium>=4.0",
   "natsort>=8.0",
