@@ -24,6 +24,9 @@ model pokemon {
   name                  String         @unique @db.VarChar(255)
   pokedex_number        Int?
   id                    String         @id @default(uuid()) @db.Uuid
+  species               String?
+  height                String?
+  weight                String?
   primary_type_id       String?        @db.Uuid
   secondary_type_id     String?        @db.Uuid
   hp                    Int?
