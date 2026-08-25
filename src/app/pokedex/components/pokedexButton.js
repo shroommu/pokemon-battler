@@ -18,7 +18,6 @@ export default function PokedexButton({ pokemon, href, selected }) {
       })}
     >
       <Link
-        prefetch={true}
         href={href}
         key={pokemon.name}
         data-testid={`${slugifyPokemonName(pokemon.name)}-link`}

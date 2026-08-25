@@ -36,7 +36,7 @@ const getAllPokemonCached = unstable_cache(
     return { data };
   },
   ["pokemon:list"],
-  { revalidate: 900 }
+  { revalidate: 86400 }
 );
 
 export async function getAllPokemon() {

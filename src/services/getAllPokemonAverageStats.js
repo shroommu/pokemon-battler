@@ -34,7 +34,7 @@ const getAllPokemonAverageStatsCached = unstable_cache(
     return { data };
   },
   ["pokemon:stats:average:all"],
-  { revalidate: 900 }
+  { revalidate: 86400 }
 );
 
 export async function getAllPokemonAverageStats() {

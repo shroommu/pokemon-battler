@@ -54,7 +54,7 @@ const getAllPokemonWithMaxStatsCached = unstable_cache(
     return { data };
   },
   ["pokemon:list:with-max-stats"],
-  { revalidate: 900 }
+  { revalidate: 86400 }
 );
 
 export async function getAllPokemonWithMaxStats() {

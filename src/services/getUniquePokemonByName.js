@@ -30,7 +30,7 @@ const getUniquePokemonByNameCached = unstable_cache(
     return { data };
   },
   ["pokemon:detail:by-name"],
-  { revalidate: 900 }
+  { revalidate: 86400 }
 );
 
 export async function getUniquePokemonByName(pokemonName) {

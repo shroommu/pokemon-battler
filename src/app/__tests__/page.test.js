@@ -37,6 +37,6 @@ describe("Home page", () => {
     );
     expect(screen.getByTestId("pokemon-image")).toBeInTheDocument();
     expect(screen.getByTestId("professor-oak-image")).toBeInTheDocument();
-    expect(revalidate).toBe(21600);
+    expect(revalidate).toBe(86400);
   });
 });

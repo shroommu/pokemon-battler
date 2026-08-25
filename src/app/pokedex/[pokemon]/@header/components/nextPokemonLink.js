@@ -22,7 +22,6 @@ export default async function NextPokemonLink({
     <>
       {nextPokemon ? (
         <Link
-          prefetch={true}
           href={`/pokedex/${slugifyPokemonName(nextPokemon.name)}/${tabSegment}`}
           className="flex flex-row ml-auto items-center underline"
           data-testid={"next-pokemon-link"}

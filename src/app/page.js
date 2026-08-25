@@ -45,7 +45,6 @@ export default async function Home() {
             <p className="text-center">
               Let&apos;s start by learning about today&apos;s Pokemon,{" "}
               <Link
-                prefetch={true}
                 href={`/pokedex/${pokemonSlug}`}
                 className="underline"
                 data-testid="pokemon-of-the-day-link"
@@ -61,7 +60,6 @@ export default async function Home() {
         </div>
         <div className="grid grid-cols-2 justify-center">
           <Link
-            prefetch={true}
             href={`/pokedex/${pokemonSlug}`}
             className="relative mt-auto ml-auto w-full max-w-64 max-h-64 aspect-square"
             data-testid="pokemon-of-the-day-image-link"
@@ -93,4 +91,4 @@ export default async function Home() {
   );
 }
 
-export const revalidate = 21600;
+export const revalidate = 86400;

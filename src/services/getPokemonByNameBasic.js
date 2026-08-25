@@ -20,7 +20,7 @@ const getPokemonByNameBasicCached = unstable_cache(
     return { data };
   },
   ["pokemon:basic:by-name"],
-  { revalidate: 900 }
+  { revalidate: 86400 }
 );
 
 export async function getPokemonByNameBasic(pokemonName) {

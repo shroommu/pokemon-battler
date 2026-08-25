@@ -24,7 +24,7 @@ const getUniquePokemonByNumberCached = unstable_cache(
     return { data };
   },
   ["pokemon:detail:by-number"],
-  { revalidate: 900 }
+  { revalidate: 86400 }
 );
 
 export async function getUniquePokemonByNumber(pokedexNumber) {

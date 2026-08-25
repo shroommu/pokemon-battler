@@ -22,7 +22,6 @@ export default async function PreviousPokemonLink({
     <>
       {previousPokemon ? (
         <Link
-          prefetch={true}
           href={`/pokedex/${slugifyPokemonName(previousPokemon.name)}/${tabSegment}`}
           className="flex flex-row mr-auto items-center underline"
           data-testid={"previous-pokemon-link"}
